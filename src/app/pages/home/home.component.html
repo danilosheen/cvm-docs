@@ -1,2 +1,24 @@
-<p>home works!</p>
-<h1>Esta página será a home</h1>
+<app-navbar></app-navbar>
+<div class="container-buttons">
+  <button [routerLink]="['/orcamento']"
+    routerLinkActive="router-link-active"
+    mat-stroked-button>Criar orçamento
+  </button>
+  <button [routerLink]="['/recibo']"
+    routerLinkActive="router-link-active"
+    mat-stroked-button>Criar recibo
+  </button>
+  <button
+    [routerLink]="['/ficha-excursao']"
+    routerLinkActive="router-link-active"
+    mat-stroked-button>Criar ficha de excursão
+  </button>
+  <button [routerLink]="['/contrato']"
+    routerLinkActive="router-link-active"
+    mat-stroked-button>Criar contrato
+  </button>
+  <!-- <button class="button-gerar" mat-flat-button>
+    Gerar PDF
+  </button> -->
+</div>
+<app-footer></app-footer>
