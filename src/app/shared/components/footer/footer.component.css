@@ -1,0 +1,17 @@
+footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: wheat;
+  height: 75px;
+  border-radius: 20px 20px 0px 0px;
+}
+
+p{
+  color: blue;
+}
+
+a{
+  text-decoration: none;
+  font-weight: 500;
+}
