@@ -1,25 +1,144 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <h1>tela orçamento</h1>
-  <div class="container">
-    <h1>Gerar Contrato</h1>
-    <form (ngSubmit)="onSubmit()">
-      <div>
-        <label for="name">Nome</label>
-        <input type="text" id="name" [(ngModel)]="name" name="name" required />
-      </div>
-      <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" required />
-      </div>
-      <div>
-        <label for="message">Mensagem</label>
-        <textarea id="message" [(ngModel)]="message" name="message" required></textarea>
-      </div>
-      <button type="submit" [disabled]="loading">
-        {{ loading ? 'Gerando...' : 'Gerar PDF' }}
-      </button>
-    </form>
-  </div>
+  <h2 class="title-orcamento">
+    Preencha os dados para gerar o orçamento
+  </h2>
+  <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
+    <!-- cliente -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Nome do cliente</mat-label>
+        <input matInput placeholder="ex: Crairton" formControlName="nomeCliente" (blur)="updateErrorMessage()" required>
+        <mat-error *ngIf="
+            orcamentoForm.get('nomeCliente')?.hasError('required') &&
+            orcamentoForm.get('nomeCliente')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <!-- contato -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Contato</mat-label>
+        <input matInput placeholder="ex: (88)9.8888-8888" formControlName="telefoneContato"
+          (blur)="updateErrorMessage()" required>
+        <mat-error *ngIf="
+            orcamentoForm.get('telefoneContato')?.hasError('required') &&
+            orcamentoForm.get('telefoneContato')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <!-- pacote de viagem -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Pacote de viagem</mat-label>
+        <input matInput placeholder="ex: De Juazeiro do norte à fortaleza" formControlName="pacoteViagem"
+          (blur)="updateErrorMessage()" required>
+        <mat-error *ngIf="
+            orcamentoForm.get('pacoteViagem')?.hasError('required') &&
+            orcamentoForm.get('pacoteViagem')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <!-- Local de saída -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Local de saída</mat-label>
+        <mat-select matInput formControlName="localSaida" (blur)="updateErrorMessage()" required>
+          <mat-option value="Juazeiro do Norte">Juazeiro do Norte</mat-option>
+          <mat-option value="Crato">Crato</mat-option>
+          <mat-option value="Barbalha">Barbalha</mat-option>
+        </mat-select>
+        <mat-error *ngIf="
+            orcamentoForm.get('localSaida')?.hasError('required') &&
+            orcamentoForm.get('localSaida')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Data de saída -->
+    <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Escolha a data de saída</mat-label>
+        <input matInput [matDatepicker]="pickerSaida" formControlName="dataSaida" required>
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="pickerSaida"></mat-datepicker-toggle>
+        <mat-datepicker #pickerSaida></mat-datepicker>
+        <mat-error *ngIf="
+            orcamentoForm.get('dataSaida')?.hasError('required') &&
+            orcamentoForm.get('dataSaida')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Hora de saída -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Escolha a hora de saída</mat-label>
+        <input matInput placeholder="ex: 06:00" formControlName="horaSaida"
+          (blur)="updateErrorMessage()" required>
+        <mat-error *ngIf="
+            orcamentoForm.get('horaSaida')?.hasError('required') &&
+            orcamentoForm.get('horaSaida')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Data de retorno -->
+    <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Escolha a data de retorno</mat-label>
+        <input matInput [matDatepicker]="pickerRetorno" formControlName="dataRetorno" required>
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="pickerRetorno"></mat-datepicker-toggle>
+        <mat-datepicker #pickerRetorno></mat-datepicker>
+        <mat-error *ngIf="
+            orcamentoForm.get('dataRetorno')?.hasError('required') &&
+            orcamentoForm.get('dataRetorno')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Hora de retorno -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Hora do retorno</mat-label>
+        <input matInput placeholder="ex: De Juazeiro do norte à fortaleza" formControlName="horaRetorno"
+          (blur)="updateErrorMessage()" required>
+        <mat-error *ngIf="
+            orcamentoForm.get('horaRetorno')?.hasError('required') &&
+            orcamentoForm.get('horaRetorno')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- valor -->
+    <div class="example-container">
+      <mat-form-field>
+        <mat-label>Valor do orçamento</mat-label>
+        <input matInput placeholder="ex: 2.500,00" formControlName="valor"
+          (blur)="updateErrorMessage()" required>
+        <mat-error *ngIf="
+            orcamentoForm.get('valor')?.hasError('required') &&
+            orcamentoForm.get('valor')?.touched
+          ">Este campo não pode ser vazio.</mat-error>
+      </mat-form-field>
+    </div>
+
+  </form>
+  <!-- <section>
+    <div class="example-label">Flat</div>
+    <div class="example-button-row">
+      <button mat-flat-button type="submit" [disabled]="orcamentoForm.invalid">Basic</button>
+    </div>
+  </section> -->
+  <button mat-flat-button (click)="onSubmit()" [disabled]="orcamentoForm.invalid">
+    Gerar PDF
+  </button>
 </div>
 <app-footer></app-footer>
