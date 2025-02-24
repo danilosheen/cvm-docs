@@ -22,3 +22,10 @@ form{
 mat-form-field{
   width: 100%;
 }
+
+.button-gerar{
+  display: flex;
+  margin: 20px auto 40px auto;
+  width: 70%;
+  max-width: 200px;
+}

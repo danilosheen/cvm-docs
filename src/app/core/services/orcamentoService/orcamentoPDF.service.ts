@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class OrcamentoPDFService {
 
   private apiUrl = 'http://localhost:3000/api/pdf/orcamento';
+  // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/orcamento';
 
   constructor(private http: HttpClient) {}
 
