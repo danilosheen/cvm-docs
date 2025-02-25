@@ -29,3 +29,10 @@ mat-form-field{
   width: 70%;
   max-width: 200px;
 }
+
+.button-loading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}

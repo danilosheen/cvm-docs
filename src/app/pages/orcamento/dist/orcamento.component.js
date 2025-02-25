@@ -60,18 +60,24 @@ var OrcamentoComponent = /** @class */ (function () {
         var _this = this;
         this.loading = true;
         var dadosFormatados = this.formatarDados();
-        console.log(dadosFormatados);
-        this.pdfOrcamento.generatePDF(dadosFormatados).subscribe(function (pdfBlob) {
-            _this.loading = false;
+        this.pdfOrcamento.generatePDF(dadosFormatados)
+            .subscribe(function (pdfBlob) {
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
             var date = new Date();
             link.href = pdfUrl;
             link.download = "Orcamento CVM " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
             link.click();
-        }, function (error) {
             _this.loading = false;
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            });
+            // window.location.reload();
+        }, function (error) {
             console.error('Erro ao gerar o PDF:', error);
+            _this.loading = false;
         });
     };
     OrcamentoComponent.prototype.updateErrorMessage = function () {
@@ -94,7 +100,6 @@ var OrcamentoComponent = /** @class */ (function () {
         });
     };
     OrcamentoComponent.prototype.formatarDados = function () {
-        console.log(this.orcamentoForm.value);
         var dadosOrcamento = {
             nomeCliente: this.orcamentoForm.value.nomeCliente,
             telefoneContato: this.orcamentoForm.value.telefoneContato,
@@ -124,7 +129,7 @@ var OrcamentoComponent = /** @class */ (function () {
                 common_1.NgIf,
                 button_1.MatButtonModule,
                 divider_1.MatDividerModule,
-                icon_1.MatIconModule
+                icon_1.MatIconModule,
             ],
             providers: [core_3.provideNativeDateAdapter(),
                 { provide: core_2.MAT_DATE_LOCALE, useValue: 'pt-BR' },

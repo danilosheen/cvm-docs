@@ -10,3 +10,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .container{
   min-height: calc(100vh - 165px);
 }
+
+.loading{
+  width: 30px;
+}

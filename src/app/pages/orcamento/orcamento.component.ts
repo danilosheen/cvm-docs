@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, NgModule, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit, Pipe, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from '../../shared/components/footer/footer.component';
@@ -9,16 +9,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { merge } from 'rxjs';
+import { finalize, merge, take } from 'rxjs';
 import { IOrcamento } from '../../interfaces/i-orcamento';
 import { NgIf } from '@angular/common';
 import { MY_FORMATS } from './formats';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -35,7 +33,7 @@ import { formatDate } from '@angular/common';
     NgIf,
     MatButtonModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
@@ -84,24 +82,31 @@ export class OrcamentoComponent implements OnInit{
   onSubmit() {
     this.loading = true;
     const dadosFormatados = this.formatarDados();
-    console.log(dadosFormatados)
 
-    this.pdfOrcamento.generatePDF(dadosFormatados).subscribe(
-      (pdfBlob) => {
-        this.loading = false;
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        const link = document.createElement('a');
-        const date = new Date();
-        link.href = pdfUrl;
-        link.download = `Orcamento CVM ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
-        link.click();
-      },
-      (error) => {
-        this.loading = false;
-        console.error('Erro ao gerar o PDF:', error);
-      }
-    );
+    this.pdfOrcamento.generatePDF(dadosFormatados)
+      .subscribe(
+        (pdfBlob) => {
+          const pdfUrl = URL.createObjectURL(pdfBlob);
+          const link = document.createElement('a');
+          const date = new Date();
+          link.href = pdfUrl;
+          link.download = `Orcamento CVM ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.click();
+          this.loading = false;
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          });
+          // window.location.reload();
+        },
+        (error) => {
+          console.error('Erro ao gerar o PDF:', error);
+          this.loading = false;
+        }
+      );
   }
+
 
   updateErrorMessage() {
     // Iterando sobre todos os controles do FormGroup
@@ -122,7 +127,6 @@ export class OrcamentoComponent implements OnInit{
   }
 
   formatarDados(){
-    console.log(this.orcamentoForm.value)
     const dadosOrcamento = {
       nomeCliente: this.orcamentoForm.value.nomeCliente,
       telefoneContato: this.orcamentoForm.value.telefoneContato,

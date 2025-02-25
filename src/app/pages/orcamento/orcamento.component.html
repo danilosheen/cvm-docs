@@ -132,7 +132,15 @@
 
   </form>
   <button class="button-gerar" mat-flat-button (click)="onSubmit()" [disabled]="orcamentoForm.invalid">
-    Gerar PDF
+    <ng-container *ngIf="loading; else btnText">
+      <div class="button-loading">
+        <img class="loading" src="./assets/loading.gif" alt="Carregando">
+        <p>Gerando PDF</p>
+      </div>
+    </ng-container>
+    <ng-template #btnText>
+      Gerar PDF
+    </ng-template>
   </button>
 </div>
 <app-footer></app-footer>
