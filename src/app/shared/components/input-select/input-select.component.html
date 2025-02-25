@@ -1,0 +1,15 @@
+<div class="container-input">
+  <mat-form-field>
+    <mat-label>{{label}}</mat-label>
+    <mat-select [formControl]="inputControl" required>
+      <mat-option>--</mat-option>
+      @for (item of listItens; track item) {
+        <mat-option (onSelectionChange)="sendSelectedInputHandler(item)" [value]="item">{{item}}</mat-option>
+      }
+    </mat-select>
+    @if (inputControl.hasError('required')) {
+      <mat-error>{{errorMessage}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+

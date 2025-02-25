@@ -1,0 +1,12 @@
+<div class="container-input">
+  <mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <input matInput readonly (click)="datePicker.open()" [formControl]="input" [matDatepicker]="datePicker" (blur)="updateErrorMessage()" />
+    <mat-hint *ngIf="!(input.invalid && (input.touched || input.dirty))">DD/MM/AAAA</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker #datePicker (closed)="onDatepickerClose()"></mat-datepicker>
+    @if (input.invalid && (input.touched || input.dirty)) {
+      <mat-error>{{ errorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+</div>

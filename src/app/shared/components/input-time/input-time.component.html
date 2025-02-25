@@ -1,0 +1,12 @@
+<div class="container-input">
+  <mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <input matInput readonly (click)="timePicker.open()" [formControl]="input" [matTimepicker]="timePicker" (blur)="updateErrorMessage()" />
+    <mat-hint *ngIf="!input.hasError('required')">HH:MM</mat-hint>
+    <mat-timepicker-toggle matIconSuffix [for]="timePicker"/>
+    <mat-timepicker #timePicker/>
+    @if (input.invalid && (input.touched || input.dirty)) {
+      <mat-error>{{ errorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+</div>

@@ -1,0 +1,18 @@
+<div class="container-input">
+  <mat-form-field>
+    <mat-label>{{label}}</mat-label>
+    <input
+      matInput
+      type="{{type}}"
+      autocomplete
+      placeholder={{placeholder}}
+      [formControl]="input"
+      (blur)="updateErrorMessage()"
+      (keyup)="sendNumberInputHandler()"
+      required
+    />
+    @if (input.invalid) {
+      <mat-error>{{errorMessage()}}</mat-error>
+    }
+  </mat-form-field>
+</div>

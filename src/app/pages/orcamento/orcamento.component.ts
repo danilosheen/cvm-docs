@@ -1,22 +1,18 @@
-import { ChangeDetectionStrategy, Component, NgModule, OnInit, Pipe, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, OnInit, signal } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { OrcamentoPDFService } from '../../core/services/orcamentoService/orcamentoPDF.service';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { finalize, merge, take } from 'rxjs';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { IOrcamento } from '../../interfaces/i-orcamento';
 import { NgIf } from '@angular/common';
-import { MY_FORMATS } from './formats';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { InputTextComponent } from "../../shared/components/input-text/input-text.component";
+import { InputNumberComponent } from "../../shared/components/input-number/input-number.component";
+import { InputSelectComponent } from "../../shared/components/input-select/input-select.component";
+import { InputDateComponent } from "../../shared/components/input-date/input-date.component";
+import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
 
 
 @Component({
@@ -25,65 +21,46 @@ import { MatIconModule } from '@angular/material/icon';
     NavbarComponent,
     FooterComponent,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatDatepickerModule,
     NgIf,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-  ],
-  providers: [provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    InputTextComponent,
+    InputNumberComponent,
+    InputSelectComponent,
+    InputDateComponent,
+    InputTimeComponent
+],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.css'
 })
-export class OrcamentoComponent implements OnInit{
+export class OrcamentoComponent{
 
   loading: boolean = false;
   errorMessage = signal('');
-  orcamentoData: IOrcamento | undefined;
-  orcamentoForm: FormGroup<any> = new FormGroup({});
+  orcamentoData: IOrcamento = {
+    nomeCliente: '',
+    telefoneContato: '',
+    pacoteViagem: '',
+    localSaida: '',
+    dataSaida: '',
+    horaSaida: '',
+    dataRetorno: '',
+    horaRetorno: '',
+    valor: '',
+    modeloVan: '',
+    valorAcrescimoKm: '',
+  };
+  cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
+  // orcamentoForm: FormGroup<any> = new FormGroup({});
 
-  constructor(private pdfOrcamento: OrcamentoPDFService) {
-    Object.keys(this.orcamentoForm.controls).forEach((field) => {
-      const control = this.orcamentoForm.get(field);
 
-      // Usando merge corretamente com observáveis de statusChanges e valueChanges
-      if (control) {
-        merge(control.statusChanges, control.valueChanges)
-          .pipe(takeUntilDestroyed())
-          .subscribe(() => this.updateErrorMessage());
-      }
-    });
-  }
-
-  ngOnInit() {
-    // Inicializando o FormGroup com todos os controles
-    this.orcamentoForm = new FormGroup({
-      nomeCliente: new FormControl('', [Validators.required]),
-      telefoneContato: new FormControl(''),
-      pacoteViagem: new FormControl(''),
-      localSaida: new FormControl(''),
-      dataSaida: new FormControl(''),
-      horaSaida: new FormControl(''),
-      dataRetorno: new FormControl(''),
-      horaRetorno: new FormControl(''),
-      valor: new FormControl(''),
-      modeloVan: new FormControl('')
-    });
-  }
+  constructor(private pdfOrcamento: OrcamentoPDFService) {}
 
   onSubmit() {
     this.loading = true;
-    const dadosFormatados = this.formatarDados();
 
-    this.pdfOrcamento.generatePDF(dadosFormatados)
+    this.pdfOrcamento.generatePDF(this.orcamentoData)
       .subscribe(
         (pdfBlob) => {
           const pdfUrl = URL.createObjectURL(pdfBlob);
@@ -98,7 +75,6 @@ export class OrcamentoComponent implements OnInit{
             left: 0,
             behavior: "smooth",
           });
-          // window.location.reload();
         },
         (error) => {
           console.error('Erro ao gerar o PDF:', error);
@@ -107,39 +83,49 @@ export class OrcamentoComponent implements OnInit{
       );
   }
 
-
-  updateErrorMessage() {
-    // Iterando sobre todos os controles do FormGroup
-    Object.keys(this.orcamentoForm.controls).forEach((field) => {
-      const control = this.orcamentoForm.get(field);
-
-      if (control) {
-        // Verificando erros de cada controle individualmente
-        if (control.hasError('required')) {
-          this.errorMessage.set(`${field} is required`);
-        } else if (control.hasError('email')) {
-          this.errorMessage.set(`Invalid email format for ${field}`);
-        } else {
-          this.errorMessage.set('');
-        }
-      }
-    });
+  // Handler para os campos
+  updateNomeClienteHandler(value: string) {
+    this.orcamentoData.nomeCliente = value;
   }
 
-  formatarDados(){
-    const dadosOrcamento = {
-      nomeCliente: this.orcamentoForm.value.nomeCliente,
-      telefoneContato: this.orcamentoForm.value.telefoneContato,
-      pacoteViagem: this.orcamentoForm.value.pacoteViagem,
-      localSaida: this.orcamentoForm.value.localSaida,
-      dataSaida: this.orcamentoForm.value.dataSaida.toLocaleString().slice(0, 10),
-      horaSaida: this.orcamentoForm.value.horaSaida,
-      dataRetorno: this.orcamentoForm.value.dataRetorno.toLocaleString().slice(0, 10),
-      horaRetorno: this.orcamentoForm.value.horaRetorno,
-      valor: this.orcamentoForm.value.valor,
-      modeloVan: this.orcamentoForm.value.modeloVan
-    };
-
-    return dadosOrcamento;
+  updateTelefoneContatoHandler(value: string) {
+    this.orcamentoData.telefoneContato = value;
   }
+
+  updatePacoteViagemHandler(value: string) {
+    this.orcamentoData.pacoteViagem = value;
+  }
+
+  updateLocalSaidaHandler(value: string) {
+    this.orcamentoData.localSaida = value;
+  }
+
+  updateDataSaidaHandler(value: string) {
+    this.orcamentoData.dataSaida = value;
+  }
+
+  updateHoraSaidaHandler(value: string) {
+    this.orcamentoData.horaSaida = value;
+  }
+
+  updateDataRetornoHandler(value: string) {
+    this.orcamentoData.dataRetorno = value;
+  }
+
+  updateHoraRetornoHandler(value: string) {
+    this.orcamentoData.horaRetorno = value;
+  }
+
+  updateValorHandler(value: string) {
+    this.orcamentoData.valor = value;
+  }
+
+  updateModeloVanHandler(value: string) {
+    this.orcamentoData.modeloVan = value;
+  }
+
+  updateValorAcrescimoKmHandler(value: string) {
+    this.orcamentoData.valorAcrescimoKm = value;
+  }
+
 }
