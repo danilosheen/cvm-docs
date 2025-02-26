@@ -41,7 +41,7 @@ var InputTimeComponent = /** @class */ (function () {
             var horas = String(horaSaida.getHours()).padStart(2, "0");
             var minutos = String(horaSaida.getMinutes()).padStart(2, "0");
             var horaFormatada = horas + ":" + minutos;
-            this.inputTime.emit(horaFormatada);
+            this.inputTime.emit({ value: horaFormatada, valid: this.input.valid });
         }
         else {
             console.error("Valor de horaSaida é nulo");

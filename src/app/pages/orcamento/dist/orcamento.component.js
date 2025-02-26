@@ -21,7 +21,6 @@ var input_select_component_1 = require("../../shared/components/input-select/inp
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
 var OrcamentoComponent = /** @class */ (function () {
-    // orcamentoForm: FormGroup<any> = new FormGroup({});
     function OrcamentoComponent(pdfOrcamento) {
         this.pdfOrcamento = pdfOrcamento;
         this.loading = false;
@@ -39,7 +38,12 @@ var OrcamentoComponent = /** @class */ (function () {
             modeloVan: '',
             valorAcrescimoKm: ''
         };
+        this.valid = [];
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
+        //inicializando o array de campos válidos
+        for (var i = 0; i < 9; i++) {
+            this.valid.push(false);
+        }
     }
     OrcamentoComponent.prototype.onSubmit = function () {
         var _this = this;
@@ -63,39 +67,57 @@ var OrcamentoComponent = /** @class */ (function () {
             _this.loading = false;
         });
     };
+    OrcamentoComponent.prototype.camposValidos = function () {
+        for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {
+            var i = _a[_i];
+            if (i == false) {
+                return false;
+            }
+        }
+        return true;
+    };
     // Handler para os campos
     OrcamentoComponent.prototype.updateNomeClienteHandler = function (value) {
-        this.orcamentoData.nomeCliente = value;
+        this.orcamentoData.nomeCliente = value.value;
+        this.valid[0] = (value.valid);
     };
     OrcamentoComponent.prototype.updateTelefoneContatoHandler = function (value) {
-        this.orcamentoData.telefoneContato = value;
+        this.orcamentoData.telefoneContato = value.value;
+        this.valid[1] = (value.valid);
     };
     OrcamentoComponent.prototype.updatePacoteViagemHandler = function (value) {
-        this.orcamentoData.pacoteViagem = value;
+        this.orcamentoData.pacoteViagem = value.value;
+        this.valid[2] = (value.valid);
     };
     OrcamentoComponent.prototype.updateLocalSaidaHandler = function (value) {
-        this.orcamentoData.localSaida = value;
+        this.orcamentoData.localSaida = value.value;
+        this.valid[3] = (value.valid);
     };
     OrcamentoComponent.prototype.updateDataSaidaHandler = function (value) {
-        this.orcamentoData.dataSaida = value;
+        this.orcamentoData.dataSaida = value.value;
+        this.valid[4] = (value.valid);
     };
     OrcamentoComponent.prototype.updateHoraSaidaHandler = function (value) {
-        this.orcamentoData.horaSaida = value;
+        this.orcamentoData.horaSaida = value.value;
+        this.valid[5] = (value.valid);
     };
     OrcamentoComponent.prototype.updateDataRetornoHandler = function (value) {
-        this.orcamentoData.dataRetorno = value;
+        this.orcamentoData.dataRetorno = value.value;
+        this.valid[6] = (value.valid);
     };
     OrcamentoComponent.prototype.updateHoraRetornoHandler = function (value) {
-        this.orcamentoData.horaRetorno = value;
+        this.orcamentoData.horaRetorno = value.value;
+        this.valid[7] = (value.valid);
     };
     OrcamentoComponent.prototype.updateValorHandler = function (value) {
-        this.orcamentoData.valor = value;
+        this.orcamentoData.valor = value.value;
+        this.valid[8] = (value.valid);
     };
     OrcamentoComponent.prototype.updateModeloVanHandler = function (value) {
-        this.orcamentoData.modeloVan = value;
+        this.orcamentoData.modeloVan = value.value;
     };
     OrcamentoComponent.prototype.updateValorAcrescimoKmHandler = function (value) {
-        this.orcamentoData.valorAcrescimoKm = value;
+        this.orcamentoData.valorAcrescimoKm = value.value;
     };
     OrcamentoComponent = __decorate([
         core_1.Component({

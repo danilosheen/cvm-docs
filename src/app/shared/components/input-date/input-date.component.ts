@@ -22,7 +22,7 @@ import { MY_FORMATS } from './formats';
 })
 export class InputDateComponent {
   @Input() label = '';
-  @Output() inputDate = new EventEmitter<string>();
+  @Output() inputDate = new EventEmitter();
 
   readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
   errorMessage: WritableSignal<string> = signal('');
@@ -53,6 +53,6 @@ export class InputDateComponent {
     const ano = dataSaida.getFullYear();
     const dataFormatada = `${dia}/${mes}/${ano}`;
 
-    this.inputDate.emit(dataFormatada || "");
+    this.inputDate.emit({value: dataFormatada, valid: this.input.valid});
   }
 }

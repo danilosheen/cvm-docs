@@ -3,14 +3,17 @@
     <mat-label>{{label}}</mat-label>
     <input
       matInput
-      type="{{type}}"
+      type="text"
+      inputmode="numeric"
+      autocomplete="off"
       autocomplete
       placeholder={{placeholder}}
       [formControl]="input"
       (blur)="updateErrorMessage()"
-      (keyup)="sendNumberInputHandler()"
-      required
+      (input)="onInputChange($event)"
+      [required]="!optional"
     />
+    @if (optional) {<mat-hint>Campo opcional</mat-hint>}
     @if (input.invalid) {
       <mat-error>{{errorMessage()}}</mat-error>
     }

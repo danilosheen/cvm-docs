@@ -19,15 +19,31 @@ var InputTextComponent = /** @class */ (function () {
         this.label = '';
         this.placeholder = '';
         this.formControlName = '';
+        this.optional = false;
         this.inputValue = new core_1.EventEmitter();
-        this.input = new forms_1.FormControl('', [forms_1.Validators.required]);
+        // readonly input = new FormControl('', this.optional ? [] : [Validators.required]);
         this.errorMessage = core_1.signal('');
+        this.input = new forms_1.FormControl('');
         rxjs_1.merge(this.input.statusChanges, this.input.valueChanges)
             .pipe(rxjs_interop_1.takeUntilDestroyed())
             .subscribe(function () { return _this.updateErrorMessage(); });
     }
+    InputTextComponent.prototype.ngOnInit = function () {
+        if (!this.optional) {
+            this.input.setValidators([forms_1.Validators.required]);
+        }
+        // this.setValidators();
+    };
+    // setValidators(): void {
+    //   if (!this.optional) {
+    //     this.input.setValidators([Validators.required]);
+    //   } else {
+    //     this.input.setValidators([Validators.required, this.moneyValidator]);
+    //   }
+    //   this.input.updateValueAndValidity();
+    // }
     InputTextComponent.prototype.updateErrorMessage = function () {
-        if (this.input.hasError('required')) {
+        if (this.input.hasError('required') && !this.optional) {
             this.errorMessage.set('Este campo não pode ser vazio.');
         }
         else {
@@ -36,8 +52,7 @@ var InputTextComponent = /** @class */ (function () {
     };
     InputTextComponent.prototype.sendTextInputHandler = function () {
         //envia output
-        this.inputValue.emit(this.input.value || "");
-        // console.log(this.input);
+        this.inputValue.emit({ value: this.input.value, valid: this.input.valid });
     };
     __decorate([
         core_1.Input()
@@ -48,6 +63,9 @@ var InputTextComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputTextComponent.prototype, "formControlName");
+    __decorate([
+        core_1.Input()
+    ], InputTextComponent.prototype, "optional");
     __decorate([
         core_1.Output()
     ], InputTextComponent.prototype, "inputValue");

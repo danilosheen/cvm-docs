@@ -13,6 +13,7 @@ import { InputNumberComponent } from "../../shared/components/input-number/input
 import { InputSelectComponent } from "../../shared/components/input-select/input-select.component";
 import { InputDateComponent } from "../../shared/components/input-date/input-date.component";
 import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
+import { IInput } from '../../interfaces/i-handlerInput';
 
 
 @Component({
@@ -51,11 +52,15 @@ export class OrcamentoComponent{
     modeloVan: '',
     valorAcrescimoKm: '',
   };
+  valid: boolean[] = [];
   cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
-  // orcamentoForm: FormGroup<any> = new FormGroup({});
 
-
-  constructor(private pdfOrcamento: OrcamentoPDFService) {}
+  constructor(private pdfOrcamento: OrcamentoPDFService) {
+    //inicializando o array de campos válidos
+    for (let i = 0; i < 9; i++) {
+      this.valid.push(false)
+    }
+  }
 
   onSubmit() {
     this.loading = true;
@@ -83,49 +88,67 @@ export class OrcamentoComponent{
       );
   }
 
+  camposValidos(): boolean{
+    for (let i of this.valid){
+      if (i == false){
+        return false
+      }
+    }
+    return true
+  }
+
   // Handler para os campos
-  updateNomeClienteHandler(value: string) {
-    this.orcamentoData.nomeCliente = value;
+  updateNomeClienteHandler(value: IInput) {
+    this.orcamentoData.nomeCliente = value.value;
+    this.valid[0] = (value.valid);
   }
 
-  updateTelefoneContatoHandler(value: string) {
-    this.orcamentoData.telefoneContato = value;
+  updateTelefoneContatoHandler(value: IInput) {
+    this.orcamentoData.telefoneContato = value.value;
+    this.valid[1] = (value.valid);
   }
 
-  updatePacoteViagemHandler(value: string) {
-    this.orcamentoData.pacoteViagem = value;
+  updatePacoteViagemHandler(value: IInput) {
+    this.orcamentoData.pacoteViagem = value.value;
+    this.valid[2] = (value.valid);
   }
 
-  updateLocalSaidaHandler(value: string) {
-    this.orcamentoData.localSaida = value;
+  updateLocalSaidaHandler(value: IInput) {
+    this.orcamentoData.localSaida = value.value;
+    this.valid[3] = (value.valid);
   }
 
-  updateDataSaidaHandler(value: string) {
-    this.orcamentoData.dataSaida = value;
+  updateDataSaidaHandler(value: IInput) {
+    this.orcamentoData.dataSaida = value.value;
+    this.valid[4] = (value.valid);
   }
 
-  updateHoraSaidaHandler(value: string) {
-    this.orcamentoData.horaSaida = value;
+  updateHoraSaidaHandler(value: IInput) {
+    this.orcamentoData.horaSaida = value.value;
+    this.valid[5] = (value.valid);
   }
 
-  updateDataRetornoHandler(value: string) {
-    this.orcamentoData.dataRetorno = value;
+  updateDataRetornoHandler(value: IInput) {
+    this.orcamentoData.dataRetorno = value.value;
+    this.valid[6] = (value.valid);
   }
 
-  updateHoraRetornoHandler(value: string) {
-    this.orcamentoData.horaRetorno = value;
+  updateHoraRetornoHandler(value: IInput) {
+    this.orcamentoData.horaRetorno = value.value;
+    this.valid[7] = (value.valid);
   }
 
-  updateValorHandler(value: string) {
-    this.orcamentoData.valor = value;
+  updateValorHandler(value: IInput) {
+    this.orcamentoData.valor = value.value;
+    this.valid[8] = (value.valid);
   }
 
-  updateModeloVanHandler(value: string) {
-    this.orcamentoData.modeloVan = value;
+  updateModeloVanHandler(value: IInput) {
+    this.orcamentoData.modeloVan = value.value;
   }
 
-  updateValorAcrescimoKmHandler(value: string) {
-    this.orcamentoData.valorAcrescimoKm = value;
+  updateValorAcrescimoKmHandler(value: IInput) {
+    this.orcamentoData.valorAcrescimoKm = value.value;
   }
 
 }

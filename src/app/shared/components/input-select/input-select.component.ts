@@ -16,14 +16,14 @@ export class InputSelectComponent {
   @Input() listItens: string[] = [];
   @Input() label = '';
   @Input() placeholder = '';
-  @Output() selectedInputValue = new EventEmitter<string> ();
+  @Output() selectedInputValue = new EventEmitter();
 
   inputControl = new FormControl(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
   cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
 
   sendSelectedInputHandler(item: string) {
-    this.selectedInputValue.emit(item);
+    this.selectedInputValue.emit({value: item, valid: (item ? true : false)});
   }
 
 }

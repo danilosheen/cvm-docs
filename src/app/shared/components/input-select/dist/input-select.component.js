@@ -24,7 +24,7 @@ var InputSelectComponent = /** @class */ (function () {
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
     }
     InputSelectComponent.prototype.sendSelectedInputHandler = function (item) {
-        this.selectedInputValue.emit(item);
+        this.selectedInputValue.emit({ value: item, valid: (item ? true : false) });
     };
     __decorate([
         core_1.Input()

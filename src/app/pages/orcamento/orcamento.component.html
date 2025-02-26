@@ -70,6 +70,7 @@
     <!-- modelo van -->
     <app-input-text
       [label]="'Detalhes do veículo'"
+      [optional]="true"
       [placeholder]="'ex: Van com 20 assentos, som, ar-condicionado...'"
       (inputValue)="updateModeloVanHandler($event)"
     ></app-input-text>
@@ -79,11 +80,12 @@
       [type]="'number'"
       [label]="'Valor por km excedido'"
       [placeholder]="'ex: 5,00'"
+      [optional]="true"
       (inputValue)="updateValorAcrescimoKmHandler($event)"
     ></app-input-number>
 
   </form>
-  <button class="button-gerar" mat-flat-button (click)="onSubmit()">
+  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
     <ng-container *ngIf="loading; else btnText">
       <div class="button-loading">
         <img class="loading" src="./assets/loading.gif" alt="Carregando">

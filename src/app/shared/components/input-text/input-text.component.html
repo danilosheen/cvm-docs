@@ -8,10 +8,11 @@
       placeholder={{placeholder}}
       [formControl]="input"
       (blur)="updateErrorMessage()"
-      (keyup)="sendTextInputHandler()"
-      required
+      (input)="sendTextInputHandler()"
+      [required]="!optional"
     />
-    @if (input.invalid) {
+    @if (optional) {<mat-hint>Campo opcional</mat-hint>}
+    @if (input.invalid && !optional) {
       <mat-error>{{errorMessage()}}</mat-error>
     }
   </mat-form-field>

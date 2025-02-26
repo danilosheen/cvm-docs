@@ -43,7 +43,7 @@ var InputDateComponent = /** @class */ (function () {
         var mes = String(dataSaida.getMonth() + 1).padStart(2, "0"); // Meses começam do 0
         var ano = dataSaida.getFullYear();
         var dataFormatada = dia + "/" + mes + "/" + ano;
-        this.inputDate.emit(dataFormatada || "");
+        this.inputDate.emit({ value: dataFormatada, valid: this.input.valid });
     };
     __decorate([
         core_1.Input()

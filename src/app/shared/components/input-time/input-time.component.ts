@@ -19,7 +19,7 @@ import { NgIf } from '@angular/common';
 export class InputTimeComponent{
 
   @Input() label = '';
-  @Output() inputTime = new EventEmitter<string>();
+  @Output() inputTime = new EventEmitter();
 
   readonly input: FormControl<Date | null>;
   errorMessage: WritableSignal<string> = signal('');
@@ -50,7 +50,7 @@ export class InputTimeComponent{
       const minutos = String(horaSaida.getMinutes()).padStart(2, "0");
       const horaFormatada = `${horas}:${minutos}`;
 
-      this.inputTime.emit(horaFormatada);
+      this.inputTime.emit({value: horaFormatada, valid: this.input.valid});
     } else {
       console.error("Valor de horaSaida é nulo");
       this.inputTime.emit("");
