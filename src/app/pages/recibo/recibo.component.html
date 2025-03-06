@@ -1,7 +1,42 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <div class="content">
-    <img src="/assets/developing.jpg" alt="">
-  </div>
+  <h2 class="title-recibo">
+    Preencha os campos para gerar o recibo
+  </h2>
+  <form (ngSubmit)="onSubmit()">
+    <!-- cliente -->
+    <app-input-text
+      [label]="'Nome completo do cliente'"
+      [placeholder]="'ex: Crairton de Matos Leite'"
+      (inputValue)="updateNomeClienteHandler($event)"
+    ></app-input-text>
+
+    <!-- pacote de viagem -->
+    <app-input-text
+      [label]="'Orçamento referente à'"
+      [placeholder]="'ex: fretamento de van de Juazeiro à Fortaleza'"
+      (inputValue)="updatePacoteViagemHandler($event)"
+    ></app-input-text>
+
+    <!-- valor -->
+    <app-input-number
+      [type]="'number'"
+      [label]="'Valor do orçamento'"
+      [placeholder]="'ex: 2.500,00'"
+      (inputValue)="updateValorHandler($event)"
+    ></app-input-number>
+
+  </form>
+  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+    <ng-container *ngIf="loading; else btnText">
+      <div class="button-loading">
+        <img class="loading" src="./assets/loading.gif" alt="Carregando">
+        <p>Gerando PDF</p>
+      </div>
+    </ng-container>
+    <ng-template #btnText>
+      Gerar PDF
+    </ng-template>
+  </button>
 </div>
 <app-footer></app-footer>

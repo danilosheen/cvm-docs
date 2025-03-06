@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from '../../shared/components/footer/footer.component';
-import { OrcamentoPDFService } from '../../core/services/orcamentoService/orcamentoPDF.service';
+import { OrcamentoPDFService } from '../../core/services/orcamentoService/orcamento-pdf.service';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { IOrcamento } from '../../interfaces/i-orcamento';
 import { NgIf } from '@angular/common';
