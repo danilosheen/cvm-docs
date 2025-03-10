@@ -49,8 +49,15 @@ var ReciboComponent = /** @class */ (function () {
                 behavior: "smooth"
             });
         }, function (error) {
-            console.error('Erro ao gerar o PDF:', error);
-            _this.loading = false;
+            try {
+                setTimeout(function () {
+                    _this.onSubmit();
+                }, 3000);
+            }
+            catch (_a) {
+                console.error('Erro ao gerar o PDF:', error);
+                _this.loading = false;
+            }
         });
     };
     ReciboComponent.prototype.camposValidos = function () {

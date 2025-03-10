@@ -44,7 +44,6 @@ export class ReciboComponent {
 
   onSubmit() {
     this.loading = true;
-
     this.pdfRecibo.generatePDF(this.reciboData)
       .subscribe(
         (pdfBlob) => {
@@ -62,8 +61,14 @@ export class ReciboComponent {
           });
         },
         (error) => {
-          console.error('Erro ao gerar o PDF:', error);
-          this.loading = false;
+          try{
+            setTimeout(()=>{
+              this.onSubmit();
+            }, 3000);
+          } catch {
+            console.error('Erro ao gerar o PDF:', error);
+            this.loading = false;
+          }
         }
       );
   }
