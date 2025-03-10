@@ -9,5 +9,6 @@ export interface IOrcamento {
   horaRetorno: string;
   valor: string;
   modeloVan?: string;
+  cortesiaKm?: string;
   valorAcrescimoKm?: string;
 }

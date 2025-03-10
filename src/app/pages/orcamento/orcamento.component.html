@@ -75,6 +75,15 @@
       (inputValue)="updateModeloVanHandler($event)"
     ></app-input-text>
 
+    <!-- cortesiaKm -->
+    <app-input-number
+      [type]="'text'"
+      [label]="'Km de cortesia'"
+      [placeholder]="'30'"
+      [optional]="true"
+      (inputValue)="updateCortesiaKmHandler($event)"
+    ></app-input-number>
+
     <!-- valor km-->
     <app-input-number
       [type]="'number'"

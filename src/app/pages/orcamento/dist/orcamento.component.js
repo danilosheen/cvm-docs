@@ -36,6 +36,7 @@ var OrcamentoComponent = /** @class */ (function () {
             horaRetorno: '',
             valor: '',
             modeloVan: '',
+            cortesiaKm: '',
             valorAcrescimoKm: ''
         };
         this.valid = [];
@@ -122,6 +123,9 @@ var OrcamentoComponent = /** @class */ (function () {
     };
     OrcamentoComponent.prototype.updateModeloVanHandler = function (value) {
         this.orcamentoData.modeloVan = value.value;
+    };
+    OrcamentoComponent.prototype.updateCortesiaKmHandler = function (value) {
+        this.orcamentoData.cortesiaKm = value.value;
     };
     OrcamentoComponent.prototype.updateValorAcrescimoKmHandler = function (value) {
         this.orcamentoData.valorAcrescimoKm = value.value;

@@ -97,6 +97,9 @@ export class InputNumberComponent implements OnInit {
       const formattedValue = this.onPhoneInputChange(inputElement.value);
       this.input.setValue(formattedValue, { emitEvent: false });
       this.sendNumberInputHandler(formattedValue);
+    } else if (this.type == 'text' && this.input.value){
+      const inputElement = event.target as HTMLInputElement;
+      this.sendNumberInputHandler(inputElement.value);
     } else if (this.optional && !this.input.value){
         this.sendNumberInputHandler("");
     }

@@ -50,6 +50,7 @@ export class OrcamentoComponent{
     horaRetorno: '',
     valor: '',
     modeloVan: '',
+    cortesiaKm: '',
     valorAcrescimoKm: '',
   };
   valid: boolean[] = [];
@@ -151,6 +152,10 @@ export class OrcamentoComponent{
 
   updateModeloVanHandler(value: IInput) {
     this.orcamentoData.modeloVan = value.value;
+  }
+
+  updateCortesiaKmHandler(value: IInput){
+    this.orcamentoData.cortesiaKm = value.value;
   }
 
   updateValorAcrescimoKmHandler(value: IInput) {

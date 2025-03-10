@@ -95,6 +95,10 @@ var InputNumberComponent = /** @class */ (function () {
             this.input.setValue(formattedValue, { emitEvent: false });
             this.sendNumberInputHandler(formattedValue);
         }
+        else if (this.type == 'text' && this.input.value) {
+            var inputElement = event.target;
+            this.sendNumberInputHandler(inputElement.value);
+        }
         else if (this.optional && !this.input.value) {
             this.sendNumberInputHandler("");
         }
