@@ -66,7 +66,7 @@ var OrcamentoComponent = /** @class */ (function () {
             try {
                 setTimeout(function () {
                     _this.onSubmit();
-                }, 3000);
+                }, 1000);
             }
             catch (_a) {
                 console.error('Erro ao gerar o PDF:', error);

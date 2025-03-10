@@ -7,6 +7,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+:root{
+  --text-blue: #005cbb;
+}
+
 .container{
   min-height: calc(100vh - 165px);
 }

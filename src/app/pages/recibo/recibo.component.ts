@@ -64,7 +64,7 @@ export class ReciboComponent {
           try{
             setTimeout(()=>{
               this.onSubmit();
-            }, 3000);
+            }, 1000);
           } catch {
             console.error('Erro ao gerar o PDF:', error);
             this.loading = false;
