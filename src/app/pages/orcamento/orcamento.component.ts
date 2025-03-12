@@ -69,11 +69,12 @@ export class OrcamentoComponent{
     this.pdfOrcamento.generatePDF(this.orcamentoData)
       .subscribe(
         (pdfBlob) => {
+          const nomeClienteFormated = this.formatNomeCliente();
           const pdfUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
           const date = new Date();
           link.href = pdfUrl;
-          link.download = `Orcamento CVM ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = `Orç. CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
           link.click();
           this.loading = false;
           window.scrollTo({
@@ -93,6 +94,18 @@ export class OrcamentoComponent{
           }
         }
       );
+  }
+
+  formatNomeCliente(){
+    try {
+      const nome = `${this.orcamentoData.nomeCliente.split(" ")[0]}`;
+      const index = this.orcamentoData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+      const sobrenome = `${this.orcamentoData.nomeCliente.split(" ")[index]}`;
+      const nomeClienteFormated = `${nome} ${sobrenome}`;
+      return nomeClienteFormated
+    } catch (error) {
+      return `${this.orcamentoData.nomeCliente.split(" ")[0]}`;
+    }
   }
 
   camposValidos(): boolean{

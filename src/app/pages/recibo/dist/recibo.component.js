@@ -36,11 +36,12 @@ var ReciboComponent = /** @class */ (function () {
         this.loading = true;
         this.pdfRecibo.generatePDF(this.reciboData)
             .subscribe(function (pdfBlob) {
+            var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
             var date = new Date();
             link.href = pdfUrl;
-            link.download = "Recibo CVM " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = "Recibo CVM - " + nomeClienteFormated + " " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
             link.click();
             _this.loading = false;
             window.scrollTo({
@@ -59,6 +60,18 @@ var ReciboComponent = /** @class */ (function () {
                 _this.loading = false;
             }
         });
+    };
+    ReciboComponent.prototype.formatNomeCliente = function () {
+        try {
+            var nome = "" + this.reciboData.nomeCliente.split(" ")[0];
+            var index = this.reciboData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+            var sobrenome = "" + this.reciboData.nomeCliente.split(" ")[index];
+            var nomeClienteFormated = nome + " " + sobrenome;
+            return nomeClienteFormated;
+        }
+        catch (error) {
+            return "" + this.reciboData.nomeCliente.split(" ")[0];
+        }
     };
     ReciboComponent.prototype.camposValidos = function () {
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {

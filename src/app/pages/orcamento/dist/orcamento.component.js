@@ -51,11 +51,12 @@ var OrcamentoComponent = /** @class */ (function () {
         this.loading = true;
         this.pdfOrcamento.generatePDF(this.orcamentoData)
             .subscribe(function (pdfBlob) {
+            var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
             var date = new Date();
             link.href = pdfUrl;
-            link.download = "Orcamento CVM " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = "Or\u00E7. CVM - " + nomeClienteFormated + " " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
             link.click();
             _this.loading = false;
             window.scrollTo({
@@ -74,6 +75,18 @@ var OrcamentoComponent = /** @class */ (function () {
                 _this.loading = false;
             }
         });
+    };
+    OrcamentoComponent.prototype.formatNomeCliente = function () {
+        try {
+            var nome = "" + this.orcamentoData.nomeCliente.split(" ")[0];
+            var index = this.orcamentoData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+            var sobrenome = "" + this.orcamentoData.nomeCliente.split(" ")[index];
+            var nomeClienteFormated = nome + " " + sobrenome;
+            return nomeClienteFormated;
+        }
+        catch (error) {
+            return "" + this.orcamentoData.nomeCliente.split(" ")[0];
+        }
     };
     OrcamentoComponent.prototype.camposValidos = function () {
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {

@@ -47,11 +47,12 @@ export class ReciboComponent {
     this.pdfRecibo.generatePDF(this.reciboData)
       .subscribe(
         (pdfBlob) => {
+          const nomeClienteFormated = this.formatNomeCliente();
           const pdfUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
           const date = new Date();
           link.href = pdfUrl;
-          link.download = `Recibo CVM ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = `Recibo CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
           link.click();
           this.loading = false;
           window.scrollTo({
@@ -71,6 +72,18 @@ export class ReciboComponent {
           }
         }
       );
+  }
+
+  formatNomeCliente(){
+    try {
+      const nome = `${this.reciboData.nomeCliente.split(" ")[0]}`;
+      const index = this.reciboData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+      const sobrenome = `${this.reciboData.nomeCliente.split(" ")[index]}`;
+      const nomeClienteFormated = `${nome} ${sobrenome}`;
+      return nomeClienteFormated
+    } catch (error) {
+      return `${this.reciboData.nomeCliente.split(" ")[0]}`;
+    }
   }
 
   camposValidos(): boolean{
