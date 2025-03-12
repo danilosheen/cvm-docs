@@ -99,7 +99,7 @@ export class OrcamentoComponent{
   formatNomeCliente(){
     try {
       const nome = `${this.orcamentoData.nomeCliente.split(" ")[0]}`;
-      const index = this.orcamentoData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+      const index = this.orcamentoData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "de" || this.orcamentoData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "da" ? 2 : 1;
       const sobrenome = `${this.orcamentoData.nomeCliente.split(" ")[index]}`;
       const nomeClienteFormated = `${nome} ${sobrenome}`;
       return nomeClienteFormated

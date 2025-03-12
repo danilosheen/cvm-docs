@@ -77,7 +77,7 @@ export class ReciboComponent {
   formatNomeCliente(){
     try {
       const nome = `${this.reciboData.nomeCliente.split(" ")[0]}`;
-      const index = this.reciboData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "de" || "da" ? 2 : 1;
+      const index = this.reciboData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "de" || this.reciboData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "da" ? 2 : 1;
       const sobrenome = `${this.reciboData.nomeCliente.split(" ")[index]}`;
       const nomeClienteFormated = `${nome} ${sobrenome}`;
       return nomeClienteFormated

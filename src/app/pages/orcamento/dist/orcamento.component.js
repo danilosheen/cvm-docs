@@ -79,7 +79,7 @@ var OrcamentoComponent = /** @class */ (function () {
     OrcamentoComponent.prototype.formatNomeCliente = function () {
         try {
             var nome = "" + this.orcamentoData.nomeCliente.split(" ")[0];
-            var index = this.orcamentoData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+            var index = this.orcamentoData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "de" || this.orcamentoData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "da" ? 2 : 1;
             var sobrenome = "" + this.orcamentoData.nomeCliente.split(" ")[index];
             var nomeClienteFormated = nome + " " + sobrenome;
             return nomeClienteFormated;
