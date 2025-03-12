@@ -64,7 +64,7 @@ var ReciboComponent = /** @class */ (function () {
     ReciboComponent.prototype.formatNomeCliente = function () {
         try {
             var nome = "" + this.reciboData.nomeCliente.split(" ")[0];
-            var index = this.reciboData.nomeCliente.split(" ")[1] == "de" || "da" ? 2 : 1;
+            var index = this.reciboData.nomeCliente.split(" ")[1].toLocaleLowerCase() === "de" || "da" ? 2 : 1;
             var sobrenome = "" + this.reciboData.nomeCliente.split(" ")[index];
             var nomeClienteFormated = nome + " " + sobrenome;
             return nomeClienteFormated;
