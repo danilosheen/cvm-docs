@@ -4,7 +4,7 @@
     <mat-select [formControl]="inputControl" required>
       <mat-option>--</mat-option>
       @for (item of listItens; track item) {
-        <mat-option (onSelectionChange)="sendSelectedInputHandler(item)" [value]="item">{{item}}</mat-option>
+        <mat-option (onSelectionChange)="sendSelectedInputHandler($event, item)" [value]="item">{{item}}</mat-option>
       }
     </mat-select>
     @if (inputControl.hasError('required')) {

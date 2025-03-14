@@ -9,6 +9,7 @@ import { IInput } from '../../interfaces/i-handlerInput';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { InputSelectComponent } from "../../shared/components/input-select/input-select.component";
 
 @Component({
   selector: 'app-recibo',
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     NgIf,
     MatButtonModule,
     FormsModule,
-  ],
+    InputSelectComponent
+],
   templateUrl: './recibo.component.html',
   styleUrl: './recibo.component.css'
 })
@@ -32,12 +34,14 @@ export class ReciboComponent {
     nomeCliente: '',
     pacoteViagem: '',
     valor: '',
+    formaPagamento: '',
   };
   valid: boolean[] = [];
+  formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"]
 
   constructor(private pdfRecibo: ReciboPDFService) {
       //inicializando o array de campos válidos
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 4; i++) {
         this.valid.push(false)
       }
     }
@@ -108,6 +112,12 @@ export class ReciboComponent {
   updateValorHandler(value: IInput) {
     this.reciboData.valor = value.value;
     this.valid[2] = (value.valid);
+  }
+
+  updateFormaPagamentoHandler(value: IInput) {
+    console.log(value)
+    this.reciboData.formaPagamento = value.value;
+    this.valid[3] = (value.valid);
   }
 
 }

@@ -26,6 +26,14 @@
       (inputValue)="updateValorHandler($event)"
     ></app-input-number>
 
+    <!-- Forma de pagamento -->
+    <app-input-select
+      [label]="'Selecione a forma de Pagamento.'"
+      [errorMessage]="'Esse campo precisa ser selecionado'"
+      [listItens]="formasPagamento"
+      (selectedInputValue)="updateFormaPagamentoHandler($event)"
+    ></app-input-select>
+
   </form>
   <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
     <ng-container *ngIf="loading; else btnText">

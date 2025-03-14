@@ -15,6 +15,7 @@ var input_number_component_1 = require("../../shared/components/input-number/inp
 var common_1 = require("@angular/common");
 var button_1 = require("@angular/material/button");
 var forms_1 = require("@angular/forms");
+var input_select_component_1 = require("../../shared/components/input-select/input-select.component");
 var ReciboComponent = /** @class */ (function () {
     function ReciboComponent(pdfRecibo) {
         this.pdfRecibo = pdfRecibo;
@@ -23,11 +24,13 @@ var ReciboComponent = /** @class */ (function () {
         this.reciboData = {
             nomeCliente: '',
             pacoteViagem: '',
-            valor: ''
+            valor: '',
+            formaPagamento: ''
         };
         this.valid = [];
+        this.formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"];
         //inicializando o array de campos válidos
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 4; i++) {
             this.valid.push(false);
         }
     }
@@ -94,6 +97,11 @@ var ReciboComponent = /** @class */ (function () {
         this.reciboData.valor = value.value;
         this.valid[2] = (value.valid);
     };
+    ReciboComponent.prototype.updateFormaPagamentoHandler = function (value) {
+        console.log(value);
+        this.reciboData.formaPagamento = value.value;
+        this.valid[3] = (value.valid);
+    };
     ReciboComponent = __decorate([
         core_1.Component({
             selector: 'app-recibo',
@@ -105,6 +113,7 @@ var ReciboComponent = /** @class */ (function () {
                 common_1.NgIf,
                 button_1.MatButtonModule,
                 forms_1.FormsModule,
+                input_select_component_1.InputSelectComponent
             ],
             templateUrl: './recibo.component.html',
             styleUrl: './recibo.component.css'

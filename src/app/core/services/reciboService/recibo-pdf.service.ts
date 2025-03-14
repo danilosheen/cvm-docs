@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class ReciboPDFService {
 
-  //  private apiUrl = 'http://localhost:3000/api/pdf/recibo';
-    private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/recibo';
+   private apiUrl = 'http://localhost:3000/api/pdf/recibo';
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/recibo';
 
     constructor(private http: HttpClient) {}
 

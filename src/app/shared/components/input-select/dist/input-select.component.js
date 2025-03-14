@@ -17,14 +17,15 @@ var InputSelectComponent = /** @class */ (function () {
         this.errorMessage = '';
         this.listItens = [];
         this.label = '';
-        this.placeholder = '';
         this.selectedInputValue = new core_1.EventEmitter();
         this.inputControl = new forms_1.FormControl(null, forms_1.Validators.required);
         this.selectFormControl = new forms_1.FormControl('', forms_1.Validators.required);
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
     }
-    InputSelectComponent.prototype.sendSelectedInputHandler = function (item) {
-        this.selectedInputValue.emit({ value: item, valid: (item ? true : false) });
+    InputSelectComponent.prototype.sendSelectedInputHandler = function (event, item) {
+        if (event.isUserInput) {
+            this.selectedInputValue.emit({ value: item, valid: (item ? true : false) });
+        }
     };
     __decorate([
         core_1.Input()
@@ -35,9 +36,6 @@ var InputSelectComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputSelectComponent.prototype, "label");
-    __decorate([
-        core_1.Input()
-    ], InputSelectComponent.prototype, "placeholder");
     __decorate([
         core_1.Output()
     ], InputSelectComponent.prototype, "selectedInputValue");

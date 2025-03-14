@@ -9,10 +9,10 @@ exports.__esModule = true;
 exports.ReciboPDFService = void 0;
 var core_1 = require("@angular/core");
 var ReciboPDFService = /** @class */ (function () {
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/recibo';
     function ReciboPDFService(http) {
         this.http = http;
-        //  private apiUrl = 'http://localhost:3000/api/pdf/recibo';
-        this.apiUrl = 'https://backend-cvm.vercel.app/api/pdf/recibo';
+        this.apiUrl = 'http://localhost:3000/api/pdf/recibo';
     }
     ReciboPDFService.prototype.generatePDF = function (data) {
         return this.http.post(this.apiUrl, data, { responseType: 'blob' });
