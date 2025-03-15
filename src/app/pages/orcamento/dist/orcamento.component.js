@@ -17,9 +17,9 @@ var divider_1 = require("@angular/material/divider");
 var icon_1 = require("@angular/material/icon");
 var input_text_component_1 = require("../../shared/components/input-text/input-text.component");
 var input_number_component_1 = require("../../shared/components/input-number/input-number.component");
-var input_select_component_1 = require("../../shared/components/input-select/input-select.component");
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
+var input_autocomplete_component_1 = require("../../shared/components/input-autocomplete/input-autocomplete.component");
 var OrcamentoComponent = /** @class */ (function () {
     function OrcamentoComponent(pdfOrcamento) {
         this.pdfOrcamento = pdfOrcamento;
@@ -42,7 +42,7 @@ var OrcamentoComponent = /** @class */ (function () {
         this.valid = [];
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
         //inicializando o array de campos válidos
-        for (var i = 0; i < 9; i++) {
+        for (var i = 0; i < 11; i++) {
             this.valid.push(false);
         }
     }
@@ -130,9 +130,17 @@ var OrcamentoComponent = /** @class */ (function () {
         this.orcamentoData.horaRetorno = value.value;
         this.valid[7] = (value.valid);
     };
-    OrcamentoComponent.prototype.updateValorHandler = function (value) {
+    OrcamentoComponent.prototype.updateValorComDespezaHandler = function (value) {
         this.orcamentoData.valor = value.value;
         this.valid[8] = (value.valid);
+    };
+    OrcamentoComponent.prototype.updateValorSemDespezaHandler = function (value) {
+        this.orcamentoData.valor = value.value;
+        this.valid[9] = (value.valid);
+    };
+    OrcamentoComponent.prototype.updateValorComNotaHandler = function (value) {
+        this.orcamentoData.valor = value.value;
+        this.valid[10] = (value.valid);
     };
     OrcamentoComponent.prototype.updateModeloVanHandler = function (value) {
         this.orcamentoData.modeloVan = value.value;
@@ -156,9 +164,9 @@ var OrcamentoComponent = /** @class */ (function () {
                 icon_1.MatIconModule,
                 input_text_component_1.InputTextComponent,
                 input_number_component_1.InputNumberComponent,
-                input_select_component_1.InputSelectComponent,
                 input_date_component_1.InputDateComponent,
-                input_time_component_1.InputTimeComponent
+                input_time_component_1.InputTimeComponent,
+                input_autocomplete_component_1.InputAutocompleteComponent
             ],
             templateUrl: './orcamento.component.html',
             styleUrl: './orcamento.component.css'

@@ -1,0 +1,25 @@
+<div class="container-input">
+  <form>
+    <mat-form-field>
+      <mat-label>{{label}}</mat-label>
+      <input #input
+             required
+             type="text"
+             placeholder="{{placeholder}}"
+             matInput
+             [formControl]="inputControl"
+             [matAutocomplete]="auto"
+             (input)="sendText()"
+             (input)="filter()"
+             (focus)="filter()">
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions; track option) {
+          <mat-option [value]="option">{{option}}</mat-option>
+        }
+      </mat-autocomplete>
+      @if (inputControl.hasError('required')) {
+        <mat-error>{{errorMessage}}</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</div>

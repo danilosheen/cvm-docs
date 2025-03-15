@@ -27,12 +27,20 @@
     ></app-input-text>
 
     <!-- Local de saída -->
-    <app-input-select
+    <!-- <app-input-select
       [label]="'Selecione o local de saída'"
       [listItens]="cidades"
       [errorMessage]="'Por favor, selecione um local.'"
       (selectedInputValue)="updateLocalSaidaHandler($event)"
-    ></app-input-select>
+    ></app-input-select> -->
+
+    <!-- Local de saída -->
+    <app-input-autocomplete
+      [label]="'Selecione o local de saída'"
+      [options]="cidades"
+      [errorMessage]="'Por favor, selecione um local.'"
+      (inputValue)="updateLocalSaidaHandler($event)"
+    ></app-input-autocomplete>
 
     <!-- Data de saída -->
     <app-input-date
@@ -58,12 +66,28 @@
       (inputTime)="updateHoraRetornoHandler($event)"
     ></app-input-time>
 
-    <!-- valor -->
+    <!-- valor com despeza do motorista inclusa -->
     <app-input-number
       [type]="'number'"
-      [label]="'Valor do orçamento'"
+      [label]="'Valor cliente pagando despesa'"
       [placeholder]="'ex: 2.500,00'"
-      (inputValue)="updateValorHandler($event)"
+      (inputValue)="updateValorComDespezaHandler($event)"
+    ></app-input-number>
+
+    <!-- valor sem despeza do motorista inclusa -->
+    <app-input-number
+      [type]="'number'"
+      [label]="'Valor CVM pagando despesa'"
+      [placeholder]="'ex: 2.500,00'"
+      (inputValue)="updateValorSemDespezaHandler($event)"
+    ></app-input-number>
+
+    <!-- valor com emissão de nota fiscal -->
+    <app-input-number
+      [type]="'number'"
+      [label]="'Valor com emissão de nota fiscal'"
+      [placeholder]="'ex: 2.500,00'"
+      (inputValue)="updateValorComNotaHandler($event)"
     ></app-input-number>
 
     <!-- modelo van -->

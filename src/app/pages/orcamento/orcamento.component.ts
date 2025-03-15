@@ -14,6 +14,7 @@ import { InputSelectComponent } from "../../shared/components/input-select/input
 import { InputDateComponent } from "../../shared/components/input-date/input-date.component";
 import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
 import { IInput } from '../../interfaces/i-handlerInput';
+import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
 
 
 @Component({
@@ -28,9 +29,9 @@ import { IInput } from '../../interfaces/i-handlerInput';
     MatIconModule,
     InputTextComponent,
     InputNumberComponent,
-    InputSelectComponent,
     InputDateComponent,
-    InputTimeComponent
+    InputTimeComponent,
+    InputAutocompleteComponent
 ],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.css'
@@ -58,7 +59,7 @@ export class OrcamentoComponent{
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
     //inicializando o array de campos válidos
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 11; i++) {
       this.valid.push(false)
     }
   }
@@ -158,9 +159,19 @@ export class OrcamentoComponent{
     this.valid[7] = (value.valid);
   }
 
-  updateValorHandler(value: IInput) {
+  updateValorComDespezaHandler(value: IInput) {
     this.orcamentoData.valor = value.value;
     this.valid[8] = (value.valid);
+  }
+
+  updateValorSemDespezaHandler(value: IInput) {
+    this.orcamentoData.valor = value.value;
+    this.valid[9] = (value.valid);
+  }
+
+  updateValorComNotaHandler(value: IInput) {
+    this.orcamentoData.valor = value.value;
+    this.valid[10] = (value.valid);
   }
 
   updateModeloVanHandler(value: IInput) {
