@@ -49,7 +49,9 @@ export class OrcamentoComponent{
     horaSaida: '',
     dataRetorno: '',
     horaRetorno: '',
-    valor: '',
+    valorComDespesa: '',
+    valorSemDespesa: '',
+    valorComNota: '',
     modeloVan: '',
     cortesiaKm: '',
     valorAcrescimoKm: '',
@@ -160,17 +162,17 @@ export class OrcamentoComponent{
   }
 
   updateValorComDespezaHandler(value: IInput) {
-    this.orcamentoData.valor = value.value;
+    this.orcamentoData.valorComDespesa = value.value;
     this.valid[8] = (value.valid);
   }
 
   updateValorSemDespezaHandler(value: IInput) {
-    this.orcamentoData.valor = value.value;
+    this.orcamentoData.valorSemDespesa = value.value;
     this.valid[9] = (value.valid);
   }
 
   updateValorComNotaHandler(value: IInput) {
-    this.orcamentoData.valor = value.value;
+    this.orcamentoData.valorComNota = value.value;
     this.valid[10] = (value.valid);
   }
 

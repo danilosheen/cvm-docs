@@ -7,7 +7,9 @@ export interface IOrcamento {
   horaSaida: string;
   dataRetorno: string;
   horaRetorno: string;
-  valor: string;
+  valorComDespesa: string;
+  valorSemDespesa: string;
+  valorComNota: string;
   modeloVan?: string;
   cortesiaKm?: string;
   valorAcrescimoKm?: string;

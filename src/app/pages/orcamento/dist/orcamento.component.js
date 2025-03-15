@@ -34,7 +34,9 @@ var OrcamentoComponent = /** @class */ (function () {
             horaSaida: '',
             dataRetorno: '',
             horaRetorno: '',
-            valor: '',
+            valorComDespesa: '',
+            valorSemDespesa: '',
+            valorComNota: '',
             modeloVan: '',
             cortesiaKm: '',
             valorAcrescimoKm: ''
@@ -131,15 +133,15 @@ var OrcamentoComponent = /** @class */ (function () {
         this.valid[7] = (value.valid);
     };
     OrcamentoComponent.prototype.updateValorComDespezaHandler = function (value) {
-        this.orcamentoData.valor = value.value;
+        this.orcamentoData.valorComDespesa = value.value;
         this.valid[8] = (value.valid);
     };
     OrcamentoComponent.prototype.updateValorSemDespezaHandler = function (value) {
-        this.orcamentoData.valor = value.value;
+        this.orcamentoData.valorSemDespesa = value.value;
         this.valid[9] = (value.valid);
     };
     OrcamentoComponent.prototype.updateValorComNotaHandler = function (value) {
-        this.orcamentoData.valor = value.value;
+        this.orcamentoData.valorComNota = value.value;
         this.valid[10] = (value.valid);
     };
     OrcamentoComponent.prototype.updateModeloVanHandler = function (value) {
