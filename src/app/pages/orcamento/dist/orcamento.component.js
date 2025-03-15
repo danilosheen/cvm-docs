@@ -91,6 +91,7 @@ var OrcamentoComponent = /** @class */ (function () {
         }
     };
     OrcamentoComponent.prototype.camposValidos = function () {
+        // console.log(this.valid)
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {
             var i = _a[_i];
             if (i == false) {
@@ -113,6 +114,7 @@ var OrcamentoComponent = /** @class */ (function () {
         this.valid[2] = (value.valid);
     };
     OrcamentoComponent.prototype.updateLocalSaidaHandler = function (value) {
+        console.log(value);
         this.orcamentoData.localSaida = value.value;
         this.valid[3] = (value.valid);
     };

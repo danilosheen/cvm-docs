@@ -37,6 +37,11 @@ export class InputAutocompleteComponent {
     this.filteredOptions = this.options.filter(o => o.toLowerCase().includes(filterValue));
   }
 
+  setValue(option: string){
+    this.inputControl.setValue(option);
+    this.sendText()
+  }
+
   sendText(){
     if(this.inputControl.value){
       this.inputValue.emit({value: this.inputControl.value, valid: this.inputControl.valid})

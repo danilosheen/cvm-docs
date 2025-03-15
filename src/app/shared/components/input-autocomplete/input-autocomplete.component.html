@@ -14,7 +14,7 @@
              (focus)="filter()">
       <mat-autocomplete #auto="matAutocomplete">
         @for (option of filteredOptions; track option) {
-          <mat-option [value]="option">{{option}}</mat-option>
+          <mat-option (onSelectionChange)="setValue(option)" [value]="option">{{option}}</mat-option>
         }
       </mat-autocomplete>
       @if (inputControl.hasError('required')) {

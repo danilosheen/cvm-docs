@@ -26,6 +26,10 @@ var InputAutocompleteComponent = /** @class */ (function () {
         var filterValue = this.input.nativeElement.value.toLowerCase();
         this.filteredOptions = this.options.filter(function (o) { return o.toLowerCase().includes(filterValue); });
     };
+    InputAutocompleteComponent.prototype.setValue = function (option) {
+        this.inputControl.setValue(option);
+        this.sendText();
+    };
     InputAutocompleteComponent.prototype.sendText = function () {
         if (this.inputControl.value) {
             this.inputValue.emit({ value: this.inputControl.value, valid: this.inputControl.valid });
