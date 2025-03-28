@@ -112,7 +112,6 @@ export class OrcamentoComponent{
   }
 
   camposValidos(): boolean{
-    // console.log(this.valid)
     for (let i of this.valid){
       if (i == false){
         return false
@@ -138,7 +137,6 @@ export class OrcamentoComponent{
   }
 
   updateLocalSaidaHandler(value: IInput) {
-    console.log(value)
     this.orcamentoData.localSaida = value.value;
     this.valid[3] = (value.valid);
   }
