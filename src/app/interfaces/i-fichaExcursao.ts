@@ -1,0 +1,28 @@
+export interface IFichaExcursao {
+  excursaoPara: string,
+  localSaida: string,
+  dataSaida: string,
+  horaSaida: string,
+  dataRetorno: string,
+  horaRetorno: string,
+  cliente: {
+    nome: string,
+      dataNascimento: string,
+      contato: string,
+      cpf: string,
+      endereco: {
+        cidade: string,
+        bairro: string,
+        rua: string,
+        numero: string
+      }
+  },
+  servicos: [],
+  tipoDeHospedagem: string,
+  valorIntegralExcursao: string,
+  entradaParcelamento: string,
+  valorParcelas: string,
+  qtdParcelas: string,
+  dataPagamentoParcela: string,
+  dependentes: []
+}
