@@ -1,0 +1,14 @@
+<section class="section" [formGroup]="servicos">
+  <mat-accordion>
+    <!-- expanded="true" option -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{label}} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p><mat-checkbox formControlName="cafeDaManha">Café da manhã</mat-checkbox></p>
+      <p><mat-checkbox formControlName="almoco">Almoço</mat-checkbox></p>
+      <p><mat-checkbox formControlName="jantar">Jantar</mat-checkbox></p>
+      <p><mat-checkbox formControlName="roteiro">Roteiro</mat-checkbox></p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

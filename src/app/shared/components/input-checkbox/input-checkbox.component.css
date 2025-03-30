@@ -1,0 +1,19 @@
+.section{
+  margin-bottom: 15px;
+}
+
+::ng-deep .mat-expansion-panel{
+  background-color: rgb(224 226 236) !important;
+  min-height: 56px;
+  border-radius: 0px !important;
+}
+
+::ng-deep .mat-expansion-panel-header{
+  min-height: 56px;
+}
+
+@media (hover: none) {
+  .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover{
+    background-color: rgb(224 226 236) !important;
+  }
+}
