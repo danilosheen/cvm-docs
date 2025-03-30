@@ -1,7 +1,147 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <div class="content">
-    <img src="/assets/developing.jpg" alt="">
-  </div>
+  <h2 class="title-ficha-excursao">
+    Preencha os campos para gerar uma nova ficha de excursão
+  </h2>
+  <form (ngSubmit)="onSubmit()">
+    <!-- Excursão para -->
+    <app-input-text
+      [label]="'Excursão para'"
+      [placeholder]="'ex: Canoa Quebrada - CE'"
+      (inputValue)="updateExcursaoParaHandler($event)"
+    ></app-input-text>
+
+    <!-- localSaída -->
+    <app-input-autocomplete
+      [label]="'Local de saída'"
+      [placeholder]="'ex: Juazeiro do Norte'"
+      [options]="cidades"
+      [errorMessage]="'Defina o local de saída.'"
+      (inputValue)="updateLocalSaidaHandler($event)"
+    ></app-input-autocomplete>
+    <!-- dataSaída -->
+    <app-input-date
+      [label]="'Data de saída'"
+      (inputDate)="updateDataSaidaHandler($event)"
+    ></app-input-date>
+    <!-- horaSaída -->
+    <app-input-time
+      [label]="'Hora de saída'"
+      (inputTime)="updateHoraSaidaHandler($event)"
+    ></app-input-time>
+    <!-- dataRetorno -->
+    <app-input-date
+      [label]="'Data de retorno'"
+      (inputDate)="updateDataRetornoHandler($event)"
+    ></app-input-date>
+    <!-- horaRetorno -->
+    <app-input-time
+      [label]="'Hora de retorno'"
+      (inputTime)="updateHoraRetornoHandler($event)"
+    ></app-input-time>
+    <!-- nomeCliente -->
+    <app-input-text
+      [label]="'Nome do cliente'"
+      [placeholder]="'ex: Crairton de Matos Leite'"
+      (inputValue)="updateNomeClienteHandler($event)"
+    ></app-input-text>
+    <!-- dataMascimento -->
+    <app-input-date
+      [label]="'Data de Nascimento'"
+      [optional]="true"
+      (inputDate)="updateDataNascimentoHandler($event)"
+    ></app-input-date>
+    <!-- contato -->
+    <app-input-number
+      [label]="'Telefone/WhatsApp'"
+      [placeholder]="'(88)9.8888-8888'"
+      [type]="'tel'"
+      (inputValue)="updateContatoHandler($event)"
+    ></app-input-number>
+    <!-- cpf -->
+     <app-input-number
+      [label]="'CPF'"
+      [type]="'cpf'"
+      [placeholder]="'ex: 999.999.999-00'"
+      [optional]="true"
+      (inputValue)="updateCpfHandler($event)"
+     ></app-input-number>
+    <!-- cidade -->
+    <app-input-text
+      [label]="'Cidade'"
+      [placeholder]="'Juazeiro do Norte'"
+      (inputValue)="updateCidadeHandler($event)"
+    ></app-input-text>
+    <!-- bairro -->
+    <app-input-text
+      [label]="'Bairro'"
+      [placeholder]="'Lagoa Seca'"
+      (inputValue)="updateBairroHandler($event)"
+    ></app-input-text>
+    <!-- rua -->
+    <app-input-text
+      [label]="'Rua'"
+      [placeholder]="'José Horácio Pequeno'"
+      (inputValue)="updateRuaHandler($event)"
+    ></app-input-text>
+    <!-- numero -->
+    <app-input-number
+      [type]="'text'"
+      [label]="'Número da casa'"
+      [placeholder]="'30'"
+      (inputValue)="updateNumeroCasaHandler($event)"
+    ></app-input-number>
+    <!-- serviços -->
+    <app-input-checkbox
+      [label]="'Selecione os serviços'"
+    ></app-input-checkbox>
+    <!-- tipoDeHospedagem -->
+    <app-input-checkbox
+      [label]="'Tipo de hospedagem'"
+    ></app-input-checkbox>
+    <!-- valorIntegralExcursão -->
+    <app-input-number
+      [type]="'number'"
+      [label]="'Valor total da excursão'"
+      [placeholder]="'ex: 3.550,00'"
+      (inputValue)="updateValorTotalExcursaoHandler($event)"
+    ></app-input-number>
+    <!-- entradaParcelamento -->
+    <app-input-number
+      [type]="'number'"
+      [label]="'Entrada do parcelamento'"
+      [placeholder]="'ex: 550,00'"
+      [optional]="true"
+      (inputValue)="updateEntradaParcelamentoHandler($event)"
+    ></app-input-number>
+    <!-- qtdParcelas -->
+    <app-input-number
+      [type]="'text'"
+      [label]="'Quantidade de parcelas'"
+      [placeholder]="'5'"
+      [defaultValue]="'1'"
+      (inputValue)="updateQtdParcelasHandler($event)"
+    ></app-input-number>
+    <!-- dataPagamentoParcela -->
+    <app-input-number
+      [type]="'text'"
+      [label]="'Dia do vencimento'"
+      [placeholder]="'20'"
+      (inputValue)="updateDataVencimentoHandler($event)"
+    ></app-input-number>
+    <!-- dependentes -->
+
+  </form>
+  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+    <ng-container *ngIf="loading; else btnText">
+      <div class="button-loading">
+        <img class="loading" src="./assets/loading.gif" alt="Carregando">
+        <p>Gerando PDF</p>
+      </div>
+    </ng-container>
+    <ng-template #btnText>
+      Gerar PDF
+    </ng-template>
+  </button>
 </div>
 <app-footer></app-footer>
