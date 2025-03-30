@@ -18,6 +18,7 @@ var common_1 = require("@angular/common");
 var input_number_component_1 = require("../../shared/components/input-number/input-number.component");
 var button_1 = require("@angular/material/button");
 var input_checkbox_component_1 = require("../../shared/components/input-checkbox/input-checkbox.component");
+var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
 var FichaExcursaoComponent = /** @class */ (function () {
     function FichaExcursaoComponent(pdfFichaExcursao) {
         this.pdfFichaExcursao = pdfFichaExcursao;
@@ -25,6 +26,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.errorMessage = core_1.signal('');
         this.valid = [];
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
+        this.hospedagens = ['Casa de praia', 'Pousada', 'Hotel'];
         this.fichaExcursaoData = {
             excursaoPara: '',
             localSaida: '',
@@ -54,15 +56,16 @@ var FichaExcursaoComponent = /** @class */ (function () {
             dependentes: []
         };
         //inicializando o array de campos válidos
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i <= 16; i++) {
             this.valid.push(false);
         }
     }
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        this.pdfFichaExcursao.generatePDF(this.pdfFichaExcursao)
+        this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
             .subscribe(function (pdfBlob) {
+            console.log(_this.fichaExcursaoData);
             var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
@@ -101,6 +104,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         }
     };
     FichaExcursaoComponent.prototype.camposValidos = function () {
+        console.log(this.valid);
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {
             var i = _a[_i];
             if (i == false) {
@@ -110,76 +114,88 @@ var FichaExcursaoComponent = /** @class */ (function () {
         return true;
     };
     FichaExcursaoComponent.prototype.updateExcursaoParaHandler = function (value) {
-        this.fichaExcursaoData.excursaoPara = value.value;
+        this.fichaExcursaoData.excursaoPara = value.value.toUpperCase();
         this.valid[0] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateLocalSaidaHandler = function (value) {
         this.fichaExcursaoData.localSaida = value.value;
-        this.valid[0] = (value.valid);
+        this.valid[1] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateDataSaidaHandler = function (value) {
         this.fichaExcursaoData.dataSaida = value.value;
-        this.valid[0] = (value.valid);
+        this.valid[2] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateHoraSaidaHandler = function (value) {
         this.fichaExcursaoData.horaSaida = value.value;
-        this.valid[0] = (value.valid);
+        this.valid[3] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateDataRetornoHandler = function (value) {
         this.fichaExcursaoData.dataRetorno = value.value;
-        this.valid[0] = (value.valid);
+        this.valid[4] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateHoraRetornoHandler = function (value) {
         this.fichaExcursaoData.horaRetorno = value.value;
-        this.valid[0] = (value.valid);
+        this.valid[5] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateNomeClienteHandler = function (value) {
         this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.valid[6] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateDataNascimentoHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.dataNascimento = value.value;
     };
     FichaExcursaoComponent.prototype.updateContatoHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.contato = value.value;
+        this.valid[7] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateCpfHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.cpf = value.value;
     };
     FichaExcursaoComponent.prototype.updateCidadeHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.endereco.cidade = value.value;
+        this.valid[8] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateBairroHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.endereco.bairro = value.value;
+        this.valid[9] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateRuaHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.endereco.rua = value.value;
+        this.valid[10] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateNumeroCasaHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.cliente.endereco.numero = value.value;
+        this.valid[11] = (value.valid);
+    };
+    FichaExcursaoComponent.prototype.updateServicosSelecionadosHandler = function (value) {
+        var services = {
+            cafeDaManha: 'Café da manhã',
+            almoco: 'Almoço',
+            jantar: 'Jantar',
+            roteiro: 'Roteiro'
+        };
+        var servicosFormatados = value.map(function (item) { return services[item] || item; });
+        this.fichaExcursaoData.servicos = servicosFormatados;
+        this.valid[12] = !!value.length;
+    };
+    FichaExcursaoComponent.prototype.updateTipoHospedagemHandler = function (value) {
+        this.fichaExcursaoData.tipoDeHospedagem = value.value;
+        this.valid[13] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateValorTotalExcursaoHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.valorIntegralExcursao = value.value;
+        this.valid[14] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateEntradaParcelamentoHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.entradaParcelamento = value.value;
     };
     FichaExcursaoComponent.prototype.updateQtdParcelasHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.qtdParcelas = value.value;
+        this.valid[15] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateDataVencimentoHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
-        this.valid[0] = (value.valid);
+        this.fichaExcursaoData.dataPagamentoParcela = value.value;
+        this.valid[16] = (value.valid);
     };
     FichaExcursaoComponent = __decorate([
         core_1.Component({
@@ -194,7 +210,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
                 input_number_component_1.InputNumberComponent,
-                input_checkbox_component_1.InputCheckboxComponent
+                input_checkbox_component_1.InputCheckboxComponent,
+                input_radio_component_1.InputRadioComponent
             ],
             templateUrl: './ficha-excursao.component.html',
             styleUrl: './ficha-excursao.component.css'

@@ -32,7 +32,7 @@ var InputAutocompleteComponent = /** @class */ (function () {
     };
     InputAutocompleteComponent.prototype.sendText = function () {
         if (this.inputControl.value) {
-            this.inputValue.emit({ value: this.inputControl.value, valid: this.inputControl.valid });
+            this.inputValue.emit({ value: this.inputControl.value.trim(), valid: this.inputControl.valid });
         }
     };
     __decorate([

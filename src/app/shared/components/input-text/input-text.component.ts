@@ -59,6 +59,6 @@ export class InputTextComponent implements OnInit{
 
   sendTextInputHandler(){
     //envia output
-    this.inputValue.emit({value: this.input.value, valid: this.input.valid});
+    this.inputValue.emit({value: this.input.value.trim(), valid: this.input.valid});
   }
 }

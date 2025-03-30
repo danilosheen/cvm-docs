@@ -52,7 +52,7 @@ var InputTextComponent = /** @class */ (function () {
     };
     InputTextComponent.prototype.sendTextInputHandler = function () {
         //envia output
-        this.inputValue.emit({ value: this.input.value, valid: this.input.valid });
+        this.inputValue.emit({ value: this.input.value.trim(), valid: this.input.valid });
     };
     __decorate([
         core_1.Input()

@@ -12,6 +12,7 @@ import { NgIf } from '@angular/common';
 import { InputNumberComponent } from "../../shared/components/input-number/input-number.component";
 import { MatButtonModule } from '@angular/material/button';
 import { InputCheckboxComponent } from "../../shared/components/input-checkbox/input-checkbox.component";
+import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -25,7 +26,8 @@ import { InputCheckboxComponent } from "../../shared/components/input-checkbox/i
     InputDateComponent,
     InputTimeComponent,
     InputNumberComponent,
-    InputCheckboxComponent
+    InputCheckboxComponent,
+    InputRadioComponent
 ],
   templateUrl: './ficha-excursao.component.html',
   styleUrl: './ficha-excursao.component.css'
@@ -36,6 +38,7 @@ export class FichaExcursaoComponent {
   errorMessage = signal('');
   valid: boolean[] = [];
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"]
+  hospedagens: string[] = ['Casa de praia', 'Pousada', 'Hotel'];
 
   fichaExcursaoData: IFichaExcursao = {
     excursaoPara: '',
@@ -68,16 +71,17 @@ export class FichaExcursaoComponent {
 
   constructor(private pdfFichaExcursao: FichaExcursaoService) {
       //inicializando o array de campos válidos
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i <= 16; i++) {
         this.valid.push(false)
       }
     }
 
   onSubmit() {
       this.loading = true;
-      this.pdfFichaExcursao.generatePDF(this.pdfFichaExcursao)
+      this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
         .subscribe(
           (pdfBlob) => {
+            console.log(this.fichaExcursaoData)
             const nomeClienteFormated = this.formatNomeCliente();
             const pdfUrl = URL.createObjectURL(pdfBlob);
             const link = document.createElement('a');
@@ -118,6 +122,7 @@ export class FichaExcursaoComponent {
     }
 
     camposValidos(): boolean{
+      console.log(this.valid)
       for (let i of this.valid){
         if (i == false){
           return false
@@ -127,93 +132,107 @@ export class FichaExcursaoComponent {
     }
 
     updateExcursaoParaHandler(value: IInput) {
-          this.fichaExcursaoData.excursaoPara = value.value;
+          this.fichaExcursaoData.excursaoPara = value.value.toUpperCase();
           this.valid[0] = (value.valid);
     }
 
     updateLocalSaidaHandler(value: IInput) {
       this.fichaExcursaoData.localSaida = value.value;
-      this.valid[0] = (value.valid);
+      this.valid[1] = (value.valid);
     }
 
     updateDataSaidaHandler(value: IInput) {
       this.fichaExcursaoData.dataSaida = value.value;
-      this.valid[0] = (value.valid);
+      this.valid[2] = (value.valid);
     }
 
     updateHoraSaidaHandler(value: IInput) {
       this.fichaExcursaoData.horaSaida = value.value;
-      this.valid[0] = (value.valid);
+      this.valid[3] = (value.valid);
     }
 
     updateDataRetornoHandler(value: IInput) {
       this.fichaExcursaoData.dataRetorno = value.value;
-      this.valid[0] = (value.valid);
+      this.valid[4] = (value.valid);
     }
 
     updateHoraRetornoHandler(value: IInput) {
       this.fichaExcursaoData.horaRetorno = value.value;
-      this.valid[0] = (value.valid);
+      this.valid[5] = (value.valid);
     }
 
     updateNomeClienteHandler(value: IInput) {
       this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.valid[6] = (value.valid);
     }
 
     updateDataNascimentoHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.dataNascimento = value.value;
     }
 
     updateContatoHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.contato = value.value;
+      this.valid[7] = (value.valid);
     }
 
     updateCpfHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.cpf = value.value;
     }
 
     updateCidadeHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.endereco.cidade = value.value;
+      this.valid[8] = (value.valid);
     }
 
     updateBairroHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.endereco.bairro = value.value;
+      this.valid[9] = (value.valid);
     }
 
     updateRuaHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.endereco.rua = value.value;
+      this.valid[10] = (value.valid);
     }
 
     updateNumeroCasaHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.cliente.endereco.numero = value.value;
+      this.valid[11] = (value.valid);
+    }
+
+    updateServicosSelecionadosHandler(value: string[]) {
+      let services = {
+        cafeDaManha: 'Café da manhã',
+        almoco: 'Almoço',
+        jantar: 'Jantar',
+        roteiro: 'Roteiro'
+      } as Record<string, string>;
+
+      let servicosFormatados = value.map(item => services[item] || item);
+      this.fichaExcursaoData.servicos = servicosFormatados;
+      this.valid[12] = !!value.length;
+    }
+
+    updateTipoHospedagemHandler(value: IInput) {
+      this.fichaExcursaoData.tipoDeHospedagem = value.value;
+      this.valid[13] = (value.valid);
     }
 
     updateValorTotalExcursaoHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.valorIntegralExcursao = value.value;
+      this.valid[14] = (value.valid);
     }
 
     updateEntradaParcelamentoHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.entradaParcelamento = value.value;
     }
 
     updateQtdParcelasHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.qtdParcelas = value.value;
+      this.valid[15] = (value.valid);
     }
 
     updateDataVencimentoHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
-      this.valid[0] = (value.valid);
+      this.fichaExcursaoData.dataPagamentoParcela = value.value;
+      this.valid[16] = (value.valid);
     }
-
 }

@@ -94,11 +94,17 @@
     <!-- serviços -->
     <app-input-checkbox
       [label]="'Selecione os serviços'"
+      (checkedValues)="updateServicosSelecionadosHandler($event)"
     ></app-input-checkbox>
     <!-- tipoDeHospedagem -->
-    <app-input-checkbox
+     <app-input-radio
       [label]="'Tipo de hospedagem'"
-    ></app-input-checkbox>
+      [listItems]="hospedagens"
+      (selectedValue)="updateTipoHospedagemHandler($event)"
+     ></app-input-radio>
+    <!-- <app-input-checkbox
+      [label]="'Tipo de hospedagem'"
+    ></app-input-checkbox> -->
     <!-- valorIntegralExcursão -->
     <app-input-number
       [type]="'number'"

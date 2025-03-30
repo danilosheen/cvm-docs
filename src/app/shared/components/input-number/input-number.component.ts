@@ -36,6 +36,7 @@ export class InputNumberComponent implements OnInit {
     }
     if(this.defaultValue){
       this.input.setValue(this.defaultValue);
+      this.sendNumberInputHandler(this.defaultValue)
     }
     this.setValidators();
   }

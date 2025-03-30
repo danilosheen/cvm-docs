@@ -17,7 +17,7 @@ export interface IFichaExcursao {
         numero: string
       }
   },
-  servicos: [],
+  servicos: string[],
   tipoDeHospedagem: string,
   valorIntegralExcursao: string,
   entradaParcelamento: string,

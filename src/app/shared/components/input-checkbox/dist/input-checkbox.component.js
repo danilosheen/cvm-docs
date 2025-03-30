@@ -12,24 +12,42 @@ var forms_1 = require("@angular/forms");
 var checkbox_1 = require("@angular/material/checkbox");
 var expansion_1 = require("@angular/material/expansion");
 var InputCheckboxComponent = /** @class */ (function () {
-    function InputCheckboxComponent() {
+    function InputCheckboxComponent(fb) {
+        this.fb = fb;
         this.label = '';
         this.type = '';
+        this.checkedValues = new core_1.EventEmitter();
         this._formBuilder = core_1.inject(forms_1.FormBuilder);
         this.panelOpenState = core_1.signal(false);
-        this.servicos = this._formBuilder.group({
-            cafeDaManha: false,
-            almoco: false,
-            jantar: false,
-            roteiro: false
-        });
     }
+    InputCheckboxComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // Inicializa o formulário com todos os checkboxes desmarcados
+        this.servicos = this.fb.group({
+            cafeDaManha: [false],
+            almoco: [false],
+            jantar: [false],
+            roteiro: [false]
+        });
+        // Escuta mudanças no formulário
+        this.servicos.valueChanges.subscribe(function (val) {
+            // Pega os checkboxes marcados
+            var selecionados = Object.keys(val).filter(function (key) { return val[key]; });
+            // Emite o evento apenas se algum checkbox estiver marcado
+            if (selecionados.length > 0) {
+                _this.checkedValues.emit(selecionados);
+            }
+        });
+    };
     __decorate([
         core_1.Input()
     ], InputCheckboxComponent.prototype, "label");
     __decorate([
         core_1.Input()
     ], InputCheckboxComponent.prototype, "type");
+    __decorate([
+        core_1.Output()
+    ], InputCheckboxComponent.prototype, "checkedValues");
     InputCheckboxComponent = __decorate([
         core_1.Component({
             selector: 'app-input-checkbox',

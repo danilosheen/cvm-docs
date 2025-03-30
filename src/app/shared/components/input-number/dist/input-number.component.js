@@ -34,6 +34,7 @@ var InputNumberComponent = /** @class */ (function () {
         }
         if (this.defaultValue) {
             this.input.setValue(this.defaultValue);
+            this.sendNumberInputHandler(this.defaultValue);
         }
         this.setValidators();
     };
