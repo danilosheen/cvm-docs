@@ -40,11 +40,11 @@ export class ReciboComponent {
   formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"]
 
   constructor(private pdfRecibo: ReciboPDFService) {
-      //inicializando o array de campos válidos
-      for (let i = 0; i < 4; i++) {
-        this.valid.push(false)
-      }
+    //inicializando o array de campos válidos
+    for (let i = 0; i < 4; i++) {
+      this.valid.push(false)
     }
+  }
 
   onSubmit() {
     this.loading = true;

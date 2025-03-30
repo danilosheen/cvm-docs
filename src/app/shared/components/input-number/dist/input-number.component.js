@@ -19,6 +19,7 @@ var InputNumberComponent = /** @class */ (function () {
         this.label = '';
         this.placeholder = '';
         this.type = '';
+        this.defaultValue = '';
         this.optional = false;
         this.inputValue = new core_1.EventEmitter();
         this.errorMessage = core_1.signal('');
@@ -31,6 +32,9 @@ var InputNumberComponent = /** @class */ (function () {
         if (!this.optional) {
             this.input.setValidators([forms_1.Validators.required]);
         }
+        if (this.defaultValue) {
+            this.input.setValue(this.defaultValue);
+        }
         this.setValidators();
     };
     InputNumberComponent.prototype.setValidators = function () {
@@ -39,6 +43,9 @@ var InputNumberComponent = /** @class */ (function () {
         }
         else if (this.type === 'number' && !this.optional) {
             this.input.setValidators([forms_1.Validators.required, this.moneyValidator]);
+        }
+        else if (this.type === 'cpf' && !this.optional) {
+            this.input.setValidators([forms_1.Validators.required, this.cpfValidator]);
         }
         this.input.updateValueAndValidity();
     };
@@ -55,6 +62,9 @@ var InputNumberComponent = /** @class */ (function () {
         }
         else if (this.input.hasError('invalidMoney')) {
             this.errorMessage.set('O valor deve ser maior que R$ 0,00.');
+        }
+        else if (this.input.hasError('invalidCpf')) {
+            this.errorMessage.set('O CPF digitado está incorreto');
         }
         else {
             this.errorMessage.set('Erro genérico. Verifique o campo.');
@@ -82,6 +92,23 @@ var InputNumberComponent = /** @class */ (function () {
         }
         return formattedValue;
     };
+    InputNumberComponent.prototype.onCpfFormat = function (value) {
+        var numeros = value.replace(/\D/g, '');
+        if (numeros.length > 11) {
+            numeros = numeros.substring(0, 11);
+        }
+        var formattedValue = numeros;
+        if (numeros.length > 3) {
+            formattedValue = numeros.substring(0, 3) + "." + numeros.substring(3);
+        }
+        if (numeros.length > 6) {
+            formattedValue = numeros.substring(0, 3) + "." + numeros.substring(3, 6) + "." + numeros.substring(6);
+        }
+        if (numeros.length > 9) {
+            formattedValue = numeros.substring(0, 3) + "." + numeros.substring(3, 6) + "." + numeros.substring(6, 9) + "-" + numeros.substring(9);
+        }
+        return formattedValue;
+    };
     InputNumberComponent.prototype.onInputChange = function (event) {
         if (this.type == 'number' && this.input.value) {
             var inputElement = event.target;
@@ -92,6 +119,12 @@ var InputNumberComponent = /** @class */ (function () {
         else if (this.type == 'tel' && this.input.value) {
             var inputElement = event.target;
             var formattedValue = this.onPhoneInputChange(inputElement.value);
+            this.input.setValue(formattedValue, { emitEvent: false });
+            this.sendNumberInputHandler(formattedValue);
+        }
+        else if (this.type == 'cpf' && this.input.value) {
+            var inputElement = event.target;
+            var formattedValue = this.onCpfFormat(inputElement.value);
             this.input.setValue(formattedValue, { emitEvent: false });
             this.sendNumberInputHandler(formattedValue);
         }
@@ -121,6 +154,13 @@ var InputNumberComponent = /** @class */ (function () {
         }
         return null;
     };
+    InputNumberComponent.prototype.cpfValidator = function (control) {
+        var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+        if (rawValue.length !== 11) {
+            return { invalidCpf: true };
+        }
+        return null;
+    };
     __decorate([
         core_1.Input()
     ], InputNumberComponent.prototype, "label");
@@ -130,6 +170,9 @@ var InputNumberComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputNumberComponent.prototype, "type");
+    __decorate([
+        core_1.Input()
+    ], InputNumberComponent.prototype, "defaultValue");
     __decorate([
         core_1.Input()
     ], InputNumberComponent.prototype, "optional");

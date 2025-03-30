@@ -16,6 +16,7 @@ export class InputNumberComponent implements OnInit {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() type: string = '';
+  @Input() defaultValue: string = '';
   @Input() optional: boolean = false;
   @Output() inputValue = new EventEmitter<{ value: string, valid: boolean }>();
 
@@ -33,6 +34,9 @@ export class InputNumberComponent implements OnInit {
     if (!this.optional) {
       this.input.setValidators([Validators.required]);
     }
+    if(this.defaultValue){
+      this.input.setValue(this.defaultValue);
+    }
     this.setValidators();
   }
 
@@ -41,6 +45,8 @@ export class InputNumberComponent implements OnInit {
       this.input.setValidators([Validators.required, this.phoneNumberValidator]);
     } else if (this.type === 'number' && !this.optional) {
       this.input.setValidators([Validators.required, this.moneyValidator]);
+    } else if (this.type === 'cpf' && !this.optional) {
+      this.input.setValidators([Validators.required, this.cpfValidator]);
     }
     this.input.updateValueAndValidity();
   }
@@ -57,6 +63,8 @@ export class InputNumberComponent implements OnInit {
       this.errorMessage.set('Número de telefone inválido. Digite todos os 11 dígitos.');
     } else if (this.input.hasError('invalidMoney')) {
       this.errorMessage.set('O valor deve ser maior que R$ 0,00.');
+    } else if (this.input.hasError('invalidCpf')) {
+      this.errorMessage.set('O CPF digitado está incorreto');
     } else {
       this.errorMessage.set('Erro genérico. Verifique o campo.');
     }
@@ -86,20 +94,48 @@ export class InputNumberComponent implements OnInit {
     return formattedValue;
   }
 
+  onCpfFormat(value: string): string {
+
+    let numeros = value.replace(/\D/g, '');
+    if (numeros.length > 11) {
+      numeros = numeros.substring(0, 11);
+    }
+    let formattedValue = numeros;
+
+    if (numeros.length > 3) {
+      formattedValue = `${numeros.substring(0, 3)}.${numeros.substring(3)}`;
+    }
+
+    if (numeros.length > 6) {
+      formattedValue = `${numeros.substring(0, 3)}.${numeros.substring(3, 6)}.${numeros.substring(6)}`;
+    }
+
+    if (numeros.length > 9) {
+      formattedValue = `${numeros.substring(0, 3)}.${numeros.substring(3, 6)}.${numeros.substring(6, 9)}-${numeros.substring(9)}`;
+    }
+
+    return formattedValue;
+  }
+
   onInputChange(event: Event) {
     if (this.type == 'number' && this.input.value) {
-      const inputElement = event.target as HTMLInputElement;
-      const formattedValue = this.decimalFormat(inputElement.value);
-      this.input.setValue(formattedValue, { emitEvent: false });
-      this.sendNumberInputHandler(formattedValue);
+        const inputElement = event.target as HTMLInputElement;
+        const formattedValue = this.decimalFormat(inputElement.value);
+        this.input.setValue(formattedValue, { emitEvent: false });
+        this.sendNumberInputHandler(formattedValue);
     } else if (this.type == 'tel' && this.input.value) {
-      const inputElement = event.target as HTMLInputElement;
-      const formattedValue = this.onPhoneInputChange(inputElement.value);
-      this.input.setValue(formattedValue, { emitEvent: false });
-      this.sendNumberInputHandler(formattedValue);
+        const inputElement = event.target as HTMLInputElement;
+        const formattedValue = this.onPhoneInputChange(inputElement.value);
+        this.input.setValue(formattedValue, { emitEvent: false });
+        this.sendNumberInputHandler(formattedValue);
+    } else if (this.type == 'cpf' && this.input.value) {
+        const inputElement = event.target as HTMLInputElement;
+        const formattedValue = this.onCpfFormat(inputElement.value);
+        this.input.setValue(formattedValue, { emitEvent: false });
+        this.sendNumberInputHandler(formattedValue);
     } else if (this.type == 'text' && this.input.value){
-      const inputElement = event.target as HTMLInputElement;
-      this.sendNumberInputHandler(inputElement.value);
+        const inputElement = event.target as HTMLInputElement;
+        this.sendNumberInputHandler(inputElement.value);
     } else if (this.optional && !this.input.value){
         this.sendNumberInputHandler("");
     }
@@ -122,6 +158,14 @@ export class InputNumberComponent implements OnInit {
     const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
     if (rawValue.length !== 11) {
       return { invalidPhone: true };
+    }
+    return null;
+  }
+
+  cpfValidator(control: AbstractControl): ValidationErrors | null {
+    const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+    if (rawValue.length !== 11) {
+      return { invalidCpf: true };
     }
     return null;
   }

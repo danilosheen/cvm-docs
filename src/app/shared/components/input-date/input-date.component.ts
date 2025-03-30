@@ -22,13 +22,22 @@ import { MY_FORMATS } from './formats';
 })
 export class InputDateComponent {
   @Input() label = '';
+  @Input() optional = false;
   @Output() inputDate = new EventEmitter();
 
-  readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
+  input: FormControl = new FormControl('');
+
+  // readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
   errorMessage: WritableSignal<string> = signal('');
 
   constructor() {
     this.input.valueChanges.subscribe(() => this.updateErrorMessage());
+  }
+
+  ngOnInit(): void {
+    if (!this.optional) {
+      this.input.setValidators([Validators.required]);
+    }
   }
 
   updateErrorMessage() {

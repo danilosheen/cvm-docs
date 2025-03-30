@@ -19,11 +19,18 @@ var InputDateComponent = /** @class */ (function () {
     function InputDateComponent() {
         var _this = this;
         this.label = '';
+        this.optional = false;
         this.inputDate = new core_1.EventEmitter();
-        this.input = new forms_1.FormControl('', { validators: [forms_1.Validators.required], nonNullable: true });
+        this.input = new forms_1.FormControl('');
+        // readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
         this.errorMessage = core_1.signal('');
         this.input.valueChanges.subscribe(function () { return _this.updateErrorMessage(); });
     }
+    InputDateComponent.prototype.ngOnInit = function () {
+        if (!this.optional) {
+            this.input.setValidators([forms_1.Validators.required]);
+        }
+    };
     InputDateComponent.prototype.updateErrorMessage = function () {
         if (this.input.hasError('required')) {
             this.errorMessage.set('Este campo não pode ser vazio.');
@@ -48,6 +55,9 @@ var InputDateComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputDateComponent.prototype, "label");
+    __decorate([
+        core_1.Input()
+    ], InputDateComponent.prototype, "optional");
     __decorate([
         core_1.Output()
     ], InputDateComponent.prototype, "inputDate");
