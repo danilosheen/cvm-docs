@@ -44,7 +44,7 @@ mat-form-field{
 }
 
 table{
-  margin: 10px 20px 40px 20px;
+  margin: 10px auto 40px auto;
 }
 
 table, th, td {
@@ -55,7 +55,7 @@ table, th, td {
 
 th{
   text-align: center;
-  padding: 0;
+  padding: 0 5px;
 }
 
 td{
