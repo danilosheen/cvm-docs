@@ -75,7 +75,7 @@ export class DialogFromMenu {
   valid: boolean[] = [];
 
   constructor(){
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       this.valid.push(false);
     }
   }
@@ -105,11 +105,10 @@ export class DialogFromMenu {
 
   updateDocumentoDependenteHandler(value: IInput){
     this.documento = value.value;
-    this.valid[1] = value.valid;
   }
 
   updateAssentoDependenteHandler(value: IInput){
     this.assento = value.value;
-    this.valid[2] = value.valid;
+    this.valid[1] = value.valid;
   }
 }

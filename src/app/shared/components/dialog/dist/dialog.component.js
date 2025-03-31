@@ -62,7 +62,7 @@ var DialogFromMenu = /** @class */ (function () {
         this.assento = '';
         this.dependentes = [];
         this.valid = [];
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 2; i++) {
             this.valid.push(false);
         }
     }
@@ -88,11 +88,10 @@ var DialogFromMenu = /** @class */ (function () {
     };
     DialogFromMenu.prototype.updateDocumentoDependenteHandler = function (value) {
         this.documento = value.value;
-        this.valid[1] = value.valid;
     };
     DialogFromMenu.prototype.updateAssentoDependenteHandler = function (value) {
         this.assento = value.value;
-        this.valid[2] = value.valid;
+        this.valid[1] = value.valid;
     };
     DialogFromMenu = __decorate([
         core_1.Component({
