@@ -45,14 +45,14 @@ mat-form-field{
 
 table{
   margin: 10px auto 40px auto;
+  width: 90%;
+  max-width: 600px;
 }
 
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
   padding-left: 10px;
-  width: 90%;
-  max-width: 600px;
 }
 
 th{
