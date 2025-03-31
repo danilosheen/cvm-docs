@@ -136,8 +136,27 @@
       (inputValue)="updateDataVencimentoHandler($event)"
     ></app-input-number>
     <!-- dependentes -->
-
   </form>
+
+  @if (fichaExcursaoData.dependentes.length) {
+    <table style="border: 1px solid black;">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Documento</th>
+          <th>Assento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dependente of fichaExcursaoData.dependentes; index as i">
+          <td>{{ dependente.nome }}</td>
+          <td>{{ dependente.documento }}</td>
+          <td class="center">{{ dependente.assento }}</td>
+        </tr>
+      </tbody>
+    </table>
+  }
+
   <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
     <ng-container *ngIf="loading; else btnText">
       <div class="button-loading">
@@ -149,5 +168,9 @@
       Gerar PDF
     </ng-template>
   </button>
+  <app-dialog
+    class="button-add-dependentes"
+    (sendDependente)="updateDependentesHandler($event)"
+  ></app-dialog>
 </div>
 <app-footer></app-footer>

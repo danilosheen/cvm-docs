@@ -36,3 +36,35 @@ mat-form-field{
   justify-content: center;
   gap: 5px;
 }
+
+.button-add-dependentes{
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+}
+
+table{
+  margin: 10px 20px 40px 20px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding-left: 10px;
+}
+
+th{
+  text-align: center;
+  padding: 0;
+}
+
+td{
+  width: 40%;
+  text-align: center;
+  padding: 5px;
+}
+
+.center{
+  text-align: center;
+  width: 20% !important;
+}

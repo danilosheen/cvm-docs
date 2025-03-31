@@ -1,3 +1,5 @@
+import { IDependente } from "./i-dependente"
+
 export interface IFichaExcursao {
   excursaoPara: string,
   localSaida: string,
@@ -24,5 +26,5 @@ export interface IFichaExcursao {
   valorParcelas: string,
   qtdParcelas: string,
   dataPagamentoParcela: string,
-  dependentes: []
+  dependentes: IDependente[]
 }

@@ -1,0 +1,25 @@
+<mat-dialog-content>
+  Prencha os campos para adicionar o dependente
+</mat-dialog-content>
+<div class="container-inputs">
+  <app-input-text
+    [label]="'Informe o nome do dependente'"
+    [placeholder]="'ex: Crairton de Matos Leite'"
+    (inputValue)="updateNomeDependenteHandler($event)"
+  ></app-input-text>
+  <app-input-number
+    [label]="'Informe o CPF do dependente'"
+    [type]="'cpf'"
+    [optional]="true"
+    (inputValue)="updateDocumentoDependenteHandler($event)"
+  ></app-input-number>
+  <app-input-number
+    [label]="'Informe o assento'"
+    [type]="'text'"
+    (inputValue)="updateAssentoDependenteHandler($event)"
+  ></app-input-number>
+</div>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [disabled]="!isValid()" (click)="adicionarDependente(nome, documento, assento)">Adicionar</button>
+</mat-dialog-actions>

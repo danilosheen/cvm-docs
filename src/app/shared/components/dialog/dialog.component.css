@@ -1,0 +1,35 @@
+.button-add{
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  background-color: #005cbb !important;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50%;
+  border: none;
+}
+
+.container-inputs{
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mat-mdc-form-field{
+  width: 100%;
+}
+
+.mat-mdc-button{
+  padding: 0 !important;
+}
+
+.mat-mdc-button>.mat-icon{
+  margin-right: 0 !important;
+}
+

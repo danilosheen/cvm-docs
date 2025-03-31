@@ -1,0 +1,20 @@
+<button
+  [matMenuTriggerFor]="menu"
+  #menuTrigger
+  class="button-add"
+  aria-label="Botão adicionar dependente"
+  matTooltip="Adicionar dependentes"
+  [matTooltipPosition]="'left'"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    aria-label="Botão adicionar dependente"
+    matTooltip="Adicionar dependentes"
+    [matTooltipPosition]="'left'"
+    (click)="openDialog()">
+      Adicionar dependentes
+  </button>
+</mat-menu>

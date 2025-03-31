@@ -8,11 +8,15 @@ import { InputTextComponent } from "../../shared/components/input-text/input-tex
 import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
 import { InputDateComponent } from "../../shared/components/input-date/input-date.component";
 import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { InputNumberComponent } from "../../shared/components/input-number/input-number.component";
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { InputCheckboxComponent } from "../../shared/components/input-checkbox/input-checkbox.component";
 import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DialogComponent } from "../../shared/components/dialog/dialog.component";
+import { IDependente } from '../../interfaces/i-dependente';
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -20,6 +24,7 @@ import { InputRadioComponent } from "../../shared/components/input-radio/input-r
     NavbarComponent,
     FooterComponent,
     NgIf,
+    NgFor,
     MatButtonModule,
     InputTextComponent,
     InputAutocompleteComponent,
@@ -27,7 +32,8 @@ import { InputRadioComponent } from "../../shared/components/input-radio/input-r
     InputTimeComponent,
     InputNumberComponent,
     InputCheckboxComponent,
-    InputRadioComponent
+    InputRadioComponent,
+    DialogComponent
 ],
   templateUrl: './ficha-excursao.component.html',
   styleUrl: './ficha-excursao.component.css'
@@ -37,7 +43,8 @@ export class FichaExcursaoComponent {
   loading: boolean = false;
   errorMessage = signal('');
   valid: boolean[] = [];
-  cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"]
+  showModalDependente: boolean = false;
+  cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
   hospedagens: string[] = ['Casa de praia', 'Pousada', 'Hotel'];
 
   fichaExcursaoData: IFichaExcursao = {
@@ -66,7 +73,7 @@ export class FichaExcursaoComponent {
     valorParcelas: '',
     qtdParcelas: '',
     dataPagamentoParcela: '',
-    dependentes:[]
+    dependentes: []
     };
 
   constructor(private pdfFichaExcursao: FichaExcursaoService) {
@@ -122,13 +129,36 @@ export class FichaExcursaoComponent {
     }
 
     camposValidos(): boolean{
-      console.log(this.valid)
+      if(this.fichaExcursaoData.valorIntegralExcursao && this.fichaExcursaoData.qtdParcelas){
+        this.atualizaValorParcela(this.fichaExcursaoData.valorIntegralExcursao, this.fichaExcursaoData.qtdParcelas, this.fichaExcursaoData.entradaParcelamento);
+      }
+
       for (let i of this.valid){
         if (i == false){
           return false
         }
       }
       return true
+    }
+
+    atualizaValorParcela(valorIntegral: string, qtdParcelas: string, entrada: string) {
+      const valorIntegralLimpo = valorIntegral.replace(/\./g, '').replace(',', '.');
+      const valorEntradalLimpo = entrada.replace(/\./g, '').replace(',', '.');
+      const intValorIntegral = parseFloat(valorIntegralLimpo);
+      const intValorEntrada = parseFloat(valorEntradalLimpo) || 0;
+      const intQtdParcelas = parseFloat(qtdParcelas);
+      const valorParcela = (intValorIntegral - intValorEntrada) / intQtdParcelas;
+      const valorFormatado = new Intl.NumberFormat('pt-BR', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(valorParcela);
+
+      this.fichaExcursaoData.valorParcelas = valorFormatado;
+    }
+
+    toggleModalDependente(){
+      this.showModalDependente = !this.showModalDependente
     }
 
     updateExcursaoParaHandler(value: IInput) {
@@ -234,5 +264,9 @@ export class FichaExcursaoComponent {
     updateDataVencimentoHandler(value: IInput) {
       this.fichaExcursaoData.dataPagamentoParcela = value.value;
       this.valid[16] = (value.valid);
+    }
+    updateDependentesHandler(value: IDependente){
+      this.fichaExcursaoData.dependentes.push(value);
+      console.log(this.fichaExcursaoData.dependentes)
     }
 }

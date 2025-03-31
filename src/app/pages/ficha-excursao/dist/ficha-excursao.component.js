@@ -19,12 +19,14 @@ var input_number_component_1 = require("../../shared/components/input-number/inp
 var button_1 = require("@angular/material/button");
 var input_checkbox_component_1 = require("../../shared/components/input-checkbox/input-checkbox.component");
 var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
+var dialog_component_1 = require("../../shared/components/dialog/dialog.component");
 var FichaExcursaoComponent = /** @class */ (function () {
     function FichaExcursaoComponent(pdfFichaExcursao) {
         this.pdfFichaExcursao = pdfFichaExcursao;
         this.loading = false;
         this.errorMessage = core_1.signal('');
         this.valid = [];
+        this.showModalDependente = false;
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
         this.hospedagens = ['Casa de praia', 'Pousada', 'Hotel'];
         this.fichaExcursaoData = {
@@ -104,7 +106,9 @@ var FichaExcursaoComponent = /** @class */ (function () {
         }
     };
     FichaExcursaoComponent.prototype.camposValidos = function () {
-        console.log(this.valid);
+        if (this.fichaExcursaoData.valorIntegralExcursao && this.fichaExcursaoData.qtdParcelas) {
+            this.atualizaValorParcela(this.fichaExcursaoData.valorIntegralExcursao, this.fichaExcursaoData.qtdParcelas, this.fichaExcursaoData.entradaParcelamento);
+        }
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {
             var i = _a[_i];
             if (i == false) {
@@ -112,6 +116,23 @@ var FichaExcursaoComponent = /** @class */ (function () {
             }
         }
         return true;
+    };
+    FichaExcursaoComponent.prototype.atualizaValorParcela = function (valorIntegral, qtdParcelas, entrada) {
+        var valorIntegralLimpo = valorIntegral.replace(/\./g, '').replace(',', '.');
+        var valorEntradalLimpo = entrada.replace(/\./g, '').replace(',', '.');
+        var intValorIntegral = parseFloat(valorIntegralLimpo);
+        var intValorEntrada = parseFloat(valorEntradalLimpo) || 0;
+        var intQtdParcelas = parseFloat(qtdParcelas);
+        var valorParcela = (intValorIntegral - intValorEntrada) / intQtdParcelas;
+        var valorFormatado = new Intl.NumberFormat('pt-BR', {
+            style: 'decimal',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(valorParcela);
+        this.fichaExcursaoData.valorParcelas = valorFormatado;
+    };
+    FichaExcursaoComponent.prototype.toggleModalDependente = function () {
+        this.showModalDependente = !this.showModalDependente;
     };
     FichaExcursaoComponent.prototype.updateExcursaoParaHandler = function (value) {
         this.fichaExcursaoData.excursaoPara = value.value.toUpperCase();
@@ -197,6 +218,10 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.fichaExcursaoData.dataPagamentoParcela = value.value;
         this.valid[16] = (value.valid);
     };
+    FichaExcursaoComponent.prototype.updateDependentesHandler = function (value) {
+        this.fichaExcursaoData.dependentes.push(value);
+        console.log(this.fichaExcursaoData.dependentes);
+    };
     FichaExcursaoComponent = __decorate([
         core_1.Component({
             selector: 'app-ficha-excursao',
@@ -204,6 +229,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 navbar_component_1.NavbarComponent,
                 footer_component_1.FooterComponent,
                 common_1.NgIf,
+                common_1.NgFor,
                 button_1.MatButtonModule,
                 input_text_component_1.InputTextComponent,
                 input_autocomplete_component_1.InputAutocompleteComponent,
@@ -211,7 +237,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 input_time_component_1.InputTimeComponent,
                 input_number_component_1.InputNumberComponent,
                 input_checkbox_component_1.InputCheckboxComponent,
-                input_radio_component_1.InputRadioComponent
+                input_radio_component_1.InputRadioComponent,
+                dialog_component_1.DialogComponent
             ],
             templateUrl: './ficha-excursao.component.html',
             styleUrl: './ficha-excursao.component.css'
