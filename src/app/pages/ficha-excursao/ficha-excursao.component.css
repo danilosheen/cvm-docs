@@ -68,3 +68,8 @@ td{
   text-align: center;
   width: 20% !important;
 }
+
+.title-table{
+  text-align: center;
+  margin-bottom: 20px;
+}

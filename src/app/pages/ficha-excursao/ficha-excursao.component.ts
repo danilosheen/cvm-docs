@@ -69,7 +69,7 @@ export class FichaExcursaoComponent {
     servicos: [],
     tipoDeHospedagem: '',
     valorIntegralExcursao: '',
-    entradaParcelamento: '',
+    entradaParcelamento: '0,00',
     valorParcelas: '',
     qtdParcelas: '',
     dataPagamentoParcela: '',
