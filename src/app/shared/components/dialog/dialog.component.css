@@ -11,6 +11,7 @@
   height: 50px !important;
   border-radius: 50%;
   border: none;
+  cursor: pointer;
 }
 
 .container-inputs{
