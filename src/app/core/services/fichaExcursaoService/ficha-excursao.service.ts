@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class FichaExcursaoService {
 
-   private apiUrl = 'http://localhost:3000/api/pdf/ficha-excursao';
-      // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/ficha-excursao';
+  //  private apiUrl = 'http://localhost:3000/api/pdf/ficha-excursao';
+      private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/ficha-excursao';
 
       constructor(private http: HttpClient) {}
 
