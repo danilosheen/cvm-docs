@@ -7,19 +7,35 @@
     [placeholder]="'ex: Crairton de Matos Leite'"
     (inputValue)="updateNomeDependenteHandler($event)"
   ></app-input-text>
+  <app-input-radio
+    [label]="'Selecione o tipo de documento'"
+    [listItems]="typesDocument"
+    [dropdown]="false"
+    [defaultValue]="'CPF'"
+    (selectedValue)="updateDocumentSelectedHandler($event)"
+  ></app-input-radio>
+  @if (typeDocumentSelected == 'CPF') {
+    <app-input-number
+      [label]="'Informe o CPF do dependente'"
+      [type]="'cpf'"
+      [optional]="true"
+      (inputValue)="updateDocumentoDependenteHandler($event)"
+    ></app-input-number>
+  } @else {
+    <app-input-number
+      [label]="'Informe o RG do dependente'"
+      [type]="'text'"
+      [optional]="true"
+      (inputValue)="updateDocumentoDependenteHandler($event)"
+    ></app-input-number>
+  }
   <app-input-number
-    [label]="'Informe o CPF do dependente'"
-    [type]="'cpf'"
-    [optional]="true"
-    (inputValue)="updateDocumentoDependenteHandler($event)"
-  ></app-input-number>
-  <app-input-number
-    [label]="'Informe o assento'"
+    [label]="'Informe a poltrona'"
     [type]="'text'"
-    (inputValue)="updateAssentoDependenteHandler($event)"
+    (inputValue)="updatePoltronaDependenteHandler($event)"
   ></app-input-number>
 </div>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button [disabled]="!isValid()" (click)="adicionarDependente(nome, documento, assento)">Adicionar</button>
+  <button mat-button [disabled]="!isValid()" (click)="adicionarDependente(nome, documento, poltrona)">Adicionar</button>
 </mat-dialog-actions>

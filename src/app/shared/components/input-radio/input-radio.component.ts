@@ -19,12 +19,12 @@ export class InputRadioComponent {
 
   @Input() label = '';
   @Input() listItems: string[] = [];
+  @Input() defaultValue: string = '';
+  @Input() expanded: boolean = false;
+  @Input() dropdown: boolean = true;
   @Output() selectedValue = new EventEmitter();
 
-  tipoHospedagem: string = '';
-
   onSelectionChange(item: string){
-    console.log(item)
     if(item){
       this.selectedValue.emit({value: item, valid: true})
     }

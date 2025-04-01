@@ -15,11 +15,12 @@ var InputRadioComponent = /** @class */ (function () {
     function InputRadioComponent() {
         this.label = '';
         this.listItems = [];
+        this.defaultValue = '';
+        this.expanded = false;
+        this.dropdown = true;
         this.selectedValue = new core_1.EventEmitter();
-        this.tipoHospedagem = '';
     }
     InputRadioComponent.prototype.onSelectionChange = function (item) {
-        console.log(item);
         if (item) {
             this.selectedValue.emit({ value: item, valid: true });
         }
@@ -30,6 +31,15 @@ var InputRadioComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputRadioComponent.prototype, "listItems");
+    __decorate([
+        core_1.Input()
+    ], InputRadioComponent.prototype, "defaultValue");
+    __decorate([
+        core_1.Input()
+    ], InputRadioComponent.prototype, "expanded");
+    __decorate([
+        core_1.Input()
+    ], InputRadioComponent.prototype, "dropdown");
     __decorate([
         core_1.Output()
     ], InputRadioComponent.prototype, "selectedValue");

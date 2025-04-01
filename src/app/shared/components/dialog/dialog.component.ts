@@ -12,11 +12,12 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InputTextComponent } from "../input-text/input-text.component";
 import { InputNumberComponent } from "../input-number/input-number.component";
 import { IInput } from '../../../interfaces/i-handlerInput';
+import { InputRadioComponent } from "../input-radio/input-radio.component";
 
 @Component({
   selector: 'app-dialog',
@@ -60,7 +61,8 @@ export class DialogComponent {
     MatDialogContent,
     MatDialogActions,
     InputTextComponent,
-    InputNumberComponent
+    InputNumberComponent,
+    InputRadioComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -70,9 +72,12 @@ export class DialogFromMenu {
 
   nome: string = '';
   documento: string = '';
-  assento: string = '';
+  poltrona: string = '';
   dependentes: object[] = [];
   valid: boolean[] = [];
+  typesDocument: string[] = ['CPF', 'RG']
+  typeDocumentSelected: string = 'CPF';
+
 
   constructor(){
     for (let i = 0; i < 2; i++) {
@@ -84,8 +89,8 @@ export class DialogFromMenu {
     this.dialogRef.close();
   }
 
-  adicionarDependente(nome: string, documento: string, assento: string){
-    const novoDependente = { nome, documento, assento };
+  adicionarDependente(nome: string, documento: string, poltrona: string){
+    const novoDependente = { nome, documento, poltrona };
     this.dialogRef.close(novoDependente);
   }
 
@@ -104,11 +109,20 @@ export class DialogFromMenu {
   }
 
   updateDocumentoDependenteHandler(value: IInput){
-    this.documento = value.value;
+    if(value.value == ''){
+      this.documento = 'Não informado.'
+    } else{
+      this.documento = value.value;
+    }
   }
 
-  updateAssentoDependenteHandler(value: IInput){
-    this.assento = value.value;
+  updateDocumentSelectedHandler(value: IInput){
+    console.log(this.typeDocumentSelected)
+    this.typeDocumentSelected = value.value
+  }
+
+  updatePoltronaDependenteHandler(value: IInput){
+    this.poltrona = value.value;
     this.valid[1] = value.valid;
   }
 }

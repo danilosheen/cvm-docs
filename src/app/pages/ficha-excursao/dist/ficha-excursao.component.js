@@ -220,7 +220,6 @@ var FichaExcursaoComponent = /** @class */ (function () {
     };
     FichaExcursaoComponent.prototype.updateDependentesHandler = function (value) {
         this.fichaExcursaoData.dependentes.push(value);
-        console.log(this.fichaExcursaoData.dependentes);
     };
     FichaExcursaoComponent = __decorate([
         core_1.Component({

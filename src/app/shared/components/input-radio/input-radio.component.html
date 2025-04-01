@@ -1,20 +1,25 @@
 <section class="section">
+  @if (dropdown) {
   <mat-accordion>
-    <!-- expanded="true" option -->
-    <mat-expansion-panel>
+    <mat-expansion-panel expanded="{{expanded}}">
       <mat-expansion-panel-header>
         <mat-panel-title> {{label}} </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-radio-group
-        aria-labelledby="radio-group-label"
-        class="radio-group"
-        [(ngModel)]="tipoHospedagem"
-        (change)="onSelectionChange(tipoHospedagem)"
-        >
+      <mat-radio-group aria-labelledby="radio-group-label" class="radio-group" [(ngModel)]="defaultValue"
+        (change)="onSelectionChange(defaultValue)">
         @for (item of listItems; track item) {
           <mat-radio-button class="radio-button" [value]="item">{{item}}</mat-radio-button>
-      }
-</mat-radio-group>
+        }
+      </mat-radio-group>
     </mat-expansion-panel>
   </mat-accordion>
+  } @else {
+    <h2>{{label}}</h2>
+    <mat-radio-group aria-labelledby="radio-group-label" class="radio-group radio-flex" [(ngModel)]="defaultValue"
+    (change)="onSelectionChange(defaultValue)">
+    @for (item of listItems; track item) {
+      <mat-radio-button class="radio-button" [value]="item">{{item}}</mat-radio-button>
+    }
+  </mat-radio-group>
+  }
 </section>

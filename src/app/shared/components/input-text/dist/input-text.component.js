@@ -18,10 +18,10 @@ var InputTextComponent = /** @class */ (function () {
         var _this = this;
         this.label = '';
         this.placeholder = '';
+        this.defaultValue = '';
         this.formControlName = '';
         this.optional = false;
         this.inputValue = new core_1.EventEmitter();
-        // readonly input = new FormControl('', this.optional ? [] : [Validators.required]);
         this.errorMessage = core_1.signal('');
         this.input = new forms_1.FormControl('');
         rxjs_1.merge(this.input.statusChanges, this.input.valueChanges)
@@ -32,16 +32,8 @@ var InputTextComponent = /** @class */ (function () {
         if (!this.optional) {
             this.input.setValidators([forms_1.Validators.required]);
         }
-        // this.setValidators();
+        this.input.setValue(this.defaultValue);
     };
-    // setValidators(): void {
-    //   if (!this.optional) {
-    //     this.input.setValidators([Validators.required]);
-    //   } else {
-    //     this.input.setValidators([Validators.required, this.moneyValidator]);
-    //   }
-    //   this.input.updateValueAndValidity();
-    // }
     InputTextComponent.prototype.updateErrorMessage = function () {
         if (this.input.hasError('required') && !this.optional) {
             this.errorMessage.set('Este campo não pode ser vazio.');
@@ -60,6 +52,9 @@ var InputTextComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputTextComponent.prototype, "placeholder");
+    __decorate([
+        core_1.Input()
+    ], InputTextComponent.prototype, "defaultValue");
     __decorate([
         core_1.Input()
     ], InputTextComponent.prototype, "formControlName");

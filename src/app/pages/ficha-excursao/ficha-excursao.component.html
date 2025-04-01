@@ -145,14 +145,14 @@
         <tr>
           <th>Nome</th>
           <th>Documento</th>
-          <th>Assento</th>
+          <th>Poltrona</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let dependente of fichaExcursaoData.dependentes; index as i">
           <td>{{ dependente.nome }}</td>
           <td>{{ dependente.documento }}</td>
-          <td class="center">{{ dependente.assento }}</td>
+          <td class="center">{{ dependente.poltrona }}</td>
         </tr>
       </tbody>
     </table>

@@ -18,6 +18,7 @@ var menu_1 = require("@angular/material/menu");
 var tooltip_1 = require("@angular/material/tooltip");
 var input_text_component_1 = require("../input-text/input-text.component");
 var input_number_component_1 = require("../input-number/input-number.component");
+var input_radio_component_1 = require("../input-radio/input-radio.component");
 var DialogComponent = /** @class */ (function () {
     function DialogComponent() {
         this.sendDependente = new core_1.EventEmitter();
@@ -59,9 +60,11 @@ var DialogFromMenu = /** @class */ (function () {
         this.dialogRef = core_1.inject(dialog_1.MatDialogRef());
         this.nome = '';
         this.documento = '';
-        this.assento = '';
+        this.poltrona = '';
         this.dependentes = [];
         this.valid = [];
+        this.typesDocument = ['CPF', 'RG'];
+        this.typeDocumentSelected = 'CPF';
         for (var i = 0; i < 2; i++) {
             this.valid.push(false);
         }
@@ -69,8 +72,8 @@ var DialogFromMenu = /** @class */ (function () {
     DialogFromMenu.prototype.onNoClick = function () {
         this.dialogRef.close();
     };
-    DialogFromMenu.prototype.adicionarDependente = function (nome, documento, assento) {
-        var novoDependente = { nome: nome, documento: documento, assento: assento };
+    DialogFromMenu.prototype.adicionarDependente = function (nome, documento, poltrona) {
+        var novoDependente = { nome: nome, documento: documento, poltrona: poltrona };
         this.dialogRef.close(novoDependente);
     };
     DialogFromMenu.prototype.isValid = function () {
@@ -87,10 +90,19 @@ var DialogFromMenu = /** @class */ (function () {
         this.valid[0] = value.valid;
     };
     DialogFromMenu.prototype.updateDocumentoDependenteHandler = function (value) {
-        this.documento = value.value;
+        if (value.value == '') {
+            this.documento = 'Não informado.';
+        }
+        else {
+            this.documento = value.value;
+        }
     };
-    DialogFromMenu.prototype.updateAssentoDependenteHandler = function (value) {
-        this.assento = value.value;
+    DialogFromMenu.prototype.updateDocumentSelectedHandler = function (value) {
+        console.log(this.typeDocumentSelected);
+        this.typeDocumentSelected = value.value;
+    };
+    DialogFromMenu.prototype.updatePoltronaDependenteHandler = function (value) {
+        this.poltrona = value.value;
         this.valid[1] = value.valid;
     };
     DialogFromMenu = __decorate([
@@ -106,7 +118,8 @@ var DialogFromMenu = /** @class */ (function () {
                 dialog_1.MatDialogContent,
                 dialog_1.MatDialogActions,
                 input_text_component_1.InputTextComponent,
-                input_number_component_1.InputNumberComponent
+                input_number_component_1.InputNumberComponent,
+                input_radio_component_1.InputRadioComponent
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush
         })

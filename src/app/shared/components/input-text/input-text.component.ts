@@ -17,11 +17,10 @@ export class InputTextComponent implements OnInit{
 
   @Input() label: string = '';
   @Input() placeholder: string = '';
+  @Input() defaultValue: string = '';
   @Input() formControlName: string = '';
   @Input() optional: boolean = false;
   @Output() inputValue = new EventEmitter();
-
-  // readonly input = new FormControl('', this.optional ? [] : [Validators.required]);
 
   errorMessage = signal('');
   input: FormControl;
@@ -37,17 +36,8 @@ export class InputTextComponent implements OnInit{
     if (!this.optional) {
       this.input.setValidators([Validators.required]);
     }
-    // this.setValidators();
+    this.input.setValue(this.defaultValue);
   }
-
-  // setValidators(): void {
-  //   if (!this.optional) {
-  //     this.input.setValidators([Validators.required]);
-  //   } else {
-  //     this.input.setValidators([Validators.required, this.moneyValidator]);
-  //   }
-  //   this.input.updateValueAndValidity();
-  // }
 
   updateErrorMessage() {
     if (this.input.hasError('required') && !this.optional) {

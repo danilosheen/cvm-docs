@@ -267,6 +267,5 @@ export class FichaExcursaoComponent {
     }
     updateDependentesHandler(value: IDependente){
       this.fichaExcursaoData.dependentes.push(value);
-      console.log(this.fichaExcursaoData.dependentes)
     }
 }
