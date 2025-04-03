@@ -73,8 +73,10 @@ var DialogFromMenu = /** @class */ (function () {
         this.dialogRef.close();
     };
     DialogFromMenu.prototype.adicionarDependente = function (nome, documento, poltrona) {
-        var novoDependente = { nome: nome, documento: documento, poltrona: poltrona };
-        this.dialogRef.close(novoDependente);
+        if (this.isValid()) {
+            var novoDependente = { nome: nome, documento: documento, poltrona: poltrona };
+            this.dialogRef.close(novoDependente);
+        }
     };
     DialogFromMenu.prototype.isValid = function () {
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {

@@ -37,5 +37,9 @@
 </div>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button [disabled]="!isValid()" (click)="adicionarDependente(nome, documento, poltrona)">Adicionar</button>
+  <button mat-button
+  [disabled]="!isValid()"
+  (click)="adicionarDependente(nome, documento, poltrona)"
+  (window:keydown.enter)="adicionarDependente(nome, documento, poltrona)"
+  >Adicionar</button>
 </mat-dialog-actions>

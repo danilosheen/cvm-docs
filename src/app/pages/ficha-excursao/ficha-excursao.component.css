@@ -43,6 +43,11 @@ mat-form-field{
   bottom: 50px;
 }
 
+.button-delete{
+  color: red;
+  cursor: pointer;
+}
+
 table{
   margin: 10px auto 40px auto;
   width: 90%;

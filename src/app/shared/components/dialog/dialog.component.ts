@@ -90,8 +90,10 @@ export class DialogFromMenu {
   }
 
   adicionarDependente(nome: string, documento: string, poltrona: string){
-    const novoDependente = { nome, documento, poltrona };
-    this.dialogRef.close(novoDependente);
+    if(this.isValid()){
+      const novoDependente = { nome, documento, poltrona };
+      this.dialogRef.close(novoDependente);
+    }
   }
 
   isValid(){

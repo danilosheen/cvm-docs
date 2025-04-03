@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { FichaExcursaoService } from '../../core/services/fichaExcursaoService/ficha-excursao.service';
@@ -15,8 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { InputCheckboxComponent } from "../../shared/components/input-checkbox/input-checkbox.component";
 import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DialogComponent } from "../../shared/components/dialog/dialog.component";
+import { DialogComponent, DialogFromMenu } from "../../shared/components/dialog/dialog.component";
 import { IDependente } from '../../interfaces/i-dependente';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -25,6 +27,7 @@ import { IDependente } from '../../interfaces/i-dependente';
     FooterComponent,
     NgIf,
     NgFor,
+    MatIconModule,
     MatButtonModule,
     InputTextComponent,
     InputAutocompleteComponent,
@@ -40,6 +43,7 @@ import { IDependente } from '../../interfaces/i-dependente';
 })
 export class FichaExcursaoComponent {
 
+  readonly dialog = inject(MatDialog);
   loading: boolean = false;
   errorMessage = signal('');
   valid: boolean[] = [];
@@ -94,7 +98,7 @@ export class FichaExcursaoComponent {
             const link = document.createElement('a');
             const date = new Date();
             link.href = pdfUrl;
-            link.download = `Ficha de Excursão CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+            link.download = `Ficha de Excursão CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
             link.click();
             this.loading = false;
             window.scrollTo({
@@ -155,6 +159,20 @@ export class FichaExcursaoComponent {
       }).format(valorParcela);
 
       this.fichaExcursaoData.valorParcelas = valorFormatado;
+    }
+
+    openDialog(enterAnimationDuration: string, exitAnimationDuration: string, i: number): void {
+      const dialogRef = this.dialog.open(DialogGenericComponent, {
+        width: '250px',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.fichaExcursaoData.dependentes.splice(i, 1);
+        }
+      });
     }
 
     toggleModalDependente(){

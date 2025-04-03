@@ -17,12 +17,16 @@ var input_time_component_1 = require("../../shared/components/input-time/input-t
 var common_1 = require("@angular/common");
 var input_number_component_1 = require("../../shared/components/input-number/input-number.component");
 var button_1 = require("@angular/material/button");
+var icon_1 = require("@angular/material/icon");
 var input_checkbox_component_1 = require("../../shared/components/input-checkbox/input-checkbox.component");
 var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
 var dialog_component_1 = require("../../shared/components/dialog/dialog.component");
+var dialog_1 = require("@angular/material/dialog");
+var dialog_generic_component_1 = require("../../shared/components/dialog-generic/dialog-generic.component");
 var FichaExcursaoComponent = /** @class */ (function () {
     function FichaExcursaoComponent(pdfFichaExcursao) {
         this.pdfFichaExcursao = pdfFichaExcursao;
+        this.dialog = core_1.inject(dialog_1.MatDialog);
         this.loading = false;
         this.errorMessage = core_1.signal('');
         this.valid = [];
@@ -73,7 +77,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
             var link = document.createElement('a');
             var date = new Date();
             link.href = pdfUrl;
-            link.download = "Ficha de Excurs\u00E3o CVM - " + nomeClienteFormated + " " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = "Ficha de Excurs\u00E3o CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
             link.click();
             _this.loading = false;
             window.scrollTo({
@@ -130,6 +134,19 @@ var FichaExcursaoComponent = /** @class */ (function () {
             maximumFractionDigits: 2
         }).format(valorParcela);
         this.fichaExcursaoData.valorParcelas = valorFormatado;
+    };
+    FichaExcursaoComponent.prototype.openDialog = function (enterAnimationDuration, exitAnimationDuration, i) {
+        var _this = this;
+        var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
+            width: '250px',
+            enterAnimationDuration: enterAnimationDuration,
+            exitAnimationDuration: exitAnimationDuration
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result) {
+                _this.fichaExcursaoData.dependentes.splice(i, 1);
+            }
+        });
     };
     FichaExcursaoComponent.prototype.toggleModalDependente = function () {
         this.showModalDependente = !this.showModalDependente;
@@ -229,6 +246,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 footer_component_1.FooterComponent,
                 common_1.NgIf,
                 common_1.NgFor,
+                icon_1.MatIconModule,
                 button_1.MatButtonModule,
                 input_text_component_1.InputTextComponent,
                 input_autocomplete_component_1.InputAutocompleteComponent,

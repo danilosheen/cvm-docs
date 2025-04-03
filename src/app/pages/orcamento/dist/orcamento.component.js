@@ -58,7 +58,7 @@ var OrcamentoComponent = /** @class */ (function () {
             var link = document.createElement('a');
             var date = new Date();
             link.href = pdfUrl;
-            link.download = "Or\u00E7. CVM - " + nomeClienteFormated + " " + date.getFullYear() + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = "Or\u00E7. CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
             link.click();
             _this.loading = false;
             window.scrollTo({

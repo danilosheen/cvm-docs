@@ -146,6 +146,7 @@
           <th>Nome</th>
           <th>Documento</th>
           <th>Poltrona</th>
+          <th>Ação</th>
         </tr>
       </thead>
       <tbody>
@@ -153,6 +154,14 @@
           <td>{{ dependente.nome }}</td>
           <td>{{ dependente.documento }}</td>
           <td class="center">{{ dependente.poltrona }}</td>
+          <td>
+            <span
+              class="material-symbols-outlined button-delete"
+              (click)="openDialog('0ms', '0ms', i)"
+            >delete
+            </span>
+            <!-- <mat-icon class="button-delete" (click)="openDialog('0ms', '0ms', i)" aria-hidden="false" fontIcon="delete"></mat-icon> -->
+          </td>
         </tr>
       </tbody>
     </table>

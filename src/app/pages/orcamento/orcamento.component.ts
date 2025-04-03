@@ -77,7 +77,7 @@ export class OrcamentoComponent{
           const link = document.createElement('a');
           const date = new Date();
           link.href = pdfUrl;
-          link.download = `Orç. CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = `Orç. CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
           link.click();
           this.loading = false;
           window.scrollTo({
