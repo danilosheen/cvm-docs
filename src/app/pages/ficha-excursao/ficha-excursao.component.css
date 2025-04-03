@@ -54,15 +54,33 @@ table{
   max-width: 600px;
 }
 
-table, th, td {
-  border: 1px solid black;
+/* table, th, td {
+  border: 1px solid #a1a1a1;
   border-collapse: collapse;
   padding-left: 10px;
+} */
+
+table{
+  /* border: 1px solid #a1a1a1; */
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #d3d3d3;
+  border-collapse: collapse;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #eeeded;
 }
 
 th{
   text-align: center;
-  padding: 0 5px;
+  padding: 5px 5px;
+  background-color: #3f3f3f;
+  color: white;
+  font-weight: 500;
 }
 
 td{
