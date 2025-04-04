@@ -67,12 +67,12 @@ table{
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #d3d3d3;
+  background-color: #eeeded;
   border-collapse: collapse;
 }
 
 tbody tr:nth-child(even) {
-  background-color: #eeeded;
+  background-color: #d3d3d3;
 }
 
 th{

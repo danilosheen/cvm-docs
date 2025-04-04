@@ -9,6 +9,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root{
   --text-blue: #005cbb;
+  --text-black: #3f3f3f;
 }
 
 .container{

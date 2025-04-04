@@ -2,7 +2,7 @@
   position: fixed;
   right: 20px;
   bottom: 50px;
-  background-color: #005cbb !important;
+  background-color: #3f3f3f !important;
   color: white;
   display: flex;
   justify-content: center;
@@ -32,5 +32,9 @@
 
 .mat-mdc-button>.mat-icon{
   margin-right: 0 !important;
+}
+
+.cdk-overlay-connected-position-bounding-box{
+  margin-bottom: 10px !important;
 }
 
