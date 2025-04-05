@@ -10,6 +10,7 @@ export interface IOrcamento {
   valorComDespesa: string;
   valorSemDespesa: string;
   valorComNota: string;
+  taxaPix: string;
   modeloVan?: string;
   cortesiaKm?: string;
   valorAcrescimoKm?: string;

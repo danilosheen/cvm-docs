@@ -9,10 +9,10 @@ exports.__esModule = true;
 exports.OrcamentoPDFService = void 0;
 var core_1 = require("@angular/core");
 var OrcamentoPDFService = /** @class */ (function () {
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/orcamento';
     function OrcamentoPDFService(http) {
         this.http = http;
-        // private apiUrl = 'http://localhost:3000/api/pdf/orcamento';
-        this.apiUrl = 'https://backend-cvm.vercel.app/api/pdf/orcamento';
+        this.apiUrl = 'http://localhost:3000/api/pdf/orcamento';
     }
     OrcamentoPDFService.prototype.generatePDF = function (data) {
         return this.http.post(this.apiUrl, data, { responseType: 'blob' });

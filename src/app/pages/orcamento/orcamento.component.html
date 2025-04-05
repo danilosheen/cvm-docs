@@ -90,6 +90,14 @@
       (inputValue)="updateValorComNotaHandler($event)"
     ></app-input-number>
 
+    <!-- Taxa do PIX -->
+    <app-input-number
+      [type]="'text'"
+      [label]="'Taxa do PIX'"
+      [defaultValue]="'6'"
+      (inputValue)="updateTaxaPixHandler($event)"
+    ></app-input-number>
+
     <!-- modelo van -->
     <app-input-text
       [label]="'Detalhes do veículo'"

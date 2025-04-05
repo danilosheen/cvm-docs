@@ -37,6 +37,7 @@ var OrcamentoComponent = /** @class */ (function () {
             valorComDespesa: '',
             valorSemDespesa: '',
             valorComNota: '',
+            taxaPix: '',
             modeloVan: '',
             cortesiaKm: '',
             valorAcrescimoKm: ''
@@ -44,7 +45,7 @@ var OrcamentoComponent = /** @class */ (function () {
         this.valid = [];
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
         //inicializando o array de campos válidos
-        for (var i = 0; i < 11; i++) {
+        for (var i = 0; i <= 11; i++) {
             this.valid.push(false);
         }
     }
@@ -143,6 +144,10 @@ var OrcamentoComponent = /** @class */ (function () {
     OrcamentoComponent.prototype.updateValorComNotaHandler = function (value) {
         this.orcamentoData.valorComNota = value.value;
         this.valid[10] = (value.valid);
+    };
+    OrcamentoComponent.prototype.updateTaxaPixHandler = function (value) {
+        this.orcamentoData.taxaPix = value.value;
+        this.valid[11] = (value.valid);
     };
     OrcamentoComponent.prototype.updateModeloVanHandler = function (value) {
         this.orcamentoData.modeloVan = value.value;

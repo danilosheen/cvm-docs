@@ -52,6 +52,7 @@ export class OrcamentoComponent{
     valorComDespesa: '',
     valorSemDespesa: '',
     valorComNota: '',
+    taxaPix:'',
     modeloVan: '',
     cortesiaKm: '',
     valorAcrescimoKm: '',
@@ -61,7 +62,7 @@ export class OrcamentoComponent{
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
     //inicializando o array de campos válidos
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i <= 11; i++) {
       this.valid.push(false)
     }
   }
@@ -174,6 +175,11 @@ export class OrcamentoComponent{
   updateValorComNotaHandler(value: IInput) {
     this.orcamentoData.valorComNota = value.value;
     this.valid[10] = (value.valid);
+  }
+
+  updateTaxaPixHandler(value: IInput){
+    this.orcamentoData.taxaPix = value.value;
+    this.valid[11] = (value.valid);
   }
 
   updateModeloVanHandler(value: IInput) {
