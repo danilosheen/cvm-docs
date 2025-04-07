@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from "../../shared/components/footer/footer.component";
+import { ButtonCardComponent } from "../../shared/components/button-card/button-card.component";
 @Component({
   selector: 'app-home',
   imports: [
@@ -13,7 +14,8 @@ import { FooterComponent } from "../../shared/components/footer/footer.component
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
-    FooterComponent
+    FooterComponent,
+    ButtonCardComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
