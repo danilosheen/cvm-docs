@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal, OnInit, HostListener, SimpleChanges } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,6 +40,15 @@ export class InputNumberComponent implements OnInit {
     }
     this.setValidators();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  if (changes['defaultValue'] && changes['defaultValue'].currentValue !== undefined) {
+    this.input.setValue(this.defaultValue);
+    this.input.markAsPristine();
+    this.input.markAsUntouched();
+    this.input.updateValueAndValidity();
+  }
+}
 
   setValidators(): void {
     if (this.type === 'tel' && !this.optional) {

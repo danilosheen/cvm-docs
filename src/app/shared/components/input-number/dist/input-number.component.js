@@ -38,6 +38,14 @@ var InputNumberComponent = /** @class */ (function () {
         }
         this.setValidators();
     };
+    InputNumberComponent.prototype.ngOnChanges = function (changes) {
+        if (changes['defaultValue'] && changes['defaultValue'].currentValue !== undefined) {
+            this.input.setValue(this.defaultValue);
+            this.input.markAsPristine();
+            this.input.markAsUntouched();
+            this.input.updateValueAndValidity();
+        }
+    };
     InputNumberComponent.prototype.setValidators = function () {
         if (this.type === 'tel' && !this.optional) {
             this.input.setValidators([forms_1.Validators.required, this.phoneNumberValidator]);

@@ -1,12 +1,78 @@
-.content{
+.container{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 300px);
+  min-height: calc(100vh - 300px);
+  max-width: 600px;
+  margin: 50px auto;
+}
+.content{
+  width: 100%;
 }
 
-.content img{
-  width: 80%;
-  max-width: 500px;
+.container-button-adicionar{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.container-button-gerar{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+table{
+  margin: 10px auto 40px auto;
+  width: 90%;
+  max-width: 600px;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eeeded;
+  border-collapse: collapse;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #d3d3d3;
+}
+
+th{
+  text-align: center;
+  padding: 5px 5px;
+  background-color: #3f3f3f;
+  color: white;
+  font-weight: 500;
+}
+
+td{
+  width: 40%;
+  text-align: center;
+  padding: 5px;
+}
+
+.center{
+  text-align: center;
+  width: 20% !important;
+}
+
+.title-table{
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.button-delete{
+  color: red;
+  cursor: pointer;
+}
+
+.button-loading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }

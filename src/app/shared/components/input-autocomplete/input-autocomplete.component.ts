@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
@@ -19,6 +19,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 export class InputAutocompleteComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
+  @Input() defaultValue: string = '';
   @Input() errorMessage = '';
   @Input() options: string[] = [];
   @Output() inputValue = new EventEmitter();
@@ -31,6 +32,19 @@ export class InputAutocompleteComponent {
   constructor() {
     this.filteredOptions = this.options.slice();
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['defaultValue']) {
+      this.inputControl.setValue(this.defaultValue);
+      this.inputControl.markAsPristine();
+      this.inputControl.markAsUntouched();
+      this.inputControl.updateValueAndValidity();
+      if(this.defaultValue == ''){
+        this.filteredOptions = [];
+      }
+    }
+  }
+
 
   filter(): void {
     const filterValue = this.input.nativeElement.value.toLowerCase();

@@ -1,7 +1,67 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="content">
-    <img src="/assets/developing.jpg" alt="">
+    <app-input-autocomplete
+      [options]="arrayNomeClientes"
+      [label]="'Nome do passageiro'"
+      [defaultValue]="passageiro.nome"
+      (inputValue)="updateNomeHandler($event)"
+    ></app-input-autocomplete>
+    <!-- <img src="/assets/developing.jpg" alt=""> -->
+    <app-input-number
+      [type]="'text'"
+      [label]="'Documento de porte'"
+      [defaultValue]="passageiro.documento"
+      (inputValue)="updateDocumentoHandler($event)"
+    ></app-input-number>
+    <div class="container-button-adicionar">
+      <button [disabled]="!camposValidos()" (click)="adicionarPassageiro()" class="button-adicionar" mat-flat-button>
+        Adicionar passageiro
+      </button>
+    </div>
+
+    @if (listaPassageiros.length) {
+      <h2 class="title-table">Lista de Passageiros</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nº</th>
+            <th>Passageiro</th>
+            <th>Documento de porte</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let passageiro of listaPassageiros; index as i">
+            <td class="center">{{ i+1 }}</td>
+            <td>{{ passageiro.nome }}</td>
+            <td>{{ passageiro.documento }}</td>
+            <td>
+              <span
+                class="material-symbols-outlined button-delete"
+                (click)="openDialog('0ms', '0ms', i)"
+              >delete
+              </span>
+              <!-- <mat-icon class="button-delete" (click)="openDialog('0ms', '0ms', i)" aria-hidden="false" fontIcon="delete"></mat-icon> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    }
+
+    <div class="container-button-gerar">
+      <button [disabled]="!listaPassageiros.length" class="button-gerar" mat-flat-button (click)="onSubmit()">
+        <ng-container *ngIf="loading; else btnText">
+          <div class="button-loading">
+            <img class="loading" src="./assets/loading.gif" alt="Carregando">
+            <p>Gerando PDF</p>
+          </div>
+        </ng-container>
+        <ng-template #btnText>
+          Gerar PDF
+        </ng-template>
+      </button>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>

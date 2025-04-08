@@ -16,11 +16,12 @@ var ClienteService = /** @class */ (function () {
         return clientes;
     };
     ClienteService.prototype.saveClient = function (cliente, allClientes) {
-        console.log(cliente, allClientes);
         var clienteExiste = allClientes.some(function (c) { return c.nome === cliente.nome; });
         if (!clienteExiste) {
             var clientes = JSON.parse(localStorage.getItem("clientes") || '[]');
             clientes.push(cliente);
+            // Ordena por nome em ordem alfabética (case-insensitive)
+            clientes.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' }); });
             localStorage.setItem("clientes", JSON.stringify(clientes));
             return clientes;
         }

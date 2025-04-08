@@ -16,12 +16,24 @@ var InputAutocompleteComponent = /** @class */ (function () {
     function InputAutocompleteComponent() {
         this.label = '';
         this.placeholder = '';
+        this.defaultValue = '';
         this.errorMessage = '';
         this.options = [];
         this.inputValue = new core_1.EventEmitter();
         this.inputControl = new forms_1.FormControl('');
         this.filteredOptions = this.options.slice();
     }
+    InputAutocompleteComponent.prototype.ngOnChanges = function (changes) {
+        if (changes['defaultValue']) {
+            this.inputControl.setValue(this.defaultValue);
+            this.inputControl.markAsPristine();
+            this.inputControl.markAsUntouched();
+            this.inputControl.updateValueAndValidity();
+            if (this.defaultValue == '') {
+                this.filteredOptions = [];
+            }
+        }
+    };
     InputAutocompleteComponent.prototype.filter = function () {
         var filterValue = this.input.nativeElement.value.toLowerCase();
         this.filteredOptions = this.options.filter(function (o) { return o.toLowerCase().includes(filterValue); });
@@ -41,6 +53,9 @@ var InputAutocompleteComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputAutocompleteComponent.prototype, "placeholder");
+    __decorate([
+        core_1.Input()
+    ], InputAutocompleteComponent.prototype, "defaultValue");
     __decorate([
         core_1.Input()
     ], InputAutocompleteComponent.prototype, "errorMessage");
