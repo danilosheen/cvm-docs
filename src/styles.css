@@ -20,3 +20,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .loading{
   width: 30px;
 }
+
+.cdk-overlay-connected-position-bounding-box{
+  margin-bottom: 10px !important;
+}
