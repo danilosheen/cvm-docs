@@ -19,6 +19,8 @@ import { DialogComponent, DialogFromMenu } from "../../shared/components/dialog/
 import { IDependente } from '../../interfaces/i-dependente';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
+import { ICliente } from '../../interfaces/i-cliente';
+import { ClienteService } from '../../core/services/clienteService/cliente.service';
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -50,6 +52,8 @@ export class FichaExcursaoComponent {
   showModalDependente: boolean = false;
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
   hospedagens: string[] = ['Casa de praia', 'Pousada', 'Hotel'];
+  clienteService = inject(ClienteService);
+  clientes: ICliente[] = [];
 
   fichaExcursaoData: IFichaExcursao = {
     excursaoPara: '',
@@ -60,9 +64,9 @@ export class FichaExcursaoComponent {
     horaRetorno: '',
     cliente: {
       nome:'',
-      dataNascimento: '',
+      dataNascimento: 'Não informado',
       contato: '',
-      cpf: '',
+      cpf: 'Não informado',
       endereco: {
         cidade: '',
         bairro: '',
@@ -85,6 +89,8 @@ export class FichaExcursaoComponent {
       for (let i = 0; i <= 16; i++) {
         this.valid.push(false)
       }
+
+      this.clientes = this.clienteService.getAllClients();
     }
 
   onSubmit() {
@@ -92,7 +98,8 @@ export class FichaExcursaoComponent {
       this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
         .subscribe(
           (pdfBlob) => {
-            console.log(this.fichaExcursaoData)
+            this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
+            this.clienteService.getAllClients();
             const nomeClienteFormated = this.formatNomeCliente();
             const pdfUrl = URL.createObjectURL(pdfBlob);
             const link = document.createElement('a');
@@ -118,6 +125,20 @@ export class FichaExcursaoComponent {
             }
           }
         );
+    }
+
+    filtraDados(dadosFichaExcursao: IFichaExcursao){
+      return {
+        nome: dadosFichaExcursao.cliente.nome,
+        dataNascimento: dadosFichaExcursao.cliente.dataNascimento,
+        contato: dadosFichaExcursao.cliente.contato,
+        cpf: dadosFichaExcursao.cliente.cpf,
+        documento: dadosFichaExcursao.cliente.cpf,
+        cidade: dadosFichaExcursao.cliente.endereco.cidade,
+        bairro: dadosFichaExcursao.cliente.endereco.bairro,
+        rua: dadosFichaExcursao.cliente.endereco.rua,
+        numero: dadosFichaExcursao.cliente.endereco.numero,
+      }
     }
 
     formatNomeCliente(){
@@ -215,7 +236,9 @@ export class FichaExcursaoComponent {
     }
 
     updateDataNascimentoHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.dataNascimento = value.value;
+      if(value.value != 'NaN/NaN/NaN'){
+        this.fichaExcursaoData.cliente.dataNascimento = value.value;
+      }
     }
 
     updateContatoHandler(value: IInput) {
@@ -224,7 +247,9 @@ export class FichaExcursaoComponent {
     }
 
     updateCpfHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.cpf = value.value;
+      if(value.value){
+        this.fichaExcursaoData.cliente.cpf = value.value;
+      }
     }
 
     updateCidadeHandler(value: IInput) {
