@@ -76,7 +76,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
             .subscribe(function (pdfBlob) {
             _this.clienteService.saveClient(_this.filtraDados(_this.fichaExcursaoData), _this.clientes);
-            _this.clienteService.getAllClients();
+            _this.clientes = _this.clienteService.getAllClients();
             var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');

@@ -99,7 +99,7 @@ export class FichaExcursaoComponent {
         .subscribe(
           (pdfBlob) => {
             this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
-            this.clienteService.getAllClients();
+            this.clientes = this.clienteService.getAllClients();
             const nomeClienteFormated = this.formatNomeCliente();
             const pdfUrl = URL.createObjectURL(pdfBlob);
             const link = document.createElement('a');
