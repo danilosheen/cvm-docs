@@ -1,26 +1,105 @@
 <app-navbar></app-navbar>
 <div class="container">
+  <h2 class="title-lista-passageiros">
+    Preencha os campos para gerar uma nova lista de passageiros
+  </h2>
   <div class="content">
+    <!-- Número do carro -->
+    <app-input-number
+      [label]="'Número do carro'"
+      [defaultValue]="'25152001'"
+      [placeholder]="'ex: 25152001'"
+      (inputValue)="updateNumeroCarroHandler($event)"
+    ></app-input-number>
+
+    <!-- Placa do carro -->
+    <app-input-number
+      [label]="'Placa do carro'"
+      [defaultValue]="'OSQ1619'"
+      [placeholder]="'ex: OSQ1619'"
+      (inputValue)="updatePlacaHandler($event)"
+    ></app-input-number>
+
+    <!-- Motorista -->
+    <app-input-autocomplete
+      [label]="'Motorista'"
+      [options]="motoristas"
+      [errorMessage]="'Selecione o motorista da viagem'"
+      (inputValue)="updateMotoristaHandler($event)"
+    ></app-input-autocomplete>
+
+    <!-- Oridem -->
+    <app-input-autocomplete
+      [label]="'Local de saída'"
+      [options]="cidades"
+      [errorMessage]="'Selecione o local de saída'"
+      (inputValue)="updateLocalSaidaHandler($event)"
+    ></app-input-autocomplete>
+
+    <!-- Destino -->
+    <app-input-text
+      [label]="'Destino da viagem'"
+      [placeholder]="'ex: Canoa Quebrada'"
+      (inputValue)="updateDestinoHandler($event)"
+    ></app-input-text>
+
+    <!-- Data de saída -->
+    <app-input-date
+      [label]="'Data de saída'"
+      (inputDate)="updateDataSaidaHandler($event)"
+    ></app-input-date>
+
+    <!-- Hora de saída -->
+    <app-input-time
+      [label]="'Hora de saída'"
+      (inputTime)="updateHoraSaidaHandler($event)"
+    ></app-input-time>
+
+    <!-- Data de retorno -->
+    <app-input-date
+      [label]="'Data de saída'"
+      (inputDate)="updateDataRetornoHandler($event)"
+    ></app-input-date>
+
+    <!-- Hora de retorno -->
+    <app-input-time
+      [label]="'Hora de saída'"
+      (inputTime)="updateHoraRetornoHandler($event)"
+    ></app-input-time>
+
+    <!-- Extensão do roteiro -->
+    <app-input-number
+      [label]="'Extensão do roteiro em (KM)'"
+      [optional]="true"
+      (inputValue)="updateExtensaoKmHandler($event)"
+    ></app-input-number>
+
+    <h3 class="title-passageiros">Inserir passageiros</h3>
+
+    <!-- Nome do passageiro -->
     <app-input-autocomplete
       [options]="arrayNomeClientes"
       [label]="'Nome do passageiro'"
       [defaultValue]="passageiro.nome"
+      [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeHandler($event)"
     ></app-input-autocomplete>
-    <!-- <img src="/assets/developing.jpg" alt=""> -->
+
+    <!-- Documento do passageiro -->
     <app-input-number
       [type]="'text'"
       [label]="'Documento de porte'"
       [defaultValue]="passageiro.documento"
       (inputValue)="updateDocumentoHandler($event)"
     ></app-input-number>
+
     <div class="container-button-adicionar">
       <button [disabled]="!camposValidos()" (click)="adicionarPassageiro()" class="button-adicionar" mat-flat-button>
         Adicionar passageiro
       </button>
     </div>
 
-    @if (listaPassageiros.length) {
+    @if (listaPassageiros.passageiros.length) {
       <h2 class="title-table">Lista de Passageiros</h2>
       <table>
         <thead>
@@ -32,7 +111,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let passageiro of listaPassageiros; index as i">
+          <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
             <td class="center">{{ i+1 }}</td>
             <td>{{ passageiro.nome }}</td>
             <td>{{ passageiro.documento }}</td>
@@ -50,7 +129,7 @@
     }
 
     <div class="container-button-gerar">
-      <button [disabled]="!listaPassageiros.length" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <button [disabled]="!canGerarPdf()" class="button-gerar" mat-flat-button (click)="onSubmit()">
         <ng-container *ngIf="loading; else btnText">
           <div class="button-loading">
             <img class="loading" src="./assets/loading.gif" alt="Carregando">

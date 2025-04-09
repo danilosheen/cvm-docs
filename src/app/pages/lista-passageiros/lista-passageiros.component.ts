@@ -12,6 +12,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { ListaPassageirosService } from '../../core/services/listaPassageirosService/lista-passageiros.service';
+import { InputTextComponent } from "../../shared/components/input-text/input-text.component";
+import { InputDateComponent } from "../../shared/components/input-date/input-date.component";
+import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
+import { IListaPassageiros } from '../../interfaces/i-listaPassageiros';
 
 @Component({
   selector: 'app-lista-passageiros',
@@ -22,8 +26,11 @@ import { ListaPassageirosService } from '../../core/services/listaPassageirosSer
     InputNumberComponent,
     MatButtonModule,
     NgIf,
-    NgFor
-  ],
+    NgFor,
+    InputTextComponent,
+    InputDateComponent,
+    InputTimeComponent
+],
   templateUrl: './lista-passageiros.component.html',
   styleUrl: './lista-passageiros.component.css'
 })
@@ -33,20 +40,35 @@ export class ListaPassageirosComponent {
   clienteService = inject(ClienteService);
   clientes = this.clienteService.getAllClients();
   arrayNomeClientes: string[] = [];
-  listaPassageiros: IPassageiro[] = [];
+  listaPassageiros: IListaPassageiros = {
+    numeroCarro: '',
+    placa: '',
+    motorista: '',
+    origem: '',
+    destino: '',
+    dataSaida: '',
+    horaSaida: '',
+    dataRetorno: '',
+    horaRetorno: '',
+    extensaoRoteiroKm: '',
+    passageiros: [
+    ]
+  };
   passageiro: IPassageiro = {
     nome: '',
     documento: ''
   };
   valid: boolean[] = [];
   loading = false;
+  motoristas: string[] = ["Crairton", "Claudiney"];
+  cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
 
   constructor(private pdfListaPassageiros: ListaPassageirosService){
     this.clientes.forEach(element => {
       this.arrayNomeClientes.push(element.nome)
     });
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i <= 10; i++) {
       this.valid.push(false)
     }
   }
@@ -57,12 +79,12 @@ export class ListaPassageirosComponent {
     this.pdfListaPassageiros.generatePDF(this.listaPassageiros)
       .subscribe(
         (pdfBlob) => {
-          const nomeDestinoFormated = this.formatNomeDestino();
+          // const nomeDestinoFormated = this.formatNomeDestino();
           const pdfUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
           const date = new Date();
           link.href = pdfUrl;
-          link.download = `Orç. CVM - ${nomeDestinoFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = `Lista de passageiros CVM - ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
           link.click();
           this.loading = false;
           window.scrollTo({
@@ -93,47 +115,100 @@ export class ListaPassageirosComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.listaPassageiros.splice(i, 1);
+        this.listaPassageiros.passageiros.splice(i, 1);
       }
     });
   }
 
-  adicionarPassageiro(): void{
-    this.listaPassageiros.push(this.passageiro);
+  adicionarPassageiro(): void {
+    this.listaPassageiros.passageiros.push(this.passageiro);
     this.passageiro = {nome: '', documento: ''};
     this.resetArrayValid();
   }
 
-  camposValidos(): boolean{
-    for (let i of this.valid){
-      if (i == false){
+  camposValidos(): boolean {
+    for (let i = 9; i < this.valid.length; i++){
+      if (this.valid[i] == false){
         return false;
       }
     }
     return true;
   }
 
+  camposViagemPreenchidos(): boolean {
+    for (let i = 0; i < 9; i++){
+      if (this.valid[i] == false){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  canGerarPdf(): boolean{
+    if(this.listaPassageiros.passageiros.length && this.camposViagemPreenchidos()){
+      return true
+    }
+    return false
+  }
+
   resetArrayValid(): void{
-    for(let i = 0; i < this.valid.length; i++){
+    for(let i = 9; i < this.valid.length; i++){
       this.valid[i] = false;
     }
   }
 
-  formatNomeDestino(){
-    // try {
-    //   const nome = `${this.fichaExcursaoData.cliente.nome.split(" ")[0]}`;
-    //   const index = this.fichaExcursaoData.cliente.nome.split(" ")[1].toLocaleLowerCase() === "de" || this.fichaExcursaoData.cliente.nome.split(" ")[1].toLocaleLowerCase() === "da" ? 2 : 1;
-    //   const sobrenome = `${this.fichaExcursaoData.cliente.nome.split(" ")[index]}`;
-    //   const nomeClienteFormated = `${nome} ${sobrenome}`;
-    //   return nomeClienteFormated
-    // } catch (error) {
-    //   return `${this.fichaExcursaoData.cliente.nome.split(" ")[0]}`;
-    // }
+  updateNumeroCarroHandler(value: IInput){
+    this.listaPassageiros.numeroCarro = value.value
+    this.valid[0] = value.valid;
+  }
+
+  updatePlacaHandler(value: IInput){
+    this.listaPassageiros.placa = value.value
+    this.valid[1] = value.valid;
+  }
+
+  updateMotoristaHandler(value: IInput){
+    this.listaPassageiros.motorista = value.value
+    this.valid[2] = value.valid;
+  }
+
+  updateLocalSaidaHandler(value: IInput){
+    this.listaPassageiros.origem = value.value
+    this.valid[3] = value.valid;
+  }
+
+  updateDestinoHandler(value: IInput){
+    this.listaPassageiros.destino = value.value
+    this.valid[4] = value.valid;
+  }
+
+  updateDataSaidaHandler(value: IInput){
+    this.listaPassageiros.dataSaida = value.value
+    this.valid[5] = value.valid;
+  }
+
+  updateHoraSaidaHandler(value: IInput){
+    this.listaPassageiros.horaSaida = value.value
+    this.valid[6] = value.valid;
+  }
+
+  updateDataRetornoHandler(value: IInput){
+    this.listaPassageiros.dataRetorno = value.value
+    this.valid[7] = value.valid;
+  }
+
+  updateHoraRetornoHandler(value: IInput){
+    this.listaPassageiros.horaRetorno = value.value
+    this.valid[8] = value.valid;
+  }
+
+  updateExtensaoKmHandler(value: IInput){
+    this.passageiro.documento = value.value
   }
 
   updateNomeHandler(value: IInput){
     this.passageiro.nome = value.value;
-    this.valid[0] = value.valid;
+    this.valid[9] = value.valid;
     this.clientes.forEach(element => {
       if(this.passageiro.nome == element.nome && (element.documento && element.documento != 'Não informado')){
         this.updateDocumentoHandler({ value: element.documento, valid: true});
@@ -143,6 +218,6 @@ export class ListaPassageirosComponent {
 
   updateDocumentoHandler(value: IInput){
     this.passageiro.documento = value.value
-    this.valid[1] = value.valid;
+    this.valid[10] = value.valid;
   }
 }
