@@ -203,7 +203,7 @@ export class ListaPassageirosComponent {
   }
 
   updateExtensaoKmHandler(value: IInput){
-    this.passageiro.documento = value.value
+    this.listaPassageiros.extensaoRoteiroKm = value.value
   }
 
   updateNomeHandler(value: IInput){

@@ -168,7 +168,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.valid[8] = value.valid;
     };
     ListaPassageirosComponent.prototype.updateExtensaoKmHandler = function (value) {
-        this.passageiro.documento = value.value;
+        this.listaPassageiros.extensaoRoteiroKm = value.value;
     };
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
         var _this = this;
