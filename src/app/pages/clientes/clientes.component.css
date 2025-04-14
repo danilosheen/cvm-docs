@@ -1,0 +1,23 @@
+.container-table-clientes{
+  width: 80%;
+  margin: 0px auto;
+  padding: 30px 0;
+  min-height: calc(100vh - 165px);
+}
+
+.container-actions-table{
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tabela-scroll{
+  /* overflow: hidden; */
+  overflow-x: auto;
+  width: 100%;
+}
+
+mat-paginator{
+  margin-top: 30px;
+}
