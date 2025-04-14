@@ -16,8 +16,24 @@ var router_1 = require("@angular/router");
 var footer_component_1 = require("../../shared/components/footer/footer.component");
 var button_card_component_1 = require("../../shared/components/button-card/button-card.component");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+    function HomeComponent(authService, clienteService, router) {
+        this.authService = authService;
+        this.clienteService = clienteService;
+        this.router = router;
+        this.clientes = [];
+        if (this.authService.getToken()) {
+            this.getClientes();
+        }
+        else {
+            this.router.navigate(["/"]);
+        }
     }
+    HomeComponent.prototype.getClientes = function () {
+        var _this = this;
+        this.clienteService.getAll().subscribe(function (result) {
+            _this.clientes = result;
+        });
+    };
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'app-home',
