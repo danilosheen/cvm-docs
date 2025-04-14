@@ -21,6 +21,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 30px;
 }
 
+.icon-red{
+  color: red;
+  cursor: pointer;
+}
+
 .cdk-overlay-connected-position-bounding-box{
   margin-bottom: 10px !important;
 }
+
