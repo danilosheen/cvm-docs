@@ -187,6 +187,10 @@ export class FichaExcursaoComponent {
         width: '250px',
         enterAnimationDuration,
         exitAnimationDuration,
+        data: {
+          dialogTitle: 'Remover dependente',
+          dialogContent: 'Você tem certeza que deseja remover o dependente?',
+        }
       });
 
       dialogRef.afterClosed().subscribe((result: boolean) => {

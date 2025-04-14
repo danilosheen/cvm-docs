@@ -158,7 +158,11 @@ var FichaExcursaoComponent = /** @class */ (function () {
         var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
             width: '250px',
             enterAnimationDuration: enterAnimationDuration,
-            exitAnimationDuration: exitAnimationDuration
+            exitAnimationDuration: exitAnimationDuration,
+            data: {
+                dialogTitle: 'Remover dependente',
+                dialogContent: 'Você tem certeza que deseja remover o dependente?'
+            }
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
