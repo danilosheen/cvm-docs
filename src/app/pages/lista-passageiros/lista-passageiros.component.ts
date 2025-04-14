@@ -3,7 +3,6 @@ import { NavbarComponent } from "../../shared/components/navbar/navbar.component
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
-import { ICliente } from '../../interfaces/i-cliente';
 import { InputNumberComponent } from "../../shared/components/input-number/input-number.component";
 import { IInput } from '../../interfaces/i-handlerInput';
 import { IPassageiro } from '../../interfaces/i-passageiro';
@@ -16,6 +15,8 @@ import { InputTextComponent } from "../../shared/components/input-text/input-tex
 import { InputDateComponent } from "../../shared/components/input-date/input-date.component";
 import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
 import { IListaPassageiros } from '../../interfaces/i-listaPassageiros';
+import { AuthService } from '../../core/services/authService/auth-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-passageiros',
@@ -63,7 +64,16 @@ export class ListaPassageirosComponent {
   motoristas: string[] = ["Crairton", "Claudiney"];
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
 
-  constructor(private pdfListaPassageiros: ListaPassageirosService){
+  constructor(
+    private pdfListaPassageiros: ListaPassageirosService,
+    private authService: AuthService,
+    private router: Router
+  ){
+
+    if(!this.authService.getToken()){
+      this.router.navigate(["/"]);
+    }
+
     this.clientes.forEach(element => {
       this.arrayNomeClientes.push(element.nome)
     });
@@ -111,6 +121,10 @@ export class ListaPassageirosComponent {
       width: '250px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {
+        dialogTitle: 'Remover passageiro',
+        dialogContent: 'Você tem certeza que deseja remover o passageiro?',
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

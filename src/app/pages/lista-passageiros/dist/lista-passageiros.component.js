@@ -21,9 +21,11 @@ var input_text_component_1 = require("../../shared/components/input-text/input-t
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
 var ListaPassageirosComponent = /** @class */ (function () {
-    function ListaPassageirosComponent(pdfListaPassageiros) {
+    function ListaPassageirosComponent(pdfListaPassageiros, authService, router) {
         var _this = this;
         this.pdfListaPassageiros = pdfListaPassageiros;
+        this.authService = authService;
+        this.router = router;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
         this.clientes = this.clienteService.getAllClients();
@@ -49,6 +51,9 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.loading = false;
         this.motoristas = ["Crairton", "Claudiney"];
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
+        if (!this.authService.getToken()) {
+            this.router.navigate(["/"]);
+        }
         this.clientes.forEach(function (element) {
             _this.arrayNomeClientes.push(element.nome);
         });
@@ -91,7 +96,11 @@ var ListaPassageirosComponent = /** @class */ (function () {
         var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
             width: '250px',
             enterAnimationDuration: enterAnimationDuration,
-            exitAnimationDuration: exitAnimationDuration
+            exitAnimationDuration: exitAnimationDuration,
+            data: {
+                dialogTitle: 'Remover passageiro',
+                dialogContent: 'Você tem certeza que deseja remover o passageiro?'
+            }
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {

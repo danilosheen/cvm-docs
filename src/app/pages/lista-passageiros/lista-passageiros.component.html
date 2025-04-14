@@ -117,12 +117,7 @@
             <td>{{ passageiro.nome }}</td>
             <td>{{ passageiro.documento }}</td>
             <td>
-              <span
-                class="material-symbols-outlined button-delete"
-                (click)="openDialog('0ms', '0ms', i)"
-              >delete
-              </span>
-              <!-- <mat-icon class="button-delete" (click)="openDialog('0ms', '0ms', i)" aria-hidden="false" fontIcon="delete"></mat-icon> -->
+              <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span>
             </td>
           </tr>
         </tbody>
