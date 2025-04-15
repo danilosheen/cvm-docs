@@ -220,8 +220,9 @@ export class ListaPassageirosComponent {
     this.listaPassageiros.extensaoRoteiroKm = value.value
   }
 
-  updateNomeHandler(value: IInput){
-    this.passageiro.nome = value.value;
+  updateNomeHandler(value: any){
+    this.passageiro.nome = value.value.nome;
+    const idSelected = value.value.id;
     this.valid[9] = value.valid;
     this.clientes.forEach(element => {
       if(this.passageiro.nome == element.nome && (element.documento && element.documento != 'Não informado')){

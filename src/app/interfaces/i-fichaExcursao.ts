@@ -8,16 +8,17 @@ export interface IFichaExcursao {
   dataRetorno: string,
   horaRetorno: string,
   cliente: {
+    id: string,
     nome: string,
-      dataNascimento: string,
-      contato: string,
-      cpf: string,
-      endereco: {
-        cidade: string,
-        bairro: string,
-        rua: string,
-        numero: string
-      }
+    dataNascimento: string,
+    contato: string,
+    cpf: string,
+    endereco: {
+      cidade: string,
+      bairro: string,
+      rua: string,
+      numero: string
+    }
   },
   servicos: string[],
   tipoDeHospedagem: string,

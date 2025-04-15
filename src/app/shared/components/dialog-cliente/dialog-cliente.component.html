@@ -1,0 +1,72 @@
+<div class="container-dialog-cliente">
+  <mat-dialog-content>
+    Prencha os campos para adicionar o cliente
+  </mat-dialog-content>
+  <div class="container-inputs">
+    <app-input-text
+      [label]="'Nome do cliente'"
+      [placeholder]="'ex: Crairton de Matos Leite'"
+      (inputValue)="updateNomeClienteHandler($event)"
+    ></app-input-text>
+    <app-input-date
+      [label]="'Data de nascimento'"
+      (inputDate)="updateDataNascimentoHandler($event)"
+    ></app-input-date>
+    <app-input-number
+      [label]="'Contato'"
+      [type]="'tel'"
+      (inputValue)="updateContatoHandler($event)"
+    ></app-input-number>
+    <app-input-radio
+      [label]="'Selecione o tipo de documento'"
+      [listItems]="typesDocument"
+      [dropdown]="false"
+      [defaultValue]="'CPF'"
+      (selectedValue)="updateDocumentSelectedHandler($event)"
+    ></app-input-radio>
+    @if (typeDocumentSelected == 'CPF') {
+      <app-input-number
+        [label]="'CPF do cliente'"
+        [type]="'cpf'"
+        [optional]="true"
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-number>
+    } @else {
+      <app-input-number
+        [label]="'RG do cliente'"
+        [type]="'text'"
+        [optional]="true"
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-number>
+    }
+    <app-input-text
+      [label]="'Cidade'"
+      [placeholder]="'ex: Juazeiro do Norte'"
+      (inputValue)="updateCidadeHandler($event)"
+    ></app-input-text>
+    <app-input-text
+      [label]="'Bairro'"
+      [placeholder]="'ex: Lagoa Seca'"
+      (inputValue)="updateBairroHandler($event)"
+    ></app-input-text>
+    <app-input-text
+      [label]="'Rua'"
+      [placeholder]="'ex: São Pedro'"
+      (inputValue)="updateRuaHandler($event)"
+    ></app-input-text>
+    <app-input-number
+      [label]="'Número'"
+      [type]="'text'"
+      [placeholder]="'ex: 37'"
+      (inputValue)="updateNumeroHandler($event)"
+    ></app-input-number>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button
+    [disabled]="!isValid()"
+    (click)="onClickHandler()"
+    (window:keydown.enter)="onClickHandler()"
+    >Adicionar</button>
+  </mat-dialog-actions>
+</div>

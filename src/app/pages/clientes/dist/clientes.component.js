@@ -19,6 +19,9 @@ var form_field_1 = require("@angular/material/form-field");
 var dialog_1 = require("@angular/material/dialog");
 var dialog_generic_component_1 = require("../../shared/components/dialog-generic/dialog-generic.component");
 var button_1 = require("@angular/material/button");
+var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
+var common_1 = require("@angular/common");
+var dialog_cliente_component_1 = require("../../shared/components/dialog-cliente/dialog-cliente.component");
 var ClientesComponent = /** @class */ (function () {
     function ClientesComponent(authService, clienteService) {
         this.authService = authService;
@@ -26,6 +29,7 @@ var ClientesComponent = /** @class */ (function () {
         this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'cpf', 'documento', 'acao'];
         this.clientes = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
+        this.dialogCliente = core_1.inject(dialog_1.MatDialog);
         this.dataSource = new table_1.MatTableDataSource();
     }
     ClientesComponent.prototype.ngAfterViewInit = function () {
@@ -70,7 +74,20 @@ var ClientesComponent = /** @class */ (function () {
             }
         });
     };
-    ClientesComponent.prototype.adicionarCliente = function () {
+    ClientesComponent.prototype.adicionarCliente = function (enterAnimationDuration, exitAnimationDuration) {
+        var _this = this;
+        var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
+            width: '250px',
+            enterAnimationDuration: enterAnimationDuration,
+            exitAnimationDuration: exitAnimationDuration
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result) {
+                _this.clienteService.create(result).subscribe(function (response) {
+                    _this.carregarClientes();
+                });
+            }
+        });
     };
     ClientesComponent.prototype.removeItem = function (id) {
         var _this = this;
@@ -96,7 +113,9 @@ var ClientesComponent = /** @class */ (function () {
                 table_1.MatTableModule,
                 sort_1.MatSortModule,
                 paginator_1.MatPaginatorModule,
-                button_1.MatButtonModule
+                button_1.MatButtonModule,
+                loading_blue_component_1.LoadingBlueComponent,
+                common_1.NgIf
             ],
             templateUrl: './clientes.component.html',
             styleUrl: './clientes.component.css'

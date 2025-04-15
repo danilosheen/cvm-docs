@@ -14,17 +14,24 @@
       <mat-form-field appearance="fill">
         <mat-label>Senha</mat-label>
         <div class="container-password">
-          <input matInput [(ngModel)]="senha" name="senha" type="{{typePassword}}" required>
+          <input matInput [(ngModel)]="senha" name="senha" type="{{typePassword}}" required autocomplete="off">
           @if (senha && typePassword == 'password') {
-            <span (click)="togglePassword($event)" class="material-symbols-outlined icon-eye">visibility_off</span>
+            <img class="icon-eye" (click)="togglePassword($event)" src="/assets/icons-svg/hidden-icon.svg">
+            <!-- <span (click)="togglePassword($event)" class="material-symbols-outlined icon-eye">visibility_off</span> -->
           } @else if (senha && typePassword == 'text') {
-            <span (click)="togglePassword($event)" class="material-symbols-outlined icon-eye">visibility</span>
+            <img class="icon-eye" (click)="togglePassword($event)" src="/assets/icons-svg/visible-icon.svg">
+            <!-- <span (click)="togglePassword($event)" class="material-symbols-outlined icon-eye">visibility</span> -->
           }
         </div>
         <mat-error> {{ 'Este campo é obrigatório' }} </mat-error>
       </mat-form-field>
       <p [ngClass]="{'visible': showErro()}" class="msg-erro">Erro ao fazer login: {{errorMessage}}!</p>
     </div>
-    <button class="button-login" (click)="login()">Entrar</button>
+    <button class="button-login" (click)="login()" [disabled]="isLoading">
+      <ng-container *ngIf="isLoading; else entrar">
+        <app-loading class="loading-animation"></app-loading>
+      </ng-container>
+      <ng-template #entrar>Entrar</ng-template>
+    </button>
   </div>
 </div>

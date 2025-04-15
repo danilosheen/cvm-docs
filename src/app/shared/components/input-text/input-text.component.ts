@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal, SimpleChanges} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -36,8 +36,20 @@ export class InputTextComponent implements OnInit{
     if (!this.optional) {
       this.input.setValidators([Validators.required]);
     }
-    this.input.setValue(this.defaultValue);
+    if(this.defaultValue){
+      this.input.setValue(this.defaultValue);
+      this.sendTextInputHandler();
+    }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if (changes['defaultValue'] && changes['defaultValue'].currentValue !== undefined) {
+        this.input.setValue(this.defaultValue);
+        this.input.markAsPristine();
+        this.input.markAsUntouched();
+        this.input.updateValueAndValidity();
+      }
+    }
 
   updateErrorMessage() {
     if (this.input.hasError('required') && !this.optional) {

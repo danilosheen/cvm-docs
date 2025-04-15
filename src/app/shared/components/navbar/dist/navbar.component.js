@@ -9,11 +9,31 @@ exports.__esModule = true;
 exports.NavbarComponent = void 0;
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var dialog_1 = require("@angular/material/dialog");
+var dialog_generic_component_1 = require("../dialog-generic/dialog-generic.component");
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(authService, router) {
         this.authService = authService;
         this.router = router;
+        this.dialog = core_1.inject(dialog_1.MatDialog);
     }
+    NavbarComponent.prototype.openDialog = function (enterAnimationDuration, exitAnimationDuration) {
+        var _this = this;
+        var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
+            width: '250px',
+            enterAnimationDuration: enterAnimationDuration,
+            exitAnimationDuration: exitAnimationDuration,
+            data: {
+                dialogTitle: 'Sair',
+                dialogContent: 'Você tem certeza que deseja sair?'
+            }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result) {
+                _this.logout();
+            }
+        });
+    };
     NavbarComponent.prototype.logout = function () {
         this.authService.removeToken();
         this.router.navigate(["/"]);

@@ -181,7 +181,8 @@ var ListaPassageirosComponent = /** @class */ (function () {
     };
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
         var _this = this;
-        this.passageiro.nome = value.value;
+        this.passageiro.nome = value.value.nome;
+        var idSelected = value.value.id;
         this.valid[9] = value.valid;
         this.clientes.forEach(function (element) {
             if (_this.passageiro.nome == element.nome && (element.documento && element.documento != 'Não informado')) {

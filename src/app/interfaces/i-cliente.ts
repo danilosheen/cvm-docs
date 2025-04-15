@@ -1,4 +1,5 @@
 export interface ICliente {
+  id?: string,
   nome: string,
   dataNascimento?: string,
   contato?: string,
@@ -8,4 +9,5 @@ export interface ICliente {
   bairro?: string,
   rua?: string,
   numero?: string,
+  updatedAt?: Date
 }

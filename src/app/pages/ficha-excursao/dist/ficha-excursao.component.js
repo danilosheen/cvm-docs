@@ -24,6 +24,7 @@ var dialog_component_1 = require("../../shared/components/dialog/dialog.componen
 var dialog_1 = require("@angular/material/dialog");
 var dialog_generic_component_1 = require("../../shared/components/dialog-generic/dialog-generic.component");
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
+var input_autocomplete_data_client_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component");
 var FichaExcursaoComponent = /** @class */ (function () {
     function FichaExcursaoComponent(pdfFichaExcursao) {
         this.pdfFichaExcursao = pdfFichaExcursao;
@@ -36,6 +37,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.hospedagens = ['Casa de praia', 'Pousada', 'Hotel'];
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
         this.clientes = [];
+        this.nomesClientes = [];
         this.fichaExcursaoData = {
             excursaoPara: '',
             localSaida: '',
@@ -44,10 +46,11 @@ var FichaExcursaoComponent = /** @class */ (function () {
             dataRetorno: '',
             horaRetorno: '',
             cliente: {
+                id: '',
                 nome: '',
-                dataNascimento: 'Não informado',
+                dataNascimento: '',
                 contato: '',
-                cpf: 'Não informado',
+                cpf: '',
                 endereco: {
                     cidade: '',
                     bairro: '',
@@ -68,15 +71,27 @@ var FichaExcursaoComponent = /** @class */ (function () {
         for (var i = 0; i <= 16; i++) {
             this.valid.push(false);
         }
-        this.clientes = this.clienteService.getAllClients();
     }
+    FichaExcursaoComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.clienteService.getAll().subscribe(function (result) {
+            _this.clientes = result;
+            _this.loadClientListNames();
+        });
+    };
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
+        if (this.fichaExcursaoData.cliente.cpf == '') {
+            this.fichaExcursaoData.cliente.cpf = 'Não informado';
+        }
+        if (this.fichaExcursaoData.cliente.dataNascimento == 'NaN/NaN/NaN') {
+            this.fichaExcursaoData.cliente.dataNascimento = 'Não informado';
+        }
         this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
             .subscribe(function (pdfBlob) {
-            _this.clienteService.saveClient(_this.filtraDados(_this.fichaExcursaoData), _this.clientes);
-            _this.clientes = _this.clienteService.getAllClients();
+            // this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
+            // this.clientes = this.clienteService.getAllClients();
             var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
@@ -101,6 +116,14 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 _this.loading = false;
             }
         });
+    };
+    FichaExcursaoComponent.prototype.loadClientListNames = function () {
+        if (this.clientes) {
+            for (var _i = 0, _a = this.clientes; _i < _a.length; _i++) {
+                var cliente = _a[_i];
+                this.nomesClientes.push({ nome: cliente.nome, id: cliente.id });
+            }
+        }
     };
     FichaExcursaoComponent.prototype.filtraDados = function (dadosFichaExcursao) {
         return {
@@ -198,8 +221,21 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.valid[5] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateNomeClienteHandler = function (value) {
-        this.fichaExcursaoData.cliente.nome = value.value;
+        var _this = this;
+        this.fichaExcursaoData.cliente.nome = value.nome;
+        var idSelected = value.id;
         this.valid[6] = (value.valid);
+        this.clientes.forEach(function (element) {
+            if (idSelected == element.id) {
+                _this.updateDataNascimentoHandler({ value: element.dataNascimento, valid: true });
+                _this.updateContatoHandler({ value: element.contato, valid: true });
+                _this.updateCpfHandler({ value: element.cpf || '', valid: true });
+                _this.updateCidadeHandler({ value: element.cidade, valid: true });
+                _this.updateBairroHandler({ value: element.bairro, valid: true });
+                _this.updateRuaHandler({ value: element.rua, valid: true });
+                _this.updateNumeroCasaHandler({ value: element.numero, valid: true });
+            }
+        });
     };
     FichaExcursaoComponent.prototype.updateDataNascimentoHandler = function (value) {
         if (value.value != 'NaN/NaN/NaN') {
@@ -211,9 +247,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.valid[7] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateCpfHandler = function (value) {
-        if (value.value) {
-            this.fichaExcursaoData.cliente.cpf = value.value;
-        }
+        this.fichaExcursaoData.cliente.cpf = value.value;
     };
     FichaExcursaoComponent.prototype.updateCidadeHandler = function (value) {
         this.fichaExcursaoData.cliente.endereco.cidade = value.value;
@@ -281,7 +315,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 input_number_component_1.InputNumberComponent,
                 input_checkbox_component_1.InputCheckboxComponent,
                 input_radio_component_1.InputRadioComponent,
-                dialog_component_1.DialogComponent
+                dialog_component_1.DialogComponent,
+                input_autocomplete_data_client_component_1.InputAutocompleteDataCLientComponent
             ],
             templateUrl: './ficha-excursao.component.html',
             styleUrl: './ficha-excursao.component.css'

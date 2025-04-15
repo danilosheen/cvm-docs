@@ -1,0 +1,28 @@
+<div class="container-input">
+  <form>
+    <mat-form-field>
+      <mat-label>{{ label }}</mat-label>
+      <input #input
+             required
+             type="text"
+             placeholder="{{ placeholder }}"
+             matInput
+             [formControl]="inputControl"
+             autocomplete="off"
+             [matAutocomplete]="auto"
+             (input)="filter()"
+             (focus)="filter()">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option
+            *ngFor="let option of filteredOptions"
+            [value]="option"
+            (onSelectionChange)="setValue(option)">
+            {{ option.nome }}
+          </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="inputControl.hasError('required')">
+        {{ errorMessage }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>

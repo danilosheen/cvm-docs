@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/authService/auth-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogGenericComponent } from '../dialog-generic/dialog-generic.component';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +12,30 @@ import { AuthService } from '../../../core/services/authService/auth-service.ser
 })
 export class NavbarComponent {
 
-  constructor(private authService: AuthService, private router: Router){}
+  readonly dialog: MatDialog = inject(MatDialog);
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ){}
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(DialogGenericComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        dialogTitle: 'Sair',
+        dialogContent: 'Você tem certeza que deseja sair?',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.logout();
+      }
+    });
+  }
 
   logout(){
     this.authService.removeToken();

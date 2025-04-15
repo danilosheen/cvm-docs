@@ -32,7 +32,18 @@ var InputTextComponent = /** @class */ (function () {
         if (!this.optional) {
             this.input.setValidators([forms_1.Validators.required]);
         }
-        this.input.setValue(this.defaultValue);
+        if (this.defaultValue) {
+            this.input.setValue(this.defaultValue);
+            this.sendTextInputHandler();
+        }
+    };
+    InputTextComponent.prototype.ngOnChanges = function (changes) {
+        if (changes['defaultValue'] && changes['defaultValue'].currentValue !== undefined) {
+            this.input.setValue(this.defaultValue);
+            this.input.markAsPristine();
+            this.input.markAsUntouched();
+            this.input.updateValueAndValidity();
+        }
     };
     InputTextComponent.prototype.updateErrorMessage = function () {
         if (this.input.hasError('required') && !this.optional) {

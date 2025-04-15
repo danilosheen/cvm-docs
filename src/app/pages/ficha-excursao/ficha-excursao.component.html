@@ -14,8 +14,8 @@
     <!-- localSaída -->
     <app-input-autocomplete
       [label]="'Local de saída'"
-      [placeholder]="'ex: Juazeiro do Norte'"
       [options]="cidades"
+      [placeholder]="'ex: Juazeiro do Norte'"
       [errorMessage]="'Defina o local de saída.'"
       (inputValue)="updateLocalSaidaHandler($event)"
     ></app-input-autocomplete>
@@ -40,11 +40,14 @@
       (inputTime)="updateHoraRetornoHandler($event)"
     ></app-input-time>
     <!-- nomeCliente -->
-    <app-input-text
+    <app-input-autocomplete-data-client
+      [options]="nomesClientes"
+      [attr.autocomplete]="'off'"
       [label]="'Nome do cliente'"
-      [placeholder]="'ex: Crairton de Matos Leite'"
+      [defaultValue]="fichaExcursaoData.cliente.nome"
+      [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-text>
+    ></app-input-autocomplete-data-client>
     <!-- dataMascimento -->
     <app-input-date
       [label]="'Data de Nascimento'"
@@ -55,6 +58,7 @@
     <app-input-number
       [label]="'Telefone/WhatsApp'"
       [placeholder]="'(88)9.8888-8888'"
+      [defaultValue]="fichaExcursaoData.cliente.contato"
       [type]="'tel'"
       (inputValue)="updateContatoHandler($event)"
     ></app-input-number>
@@ -62,6 +66,7 @@
      <app-input-number
       [label]="'CPF'"
       [type]="'cpf'"
+      [defaultValue]="fichaExcursaoData.cliente.cpf"
       [placeholder]="'ex: 999.999.999-00'"
       [optional]="true"
       (inputValue)="updateCpfHandler($event)"
@@ -69,18 +74,21 @@
     <!-- cidade -->
     <app-input-text
       [label]="'Cidade'"
+      [defaultValue]="fichaExcursaoData.cliente.endereco.cidade"
       [placeholder]="'ex: Juazeiro do Norte'"
       (inputValue)="updateCidadeHandler($event)"
     ></app-input-text>
     <!-- bairro -->
     <app-input-text
       [label]="'Bairro'"
+      [defaultValue]="fichaExcursaoData.cliente.endereco.bairro"
       [placeholder]="'ex: Lagoa Seca'"
       (inputValue)="updateBairroHandler($event)"
     ></app-input-text>
     <!-- rua -->
     <app-input-text
       [label]="'Rua'"
+      [defaultValue]="fichaExcursaoData.cliente.endereco.rua"
       [placeholder]="'ex: José Horácio Pequeno'"
       (inputValue)="updateRuaHandler($event)"
     ></app-input-text>
@@ -88,6 +96,7 @@
     <app-input-number
       [type]="'text'"
       [label]="'Número da casa'"
+      [defaultValue]="fichaExcursaoData.cliente.endereco.numero"
       [placeholder]="'ex: 30'"
       (inputValue)="updateNumeroCasaHandler($event)"
     ></app-input-number>
@@ -155,7 +164,8 @@
           <td>{{ dependente.documento }}</td>
           <td class="center">{{ dependente.poltrona }}</td>
           <td>
-            <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span>
+            <img class="icon-red" (click)="openDialog('0ms', '0ms', i)" src="../../../assets/icons-svg/delete-icon.svg">
+            <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
           </td>
         </tr>
       </tbody>

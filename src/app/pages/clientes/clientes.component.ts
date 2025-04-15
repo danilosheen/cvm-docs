@@ -13,6 +13,9 @@ import { ICliente } from '../../interfaces/i-cliente';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { MatButtonModule } from '@angular/material/button';
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
+import { NgIf } from '@angular/common';
+import { DialogClienteComponent } from '../../shared/components/dialog-cliente/dialog-cliente.component';
 
 @Component({
   selector: 'app-clientes',
@@ -25,8 +28,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    LoadingBlueComponent,
+    NgIf
+],
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
@@ -36,6 +41,7 @@ export class ClientesComponent implements AfterViewInit {
   dataSource: MatTableDataSource<ICliente>;
   clientes: ICliente[] = [];
   readonly dialog = inject(MatDialog);
+  readonly dialogCliente = inject(MatDialog);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -94,8 +100,20 @@ export class ClientesComponent implements AfterViewInit {
     });
   }
 
-  adicionarCliente(){
+  adicionarCliente(enterAnimationDuration: string, exitAnimationDuration: string): void{
+    const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
 
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.clienteService.create(result).subscribe((response)=>{
+          this.carregarClientes();
+        })
+      }
+    });
   }
 
   removeItem(id: string){

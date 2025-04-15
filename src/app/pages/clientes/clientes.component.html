@@ -1,12 +1,13 @@
 <app-navbar></app-navbar>
 <div class="container-table-clientes">
+  <app-loading-blue *ngIf="clientes.length == 0"></app-loading-blue>
   @if (clientes.length > 0) {
     <div class="container-actions-table">
       <mat-form-field>
         <mat-label>Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. João" #input>
       </mat-form-field>
-      <button mat-flat-button (click)="adicionarCliente()">
+      <button mat-flat-button (click)="adicionarCliente('0ms', '0ms')">
         Adicionar Cliente
       </button>
     </div>

@@ -6,6 +6,7 @@ import { AuthService } from '../../core/services/authService/auth-service.servic
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgClass, NgIf } from '@angular/common';
+import { LoadingComponent } from "../../shared/components/loading/loading.component";
 
 
 @Component({
@@ -15,8 +16,10 @@ import { NgClass, NgIf } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    NgClass
-  ],
+    NgClass,
+    LoadingComponent,
+    NgIf
+],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -26,6 +29,7 @@ export class LoginComponent {
   token: string = '';
   errorMessage: string = ''
   typePassword: string = 'password';
+  isLoading: boolean = false
 
   constructor(
     private loginService: LoginService,
@@ -38,13 +42,16 @@ export class LoginComponent {
   }
 
   login(){
+    this.isLoading = true;
     this.loginService.login(this.email, this.senha).subscribe({
       next: (result) => {
         if (result.token) {
           this.router.navigate(["/home"]);
+          this.isLoading = false;
         }
       },
       error: (error) => {
+        this.isLoading = false;
         this.errorMessage = error.error.error.toLowerCase();
         setTimeout(()=>{
           this.errorMessage = '';
@@ -54,6 +61,7 @@ export class LoginComponent {
   }
 
   togglePassword(event: Event){
+    event.preventDefault();
     event.stopImmediatePropagation();
     this.typePassword == 'password' ? this.typePassword = 'text' : this.typePassword = 'password';
   }

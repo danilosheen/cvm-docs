@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { FichaExcursaoService } from '../../core/services/fichaExcursaoService/ficha-excursao.service';
@@ -21,6 +21,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { ICliente } from '../../interfaces/i-cliente';
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
+import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
+import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -38,12 +40,13 @@ import { ClienteService } from '../../core/services/clienteService/cliente.servi
     InputNumberComponent,
     InputCheckboxComponent,
     InputRadioComponent,
-    DialogComponent
+    DialogComponent,
+    InputAutocompleteDataCLientComponent
 ],
   templateUrl: './ficha-excursao.component.html',
   styleUrl: './ficha-excursao.component.css'
 })
-export class FichaExcursaoComponent {
+export class FichaExcursaoComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   loading: boolean = false;
@@ -54,6 +57,7 @@ export class FichaExcursaoComponent {
   hospedagens: string[] = ['Casa de praia', 'Pousada', 'Hotel'];
   clienteService = inject(ClienteService);
   clientes: ICliente[] = [];
+  nomesClientes: IClienteAutocomplete[] = [];
 
   fichaExcursaoData: IFichaExcursao = {
     excursaoPara: '',
@@ -63,10 +67,11 @@ export class FichaExcursaoComponent {
     dataRetorno: '',
     horaRetorno: '',
     cliente: {
+      id:'',
       nome:'',
-      dataNascimento: 'Não informado',
+      dataNascimento: '',
       contato: '',
-      cpf: 'Não informado',
+      cpf: '',
       endereco: {
         cidade: '',
         bairro: '',
@@ -85,21 +90,35 @@ export class FichaExcursaoComponent {
     };
 
   constructor(private pdfFichaExcursao: FichaExcursaoService) {
-      //inicializando o array de campos válidos
-      for (let i = 0; i <= 16; i++) {
-        this.valid.push(false)
-      }
-
-      this.clientes = this.clienteService.getAllClients();
+    //inicializando o array de campos válidos
+    for (let i = 0; i <= 16; i++) {
+      this.valid.push(false)
     }
+
+  }
+
+  ngOnInit(): void {
+    this.clienteService.getAll().subscribe(result =>{
+      this.clientes = result
+      this.loadClientListNames();
+    });
+  }
 
   onSubmit() {
       this.loading = true;
+      if(this.fichaExcursaoData.cliente.cpf == ''){
+        this.fichaExcursaoData.cliente.cpf = 'Não informado'
+      }
+
+      if(this.fichaExcursaoData.cliente.dataNascimento == 'NaN/NaN/NaN'){
+        this.fichaExcursaoData.cliente.dataNascimento = 'Não informado'
+      }
+
       this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
         .subscribe(
           (pdfBlob) => {
-            this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
-            this.clientes = this.clienteService.getAllClients();
+            // this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
+            // this.clientes = this.clienteService.getAllClients();
             const nomeClienteFormated = this.formatNomeCliente();
             const pdfUrl = URL.createObjectURL(pdfBlob);
             const link = document.createElement('a');
@@ -125,6 +144,14 @@ export class FichaExcursaoComponent {
             }
           }
         );
+    }
+
+    loadClientListNames(){
+      if(this.clientes){
+        for(let cliente of this.clientes){
+          this.nomesClientes.push({nome: cliente.nome, id: cliente.id!});
+        }
+      }
     }
 
     filtraDados(dadosFichaExcursao: IFichaExcursao){
@@ -234,9 +261,21 @@ export class FichaExcursaoComponent {
       this.valid[5] = (value.valid);
     }
 
-    updateNomeClienteHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.nome = value.value;
+    updateNomeClienteHandler(value: any) {
+      this.fichaExcursaoData.cliente.nome = value.nome;
+      const idSelected = value.id;
       this.valid[6] = (value.valid);
+      this.clientes.forEach(element => {
+        if(idSelected == element.id){
+          this.updateDataNascimentoHandler({ value: element.dataNascimento!, valid: true});
+          this.updateContatoHandler({ value: element.contato!, valid: true});
+          this.updateCpfHandler({ value: element.cpf || '', valid: true});
+          this.updateCidadeHandler({ value: element.cidade!, valid: true});
+          this.updateBairroHandler({ value: element.bairro!, valid: true});
+          this.updateRuaHandler({ value: element.rua!, valid: true});
+          this.updateNumeroCasaHandler({ value: element.numero!, valid: true});
+        }
+      });
     }
 
     updateDataNascimentoHandler(value: IInput) {
@@ -251,9 +290,7 @@ export class FichaExcursaoComponent {
     }
 
     updateCpfHandler(value: IInput) {
-      if(value.value){
-        this.fichaExcursaoData.cliente.cpf = value.value;
-      }
+      this.fichaExcursaoData.cliente.cpf = value.value;
     }
 
     updateCidadeHandler(value: IInput) {
