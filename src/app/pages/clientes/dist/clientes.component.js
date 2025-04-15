@@ -64,7 +64,6 @@ var ClientesComponent = /** @class */ (function () {
     ClientesComponent.prototype.openDialog = function (enterAnimationDuration, exitAnimationDuration, id) {
         var _this = this;
         var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
-            width: '250px',
             enterAnimationDuration: enterAnimationDuration,
             exitAnimationDuration: exitAnimationDuration,
             data: {
@@ -81,7 +80,6 @@ var ClientesComponent = /** @class */ (function () {
     ClientesComponent.prototype.adicionarCliente = function (enterAnimationDuration, exitAnimationDuration) {
         var _this = this;
         var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
-            width: '250px',
             enterAnimationDuration: enterAnimationDuration,
             exitAnimationDuration: exitAnimationDuration
         });

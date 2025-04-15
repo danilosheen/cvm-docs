@@ -88,7 +88,6 @@ export class ClientesComponent implements AfterViewInit {
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
     const dialogRef = this.dialog.open(DialogGenericComponent, {
-      width: '250px',
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
@@ -106,7 +105,6 @@ export class ClientesComponent implements AfterViewInit {
 
   adicionarCliente(enterAnimationDuration: string, exitAnimationDuration: string): void{
     const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
-      width: '250px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
