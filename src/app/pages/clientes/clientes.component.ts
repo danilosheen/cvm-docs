@@ -37,11 +37,12 @@ import { DialogClienteComponent } from '../../shared/components/dialog-cliente/d
 })
 
 export class ClientesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['nome', 'dataNascimento', 'contato', 'cpf', 'documento', 'acao'];
+  displayedColumns: string[] = ['nome', 'dataNascimento', 'contato', 'acao'];
   dataSource: MatTableDataSource<ICliente>;
   clientes: ICliente[] = [];
   readonly dialog = inject(MatDialog);
   readonly dialogCliente = inject(MatDialog);
+  isClient = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -69,6 +70,9 @@ export class ClientesComponent implements AfterViewInit {
       setTimeout(() => {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        if(this.clientes.length == 0){
+          this.isClient = false;
+        }
       });
     });
   }

@@ -21,8 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 30px;
 }
 
-.icon-red{
-  color: red;
+.icon-button{
   cursor: pointer;
 }
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
@@ -17,6 +17,9 @@ import { InputTimeComponent } from "../../shared/components/input-time/input-tim
 import { IListaPassageiros } from '../../interfaces/i-listaPassageiros';
 import { AuthService } from '../../core/services/authService/auth-service.service';
 import { Router } from '@angular/router';
+import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
+import { ICliente } from '../../interfaces/i-cliente';
+import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
   selector: 'app-lista-passageiros',
@@ -30,17 +33,18 @@ import { Router } from '@angular/router';
     NgFor,
     InputTextComponent,
     InputDateComponent,
-    InputTimeComponent
+    InputTimeComponent,
+    InputAutocompleteDataCLientComponent
 ],
   templateUrl: './lista-passageiros.component.html',
   styleUrl: './lista-passageiros.component.css'
 })
-export class ListaPassageirosComponent {
+export class ListaPassageirosComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   clienteService = inject(ClienteService);
-  clientes = this.clienteService.getAllClients();
-  arrayNomeClientes: string[] = [];
+  clientes: ICliente[] = [];
+  arrayNomeClientes: IClienteAutocomplete[] = [];
   listaPassageiros: IListaPassageiros = {
     numeroCarro: '',
     placa: '',
@@ -74,13 +78,13 @@ export class ListaPassageirosComponent {
       this.router.navigate(["/"]);
     }
 
-    this.clientes.forEach(element => {
-      this.arrayNomeClientes.push(element.nome)
-    });
-
     for (let i = 0; i <= 10; i++) {
       this.valid.push(false)
     }
+  }
+
+  ngOnInit(): void {
+    this.povoaArrayClientes();
   }
 
   onSubmit() {
@@ -130,6 +134,15 @@ export class ListaPassageirosComponent {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.listaPassageiros.passageiros.splice(i, 1);
+      }
+    });
+  }
+
+  povoaArrayClientes(){
+    this.clienteService.getAll().subscribe(element => {
+      this.clientes = element;
+      for(let cliente of element){
+        this.arrayNomeClientes.push({nome: cliente.nome, id: cliente.id})
       }
     });
   }
@@ -221,12 +234,12 @@ export class ListaPassageirosComponent {
   }
 
   updateNomeHandler(value: any){
-    this.passageiro.nome = value.value.nome;
-    const idSelected = value.value.id;
+    this.passageiro.nome = value.nome;
+    const idSelected = value.id;
     this.valid[9] = value.valid;
     this.clientes.forEach(element => {
-      if(this.passageiro.nome == element.nome && (element.documento && element.documento != 'Não informado')){
-        this.updateDocumentoHandler({ value: element.documento, valid: true});
+      if(idSelected == element.id){
+        this.updateDocumentoHandler({ value: element.documento || '', valid: true});
       }
     });
   }

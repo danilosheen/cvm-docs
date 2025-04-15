@@ -26,10 +26,11 @@ var ClientesComponent = /** @class */ (function () {
     function ClientesComponent(authService, clienteService) {
         this.authService = authService;
         this.clienteService = clienteService;
-        this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'cpf', 'documento', 'acao'];
+        this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'acao'];
         this.clientes = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogCliente = core_1.inject(dialog_1.MatDialog);
+        this.isClient = true;
         this.dataSource = new table_1.MatTableDataSource();
     }
     ClientesComponent.prototype.ngAfterViewInit = function () {
@@ -47,6 +48,9 @@ var ClientesComponent = /** @class */ (function () {
             setTimeout(function () {
                 _this.dataSource.paginator = _this.paginator;
                 _this.dataSource.sort = _this.sort;
+                if (_this.clientes.length == 0) {
+                    _this.isClient = false;
+                }
             });
         });
     };

@@ -20,15 +20,15 @@ var dialog_generic_component_1 = require("../../shared/components/dialog-generic
 var input_text_component_1 = require("../../shared/components/input-text/input-text.component");
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
+var input_autocomplete_data_client_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component");
 var ListaPassageirosComponent = /** @class */ (function () {
     function ListaPassageirosComponent(pdfListaPassageiros, authService, router) {
-        var _this = this;
         this.pdfListaPassageiros = pdfListaPassageiros;
         this.authService = authService;
         this.router = router;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
-        this.clientes = this.clienteService.getAllClients();
+        this.clientes = [];
         this.arrayNomeClientes = [];
         this.listaPassageiros = {
             numeroCarro: '',
@@ -54,13 +54,13 @@ var ListaPassageirosComponent = /** @class */ (function () {
         if (!this.authService.getToken()) {
             this.router.navigate(["/"]);
         }
-        this.clientes.forEach(function (element) {
-            _this.arrayNomeClientes.push(element.nome);
-        });
         for (var i = 0; i <= 10; i++) {
             this.valid.push(false);
         }
     }
+    ListaPassageirosComponent.prototype.ngOnInit = function () {
+        this.povoaArrayClientes();
+    };
     ListaPassageirosComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
@@ -105,6 +105,16 @@ var ListaPassageirosComponent = /** @class */ (function () {
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
                 _this.listaPassageiros.passageiros.splice(i, 1);
+            }
+        });
+    };
+    ListaPassageirosComponent.prototype.povoaArrayClientes = function () {
+        var _this = this;
+        this.clienteService.getAll().subscribe(function (element) {
+            _this.clientes = element;
+            for (var _i = 0, element_1 = element; _i < element_1.length; _i++) {
+                var cliente = element_1[_i];
+                _this.arrayNomeClientes.push({ nome: cliente.nome, id: cliente.id });
             }
         });
     };
@@ -181,12 +191,13 @@ var ListaPassageirosComponent = /** @class */ (function () {
     };
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
         var _this = this;
-        this.passageiro.nome = value.value.nome;
-        var idSelected = value.value.id;
+        this.passageiro.nome = value.nome;
+        var idSelected = value.id;
         this.valid[9] = value.valid;
         this.clientes.forEach(function (element) {
-            if (_this.passageiro.nome == element.nome && (element.documento && element.documento != 'Não informado')) {
-                _this.updateDocumentoHandler({ value: element.documento, valid: true });
+            if (idSelected == element.id) {
+                console.log(element);
+                _this.updateDocumentoHandler({ value: element.documento || '', valid: true });
             }
         });
     };
@@ -207,7 +218,8 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 common_1.NgFor,
                 input_text_component_1.InputTextComponent,
                 input_date_component_1.InputDateComponent,
-                input_time_component_1.InputTimeComponent
+                input_time_component_1.InputTimeComponent,
+                input_autocomplete_data_client_component_1.InputAutocompleteDataCLientComponent
             ],
             templateUrl: './lista-passageiros.component.html',
             styleUrl: './lista-passageiros.component.css'

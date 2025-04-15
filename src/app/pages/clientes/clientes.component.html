@@ -1,6 +1,14 @@
 <app-navbar></app-navbar>
 <div class="container-table-clientes">
-  <app-loading-blue *ngIf="clientes.length == 0"></app-loading-blue>
+  <app-loading-blue *ngIf="clientes.length == 0 && isClient"></app-loading-blue>
+  @if (!isClient && clientes.length == 0) {
+    <div class="container-no-users">
+      <h3>Nenhum cliente cadastrado</h3>
+      <button mat-flat-button (click)="adicionarCliente('0ms', '0ms')">
+        Adicionar Cliente
+      </button>
+    </div>
+  }
   @if (clientes.length > 0) {
     <div class="container-actions-table">
       <mat-form-field>
@@ -34,22 +42,27 @@
         </ng-container>
 
         <!-- CPF Column -->
-        <ng-container matColumnDef="cpf">
+        <!-- <ng-container matColumnDef="cpf">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> CPF </th>
           <td mat-cell *matCellDef="let row"> {{row.cpf}} </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Documento Column -->
-        <ng-container matColumnDef="documento">
+        <!-- <ng-container matColumnDef="documento">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento </th>
           <td mat-cell *matCellDef="let row"> {{row.documento}} </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Ação Column -->
         <ng-container matColumnDef="acao">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ação </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ações </th>
           <td mat-cell *matCellDef="let row">
-            <span (click)="openDialog('0ms', '0ms', row.id)" class="material-icons icon-red">delete</span>
+            <div class="container-action-buttons">
+              <img src="../../../assets/icons-svg/visible-icon.svg">
+              <img src="../../../assets/icons-svg/pen.svg">
+              <img (click)="openDialog('0ms', '0ms', row.id)" src="../../../assets/icons-svg/delete-icon.svg">
+            </div>
+            <!-- <span (click)="openDialog('0ms', '0ms', row.id)" class="material-icons icon-red">delete</span> -->
           </td>
         </ng-container>
 
