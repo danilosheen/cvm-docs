@@ -7,7 +7,6 @@ import { Router, RouterLink } from '@angular/router';
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { ButtonCardComponent } from "../../shared/components/button-card/button-card.component";
 import { AuthService } from '../../core/services/authService/auth-service.service';
-import { ClienteService } from '../../core/services/clienteService/cliente.service';
 @Component({
   selector: 'app-home',
   imports: [
@@ -24,24 +23,12 @@ import { ClienteService } from '../../core/services/clienteService/cliente.servi
 })
 export class HomeComponent {
 
-  clientes = [];
-
   constructor(
     private authService: AuthService,
-    private clienteService: ClienteService,
     private router: Router
   ){
-    if(this.authService.getToken()){
-      this.getClientes();
-    } else{
+    if(!this.authService.getToken()){
       this.router.navigate(["/"]);
     }
   }
-
-  getClientes(){
-    this.clienteService.getAll().subscribe(result =>{
-      this.clientes = result;
-    });
-  }
-
 }
