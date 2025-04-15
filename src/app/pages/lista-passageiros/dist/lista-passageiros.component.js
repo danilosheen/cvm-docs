@@ -196,7 +196,6 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.valid[9] = value.valid;
         this.clientes.forEach(function (element) {
             if (idSelected == element.id) {
-                console.log(element);
                 _this.updateDocumentoHandler({ value: element.documento || '', valid: true });
             }
         });
