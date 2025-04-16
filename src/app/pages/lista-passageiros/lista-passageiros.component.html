@@ -93,13 +93,44 @@
       (inputValue)="updateNomeHandler($event)"
     ></app-input-autocomplete>
 
-    <!-- Documento do passageiro -->
+    <!-- Tipo de documento -->
+    <app-input-radio
+      [label]="'Selecione o tipo de documento'"
+      [listItems]="typesDocument"
+      [dropdown]="false"
+      [defaultValue]="passageiro.typeDocumentSelected"
+      (selectedValue)="updateDocumentSelectedHandler($event)"
+    ></app-input-radio>
+    @if (passageiro.typeDocumentSelected == 'CPF') {
+      <app-input-number
+        [label]="'CPF do passageiro'"
+        [type]="'cpf'"
+        [defaultValue]="passageiro.documento"
+        (inputValue)="updateDocumentoHandler($event)"
+      ></app-input-number>
+    } @else if (passageiro.typeDocumentSelected == 'RG'){
+      <app-input-number
+        [label]="'RG do passageiro'"
+        [type]="'text'"
+        [defaultValue]="passageiro.documento"
+        (inputValue)="updateDocumentoHandler($event)"
+      ></app-input-number>
+    } @else {
+      <app-input-number
+        [label]="'Registro da criança'"
+        [type]="'text'"
+        [defaultValue]="passageiro.documento"
+        (inputValue)="updateDocumentoHandler($event)"
+      ></app-input-number>
+    }
+
+    <!-- Documento do passageiro
     <app-input-number
       [type]="'text'"
       [label]="'Documento de porte'"
       [defaultValue]="passageiro.documento"
       (inputValue)="updateDocumentoHandler($event)"
-    ></app-input-number>
+    ></app-input-number> -->
 
     <div class="container-button-adicionar">
       <button [disabled]="!camposValidos()" (click)="adicionarPassageiro()" class="button-adicionar" mat-flat-button>
@@ -115,7 +146,7 @@
             <th>Nº</th>
             <th>Passageiro</th>
             <th>Documento de porte</th>
-            <th>Ação</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -123,7 +154,8 @@
             <td class="center">{{ i+1 }}</td>
             <td>{{ passageiro.nome }}</td>
             <td>{{ passageiro.documento }}</td>
-            <td>
+            <td class="action-column">
+              <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
               <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
               <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
             </td>

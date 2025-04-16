@@ -20,6 +20,8 @@ var dialog_generic_component_1 = require("../../shared/components/dialog-generic
 var input_text_component_1 = require("../../shared/components/input-text/input-text.component");
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
+var dialog_passageiro_component_1 = require("../../shared/components/dialog-passageiro/dialog-passageiro.component");
+var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 var ListaPassageirosComponent = /** @class */ (function () {
     function ListaPassageirosComponent(pdfListaPassageiros, authService, router) {
@@ -27,6 +29,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.authService = authService;
         this.router = router;
         this.dialog = core_1.inject(dialog_1.MatDialog);
+        this.dialogPassageiro = core_1.inject(dialog_1.MatDialog);
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
         this.clientes = [];
         this.arrayNomeClientes = [];
@@ -45,12 +48,14 @@ var ListaPassageirosComponent = /** @class */ (function () {
         };
         this.passageiro = {
             nome: '',
-            documento: ''
+            documento: '',
+            typeDocumentSelected: 'RG'
         };
         this.valid = [];
         this.loading = false;
         this.motoristas = ["Crairton", "Claudiney"];
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
+        this.typesDocument = ['RG', 'CPF', 'Registro'];
         if (!this.authService.getToken()) {
             this.router.navigate(["/"]);
         }
@@ -59,7 +64,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
         }
     }
     ListaPassageirosComponent.prototype.ngOnInit = function () {
-        this.povoaArrayClientes();
+        // this.povoaArrayClientes();
     };
     ListaPassageirosComponent.prototype.onSubmit = function () {
         var _this = this;
@@ -119,9 +124,28 @@ var ListaPassageirosComponent = /** @class */ (function () {
         });
     };
     ListaPassageirosComponent.prototype.adicionarPassageiro = function () {
+        if (this.passageiro.typeDocumentSelected == 'Registro') {
+            this.passageiro.nome = this.passageiro.nome + " (crian\u00E7a)";
+        }
         this.listaPassageiros.passageiros.push(this.passageiro);
-        this.passageiro = { nome: '', documento: '' };
+        this.passageiro = { nome: '', documento: '', typeDocumentSelected: 'RG' };
         this.resetArrayValid();
+    };
+    ListaPassageirosComponent.prototype.editPassageiro = function (index) {
+        var _this = this;
+        var dialogRef = this.dialogPassageiro.open(dialog_passageiro_component_1.DialogPassageiroComponent, {
+            data: {
+                nome: this.listaPassageiros.passageiros[index].nome,
+                documento: this.listaPassageiros.passageiros[index].documento,
+                typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected
+            }
+        });
+        dialogRef.afterClosed().subscribe(function (passageiro) {
+            if (passageiro) {
+                var passageiroData = { nome: passageiro.nome, documento: passageiro.documento, typeDocumentSelected: passageiro.typeDocumentSelected };
+                _this.listaPassageiros.passageiros[index] = passageiroData;
+            }
+        });
     };
     ListaPassageirosComponent.prototype.camposValidos = function () {
         for (var i = 9; i < this.valid.length; i++) {
@@ -205,6 +229,9 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.passageiro.nome = value.value;
         this.valid[9] = value.valid;
     };
+    ListaPassageirosComponent.prototype.updateDocumentSelectedHandler = function (value) {
+        this.passageiro.typeDocumentSelected = value.value;
+    };
     ListaPassageirosComponent.prototype.updateDocumentoHandler = function (value) {
         this.passageiro.documento = value.value;
         this.valid[10] = value.valid;
@@ -223,6 +250,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
+                input_radio_component_1.InputRadioComponent
             ],
             templateUrl: './lista-passageiros.component.html',
             styleUrl: './lista-passageiros.component.css'

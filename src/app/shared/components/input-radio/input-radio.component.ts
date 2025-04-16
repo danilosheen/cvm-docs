@@ -23,6 +23,7 @@ export class InputRadioComponent {
   @Input() expanded: boolean = false;
   @Input() dropdown: boolean = true;
   @Output() selectedValue = new EventEmitter();
+  @Output() radioChanged = new EventEmitter();
 
   onSelectionChange(item: string){
     if(item){

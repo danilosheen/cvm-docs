@@ -19,6 +19,7 @@ var InputRadioComponent = /** @class */ (function () {
         this.expanded = false;
         this.dropdown = true;
         this.selectedValue = new core_1.EventEmitter();
+        this.radioChanged = new core_1.EventEmitter();
     }
     InputRadioComponent.prototype.onSelectionChange = function (item) {
         if (item) {
@@ -43,6 +44,9 @@ var InputRadioComponent = /** @class */ (function () {
     __decorate([
         core_1.Output()
     ], InputRadioComponent.prototype, "selectedValue");
+    __decorate([
+        core_1.Output()
+    ], InputRadioComponent.prototype, "radioChanged");
     InputRadioComponent = __decorate([
         core_1.Component({
             selector: 'app-input-radio',

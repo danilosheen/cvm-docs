@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class ClienteService {
 
-  // private apiUrl = 'http://localhost:3000/api';
-  private apiUrl = 'https://backend-cvm.vercel.app/api';
+  private apiUrl = 'http://localhost:3000/api';
+  // private apiUrl = 'https://backend-cvm.vercel.app/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

@@ -10,11 +10,11 @@ exports.LoginService = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
 var LoginService = /** @class */ (function () {
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/login';
     function LoginService(http, authService) {
         this.http = http;
         this.authService = authService;
-        // private apiUrl = 'http://localhost:3000/api/login';
-        this.apiUrl = 'https://backend-cvm.vercel.app/api/login';
+        this.apiUrl = 'http://localhost:3000/api/login';
     }
     LoginService.prototype.login = function (email, senha) {
         var _this = this;

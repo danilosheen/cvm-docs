@@ -1,0 +1,50 @@
+<div class="container-dialog-cliente">
+  <mat-dialog-content>
+    Edite os campos para atualizar o passageiro
+  </mat-dialog-content>
+  <div class="container-inputs">
+    <app-input-text
+      [label]="'Nome do cliente'"
+      [placeholder]="'ex: Crairton de Matos Leite'"
+      [defaultValue]="passageiroData.nome"
+      (inputValue)="updateNomeClienteHandler($event)"
+    ></app-input-text>
+    <app-input-radio
+      [label]="'Selecione o tipo de documento'"
+      [listItems]="typesDocument"
+      [dropdown]="false"
+      [defaultValue]="typeDocumentSelected"
+      (selectedValue)="updateDocumentSelectedHandler($event)"
+    ></app-input-radio>
+    @if (this.passageiroData.typeDocumentSelected == 'CPF') {
+      <app-input-number
+        [label]="'CPF do passageiro'"
+        [type]="'cpf'"
+        [defaultValue]="passageiroData.documento"
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-number>
+    } @else if (this.passageiroData.typeDocumentSelected == 'RG'){
+      <app-input-number
+        [label]="'RG do passageiro'"
+        [type]="'text'"
+        [defaultValue]="passageiroData.documento"
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-number>
+    } @else if (this.passageiroData.typeDocumentSelected == 'Registro'){
+      <app-input-number
+        [label]="'Registro da criança'"
+        [type]="'text'"
+        [defaultValue]="passageiroData.documento"
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-number>
+    }
+  </div>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button
+    [disabled]="!isValid()"
+    (click)="onClickHandler()"
+    (window:keydown.enter)="onClickHandler()"
+    >Atualizar</button>
+  </mat-dialog-actions>
+</div>

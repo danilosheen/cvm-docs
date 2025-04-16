@@ -19,6 +19,8 @@ import { AuthService } from '../../core/services/authService/auth-service.servic
 import { Router } from '@angular/router';
 import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { ICliente } from '../../interfaces/i-cliente';
+import { DialogPassageiroComponent } from '../../shared/components/dialog-passageiro/dialog-passageiro.component';
+import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
@@ -34,7 +36,7 @@ import { ICliente } from '../../interfaces/i-cliente';
     InputTextComponent,
     InputDateComponent,
     InputTimeComponent,
-    // InputAutocompleteDataCLientComponent
+    InputRadioComponent
 ],
   templateUrl: './lista-passageiros.component.html',
   styleUrl: './lista-passageiros.component.css'
@@ -42,6 +44,7 @@ import { ICliente } from '../../interfaces/i-cliente';
 export class ListaPassageirosComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
+  readonly dialogPassageiro = inject(MatDialog);
   clienteService = inject(ClienteService);
   clientes: ICliente[] = [];
   arrayNomeClientes: IClienteAutocomplete[] = [];
@@ -61,12 +64,14 @@ export class ListaPassageirosComponent implements OnInit {
   };
   passageiro: IPassageiro = {
     nome: '',
-    documento: ''
+    documento: '',
+    typeDocumentSelected: 'RG'
   };
   valid: boolean[] = [];
   loading = false;
   motoristas: string[] = ["Crairton", "Claudiney"];
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
+  typesDocument: string[] = ['RG', 'CPF', 'Registro'];
 
   constructor(
     private pdfListaPassageiros: ListaPassageirosService,
@@ -84,7 +89,7 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.povoaArrayClientes();
+    // this.povoaArrayClientes();
   }
 
   onSubmit() {
@@ -148,9 +153,29 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   adicionarPassageiro(): void {
+    if(this.passageiro.typeDocumentSelected == 'Registro'){
+      this.passageiro.nome = `${this.passageiro.nome} (criança)`
+    }
     this.listaPassageiros.passageiros.push(this.passageiro);
-    this.passageiro = {nome: '', documento: ''};
+    this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
     this.resetArrayValid();
+  }
+
+  editPassageiro(index: number){
+    const dialogRef = this.dialogPassageiro.open(DialogPassageiroComponent, {
+      data: {
+        nome: this.listaPassageiros.passageiros[index].nome,
+        documento: this.listaPassageiros.passageiros[index].documento,
+        typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((passageiro: IPassageiro) => {
+      if (passageiro) {
+        let passageiroData = {nome: passageiro.nome, documento: passageiro.documento, typeDocumentSelected: passageiro.typeDocumentSelected}
+        this.listaPassageiros.passageiros[index] = passageiroData;
+      }
+    });
   }
 
   camposValidos(): boolean {
@@ -249,6 +274,10 @@ export class ListaPassageirosComponent implements OnInit {
   updateNomeHandler(value: IInput){
     this.passageiro.nome = value.value
     this.valid[9] = value.valid;
+  }
+
+  updateDocumentSelectedHandler(value: IInput){
+    this.passageiro.typeDocumentSelected = value.value;
   }
 
   updateDocumentoHandler(value: IInput){

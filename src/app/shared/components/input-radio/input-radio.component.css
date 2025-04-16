@@ -14,10 +14,11 @@
 
 h2{
   font-size: 14px;
+  text-align: center;
 }
 
 .radio-flex{
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  justify-content: space-around;
 }
