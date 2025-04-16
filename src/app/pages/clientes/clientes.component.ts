@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, inject, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, inject, ViewChild} from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { FormsModule } from '@angular/forms';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort, MatSortModule} from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from '../../core/services/authService/auth-service.service';
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
 import { ICliente } from '../../interfaces/i-cliente';
@@ -50,9 +50,11 @@ export class ClientesComponent implements AfterViewInit {
 
   constructor(
     private authService: AuthService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private paginatorIntl: MatPaginatorIntl
   ) {
     this.dataSource = new MatTableDataSource<ICliente>();
+    this.customizarPaginador();
   }
 
   ngAfterViewInit() {
@@ -122,5 +124,21 @@ export class ClientesComponent implements AfterViewInit {
     this.clienteService.delete(id).subscribe(() => {
       this.carregarClientes();
     });
+  }
+
+  customizarPaginador() {
+    this.paginatorIntl.itemsPerPageLabel = 'Itens por página';
+    this.paginatorIntl.nextPageLabel = 'Próxima página';
+    this.paginatorIntl.previousPageLabel = 'Página anterior';
+    this.paginatorIntl.firstPageLabel = 'Primeira página';
+    this.paginatorIntl.lastPageLabel = 'Última página';
+    this.paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      if (length === 0 || pageSize === 0) {
+        return `0 de ${length}`;
+      }
+      const startIndex = page * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, length);
+      return `${startIndex + 1} – ${endIndex} de ${length}`;
+    };
   }
 }

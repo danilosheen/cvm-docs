@@ -23,15 +23,17 @@ var loading_blue_component_1 = require("../../shared/components/loading-blue/loa
 var common_1 = require("@angular/common");
 var dialog_cliente_component_1 = require("../../shared/components/dialog-cliente/dialog-cliente.component");
 var ClientesComponent = /** @class */ (function () {
-    function ClientesComponent(authService, clienteService) {
+    function ClientesComponent(authService, clienteService, paginatorIntl) {
         this.authService = authService;
         this.clienteService = clienteService;
+        this.paginatorIntl = paginatorIntl;
         this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'acao'];
         this.clientes = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogCliente = core_1.inject(dialog_1.MatDialog);
         this.isClient = true;
         this.dataSource = new table_1.MatTableDataSource();
+        this.customizarPaginador();
     }
     ClientesComponent.prototype.ngAfterViewInit = function () {
         if (this.authService.getToken()) {
@@ -96,6 +98,21 @@ var ClientesComponent = /** @class */ (function () {
         this.clienteService["delete"](id).subscribe(function () {
             _this.carregarClientes();
         });
+    };
+    ClientesComponent.prototype.customizarPaginador = function () {
+        this.paginatorIntl.itemsPerPageLabel = 'Itens por página';
+        this.paginatorIntl.nextPageLabel = 'Próxima página';
+        this.paginatorIntl.previousPageLabel = 'Página anterior';
+        this.paginatorIntl.firstPageLabel = 'Primeira página';
+        this.paginatorIntl.lastPageLabel = 'Última página';
+        this.paginatorIntl.getRangeLabel = function (page, pageSize, length) {
+            if (length === 0 || pageSize === 0) {
+                return "0 de " + length;
+            }
+            var startIndex = page * pageSize;
+            var endIndex = Math.min(startIndex + pageSize, length);
+            return startIndex + 1 + " \u2013 " + endIndex + " de " + length;
+        };
     };
     __decorate([
         core_1.ViewChild(paginator_1.MatPaginator)
