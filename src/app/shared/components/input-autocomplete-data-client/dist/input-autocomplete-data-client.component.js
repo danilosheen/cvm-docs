@@ -30,7 +30,7 @@ var InputAutocompleteDataCLientComponent = /** @class */ (function () {
         if (changes['defaultValue']) {
             var selected = this.options.find(function (opt) { return opt.nome === _this.defaultValue; });
             if (selected) {
-                this.inputControl.setValue(selected); // setar objeto completo
+                this.inputControl.setValue(selected);
             }
             else {
                 this.inputControl.setValue('');

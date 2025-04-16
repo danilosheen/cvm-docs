@@ -11,7 +11,9 @@
              autocomplete="off"
              [matAutocomplete]="auto"
              (input)="filter()"
-             (focus)="filter()">
+             (focus)="filter()"
+             (keyup)="sendText()"
+             >
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option
             *ngFor="let option of filteredOptions"

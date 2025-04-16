@@ -78,13 +78,20 @@
     <h3 class="title-passageiros">Inserir passageiros</h3>
 
     <!-- Nome do passageiro -->
-    <app-input-autocomplete-data-client
+    <!-- <app-input-autocomplete-data-client
       [options]="arrayNomeClientes"
       [label]="'Nome do passageiro'"
       [defaultValue]="passageiro.nome"
       [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeHandler($event)"
-    ></app-input-autocomplete-data-client>
+    ></app-input-autocomplete-data-client> -->
+
+    <app-input-autocomplete
+      [label]="'Nome do passageiro'"
+      [defaultValue]="passageiro.nome"
+      [errorMessage]="'Este campo é obrigatório'"
+      (inputValue)="updateNomeHandler($event)"
+    ></app-input-autocomplete>
 
     <!-- Documento do passageiro -->
     <app-input-number

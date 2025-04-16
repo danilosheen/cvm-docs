@@ -39,7 +39,7 @@ export class InputAutocompleteDataCLientComponent {
     if (changes['defaultValue']) {
       const selected = this.options.find(opt => opt.nome === this.defaultValue);
       if (selected) {
-        this.inputControl.setValue(selected); // setar objeto completo
+        this.inputControl.setValue(selected);
       } else {
         this.inputControl.setValue('');
       }

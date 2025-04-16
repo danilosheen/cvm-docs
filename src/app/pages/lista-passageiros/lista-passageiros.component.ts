@@ -19,7 +19,7 @@ import { AuthService } from '../../core/services/authService/auth-service.servic
 import { Router } from '@angular/router';
 import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { ICliente } from '../../interfaces/i-cliente';
-import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
+// import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
   selector: 'app-lista-passageiros',
@@ -34,7 +34,7 @@ import { InputAutocompleteDataCLientComponent } from "../../shared/components/in
     InputTextComponent,
     InputDateComponent,
     InputTimeComponent,
-    InputAutocompleteDataCLientComponent
+    // InputAutocompleteDataCLientComponent
 ],
   templateUrl: './lista-passageiros.component.html',
   styleUrl: './lista-passageiros.component.css'
@@ -233,15 +233,22 @@ export class ListaPassageirosComponent implements OnInit {
     this.listaPassageiros.extensaoRoteiroKm = value.value
   }
 
-  updateNomeHandler(value: any){
-    this.passageiro.nome = value.nome;
-    const idSelected = value.id;
+  // updateNomeHandler(value: any){
+  //   console.log(value)
+  //   this.passageiro.nome = value.value.nome;
+  //   console.log(this.passageiro)
+  //   const idSelected = value.id;
+  //   this.valid[9] = value.valid;
+  //   this.clientes.forEach(element => {
+  //     if(idSelected == element.id){
+  //       this.updateDocumentoHandler({ value: element.documento || '', valid: true});
+  //     }
+  //   });
+  // }
+
+  updateNomeHandler(value: IInput){
+    this.passageiro.nome = value.value
     this.valid[9] = value.valid;
-    this.clientes.forEach(element => {
-      if(idSelected == element.id){
-        this.updateDocumentoHandler({ value: element.documento || '', valid: true});
-      }
-    });
   }
 
   updateDocumentoHandler(value: IInput){

@@ -20,7 +20,7 @@ var dialog_generic_component_1 = require("../../shared/components/dialog-generic
 var input_text_component_1 = require("../../shared/components/input-text/input-text.component");
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
-var input_autocomplete_data_client_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component");
+// import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 var ListaPassageirosComponent = /** @class */ (function () {
     function ListaPassageirosComponent(pdfListaPassageiros, authService, router) {
         this.pdfListaPassageiros = pdfListaPassageiros;
@@ -189,16 +189,21 @@ var ListaPassageirosComponent = /** @class */ (function () {
     ListaPassageirosComponent.prototype.updateExtensaoKmHandler = function (value) {
         this.listaPassageiros.extensaoRoteiroKm = value.value;
     };
+    // updateNomeHandler(value: any){
+    //   console.log(value)
+    //   this.passageiro.nome = value.value.nome;
+    //   console.log(this.passageiro)
+    //   const idSelected = value.id;
+    //   this.valid[9] = value.valid;
+    //   this.clientes.forEach(element => {
+    //     if(idSelected == element.id){
+    //       this.updateDocumentoHandler({ value: element.documento || '', valid: true});
+    //     }
+    //   });
+    // }
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
-        var _this = this;
-        this.passageiro.nome = value.nome;
-        var idSelected = value.id;
+        this.passageiro.nome = value.value;
         this.valid[9] = value.valid;
-        this.clientes.forEach(function (element) {
-            if (idSelected == element.id) {
-                _this.updateDocumentoHandler({ value: element.documento || '', valid: true });
-            }
-        });
     };
     ListaPassageirosComponent.prototype.updateDocumentoHandler = function (value) {
         this.passageiro.documento = value.value;
@@ -218,7 +223,6 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
-                input_autocomplete_data_client_component_1.InputAutocompleteDataCLientComponent
             ],
             templateUrl: './lista-passageiros.component.html',
             styleUrl: './lista-passageiros.component.css'
