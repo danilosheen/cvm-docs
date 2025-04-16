@@ -229,7 +229,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
             if (idSelected == element.id) {
                 _this.updateDataNascimentoHandler({ value: element.dataNascimento, valid: true });
                 _this.updateContatoHandler({ value: element.contato, valid: true });
-                _this.updateCpfHandler({ value: element.cpf || '', valid: true });
+                _this.updateCpfHandler({ value: element.documento || '', valid: true });
                 _this.updateCidadeHandler({ value: element.cidade, valid: true });
                 _this.updateBairroHandler({ value: element.bairro, valid: true });
                 _this.updateRuaHandler({ value: element.rua, valid: true });

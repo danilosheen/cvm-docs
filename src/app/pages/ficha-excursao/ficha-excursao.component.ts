@@ -269,7 +269,7 @@ export class FichaExcursaoComponent implements OnInit {
         if(idSelected == element.id){
           this.updateDataNascimentoHandler({ value: element.dataNascimento!, valid: true});
           this.updateContatoHandler({ value: element.contato!, valid: true});
-          this.updateCpfHandler({ value: element.cpf || '', valid: true});
+          this.updateCpfHandler({ value: element.documento || '', valid: true});
           this.updateCidadeHandler({ value: element.cidade!, valid: true});
           this.updateBairroHandler({ value: element.bairro!, valid: true});
           this.updateRuaHandler({ value: element.rua!, valid: true});
