@@ -63,8 +63,8 @@ var DialogFromMenu = /** @class */ (function () {
         this.poltrona = '';
         this.dependentes = [];
         this.valid = [];
-        this.typesDocument = ['CPF', 'RG'];
-        this.typeDocumentSelected = 'CPF';
+        this.typesDocument = ['RG', 'CPF', 'Registro'];
+        this.typeDocumentSelected = 'RG';
         for (var i = 0; i < 2; i++) {
             this.valid.push(false);
         }

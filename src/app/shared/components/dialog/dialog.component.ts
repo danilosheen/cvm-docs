@@ -75,8 +75,8 @@ export class DialogFromMenu {
   poltrona: string = '';
   dependentes: object[] = [];
   valid: boolean[] = [];
-  typesDocument: string[] = ['CPF', 'RG']
-  typeDocumentSelected: string = 'CPF';
+  typesDocument: string[] = ['RG', 'CPF', 'Registro']
+  typeDocumentSelected: string = 'RG';
 
 
   constructor(){

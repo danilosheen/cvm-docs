@@ -55,7 +55,7 @@ export class FichaExcursaoComponent implements OnInit {
   showModalDependente: boolean = false;
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
   hospedagens: string[] = ['Casa de praia', 'Pousada', 'Hotel'];
-  typesDocument: string[] = ['RG', 'CPF'];
+  typesDocument: string[] = ['RG', 'CPF', 'Registro'];
   clienteService = inject(ClienteService);
   clientes: ICliente[] = [];
   nomesClientes: IClienteAutocomplete[] = [];

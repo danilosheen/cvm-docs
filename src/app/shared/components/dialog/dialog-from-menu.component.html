@@ -11,7 +11,7 @@
     [label]="'Selecione o tipo de documento'"
     [listItems]="typesDocument"
     [dropdown]="false"
-    [defaultValue]="'CPF'"
+    [defaultValue]="typeDocumentSelected"
     (selectedValue)="updateDocumentSelectedHandler($event)"
   ></app-input-radio>
   @if (typeDocumentSelected == 'CPF') {
@@ -21,9 +21,16 @@
       [optional]="true"
       (inputValue)="updateDocumentoDependenteHandler($event)"
     ></app-input-number>
-  } @else {
+  } @else if(typeDocumentSelected == 'RG'){
     <app-input-number
       [label]="'Informe o RG do dependente'"
+      [type]="'text'"
+      [optional]="true"
+      (inputValue)="updateDocumentoDependenteHandler($event)"
+    ></app-input-number>
+  } @else {
+    <app-input-number
+      [label]="'Informe o Registro do dependente'"
       [type]="'text'"
       [optional]="true"
       (inputValue)="updateDocumentoDependenteHandler($event)"
