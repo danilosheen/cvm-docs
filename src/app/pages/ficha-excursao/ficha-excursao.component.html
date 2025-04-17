@@ -48,12 +48,15 @@
       [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeClienteHandler($event)"
     ></app-input-autocomplete-data-client>
-    <!-- dataMascimento -->
-    <app-input-date
-      [label]="'Data de Nascimento'"
+    <!-- dataNascimento -->
+    <app-input-number
+      [label]="'Data de nascimento'"
+      [type]="'date'"
       [optional]="true"
-      (inputDate)="updateDataNascimentoHandler($event)"
-    ></app-input-date>
+      [placeholder]="'ex: 01/01/2000'"
+      [defaultValue]="fichaExcursaoData.cliente.dataNascimento"
+      (inputValue)="updateDataNascimentoHandler($event)"
+    ></app-input-number>
     <!-- contato -->
     <app-input-number
       [label]="'Telefone/WhatsApp'"
