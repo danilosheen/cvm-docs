@@ -117,9 +117,3 @@ mat-form-field input{
   transform: scale(1.01);
 }
 
-@media (max-width: 767px) {
-  .container-screen-login {
-    min-height: calc(100vh - 56px); /* Subtraímos a altura da barra de endereço do mobile, ajustando para a tela visível */
-  }
-}
-
