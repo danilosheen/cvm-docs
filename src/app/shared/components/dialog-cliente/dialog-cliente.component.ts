@@ -5,6 +5,7 @@ import {
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
+  MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,39 +38,49 @@ export class DialogClienteComponent {
 
   readonly dialogRef = inject(MatDialogRef<DialogClienteComponent>);
   valid: boolean[] = [];
-  typesDocument: string[] = ['CPF', 'RG'];
-  typeDocumentSelected = 'CPF';
+  typesDocument: string[] = ['RG', 'CPF'];
+  // typeDocumentSelected = 'CPF';
 
-  clienteData: ICliente = {
+  clienteDataClean: ICliente = {
     nome: '',
     dataNascimento: '',
     contato: '',
-    cpf: '',
+    typeDocumentSelected: 'RG',
     documento: '',
     cidade: '',
     bairro: '',
     rua: '',
     numero: '',
-    updatedAt: this.dateNow()
+    updatedAt: new Date().toISOString()
   }
+
+  inputsDialog = inject(MAT_DIALOG_DATA);
+  title: string = this.inputsDialog.title;
+  confirmButton: string = this.inputsDialog.confirmButton;
+  clienteData: ICliente = this.inputsDialog.cliente || this.clienteDataClean;
+  // clienteData: ICliente = inject(MAT_DIALOG_DATA);
 
   dateNow(){
     return new Date();
   }
 
-
   constructor(){
     for (let i = 0; i < 7; i++) {
       this.valid.push(false);
     }
-  }
 
-  // adicionarDependente(nome: string, documento: string, poltrona: string){
-  //   if(this.isValid()){
-  //     const novoDependente = { nome, documento, poltrona };
-  //     this.dialogRef.close(novoDependente);
-  //   }
-  // }
+    if(this.clienteData){
+      this.updateNomeClienteHandler({value: this.clienteData.nome, valid: true});
+      this.updateDataNascimentoHandler({value: this.clienteData.dataNascimento || '', valid: true});
+      this.updateContatoHandler({value: this.clienteData.contato, valid: true});
+      this.updateDocumentSelectedHandler({value: this.clienteData.typeDocumentSelected, valid: true});
+      this.updateDocumentoClienteHandler({value: this.clienteData.documento, valid: true});
+      this.updateCidadeHandler({value: this.clienteData.cidade, valid: true});
+      this.updateBairroHandler({value: this.clienteData.bairro, valid: true});
+      this.updateRuaHandler({value: this.clienteData.rua, valid: true});
+      this.updateNumeroHandler({value: this.clienteData.numero, valid: true});
+    }
+  }
 
   isValid(){
     for (let i of this.valid){
@@ -96,7 +107,10 @@ export class DialogClienteComponent {
   }
 
   updateDocumentSelectedHandler(value: IInput){
-    this.typeDocumentSelected = value.value;
+    if(this.clienteData.typeDocumentSelected !== value.value){
+      this.clienteData.documento = ''
+    }
+    this.clienteData.typeDocumentSelected = value.value;
   }
 
   updateDocumentoClienteHandler(value: IInput){

@@ -1,11 +1,12 @@
 <div class="container-dialog-cliente">
   <mat-dialog-content>
-    Preencha os campos para adicionar o cliente
+    Preencha os campos para {{title}} o cliente
   </mat-dialog-content>
   <div class="container-inputs">
     <app-input-text
       [label]="'Nome do cliente'"
       [placeholder]="'ex: Crairton de Matos Leite'"
+      [defaultValue]="clienteData.nome"
       (inputValue)="updateNomeClienteHandler($event)"
     ></app-input-text>
     <app-input-date
@@ -15,49 +16,54 @@
     <app-input-number
       [label]="'Contato'"
       [type]="'tel'"
+      [defaultValue]="clienteData.contato"
       (inputValue)="updateContatoHandler($event)"
     ></app-input-number>
     <app-input-radio
       [label]="'Selecione o tipo de documento'"
       [listItems]="typesDocument"
       [dropdown]="false"
-      [defaultValue]="'CPF'"
+      [defaultValue]="clienteData.typeDocumentSelected"
       (selectedValue)="updateDocumentSelectedHandler($event)"
     ></app-input-radio>
-    @if (typeDocumentSelected == 'CPF') {
+    @if (clienteData.typeDocumentSelected == 'CPF') {
       <app-input-number
         [label]="'CPF do cliente'"
         [type]="'cpf'"
-        [optional]="true"
+        [defaultValue]="clienteData.documento"
         (inputValue)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     } @else {
       <app-input-number
         [label]="'RG do cliente'"
         [type]="'text'"
-        [optional]="true"
+        [defaultValue]="clienteData.documento"
         (inputValue)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     }
     <app-input-text
       [label]="'Cidade'"
       [placeholder]="'ex: Juazeiro do Norte'"
+      [defaultValue]="clienteData.cidade"
       (inputValue)="updateCidadeHandler($event)"
     ></app-input-text>
     <app-input-text
       [label]="'Bairro'"
       [placeholder]="'ex: Lagoa Seca'"
+      [defaultValue]="clienteData.bairro"
       (inputValue)="updateBairroHandler($event)"
     ></app-input-text>
     <app-input-text
       [label]="'Rua'"
       [placeholder]="'ex: São Pedro'"
+      [defaultValue]="clienteData.rua"
       (inputValue)="updateRuaHandler($event)"
     ></app-input-text>
     <app-input-number
       [label]="'Número'"
       [type]="'text'"
       [placeholder]="'ex: 37'"
+      [defaultValue]="clienteData.numero"
       (inputValue)="updateNumeroHandler($event)"
     ></app-input-number>
   </div>
@@ -67,6 +73,6 @@
     [disabled]="!isValid()"
     (click)="onClickHandler()"
     (window:keydown.enter)="onClickHandler()"
-    >Adicionar</button>
+    >{{confirmButton}}</button>
   </mat-dialog-actions>
 </div>

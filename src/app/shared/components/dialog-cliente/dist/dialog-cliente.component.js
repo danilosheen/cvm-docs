@@ -21,33 +21,43 @@ var DialogClienteComponent = /** @class */ (function () {
     function DialogClienteComponent() {
         this.dialogRef = core_1.inject(dialog_1.MatDialogRef());
         this.valid = [];
-        this.typesDocument = ['CPF', 'RG'];
-        this.typeDocumentSelected = 'CPF';
-        this.clienteData = {
+        this.typesDocument = ['RG', 'CPF'];
+        // typeDocumentSelected = 'CPF';
+        this.clienteDataClean = {
             nome: '',
             dataNascimento: '',
             contato: '',
-            cpf: '',
+            typeDocumentSelected: 'RG',
             documento: '',
             cidade: '',
             bairro: '',
             rua: '',
             numero: '',
-            updatedAt: this.dateNow()
+            updatedAt: new Date().toISOString()
         };
+        this.inputsDialog = core_1.inject(dialog_1.MAT_DIALOG_DATA);
+        this.title = this.inputsDialog.title;
+        this.confirmButton = this.inputsDialog.confirmButton;
+        this.clienteData = this.inputsDialog.cliente || this.clienteDataClean;
         for (var i = 0; i < 7; i++) {
             this.valid.push(false);
         }
+        if (this.clienteData) {
+            this.updateNomeClienteHandler({ value: this.clienteData.nome, valid: true });
+            this.updateDataNascimentoHandler({ value: this.clienteData.dataNascimento || '', valid: true });
+            this.updateContatoHandler({ value: this.clienteData.contato, valid: true });
+            this.updateDocumentSelectedHandler({ value: this.clienteData.typeDocumentSelected, valid: true });
+            this.updateDocumentoClienteHandler({ value: this.clienteData.documento, valid: true });
+            this.updateCidadeHandler({ value: this.clienteData.cidade, valid: true });
+            this.updateBairroHandler({ value: this.clienteData.bairro, valid: true });
+            this.updateRuaHandler({ value: this.clienteData.rua, valid: true });
+            this.updateNumeroHandler({ value: this.clienteData.numero, valid: true });
+        }
     }
+    // clienteData: ICliente = inject(MAT_DIALOG_DATA);
     DialogClienteComponent.prototype.dateNow = function () {
         return new Date();
     };
-    // adicionarDependente(nome: string, documento: string, poltrona: string){
-    //   if(this.isValid()){
-    //     const novoDependente = { nome, documento, poltrona };
-    //     this.dialogRef.close(novoDependente);
-    //   }
-    // }
     DialogClienteComponent.prototype.isValid = function () {
         for (var _i = 0, _a = this.valid; _i < _a.length; _i++) {
             var i = _a[_i];
@@ -70,7 +80,10 @@ var DialogClienteComponent = /** @class */ (function () {
         this.valid[2] = value.valid;
     };
     DialogClienteComponent.prototype.updateDocumentSelectedHandler = function (value) {
-        this.typeDocumentSelected = value.value;
+        if (this.clienteData.typeDocumentSelected !== value.value) {
+            this.clienteData.documento = '';
+        }
+        this.clienteData.typeDocumentSelected = value.value;
     };
     DialogClienteComponent.prototype.updateDocumentoClienteHandler = function (value) {
         this.clienteData.documento = value.value;

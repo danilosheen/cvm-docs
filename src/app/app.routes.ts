@@ -7,14 +7,16 @@ import { ReciboComponent } from './pages/recibo/recibo.component';
 import { OrcamentoComponent } from './pages/orcamento/orcamento.component';
 import { ListaPassageirosComponent } from './pages/lista-passageiros/lista-passageiros.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
+import { AuthGuardService } from '../app/core/services/authGuard/auth-guard.service';
+
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'contrato', component: ContratoComponent },
   { path: 'ficha-excursao', component: FichaExcursaoComponent },
   { path: 'orcamento', component: OrcamentoComponent },
   { path: 'recibo', component: ReciboComponent },
   { path: 'lista-passageiros', component: ListaPassageirosComponent },
-  { path: 'clientes', component: ClientesComponent },
+  { path: 'clientes', component: ClientesComponent, canActivate: [AuthGuardService] },
 ];

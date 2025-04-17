@@ -88,7 +88,50 @@ export class ClientesComponent implements AfterViewInit {
     }
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
+  openAdicionarCliente(enterAnimationDuration: string, exitAnimationDuration: string): void{
+    const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        title: 'adicionar',
+        confirmButton: 'Salvar'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((cliente: ICliente) => {
+      if (cliente) {
+        this.clienteService.create(cliente).subscribe((response) => {
+          const listaTemp = [...this.dataSource.data, response];
+          listaTemp.sort((a, b) => a.nome.localeCompare(b.nome));
+          this.clientes = listaTemp;
+          this.dataSource.data = this.clientes;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.isClient = this.dataSource.data.length > 0;
+        });
+      }
+    });
+  }
+
+  openEditarCliente(enterAnimationDuration: string, exitAnimationDuration: string, cliente: ICliente): void{
+    const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        cliente: cliente,
+        title: 'editar',
+        confirmButton: 'Atualizar'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.editarCliente(cliente.id!, cliente)
+      }
+    });
+  }
+
+  openRemoverCliente(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
     const dialogRef = this.dialog.open(DialogGenericComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
@@ -100,32 +143,30 @@ export class ClientesComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.removeItem(id);
+        this.removerCliente(id);
       }
     });
   }
 
-  adicionarCliente(enterAnimationDuration: string, exitAnimationDuration: string): void{
-    const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.clienteService.create(result).subscribe((response)=>{
-          this.carregarClientes();
-        })
-      }
-    });
+  editarCliente(id: string, cliente: ICliente){
+    const updatedAt = new Date().toISOString();
+    cliente.updatedAt = updatedAt;
+    this.clienteService.update(id, cliente).subscribe(()=>{
+    })
   }
 
-  removeItem(id: string){
+  removerCliente(id: string) {
     this.clienteService.delete(id).subscribe(() => {
-      this.carregarClientes();
+      const listaTemp = this.dataSource.data.filter(cliente => cliente.id !== id);
+      this.clientes = listaTemp;
+      this.dataSource.data = this.clientes;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isClient = this.clientes.length > 0;
     });
   }
 
+  // Personalização do paginator do Angular Material
   customizarPaginador() {
     this.paginatorIntl.itemsPerPageLabel = 'Itens por página';
     this.paginatorIntl.nextPageLabel = 'Próxima página';

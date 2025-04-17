@@ -4,7 +4,7 @@
   @if (!isClient && clientes.length == 0) {
     <div class="container-no-users">
       <h3>Nenhum cliente cadastrado</h3>
-      <button mat-flat-button (click)="adicionarCliente('0ms', '0ms')">
+      <button mat-flat-button (click)="openAdicionarCliente('0ms', '0ms')">
         Adicionar Cliente
       </button>
     </div>
@@ -15,7 +15,7 @@
         <mat-label>Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. João" #input>
       </mat-form-field>
-      <button mat-flat-button (click)="adicionarCliente('0ms', '0ms')">
+      <button mat-flat-button (click)="openAdicionarCliente('0ms', '0ms')">
         Adicionar Cliente
       </button>
     </div>
@@ -59,8 +59,8 @@
           <td mat-cell *matCellDef="let row">
             <div class="container-action-buttons">
               <img src="../../../assets/icons-svg/visible-icon.svg">
-              <img src="../../../assets/icons-svg/pen.svg">
-              <img (click)="openDialog('0ms', '0ms', row.id)" src="../../../assets/icons-svg/delete-icon.svg">
+              <img (click)="openEditarCliente('0ms', '0ms', row)" src="../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverCliente('0ms', '0ms', row.id)" src="../../../assets/icons-svg/delete-icon.svg">
             </div>
             <!-- <span (click)="openDialog('0ms', '0ms', row.id)" class="material-icons icon-red">delete</span> -->
           </td>

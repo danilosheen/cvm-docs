@@ -32,6 +32,14 @@ mat-paginator{
 
 .container-action-buttons{
   display: flex;
-  gap: 5px;
+  gap: 10px;
+}
+
+.container-action-buttons img{
   cursor: pointer;
+  transition: transform ease 0.3s;
+}
+
+.container-action-buttons img:hover{
+  transform: scale(1.1);
 }

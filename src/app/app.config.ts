@@ -4,8 +4,10 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
+import { AuthInterceptorService } from './core/services/authInterceptor/auth-interceptor.service';
 
+// Lotties
 import { provideLottieOptions } from 'ngx-lottie';
 import player from 'lottie-web';
 
@@ -21,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimations(),
     provideLottieOptions({ player: playerFactory }),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ]
 };

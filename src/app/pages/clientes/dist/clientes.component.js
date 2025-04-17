@@ -5,6 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 exports.ClientesComponent = void 0;
 var core_1 = require("@angular/core");
@@ -63,7 +70,48 @@ var ClientesComponent = /** @class */ (function () {
             this.dataSource.paginator.firstPage();
         }
     };
-    ClientesComponent.prototype.openDialog = function (enterAnimationDuration, exitAnimationDuration, id) {
+    ClientesComponent.prototype.openAdicionarCliente = function (enterAnimationDuration, exitAnimationDuration) {
+        var _this = this;
+        var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
+            enterAnimationDuration: enterAnimationDuration,
+            exitAnimationDuration: exitAnimationDuration,
+            data: {
+                title: 'adicionar',
+                confirmButton: 'Salvar'
+            }
+        });
+        dialogRef.afterClosed().subscribe(function (cliente) {
+            if (cliente) {
+                _this.clienteService.create(cliente).subscribe(function (response) {
+                    var listaTemp = __spreadArrays(_this.dataSource.data, [response]);
+                    listaTemp.sort(function (a, b) { return a.nome.localeCompare(b.nome); });
+                    _this.clientes = listaTemp;
+                    _this.dataSource.data = _this.clientes;
+                    _this.dataSource.paginator = _this.paginator;
+                    _this.dataSource.sort = _this.sort;
+                    _this.isClient = _this.dataSource.data.length > 0;
+                });
+            }
+        });
+    };
+    ClientesComponent.prototype.openEditarCliente = function (enterAnimationDuration, exitAnimationDuration, cliente) {
+        var _this = this;
+        var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
+            enterAnimationDuration: enterAnimationDuration,
+            exitAnimationDuration: exitAnimationDuration,
+            data: {
+                cliente: cliente,
+                title: 'editar',
+                confirmButton: 'Atualizar'
+            }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result) {
+                _this.editarCliente(cliente.id, cliente);
+            }
+        });
+    };
+    ClientesComponent.prototype.openRemoverCliente = function (enterAnimationDuration, exitAnimationDuration, id) {
         var _this = this;
         var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
             enterAnimationDuration: enterAnimationDuration,
@@ -75,30 +123,28 @@ var ClientesComponent = /** @class */ (function () {
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
-                _this.removeItem(id);
+                _this.removerCliente(id);
             }
         });
     };
-    ClientesComponent.prototype.adicionarCliente = function (enterAnimationDuration, exitAnimationDuration) {
-        var _this = this;
-        var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
-            enterAnimationDuration: enterAnimationDuration,
-            exitAnimationDuration: exitAnimationDuration
-        });
-        dialogRef.afterClosed().subscribe(function (result) {
-            if (result) {
-                _this.clienteService.create(result).subscribe(function (response) {
-                    _this.carregarClientes();
-                });
-            }
+    ClientesComponent.prototype.editarCliente = function (id, cliente) {
+        var updatedAt = new Date().toISOString();
+        cliente.updatedAt = updatedAt;
+        this.clienteService.update(id, cliente).subscribe(function () {
         });
     };
-    ClientesComponent.prototype.removeItem = function (id) {
+    ClientesComponent.prototype.removerCliente = function (id) {
         var _this = this;
         this.clienteService["delete"](id).subscribe(function () {
-            _this.carregarClientes();
+            var listaTemp = _this.dataSource.data.filter(function (cliente) { return cliente.id !== id; });
+            _this.clientes = listaTemp;
+            _this.dataSource.data = _this.clientes;
+            _this.dataSource.paginator = _this.paginator;
+            _this.dataSource.sort = _this.sort;
+            _this.isClient = _this.clientes.length > 0;
         });
     };
+    // Personalização do paginator do Angular Material
     ClientesComponent.prototype.customizarPaginador = function () {
         this.paginatorIntl.itemsPerPageLabel = 'Itens por página';
         this.paginatorIntl.nextPageLabel = 'Próxima página';

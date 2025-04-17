@@ -28,6 +28,10 @@
   gap: 15px;
 }
 
+.mat-mdc-dialog-content{
+  text-align: center;
+}
+
 .mat-mdc-form-field{
   width: 100%;
 }
@@ -38,4 +42,10 @@
 
 .mat-mdc-button>.mat-icon{
   margin-right: 0 !important;
+}
+
+@media (min-width: 650px){
+  .container-dialog-cliente{
+    width: 500px;
+  }
 }
