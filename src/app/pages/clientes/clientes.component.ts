@@ -88,6 +88,10 @@ export class ClientesComponent implements AfterViewInit {
     }
   }
 
+  openVerCliente(){
+
+  }
+
   openAdicionarCliente(enterAnimationDuration: string, exitAnimationDuration: string): void{
     const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
       enterAnimationDuration,

@@ -70,6 +70,8 @@ var ClientesComponent = /** @class */ (function () {
             this.dataSource.paginator.firstPage();
         }
     };
+    ClientesComponent.prototype.openVerCliente = function () {
+    };
     ClientesComponent.prototype.openAdicionarCliente = function (enterAnimationDuration, exitAnimationDuration) {
         var _this = this;
         var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {

@@ -58,7 +58,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ações </th>
           <td mat-cell *matCellDef="let row">
             <div class="container-action-buttons">
-              <img src="../../../assets/icons-svg/visible-icon.svg">
+              <img (click)="openVerCliente()" src="../../../assets/icons-svg/visible-icon.svg">
               <img (click)="openEditarCliente('0ms', '0ms', row)" src="../../../assets/icons-svg/pen.svg">
               <img (click)="openRemoverCliente('0ms', '0ms', row.id)" src="../../../assets/icons-svg/delete-icon.svg">
             </div>
