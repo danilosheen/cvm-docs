@@ -1,0 +1,53 @@
+.container-dialog-view{
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+table{
+  width: 90%;
+  margin: 30px auto 0 auto;
+  line-height: 35px;
+}
+
+table, tr, td{
+  border-collapse: collapse;
+}
+
+td.left{
+  padding-left: 10px;
+  font-weight: 500;
+}
+
+td.right{
+  padding-right: 10px;
+  font-weight: lighter;
+}
+
+tr:nth-child(odd){
+  background-color: rgb(216, 216, 216);
+}
+
+tr:nth-child(even){
+  background-color: rgb(240, 240, 240);
+}
+
+@media (max-width: 649px){
+
+  td.right{
+    width: 100%;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 650px){
+
+  table{
+    width: 85%;
+  }
+
+
+  .container-dialog-view{
+    width: 550px;
+  }
+}

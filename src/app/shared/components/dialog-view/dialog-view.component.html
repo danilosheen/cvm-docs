@@ -1,0 +1,51 @@
+<div class="container-dialog-view">
+  <table>
+    <tr>
+      <td class="left">Nome:</td>
+      <td class="right">{{data.nome}}</td>
+    </tr>
+    <tr>
+      <td class="left">Data de Nascimento:</td>
+      <td class="right">{{data.dataNascimento}}</td>
+    </tr>
+    <tr>
+      <td class="left">Contato:</td>
+      <td class="right">{{data.contato}}</td>
+    </tr>
+    <tr>
+      <td class="left">Tipo do documento:</td>
+      <td class="right">{{data.typeDocumentSelected}}</td>
+    </tr>
+    <tr>
+      <td class="left">Documento:</td>
+      <td class="right">{{data.documento}}</td>
+    </tr>
+    <tr>
+      <td class="left">Cidade:</td>
+      <td class="right">{{data.cidade}}</td>
+    </tr>
+    <tr>
+      <td class="left">Bairro:</td>
+      <td class="right">{{data.bairro}}</td>
+    </tr>
+    <tr>
+      <td class="left">Rua:</td>
+      <td class="right">{{data.rua}}</td>
+    </tr>
+    <tr>
+      <td class="left">Número:</td>
+      <td class="right">{{data.numero}}</td>
+    </tr>
+    <tr>
+      <td class="left">Última atualização:</td>
+      <td class="right">{{updatedAt}}</td>
+    </tr>
+
+
+  </table>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)="onClickHandler()">Fechar</button>
+  </mat-dialog-actions>
+</div>
+

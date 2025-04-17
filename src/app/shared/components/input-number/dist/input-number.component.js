@@ -56,6 +56,9 @@ var InputNumberComponent = /** @class */ (function () {
         else if (this.type === 'cpf' && !this.optional) {
             this.input.setValidators([forms_1.Validators.required, this.cpfValidator]);
         }
+        else if (this.type === 'date' && !this.optional) {
+            this.input.setValidators([forms_1.Validators.required, this.dateValidator]);
+        }
         this.input.updateValueAndValidity();
     };
     InputNumberComponent.prototype.updateErrorMessage = function () {
@@ -118,6 +121,20 @@ var InputNumberComponent = /** @class */ (function () {
         }
         return formattedValue;
     };
+    InputNumberComponent.prototype.onDateFormat = function (value) {
+        var numeros = value.replace(/\D/g, '');
+        if (numeros.length > 8) {
+            numeros = numeros.substring(0, 8);
+        }
+        var formattedValue = numeros;
+        if (numeros.length > 4) {
+            formattedValue = numeros.substring(0, 2) + "/" + numeros.substring(2, 4) + "/" + numeros.substring(4);
+        }
+        else if (numeros.length > 2) {
+            formattedValue = numeros.substring(0, 2) + "/" + numeros.substring(2);
+        }
+        return formattedValue;
+    };
     InputNumberComponent.prototype.onInputChange = function (event) {
         if (this.type == 'number' && this.input.value) {
             var inputElement = event.target;
@@ -134,6 +151,12 @@ var InputNumberComponent = /** @class */ (function () {
         else if (this.type == 'cpf' && this.input.value) {
             var inputElement = event.target;
             var formattedValue = this.onCpfFormat(inputElement.value);
+            this.input.setValue(formattedValue, { emitEvent: false });
+            this.sendNumberInputHandler(formattedValue);
+        }
+        else if (this.type == 'date' && this.input.value) {
+            var inputElement = event.target;
+            var formattedValue = this.onDateFormat(inputElement.value);
             this.input.setValue(formattedValue, { emitEvent: false });
             this.sendNumberInputHandler(formattedValue);
         }
@@ -167,6 +190,23 @@ var InputNumberComponent = /** @class */ (function () {
         var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
         if (rawValue.length !== 11) {
             return { invalidCpf: true };
+        }
+        return null;
+    };
+    InputNumberComponent.prototype.dateValidator = function (control) {
+        var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+        if (rawValue.length !== 8) {
+            return { invalidDate: true };
+        }
+        var day = parseInt(rawValue.substring(0, 2), 10);
+        var month = parseInt(rawValue.substring(2, 4), 10);
+        var year = parseInt(rawValue.substring(4), 10);
+        var date = new Date(year, month - 1, day);
+        var isValidDate = date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day;
+        if (!isValidDate) {
+            return { invalidDate: true };
         }
         return null;
     };

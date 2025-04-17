@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 import { NgIf } from '@angular/common';
 import { DialogClienteComponent } from '../../shared/components/dialog-cliente/dialog-cliente.component';
+import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-view.component';
 
 @Component({
   selector: 'app-clientes',
@@ -88,7 +89,18 @@ export class ClientesComponent implements AfterViewInit {
     }
   }
 
-  openVerCliente(){
+  openVisualizarCliente(enterAnimationDuration: string, exitAnimationDuration: string, cliente: ICliente){
+    const dialogRef = this.dialogCliente.open(DialogViewComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: cliente
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        // this.editarCliente(cliente.id!, cliente)
+      }
+    });
 
   }
 
@@ -130,7 +142,9 @@ export class ClientesComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.editarCliente(cliente.id!, cliente)
+        this.editarCliente(cliente.id!, cliente);
+      } else {
+        this.carregarClientes();
       }
     });
   }

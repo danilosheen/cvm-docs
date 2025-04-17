@@ -28,7 +28,7 @@ import { InputDateComponent } from "../input-date/input-date.component";
     InputTextComponent,
     InputNumberComponent,
     InputRadioComponent,
-    InputDateComponent
+    // InputDateComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dialog-cliente.component.html',

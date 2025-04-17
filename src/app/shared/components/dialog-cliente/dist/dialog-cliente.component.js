@@ -16,7 +16,6 @@ var input_1 = require("@angular/material/input");
 var input_text_component_1 = require("../input-text/input-text.component");
 var input_number_component_1 = require("../input-number/input-number.component");
 var input_radio_component_1 = require("../input-radio/input-radio.component");
-var input_date_component_1 = require("../input-date/input-date.component");
 var DialogClienteComponent = /** @class */ (function () {
     function DialogClienteComponent() {
         this.dialogRef = core_1.inject(dialog_1.MatDialogRef());
@@ -123,7 +122,6 @@ var DialogClienteComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_number_component_1.InputNumberComponent,
                 input_radio_component_1.InputRadioComponent,
-                input_date_component_1.InputDateComponent
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,
             templateUrl: './dialog-cliente.component.html',

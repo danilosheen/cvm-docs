@@ -57,6 +57,8 @@ export class InputNumberComponent implements OnInit {
       this.input.setValidators([Validators.required, this.moneyValidator]);
     } else if (this.type === 'cpf' && !this.optional) {
       this.input.setValidators([Validators.required, this.cpfValidator]);
+    } else if (this.type === 'date' && !this.optional) {
+      this.input.setValidators([Validators.required, this.dateValidator]);
     }
     this.input.updateValueAndValidity();
   }
@@ -127,6 +129,25 @@ export class InputNumberComponent implements OnInit {
     return formattedValue;
   }
 
+  onDateFormat(value: string): string {
+
+    let numeros = value.replace(/\D/g, '');
+
+    if (numeros.length > 8) {
+      numeros = numeros.substring(0, 8);
+    }
+
+    let formattedValue = numeros;
+
+    if (numeros.length > 4) {
+      formattedValue = `${numeros.substring(0, 2)}/${numeros.substring(2, 4)}/${numeros.substring(4)}`;
+    } else if (numeros.length > 2) {
+      formattedValue = `${numeros.substring(0, 2)}/${numeros.substring(2)}`;
+    }
+
+    return formattedValue;
+  }
+
   onInputChange(event: Event) {
     if (this.type == 'number' && this.input.value) {
         const inputElement = event.target as HTMLInputElement;
@@ -141,6 +162,11 @@ export class InputNumberComponent implements OnInit {
     } else if (this.type == 'cpf' && this.input.value) {
         const inputElement = event.target as HTMLInputElement;
         const formattedValue = this.onCpfFormat(inputElement.value);
+        this.input.setValue(formattedValue, { emitEvent: false });
+        this.sendNumberInputHandler(formattedValue);
+    } else if (this.type == 'date' && this.input.value) {
+        const inputElement = event.target as HTMLInputElement;
+        const formattedValue = this.onDateFormat(inputElement.value);
         this.input.setValue(formattedValue, { emitEvent: false });
         this.sendNumberInputHandler(formattedValue);
     } else if (this.type == 'text' && this.input.value){
@@ -177,6 +203,28 @@ export class InputNumberComponent implements OnInit {
     if (rawValue.length !== 11) {
       return { invalidCpf: true };
     }
+    return null;
+  }
+
+  dateValidator(control: AbstractControl): ValidationErrors | null {
+    const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+    if (rawValue.length !== 8) {
+      return { invalidDate: true };
+    }
+
+    const day = parseInt(rawValue.substring(0, 2), 10);
+    const month = parseInt(rawValue.substring(2, 4), 10);
+    const year = parseInt(rawValue.substring(4), 10);
+    const date = new Date(year, month - 1, day);
+    const isValidDate =
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day;
+
+    if (!isValidDate) {
+      return { invalidDate: true };
+    }
+
     return null;
   }
 }
