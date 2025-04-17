@@ -10,11 +10,11 @@ exports.PassageiroService = void 0;
 var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
 var PassageiroService = /** @class */ (function () {
-    // private apiUrl = 'https://backend-cvm.vercel.app/api';
     function PassageiroService(http, authService) {
         this.http = http;
         this.authService = authService;
-        this.apiUrl = 'http://localhost:3000/api';
+        // private apiUrl = 'http://localhost:3000/api';
+        this.apiUrl = 'https://backend-cvm.vercel.app/api';
     }
     PassageiroService.prototype.getHeaders = function () {
         var token = this.authService.getToken();

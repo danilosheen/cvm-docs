@@ -10,11 +10,11 @@ exports.ClienteService = void 0;
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
 var ClienteService = /** @class */ (function () {
-    // private apiUrl = 'https://backend-cvm.vercel.app/api';
     function ClienteService(http, authService) {
         this.http = http;
         this.authService = authService;
-        this.apiUrl = 'http://localhost:3000/api';
+        // private apiUrl = 'http://localhost:3000/api';
+        this.apiUrl = 'https://backend-cvm.vercel.app/api';
     }
     ClienteService.prototype.getHeaders = function () {
         var token = this.authService.getToken();
