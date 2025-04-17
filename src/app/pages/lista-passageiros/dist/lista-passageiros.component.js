@@ -135,9 +135,12 @@ var ListaPassageirosComponent = /** @class */ (function () {
         var _this = this;
         var dialogRef = this.dialogPassageiro.open(dialog_passageiro_component_1.DialogPassageiroComponent, {
             data: {
-                nome: this.listaPassageiros.passageiros[index].nome,
-                documento: this.listaPassageiros.passageiros[index].documento,
-                typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected
+                passageiro: this.listaPassageiros.passageiros[index],
+                title: 'atualizar',
+                confirmButton: 'Salvar'
+                // nome: this.listaPassageiros.passageiros[index].nome,
+                // documento: this.listaPassageiros.passageiros[index].documento,
+                // typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected,
             }
         });
         dialogRef.afterClosed().subscribe(function (passageiro) {

@@ -9,7 +9,6 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { ICliente } from '../../../interfaces/i-cliente';
 
 @Component({
   selector: 'app-dialog-view',
@@ -26,13 +25,15 @@ import { ICliente } from '../../../interfaces/i-cliente';
 export class DialogViewComponent {
 
   readonly dialogRef = inject(MatDialogRef<DialogViewComponent>);
-  data: ICliente = inject(MAT_DIALOG_DATA);
+  inputsData = inject(MAT_DIALOG_DATA);
+  type: string = this.inputsData.type;
+  data: any = this.inputsData.pessoa;
   datePipe: DatePipe = inject(DatePipe);
-  updatedAt = this.datePipe.transform(this.data.updatedAt, "dd/MM/yyyy 'às' HH:mm:ss");
+  updatedAt: string = this.datePipe.transform(this.data.updatedAt, "dd/MM/yyyy 'às' HH:mm:ss") ?? '';
 
 
   constructor() {
-    console.log(this.data);
+
   }
 
   onClickHandler(){

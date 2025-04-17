@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, ViewChild} from '@angular/core';
+import { Component, inject, ViewChild} from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { FormsModule } from '@angular/forms';
@@ -8,8 +8,6 @@ import { MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from '../../core/services/authService/auth-service.service';
-import { ClienteService } from '../../core/services/clienteService/cliente.service';
-import { ICliente } from '../../interfaces/i-cliente';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,9 +15,12 @@ import { LoadingBlueComponent } from "../../shared/components/loading-blue/loadi
 import { NgIf } from '@angular/common';
 import { DialogClienteComponent } from '../../shared/components/dialog-cliente/dialog-cliente.component';
 import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-view.component';
+import { IPassageiro } from '../../interfaces/i-passageiro';
+import { PassageiroService } from '../../core/services/passageiroService/passageiro-service.service';
+import { DialogPassageiroComponent } from '../../shared/components/dialog-passageiro/dialog-passageiro.component';
 
 @Component({
-  selector: 'app-clientes',
+  selector: 'app-passageiros',
   imports: [
     NavbarComponent,
     FooterComponent,
@@ -32,18 +33,17 @@ import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-
     MatButtonModule,
     LoadingBlueComponent,
     NgIf
-],
-  templateUrl: './clientes.component.html',
-  styleUrl: './clientes.component.css'
+  ],
+  templateUrl: './passageiros.component.html',
+  styleUrl: './passageiros.component.css'
 })
-
-export class ClientesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['nome', 'dataNascimento', 'contato', 'acao'];
-  dataSource: MatTableDataSource<ICliente>;
-  clientes: ICliente[] = [];
+export class PassageirosComponent {
+  displayedColumns: string[] = ['nome', 'tipoDocumento', 'documento', 'acao'];
+  dataSource: MatTableDataSource<IPassageiro>;
+  passageiros: IPassageiro[] = [];
   readonly dialog = inject(MatDialog);
-  readonly dialogCliente = inject(MatDialog);
-  hasClient = true;
+  readonly dialogPassageiro = inject(MatDialog);
+  hasPassageiro = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -51,30 +51,29 @@ export class ClientesComponent implements AfterViewInit {
 
   constructor(
     private authService: AuthService,
-    private clienteService: ClienteService,
+    private passageiroService: PassageiroService,
     private paginatorIntl: MatPaginatorIntl
   ) {
-    this.dataSource = new MatTableDataSource<ICliente>();
+    this.dataSource = new MatTableDataSource<IPassageiro>();
     this.customizarPaginador();
   }
 
   ngAfterViewInit() {
     if (this.authService.getToken()) {
-      this.carregarClientes();
+      this.carregarPassageiros();
     }
   }
 
-  carregarClientes() {
-    this.clienteService.getAll().subscribe(result => {
-      this.clientes = result;
-      this.dataSource.data = this.clientes;
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+  carregarPassageiros() {
+    this.passageiroService.getAll().subscribe(result => {
+      this.passageiros = result;
+      this.dataSource.data = this.passageiros;
+
       setTimeout(() => {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        if(this.clientes.length == 0){
-          this.hasClient = false;
+        if(this.passageiros.length == 0){
+          this.hasPassageiro = false;
         }
       });
     });
@@ -89,13 +88,13 @@ export class ClientesComponent implements AfterViewInit {
     }
   }
 
-  openVisualizarCliente(enterAnimationDuration: string, exitAnimationDuration: string, cliente: ICliente){
-    const dialogRef = this.dialogCliente.open(DialogViewComponent, {
+  openVisualizarPassageiro(enterAnimationDuration: string, exitAnimationDuration: string, passageiro: IPassageiro){
+    const dialogRef = this.dialogPassageiro.open(DialogViewComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        pessoa: cliente,
-        type: 'cliente'
+        pessoa: passageiro,
+        type: 'passageiro'
       }
     });
 
@@ -107,8 +106,8 @@ export class ClientesComponent implements AfterViewInit {
 
   }
 
-  openAdicionarCliente(enterAnimationDuration: string, exitAnimationDuration: string): void{
-    const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
+  openAdicionarPassageiro(enterAnimationDuration: string, exitAnimationDuration: string): void{
+    const dialogRef = this.dialogPassageiro.open(DialogPassageiroComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
@@ -117,27 +116,27 @@ export class ClientesComponent implements AfterViewInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((cliente: ICliente) => {
-      if (cliente) {
-        this.clienteService.create(cliente).subscribe((response) => {
+    dialogRef.afterClosed().subscribe((passageiro: IPassageiro) => {
+      if (passageiro) {
+        this.passageiroService.create(passageiro).subscribe((response) => {
           const listaTemp = [...this.dataSource.data, response];
           listaTemp.sort((a, b) => a.nome.localeCompare(b.nome));
-          this.clientes = listaTemp;
-          this.dataSource.data = this.clientes;
+          this.passageiros = listaTemp;
+          this.dataSource.data = this.passageiros;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-          this.hasClient = this.dataSource.data.length > 0;
+          this.hasPassageiro = this.dataSource.data.length > 0;
         });
       }
     });
   }
 
-  openEditarCliente(enterAnimationDuration: string, exitAnimationDuration: string, cliente: ICliente): void{
-    const dialogRef = this.dialogCliente.open(DialogClienteComponent, {
+  openEditarPassageiro(enterAnimationDuration: string, exitAnimationDuration: string, passageiro: IPassageiro): void{
+    const dialogRef = this.dialogPassageiro.open(DialogPassageiroComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        cliente: cliente,
+        passageiro: passageiro,
         title: 'editar',
         confirmButton: 'Atualizar'
       }
@@ -145,45 +144,48 @@ export class ClientesComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.editarCliente(cliente.id!, cliente);
+        const updatedAt = new Date().toISOString()
+        passageiro.updatedAt = updatedAt;
+        this.editarPassageiro(passageiro.id!, passageiro);
       } else {
-        this.carregarClientes();
+        this.carregarPassageiros();
       }
     });
   }
 
-  openRemoverCliente(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
+  openRemoverPassageiro(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
     const dialogRef = this.dialog.open(DialogGenericComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        dialogTitle: 'Remover cliente',
-        dialogContent: 'Você tem certeza que deseja remover o cliente?',
+        dialogTitle: 'Remover passageiro',
+        dialogContent: 'Você tem certeza que deseja remover o passageiro?',
       }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.removerCliente(id);
+        this.removerPassageiro(id);
       }
     });
   }
 
-  editarCliente(id: string, cliente: ICliente){
+  editarPassageiro(id: string, passageiro: IPassageiro){
     const updatedAt = new Date().toISOString();
-    cliente.updatedAt = updatedAt;
-    this.clienteService.update(id, cliente).subscribe(()=>{
+    passageiro.updatedAt = updatedAt;
+    this.passageiroService.update(id, passageiro).subscribe(()=>{
     })
   }
 
-  removerCliente(id: string) {
-    this.clienteService.delete(id).subscribe(() => {
+  removerPassageiro(id: string) {
+    this.passageiroService.delete(id).subscribe((response) => {
       const listaTemp = this.dataSource.data.filter(cliente => cliente.id !== id);
-      this.clientes = listaTemp;
-      this.dataSource.data = this.clientes;
+      this.passageiros = listaTemp;
+      this.dataSource.data = this.passageiros;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.hasClient = this.clientes.length > 0;
+      this.hasPassageiro = this.passageiros.length > 0;
+      console.log(response)
     });
   }
 

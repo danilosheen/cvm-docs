@@ -13,7 +13,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 exports.__esModule = true;
-exports.ClientesComponent = void 0;
+exports.PassageirosComponent = void 0;
 var core_1 = require("@angular/core");
 var navbar_component_1 = require("../../shared/components/navbar/navbar.component");
 var footer_component_1 = require("../../shared/components/footer/footer.component");
@@ -28,56 +28,54 @@ var dialog_generic_component_1 = require("../../shared/components/dialog-generic
 var button_1 = require("@angular/material/button");
 var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var common_1 = require("@angular/common");
-var dialog_cliente_component_1 = require("../../shared/components/dialog-cliente/dialog-cliente.component");
 var dialog_view_component_1 = require("../../shared/components/dialog-view/dialog-view.component");
-var ClientesComponent = /** @class */ (function () {
-    function ClientesComponent(authService, clienteService, paginatorIntl) {
+var dialog_passageiro_component_1 = require("../../shared/components/dialog-passageiro/dialog-passageiro.component");
+var PassageirosComponent = /** @class */ (function () {
+    function PassageirosComponent(authService, passageiroService, paginatorIntl) {
         this.authService = authService;
-        this.clienteService = clienteService;
+        this.passageiroService = passageiroService;
         this.paginatorIntl = paginatorIntl;
-        this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'acao'];
-        this.clientes = [];
+        this.displayedColumns = ['nome', 'tipoDocumento', 'documento', 'acao'];
+        this.passageiros = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
-        this.dialogCliente = core_1.inject(dialog_1.MatDialog);
-        this.hasClient = true;
+        this.dialogPassageiro = core_1.inject(dialog_1.MatDialog);
+        this.hasPassageiro = true;
         this.dataSource = new table_1.MatTableDataSource();
         this.customizarPaginador();
     }
-    ClientesComponent.prototype.ngAfterViewInit = function () {
+    PassageirosComponent.prototype.ngAfterViewInit = function () {
         if (this.authService.getToken()) {
-            this.carregarClientes();
+            this.carregarPassageiros();
         }
     };
-    ClientesComponent.prototype.carregarClientes = function () {
+    PassageirosComponent.prototype.carregarPassageiros = function () {
         var _this = this;
-        this.clienteService.getAll().subscribe(function (result) {
-            _this.clientes = result;
-            _this.dataSource.data = _this.clientes;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
+        this.passageiroService.getAll().subscribe(function (result) {
+            _this.passageiros = result;
+            _this.dataSource.data = _this.passageiros;
             setTimeout(function () {
                 _this.dataSource.paginator = _this.paginator;
                 _this.dataSource.sort = _this.sort;
-                if (_this.clientes.length == 0) {
-                    _this.hasClient = false;
+                if (_this.passageiros.length == 0) {
+                    _this.hasPassageiro = false;
                 }
             });
         });
     };
-    ClientesComponent.prototype.applyFilter = function (event) {
+    PassageirosComponent.prototype.applyFilter = function (event) {
         var filterValue = event.target.value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
         }
     };
-    ClientesComponent.prototype.openVisualizarCliente = function (enterAnimationDuration, exitAnimationDuration, cliente) {
-        var dialogRef = this.dialogCliente.open(dialog_view_component_1.DialogViewComponent, {
+    PassageirosComponent.prototype.openVisualizarPassageiro = function (enterAnimationDuration, exitAnimationDuration, passageiro) {
+        var dialogRef = this.dialogPassageiro.open(dialog_view_component_1.DialogViewComponent, {
             enterAnimationDuration: enterAnimationDuration,
             exitAnimationDuration: exitAnimationDuration,
             data: {
-                pessoa: cliente,
-                type: 'cliente'
+                pessoa: passageiro,
+                type: 'passageiro'
             }
         });
         dialogRef.afterClosed().subscribe(function (result) {
@@ -86,9 +84,9 @@ var ClientesComponent = /** @class */ (function () {
             }
         });
     };
-    ClientesComponent.prototype.openAdicionarCliente = function (enterAnimationDuration, exitAnimationDuration) {
+    PassageirosComponent.prototype.openAdicionarPassageiro = function (enterAnimationDuration, exitAnimationDuration) {
         var _this = this;
-        var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
+        var dialogRef = this.dialogPassageiro.open(dialog_passageiro_component_1.DialogPassageiroComponent, {
             enterAnimationDuration: enterAnimationDuration,
             exitAnimationDuration: exitAnimationDuration,
             data: {
@@ -96,75 +94,78 @@ var ClientesComponent = /** @class */ (function () {
                 confirmButton: 'Salvar'
             }
         });
-        dialogRef.afterClosed().subscribe(function (cliente) {
-            if (cliente) {
-                _this.clienteService.create(cliente).subscribe(function (response) {
+        dialogRef.afterClosed().subscribe(function (passageiro) {
+            if (passageiro) {
+                _this.passageiroService.create(passageiro).subscribe(function (response) {
                     var listaTemp = __spreadArrays(_this.dataSource.data, [response]);
                     listaTemp.sort(function (a, b) { return a.nome.localeCompare(b.nome); });
-                    _this.clientes = listaTemp;
-                    _this.dataSource.data = _this.clientes;
+                    _this.passageiros = listaTemp;
+                    _this.dataSource.data = _this.passageiros;
                     _this.dataSource.paginator = _this.paginator;
                     _this.dataSource.sort = _this.sort;
-                    _this.hasClient = _this.dataSource.data.length > 0;
+                    _this.hasPassageiro = _this.dataSource.data.length > 0;
                 });
             }
         });
     };
-    ClientesComponent.prototype.openEditarCliente = function (enterAnimationDuration, exitAnimationDuration, cliente) {
+    PassageirosComponent.prototype.openEditarPassageiro = function (enterAnimationDuration, exitAnimationDuration, passageiro) {
         var _this = this;
-        var dialogRef = this.dialogCliente.open(dialog_cliente_component_1.DialogClienteComponent, {
+        var dialogRef = this.dialogPassageiro.open(dialog_passageiro_component_1.DialogPassageiroComponent, {
             enterAnimationDuration: enterAnimationDuration,
             exitAnimationDuration: exitAnimationDuration,
             data: {
-                cliente: cliente,
+                passageiro: passageiro,
                 title: 'editar',
                 confirmButton: 'Atualizar'
             }
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
-                _this.editarCliente(cliente.id, cliente);
+                var updatedAt = new Date().toISOString();
+                passageiro.updatedAt = updatedAt;
+                _this.editarPassageiro(passageiro.id, passageiro);
             }
             else {
-                _this.carregarClientes();
+                _this.carregarPassageiros();
             }
         });
     };
-    ClientesComponent.prototype.openRemoverCliente = function (enterAnimationDuration, exitAnimationDuration, id) {
+    PassageirosComponent.prototype.openRemoverPassageiro = function (enterAnimationDuration, exitAnimationDuration, id) {
         var _this = this;
         var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
             enterAnimationDuration: enterAnimationDuration,
             exitAnimationDuration: exitAnimationDuration,
             data: {
-                dialogTitle: 'Remover cliente',
-                dialogContent: 'Você tem certeza que deseja remover o cliente?'
+                dialogTitle: 'Remover passageiro',
+                dialogContent: 'Você tem certeza que deseja remover o passageiro?'
             }
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
-                _this.removerCliente(id);
+                _this.removerPassageiro(id);
             }
         });
     };
-    ClientesComponent.prototype.editarCliente = function (id, cliente) {
+    PassageirosComponent.prototype.editarPassageiro = function (id, passageiro) {
         var updatedAt = new Date().toISOString();
-        cliente.updatedAt = updatedAt;
-        this.clienteService.update(id, cliente).subscribe(function () {
+        passageiro.updatedAt = updatedAt;
+        this.passageiroService.update(id, passageiro).subscribe(function () {
         });
     };
-    ClientesComponent.prototype.removerCliente = function (id) {
+    PassageirosComponent.prototype.removerPassageiro = function (id) {
         var _this = this;
-        this.clienteService["delete"](id).subscribe(function () {
+        this.passageiroService["delete"](id).subscribe(function (response) {
             var listaTemp = _this.dataSource.data.filter(function (cliente) { return cliente.id !== id; });
-            _this.clientes = listaTemp;
-            _this.dataSource.data = _this.clientes;
+            _this.passageiros = listaTemp;
+            _this.dataSource.data = _this.passageiros;
             _this.dataSource.paginator = _this.paginator;
             _this.dataSource.sort = _this.sort;
-            _this.hasClient = _this.clientes.length > 0;
+            _this.hasPassageiro = _this.passageiros.length > 0;
+            console.log(response);
         });
     };
     // Personalização do paginator do Angular Material
-    ClientesComponent.prototype.customizarPaginador = function () {
+    PassageirosComponent.prototype.customizarPaginador = function () {
         this.paginatorIntl.itemsPerPageLabel = 'Itens por página';
         this.paginatorIntl.nextPageLabel = 'Próxima página';
         this.paginatorIntl.previousPageLabel = 'Página anterior';
@@ -181,13 +182,13 @@ var ClientesComponent = /** @class */ (function () {
     };
     __decorate([
         core_1.ViewChild(paginator_1.MatPaginator)
-    ], ClientesComponent.prototype, "paginator");
+    ], PassageirosComponent.prototype, "paginator");
     __decorate([
         core_1.ViewChild(sort_1.MatSort)
-    ], ClientesComponent.prototype, "sort");
-    ClientesComponent = __decorate([
+    ], PassageirosComponent.prototype, "sort");
+    PassageirosComponent = __decorate([
         core_1.Component({
-            selector: 'app-clientes',
+            selector: 'app-passageiros',
             imports: [
                 navbar_component_1.NavbarComponent,
                 footer_component_1.FooterComponent,
@@ -201,10 +202,10 @@ var ClientesComponent = /** @class */ (function () {
                 loading_blue_component_1.LoadingBlueComponent,
                 common_1.NgIf
             ],
-            templateUrl: './clientes.component.html',
-            styleUrl: './clientes.component.css'
+            templateUrl: './passageiros.component.html',
+            styleUrl: './passageiros.component.css'
         })
-    ], ClientesComponent);
-    return ClientesComponent;
+    ], PassageirosComponent);
+    return PassageirosComponent;
 }());
-exports.ClientesComponent = ClientesComponent;
+exports.PassageirosComponent = PassageirosComponent;

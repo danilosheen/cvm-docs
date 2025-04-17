@@ -3,5 +3,5 @@ export interface IPassageiro {
   nome: string,
   documento: string,
   typeDocumentSelected: string,
-  updatedAt?: Date
+  updatedAt?: string
 }

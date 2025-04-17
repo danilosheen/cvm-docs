@@ -65,15 +65,34 @@
       [type]="'tel'"
       (inputValue)="updateContatoHandler($event)"
     ></app-input-number>
-    <!-- cpf -->
-     <app-input-number
-      [label]="'Documento'"
-      [type]="'cpf'"
-      [defaultValue]="fichaExcursaoData.cliente.cpf"
-      [placeholder]="'ex: 999.999.999-00'"
-      [optional]="true"
-      (inputValue)="updateCpfHandler($event)"
-     ></app-input-number>
+    <app-input-radio
+      [label]="'Selecione o tipo de documento'"
+      [listItems]="typesDocument"
+      [dropdown]="false"
+      [defaultValue]="fichaExcursaoData.cliente.typeDocumentSelected"
+      (selectedValue)="updateTypeDocumentSelectedHandler($event)"
+    ></app-input-radio>
+    @if (fichaExcursaoData.cliente.typeDocumentSelected == 'RG') {
+      <!-- rg -->
+      <app-input-number
+        [label]="'Informe o RG'"
+        [type]="'text'"
+        [defaultValue]="fichaExcursaoData.cliente.documento"
+        [placeholder]="'ex: 000000000-0'"
+        [optional]="true"
+        (inputValue)="updateDocumentHandler($event)"
+      ></app-input-number>
+    } @else {
+      <!-- cpf -->
+      <app-input-number
+        [label]="'Informe o CPF'"
+        [type]="'cpf'"
+        [defaultValue]="fichaExcursaoData.cliente.documento"
+        [placeholder]="'ex: 999.999.999-00'"
+        [optional]="true"
+        (inputValue)="updateDocumentHandler($event)"
+      ></app-input-number>
+    }
     <!-- cidade -->
     <app-input-text
       [label]="'Cidade'"

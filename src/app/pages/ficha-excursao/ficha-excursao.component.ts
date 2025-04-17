@@ -55,6 +55,7 @@ export class FichaExcursaoComponent implements OnInit {
   showModalDependente: boolean = false;
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
   hospedagens: string[] = ['Casa de praia', 'Pousada', 'Hotel'];
+  typesDocument: string[] = ['RG', 'CPF'];
   clienteService = inject(ClienteService);
   clientes: ICliente[] = [];
   nomesClientes: IClienteAutocomplete[] = [];
@@ -71,7 +72,8 @@ export class FichaExcursaoComponent implements OnInit {
       nome:'',
       dataNascimento: '',
       contato: '',
-      cpf: '',
+      typeDocumentSelected: 'RG',
+      documento: '',
       endereco: {
         cidade: '',
         bairro: '',
@@ -106,8 +108,8 @@ export class FichaExcursaoComponent implements OnInit {
 
   onSubmit() {
       this.loading = true;
-      if(this.fichaExcursaoData.cliente.cpf == ''){
-        this.fichaExcursaoData.cliente.cpf = 'Não informado'
+      if(this.fichaExcursaoData.cliente.documento == ''){
+        this.fichaExcursaoData.cliente.documento = 'Não informado'
       }
 
       if(this.fichaExcursaoData.cliente.dataNascimento == 'NaN/NaN/NaN'){
@@ -159,8 +161,8 @@ export class FichaExcursaoComponent implements OnInit {
         nome: dadosFichaExcursao.cliente.nome,
         dataNascimento: dadosFichaExcursao.cliente.dataNascimento,
         contato: dadosFichaExcursao.cliente.contato,
-        cpf: dadosFichaExcursao.cliente.cpf,
-        documento: dadosFichaExcursao.cliente.cpf,
+        typeDocumentSelected: dadosFichaExcursao.cliente.typeDocumentSelected,
+        documento: dadosFichaExcursao.cliente.documento,
         cidade: dadosFichaExcursao.cliente.endereco.cidade,
         bairro: dadosFichaExcursao.cliente.endereco.bairro,
         rua: dadosFichaExcursao.cliente.endereco.rua,
@@ -269,7 +271,8 @@ export class FichaExcursaoComponent implements OnInit {
         if(idSelected == element.id){
           this.updateDataNascimentoHandler({ value: element.dataNascimento!, valid: true});
           this.updateContatoHandler({ value: element.contato!, valid: true});
-          this.updateCpfHandler({ value: element.documento || '', valid: true});
+          this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true});
+          this.updateDocumentHandler({ value: element.documento || '', valid: true});
           this.updateCidadeHandler({ value: element.cidade!, valid: true});
           this.updateBairroHandler({ value: element.bairro!, valid: true});
           this.updateRuaHandler({ value: element.rua!, valid: true});
@@ -289,8 +292,12 @@ export class FichaExcursaoComponent implements OnInit {
       this.valid[7] = (value.valid);
     }
 
-    updateCpfHandler(value: IInput) {
-      this.fichaExcursaoData.cliente.cpf = value.value;
+    updateTypeDocumentSelectedHandler(value: IInput) {
+      this.fichaExcursaoData.cliente.typeDocumentSelected = value.value;
+    }
+
+    updateDocumentHandler(value: IInput) {
+      this.fichaExcursaoData.cliente.documento = value.value;
     }
 
     updateCidadeHandler(value: IInput) {

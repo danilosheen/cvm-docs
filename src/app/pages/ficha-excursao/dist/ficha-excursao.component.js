@@ -35,6 +35,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.showModalDependente = false;
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
         this.hospedagens = ['Casa de praia', 'Pousada', 'Hotel'];
+        this.typesDocument = ['RG', 'CPF'];
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
         this.clientes = [];
         this.nomesClientes = [];
@@ -50,7 +51,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 nome: '',
                 dataNascimento: '',
                 contato: '',
-                cpf: '',
+                typeDocumentSelected: 'RG',
+                documento: '',
                 endereco: {
                     cidade: '',
                     bairro: '',
@@ -82,8 +84,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        if (this.fichaExcursaoData.cliente.cpf == '') {
-            this.fichaExcursaoData.cliente.cpf = 'Não informado';
+        if (this.fichaExcursaoData.cliente.documento == '') {
+            this.fichaExcursaoData.cliente.documento = 'Não informado';
         }
         if (this.fichaExcursaoData.cliente.dataNascimento == 'NaN/NaN/NaN') {
             this.fichaExcursaoData.cliente.dataNascimento = 'Não informado';
@@ -130,8 +132,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
             nome: dadosFichaExcursao.cliente.nome,
             dataNascimento: dadosFichaExcursao.cliente.dataNascimento,
             contato: dadosFichaExcursao.cliente.contato,
-            cpf: dadosFichaExcursao.cliente.cpf,
-            documento: dadosFichaExcursao.cliente.cpf,
+            typeDocumentSelected: dadosFichaExcursao.cliente.typeDocumentSelected,
+            documento: dadosFichaExcursao.cliente.documento,
             cidade: dadosFichaExcursao.cliente.endereco.cidade,
             bairro: dadosFichaExcursao.cliente.endereco.bairro,
             rua: dadosFichaExcursao.cliente.endereco.rua,
@@ -229,7 +231,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
             if (idSelected == element.id) {
                 _this.updateDataNascimentoHandler({ value: element.dataNascimento, valid: true });
                 _this.updateContatoHandler({ value: element.contato, valid: true });
-                _this.updateCpfHandler({ value: element.documento || '', valid: true });
+                _this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true });
+                _this.updateDocumentHandler({ value: element.documento || '', valid: true });
                 _this.updateCidadeHandler({ value: element.cidade, valid: true });
                 _this.updateBairroHandler({ value: element.bairro, valid: true });
                 _this.updateRuaHandler({ value: element.rua, valid: true });
@@ -246,8 +249,11 @@ var FichaExcursaoComponent = /** @class */ (function () {
         this.fichaExcursaoData.cliente.contato = value.value;
         this.valid[7] = (value.valid);
     };
-    FichaExcursaoComponent.prototype.updateCpfHandler = function (value) {
-        this.fichaExcursaoData.cliente.cpf = value.value;
+    FichaExcursaoComponent.prototype.updateTypeDocumentSelectedHandler = function (value) {
+        this.fichaExcursaoData.cliente.typeDocumentSelected = value.value;
+    };
+    FichaExcursaoComponent.prototype.updateDocumentHandler = function (value) {
+        this.fichaExcursaoData.cliente.documento = value.value;
     };
     FichaExcursaoComponent.prototype.updateCidadeHandler = function (value) {
         this.fichaExcursaoData.cliente.endereco.cidade = value.value;

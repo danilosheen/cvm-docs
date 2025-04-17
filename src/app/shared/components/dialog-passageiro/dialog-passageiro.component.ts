@@ -36,15 +36,22 @@ export class DialogPassageiroComponent {
   readonly dialogRef = inject(MatDialogRef<DialogPassageiroComponent>);
   valid: boolean[] = [];
   typesDocument: string[] = ['RG', 'CPF', 'Registro'];
-  passageiroData: IPassageiro = inject(MAT_DIALOG_DATA);
-  typeDocumentSelected = this.passageiroData.typeDocumentSelected;
+  inputsData: any = inject(MAT_DIALOG_DATA);
+  passageiroClean: IPassageiro = {
+    nome: '',
+    typeDocumentSelected: 'RG',
+    documento: '',
+  }
+  passageiroData: IPassageiro = this.inputsData.passageiro || this.passageiroClean;
+  title: string = this.inputsData.title;
+  confirmButton: string = this.inputsData.confirmButton;
 
   dateNow(){
     return new Date();
   }
 
   constructor(){
-
+    console.log(this.passageiroData)
     // inicia validadores como false
     for (let i = 0; i < 2; i++) {
       this.valid.push(false);

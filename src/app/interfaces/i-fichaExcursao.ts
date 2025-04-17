@@ -12,7 +12,8 @@ export interface IFichaExcursao {
     nome: string,
     dataNascimento: string,
     contato: string,
-    cpf: string,
+    typeDocumentSelected: string
+    documento: string,
     endereco: {
       cidade: string,
       bairro: string,

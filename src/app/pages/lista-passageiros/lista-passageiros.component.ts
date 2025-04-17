@@ -164,9 +164,12 @@ export class ListaPassageirosComponent implements OnInit {
   editPassageiro(index: number){
     const dialogRef = this.dialogPassageiro.open(DialogPassageiroComponent, {
       data: {
-        nome: this.listaPassageiros.passageiros[index].nome,
-        documento: this.listaPassageiros.passageiros[index].documento,
-        typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected
+        passageiro: this.listaPassageiros.passageiros[index],
+        title: 'atualizar',
+        confirmButton: 'Salvar'
+        // nome: this.listaPassageiros.passageiros[index].nome,
+        // documento: this.listaPassageiros.passageiros[index].documento,
+        // typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected,
       }
     });
 

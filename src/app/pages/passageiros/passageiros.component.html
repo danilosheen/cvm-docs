@@ -1,22 +1,22 @@
 <app-navbar></app-navbar>
-<div class="container-table-clientes">
-  <app-loading-blue *ngIf="clientes.length == 0 && hasClient"></app-loading-blue>
-  @if (!hasClient && clientes.length == 0) {
+<div class="container-table-passageiros">
+  <app-loading-blue *ngIf="passageiros.length == 0 && hasPassageiro"></app-loading-blue>
+  @if (!hasPassageiro && passageiros.length == 0) {
     <div class="container-no-users">
-      <h3>Nenhum cliente cadastrado</h3>
-      <button mat-flat-button (click)="openAdicionarCliente('0ms', '0ms')">
-        Adicionar cliente
+      <h3>Nenhum passageiro cadastrado</h3>
+      <button mat-flat-button (click)="openAdicionarPassageiro('0ms', '0ms')">
+        Adicionar passageiro
       </button>
     </div>
   }
-  @if (clientes.length > 0) {
+  @if (passageiros.length > 0) {
     <div class="container-actions-table">
       <mat-form-field>
         <mat-label>Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. João" #input>
       </mat-form-field>
-      <button mat-flat-button (click)="openAdicionarCliente('0ms', '0ms')">
-        Adicionar cliente
+      <button mat-flat-button (click)="openAdicionarPassageiro('0ms', '0ms')">
+        Adicionar passageiro
       </button>
     </div>
 
@@ -29,16 +29,16 @@
           <td mat-cell *matCellDef="let row"> {{row.nome}} </td>
         </ng-container>
 
-        <!-- DataNascimento Column -->
-        <ng-container matColumnDef="dataNascimento">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> DataNascimento </th>
-          <td mat-cell *matCellDef="let row"> {{row.dataNascimento}} </td>
+        <!-- Tipo do documento Column -->
+        <ng-container matColumnDef="tipoDocumento">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo do documento </th>
+          <td mat-cell *matCellDef="let row"> {{row.typeDocumentSelected}} </td>
         </ng-container>
 
-        <!-- Contato Column -->
-        <ng-container matColumnDef="contato">
+        <!-- Documento Column -->
+        <ng-container matColumnDef="documento">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Contato </th>
-          <td mat-cell *matCellDef="let row"> {{row.contato}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.documento}} </td>
         </ng-container>
 
         <!-- Ação Column -->
@@ -46,9 +46,9 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ações </th>
           <td mat-cell *matCellDef="let row">
             <div class="container-action-buttons">
-              <img (click)="openVisualizarCliente('0ms', '0ms', row)" src="../../../assets/icons-svg/visible-icon.svg">
-              <img (click)="openEditarCliente('0ms', '0ms', row)" src="../../../assets/icons-svg/pen.svg">
-              <img (click)="openRemoverCliente('0ms', '0ms', row.id)" src="../../../assets/icons-svg/delete-icon.svg">
+              <img (click)="openVisualizarPassageiro('0ms', '0ms', row)" src="../../../assets/icons-svg/visible-icon.svg">
+              <img (click)="openEditarPassageiro('0ms', '0ms', row)" src="../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverPassageiro('0ms', '0ms', row.id)" src="../../../assets/icons-svg/delete-icon.svg">
             </div>
             <!-- <span (click)="openDialog('0ms', '0ms', row.id)" class="material-icons icon-red">delete</span> -->
           </td>
@@ -59,7 +59,7 @@
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">Não há nenhum cliente com esse nome"{{input.value}}"</td>
+          <td class="mat-cell" colspan="4">Não há nenhum passageiro com esse nome"{{input.value}}"</td>
         </tr>
       </table>
 
