@@ -9,10 +9,10 @@ exports.__esModule = true;
 exports.FichaExcursaoService = void 0;
 var core_1 = require("@angular/core");
 var FichaExcursaoService = /** @class */ (function () {
-    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/ficha-excursao';
     function FichaExcursaoService(http) {
         this.http = http;
-        this.apiUrl = 'http://localhost:3000/api/pdf/ficha-excursao';
+        //  private apiUrl = 'http://localhost:3000/api/pdf/ficha-excursao';
+        this.apiUrl = 'https://backend-cvm.vercel.app/api/pdf/ficha-excursao';
     }
     FichaExcursaoService.prototype.generatePDF = function (data) {
         return this.http.post(this.apiUrl, data, { responseType: 'blob' });
