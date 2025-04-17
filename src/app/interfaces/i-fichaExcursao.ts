@@ -8,11 +8,11 @@ export interface IFichaExcursao {
   dataRetorno: string,
   horaRetorno: string,
   cliente: {
-    id: string,
+    id?: string,
     nome: string,
     dataNascimento: string,
     contato: string,
-    typeDocumentSelected: string
+    typeDocumentSelected: string,
     documento: string,
     endereco: {
       cidade: string,

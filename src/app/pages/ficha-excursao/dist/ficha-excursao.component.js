@@ -47,7 +47,6 @@ var FichaExcursaoComponent = /** @class */ (function () {
             dataRetorno: '',
             horaRetorno: '',
             cliente: {
-                id: '',
                 nome: '',
                 dataNascimento: '',
                 contato: '',
@@ -84,10 +83,11 @@ var FichaExcursaoComponent = /** @class */ (function () {
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        if (this.fichaExcursaoData.cliente.documento == '') {
+        console.log(this.fichaExcursaoData);
+        if (!this.fichaExcursaoData.cliente.documento) {
             this.fichaExcursaoData.cliente.documento = 'Não informado';
         }
-        if (this.fichaExcursaoData.cliente.dataNascimento == 'NaN/NaN/NaN') {
+        if (!this.fichaExcursaoData.cliente.dataNascimento) {
             this.fichaExcursaoData.cliente.dataNascimento = 'Não informado';
         }
         this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)

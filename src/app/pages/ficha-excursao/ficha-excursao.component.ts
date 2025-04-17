@@ -68,7 +68,6 @@ export class FichaExcursaoComponent implements OnInit {
     dataRetorno: '',
     horaRetorno: '',
     cliente: {
-      id:'',
       nome:'',
       dataNascimento: '',
       contato: '',
@@ -108,11 +107,12 @@ export class FichaExcursaoComponent implements OnInit {
 
   onSubmit() {
       this.loading = true;
-      if(this.fichaExcursaoData.cliente.documento == ''){
+      console.log(this.fichaExcursaoData)
+      if(!this.fichaExcursaoData.cliente.documento){
         this.fichaExcursaoData.cliente.documento = 'Não informado'
       }
 
-      if(this.fichaExcursaoData.cliente.dataNascimento == 'NaN/NaN/NaN'){
+      if(!this.fichaExcursaoData.cliente.dataNascimento){
         this.fichaExcursaoData.cliente.dataNascimento = 'Não informado'
       }
 
