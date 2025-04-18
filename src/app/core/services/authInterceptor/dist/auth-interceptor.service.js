@@ -25,7 +25,7 @@ var AuthInterceptorService = /** @class */ (function () {
             });
         }
         return next.handle(authReq).pipe(operators_1.catchError(function (error) {
-            if (error.status === 401) {
+            if (error) {
                 localStorage.removeItem('authToken');
                 alert("Sua sessão expirou, faça login novamente!");
                 // Força o Angular a processar o redirecionamento no contexto correto

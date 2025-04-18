@@ -24,7 +24,7 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error) {
           localStorage.removeItem('authToken');
           alert("Sua sessão expirou, faça login novamente!");
 
