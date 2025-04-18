@@ -26,8 +26,9 @@ var dialog_generic_component_1 = require("../../shared/components/dialog-generic
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
 var input_autocomplete_data_client_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component");
 var FichaExcursaoComponent = /** @class */ (function () {
-    function FichaExcursaoComponent(pdfFichaExcursao) {
+    function FichaExcursaoComponent(pdfFichaExcursao, router) {
         this.pdfFichaExcursao = pdfFichaExcursao;
+        this.router = router;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.loading = false;
         this.errorMessage = core_1.signal('');
@@ -75,10 +76,16 @@ var FichaExcursaoComponent = /** @class */ (function () {
     }
     FichaExcursaoComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.clienteService.getAll().subscribe(function (result) {
-            _this.clientes = result;
-            _this.loadClientListNames();
-        });
+        try {
+            this.clienteService.getAll().subscribe(function (result) {
+                _this.clientes = result;
+                _this.loadClientListNames();
+            });
+        }
+        catch (error) {
+            alert("Seu token de acesso expirou, faça login novamente!");
+            this.router.navigate(['/']);
+        }
     };
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;

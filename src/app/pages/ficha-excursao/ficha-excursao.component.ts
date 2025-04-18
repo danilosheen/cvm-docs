@@ -23,6 +23,7 @@ import { ICliente } from '../../interfaces/i-cliente';
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
 import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -90,19 +91,23 @@ export class FichaExcursaoComponent implements OnInit {
     dependentes: []
     };
 
-  constructor(private pdfFichaExcursao: FichaExcursaoService) {
+  constructor(private pdfFichaExcursao: FichaExcursaoService, private router: Router) {
     //inicializando o array de campos válidos
     for (let i = 0; i <= 16; i++) {
       this.valid.push(false)
     }
-
   }
 
   ngOnInit(): void {
-    this.clienteService.getAll().subscribe(result =>{
-      this.clientes = result
-      this.loadClientListNames();
-    });
+    try {
+      this.clienteService.getAll().subscribe(result =>{
+        this.clientes = result
+        this.loadClientListNames();
+      });
+    } catch (error) {
+      alert("Seu token de acesso expirou, faça login novamente!");
+      this.router.navigate(['/']);
+    }
   }
 
   onSubmit() {
