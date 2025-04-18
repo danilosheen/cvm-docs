@@ -11,8 +11,9 @@ var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
 var operators_1 = require("rxjs/operators");
 var AuthInterceptorService = /** @class */ (function () {
-    function AuthInterceptorService(router) {
+    function AuthInterceptorService(router, ngZone) {
         this.router = router;
+        this.ngZone = ngZone;
     }
     AuthInterceptorService.prototype.intercept = function (req, next) {
         var _this = this;
@@ -27,7 +28,10 @@ var AuthInterceptorService = /** @class */ (function () {
             if (error.status === 401) {
                 localStorage.removeItem('authToken');
                 alert("Sua sessão expirou, faça login novamente!");
-                _this.router.navigate(['/']);
+                // Força o Angular a processar o redirecionamento no contexto correto
+                _this.ngZone.run(function () {
+                    _this.router.navigate(['/']);
+                });
             }
             return rxjs_1.throwError(function () { return error; });
         }));

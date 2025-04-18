@@ -17,6 +17,7 @@ import { LoadingBlueComponent } from "../../shared/components/loading-blue/loadi
 import { NgIf } from '@angular/common';
 import { DialogClienteComponent } from '../../shared/components/dialog-cliente/dialog-cliente.component';
 import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-view.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
@@ -52,7 +53,8 @@ export class ClientesComponent implements AfterViewInit {
   constructor(
     private authService: AuthService,
     private clienteService: ClienteService,
-    private paginatorIntl: MatPaginatorIntl
+    private paginatorIntl: MatPaginatorIntl,
+    private router: Router
   ) {
     this.dataSource = new MatTableDataSource<ICliente>();
     this.customizarPaginador();
@@ -65,19 +67,24 @@ export class ClientesComponent implements AfterViewInit {
   }
 
   carregarClientes() {
-    this.clienteService.getAll().subscribe(result => {
-      this.clientes = result;
-      this.dataSource.data = this.clientes;
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
-      setTimeout(() => {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        if(this.clientes.length == 0){
-          this.hasClient = false;
-        }
+    try {
+      this.clienteService.getAll().subscribe(result => {
+        this.clientes = result;
+        this.dataSource.data = this.clientes;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          if(this.clientes.length == 0){
+            this.hasClient = false;
+          }
+        });
       });
-    });
+    } catch (error) {
+      alert("Seu token de acesso expirou, faça login novamente!");
+      this.router.navigate(['/']);
+    }
   }
 
   applyFilter(event: Event) {

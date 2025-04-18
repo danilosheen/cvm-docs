@@ -31,10 +31,11 @@ var common_1 = require("@angular/common");
 var dialog_cliente_component_1 = require("../../shared/components/dialog-cliente/dialog-cliente.component");
 var dialog_view_component_1 = require("../../shared/components/dialog-view/dialog-view.component");
 var ClientesComponent = /** @class */ (function () {
-    function ClientesComponent(authService, clienteService, paginatorIntl) {
+    function ClientesComponent(authService, clienteService, paginatorIntl, router) {
         this.authService = authService;
         this.clienteService = clienteService;
         this.paginatorIntl = paginatorIntl;
+        this.router = router;
         this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'acao'];
         this.clientes = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
@@ -50,19 +51,25 @@ var ClientesComponent = /** @class */ (function () {
     };
     ClientesComponent.prototype.carregarClientes = function () {
         var _this = this;
-        this.clienteService.getAll().subscribe(function (result) {
-            _this.clientes = result;
-            _this.dataSource.data = _this.clientes;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-            setTimeout(function () {
-                _this.dataSource.paginator = _this.paginator;
-                _this.dataSource.sort = _this.sort;
-                if (_this.clientes.length == 0) {
-                    _this.hasClient = false;
-                }
+        try {
+            this.clienteService.getAll().subscribe(function (result) {
+                _this.clientes = result;
+                _this.dataSource.data = _this.clientes;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+                setTimeout(function () {
+                    _this.dataSource.paginator = _this.paginator;
+                    _this.dataSource.sort = _this.sort;
+                    if (_this.clientes.length == 0) {
+                        _this.hasClient = false;
+                    }
+                });
             });
-        });
+        }
+        catch (error) {
+            alert("Seu token de acesso expirou, faça login novamente!");
+            this.router.navigate(['/']);
+        }
     };
     ClientesComponent.prototype.applyFilter = function (event) {
         var filterValue = event.target.value;

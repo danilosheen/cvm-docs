@@ -3,13 +3,14 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ngZone: NgZone) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('authToken');
@@ -25,8 +26,12 @@ export class AuthInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           localStorage.removeItem('authToken');
-          alert("Sua sessão expirou, faça login novamente!")
-          this.router.navigate(['/']);
+          alert("Sua sessão expirou, faça login novamente!");
+
+          // Força o Angular a processar o redirecionamento no contexto correto
+          this.ngZone.run(() => {
+            this.router.navigate(['/']);
+          });
         }
         return throwError(() => error);
       })
