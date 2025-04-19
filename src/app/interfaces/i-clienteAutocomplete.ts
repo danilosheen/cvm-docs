@@ -1,4 +1,4 @@
-export interface IClienteAutocomplete {
+export interface IPessoaAutocomplete {
   nome: string,
   id: string
 }

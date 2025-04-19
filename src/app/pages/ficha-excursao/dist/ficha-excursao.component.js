@@ -24,7 +24,7 @@ var dialog_component_1 = require("../../shared/components/dialog/dialog.componen
 var dialog_1 = require("@angular/material/dialog");
 var dialog_generic_component_1 = require("../../shared/components/dialog-generic/dialog-generic.component");
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
-var input_autocomplete_data_client_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component");
+var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
 var FichaExcursaoComponent = /** @class */ (function () {
     function FichaExcursaoComponent(pdfFichaExcursao, router) {
         this.pdfFichaExcursao = pdfFichaExcursao;
@@ -323,7 +323,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 input_checkbox_component_1.InputCheckboxComponent,
                 input_radio_component_1.InputRadioComponent,
                 dialog_component_1.DialogComponent,
-                input_autocomplete_data_client_component_1.InputAutocompleteDataCLientComponent
+                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent
             ],
             templateUrl: './ficha-excursao.component.html',
             styleUrl: './ficha-excursao.component.css'

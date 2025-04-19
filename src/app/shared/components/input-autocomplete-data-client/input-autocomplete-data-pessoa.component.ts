@@ -1,13 +1,13 @@
-import {Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { IClienteAutocomplete } from '../../../interfaces/i-clienteAutocomplete';
+import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { IPessoaAutocomplete } from '../../../interfaces/i-clienteAutocomplete';
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-input-autocomplete-data-client',
+  selector: 'app-input-autocomplete-data-pessoa',
   imports: [
     FormsModule,
     MatFormFieldModule,
@@ -17,22 +17,22 @@ import { NgFor, NgIf } from '@angular/common';
     NgFor,
     NgIf
   ],
-  templateUrl: './input-autocomplete-data-client.component.html',
-  styleUrl: './input-autocomplete-data-client.component.css'
+  templateUrl: './input-autocomplete-data-pessoa.component.html',
+  styleUrl: './input-autocomplete-data-pessoa.component.css'
 })
-export class InputAutocompleteDataCLientComponent {
+export class InputAutocompleteDataPessoaComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() defaultValue: string = '';
   @Input() errorMessage = '';
-  @Input() options: IClienteAutocomplete[] = [];
-  @Output() inputValue = new EventEmitter<IClienteAutocomplete | { value: IClienteAutocomplete; valid: boolean }>();
+  @Input() options: IPessoaAutocomplete[] = [];
+  @Output() inputValue = new EventEmitter<IPessoaAutocomplete | { value: IPessoaAutocomplete; valid: boolean }>();
 
 
   @ViewChild('input')
   input!: ElementRef<HTMLInputElement>;
-  inputControl = new FormControl<IClienteAutocomplete | string>('');
-  filteredOptions: IClienteAutocomplete[] = [];
+  inputControl = new FormControl<IPessoaAutocomplete | string>('');
+  filteredOptions: IPessoaAutocomplete[] = [];
   idSelected = '';
 
   ngOnChanges(changes: SimpleChanges) {

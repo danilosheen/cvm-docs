@@ -40,14 +40,14 @@
       (inputTime)="updateHoraRetornoHandler($event)"
     ></app-input-time>
     <!-- nomeCliente -->
-    <app-input-autocomplete-data-client
+    <app-input-autocomplete-data-pessoa
       [options]="nomesClientes"
       [attr.autocomplete]="'off'"
       [label]="'Nome do cliente'"
       [defaultValue]="fichaExcursaoData.cliente.nome"
       [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-autocomplete-data-client>
+    ></app-input-autocomplete-data-pessoa>
     <!-- dataNascimento -->
     <app-input-number
       [label]="'Data de nascimento'"

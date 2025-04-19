@@ -21,8 +21,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { ICliente } from '../../interfaces/i-cliente';
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
-import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
-import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
+import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
+import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 import { Router } from '@angular/router';
 
 @Component({
@@ -42,7 +42,7 @@ import { Router } from '@angular/router';
     InputCheckboxComponent,
     InputRadioComponent,
     DialogComponent,
-    InputAutocompleteDataCLientComponent
+    InputAutocompleteDataPessoaComponent
 ],
   templateUrl: './ficha-excursao.component.html',
   styleUrl: './ficha-excursao.component.css'
@@ -59,7 +59,7 @@ export class FichaExcursaoComponent implements OnInit {
   typesDocument: string[] = ['RG', 'CPF', 'Registro'];
   clienteService = inject(ClienteService);
   clientes: ICliente[] = [];
-  nomesClientes: IClienteAutocomplete[] = [];
+  nomesClientes: IPessoaAutocomplete[] = [];
 
   fichaExcursaoData: IFichaExcursao = {
     excursaoPara: '',

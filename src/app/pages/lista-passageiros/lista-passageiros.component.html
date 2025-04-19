@@ -78,20 +78,20 @@
     <h3 class="title-passageiros">Inserir passageiros</h3>
 
     <!-- Nome do passageiro -->
-    <!-- <app-input-autocomplete-data-client
-      [options]="arrayNomeClientes"
+    <app-input-autocomplete-data-pessoa
+      [options]="arrayNomePassageiros"
       [label]="'Nome do passageiro'"
       [defaultValue]="passageiro.nome"
       [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeHandler($event)"
-    ></app-input-autocomplete-data-client> -->
+    ></app-input-autocomplete-data-pessoa>
 
-    <app-input-autocomplete
+    <!-- <app-input-autocomplete
       [label]="'Nome do passageiro'"
       [defaultValue]="passageiro.nome"
       [errorMessage]="'Este campo é obrigatório'"
       (inputValue)="updateNomeHandler($event)"
-    ></app-input-autocomplete>
+    ></app-input-autocomplete> -->
 
     <!-- Tipo de documento -->
     <app-input-radio
@@ -123,14 +123,6 @@
         (inputValue)="updateDocumentoHandler($event)"
       ></app-input-number>
     }
-
-    <!-- Documento do passageiro
-    <app-input-number
-      [type]="'text'"
-      [label]="'Documento de porte'"
-      [defaultValue]="passageiro.documento"
-      (inputValue)="updateDocumentoHandler($event)"
-    ></app-input-number> -->
 
     <div class="container-button-adicionar">
       <button [disabled]="!camposValidos()" (click)="adicionarPassageiro()" class="button-adicionar" mat-flat-button>

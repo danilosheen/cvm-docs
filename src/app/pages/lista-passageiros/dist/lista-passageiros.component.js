@@ -22,6 +22,8 @@ var input_date_component_1 = require("../../shared/components/input-date/input-d
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
 var dialog_passageiro_component_1 = require("../../shared/components/dialog-passageiro/dialog-passageiro.component");
 var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
+var passageiro_service_service_1 = require("../../core/services/passageiroService/passageiro-service.service");
+var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 var ListaPassageirosComponent = /** @class */ (function () {
     function ListaPassageirosComponent(pdfListaPassageiros) {
@@ -29,8 +31,12 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogPassageiro = core_1.inject(dialog_1.MatDialog);
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
+        this.passageiroService = core_1.inject(passageiro_service_service_1.PassageiroService);
         this.clientes = [];
+        this.passageiros = [];
         this.arrayNomeClientes = [];
+        this.arrayNomePassageiros = [];
+        // arrayNomePassageiros: IClienteAutocomplete[] = [];
         this.listaPassageiros = {
             numeroCarro: '',
             placa: '',
@@ -60,6 +66,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
     }
     ListaPassageirosComponent.prototype.ngOnInit = function () {
         // this.povoaArrayClientes();
+        this.povoaArrayPassageiros();
     };
     ListaPassageirosComponent.prototype.onSubmit = function () {
         var _this = this;
@@ -115,6 +122,16 @@ var ListaPassageirosComponent = /** @class */ (function () {
             for (var _i = 0, element_1 = element; _i < element_1.length; _i++) {
                 var cliente = element_1[_i];
                 _this.arrayNomeClientes.push({ nome: cliente.nome, id: cliente.id });
+            }
+        });
+    };
+    ListaPassageirosComponent.prototype.povoaArrayPassageiros = function () {
+        var _this = this;
+        this.passageiroService.getAll().subscribe(function (passageiros) {
+            _this.passageiros = passageiros;
+            for (var _i = 0, _a = _this.passageiros; _i < _a.length; _i++) {
+                var passageiro = _a[_i];
+                _this.arrayNomePassageiros.push({ nome: passageiro.nome, id: passageiro.id });
             }
         });
     };
@@ -211,22 +228,22 @@ var ListaPassageirosComponent = /** @class */ (function () {
     ListaPassageirosComponent.prototype.updateExtensaoKmHandler = function (value) {
         this.listaPassageiros.extensaoRoteiroKm = value.value;
     };
-    // updateNomeHandler(value: any){
-    //   console.log(value)
-    //   this.passageiro.nome = value.value.nome;
-    //   console.log(this.passageiro)
-    //   const idSelected = value.id;
-    //   this.valid[9] = value.valid;
-    //   this.clientes.forEach(element => {
-    //     if(idSelected == element.id){
-    //       this.updateDocumentoHandler({ value: element.documento || '', valid: true});
-    //     }
-    //   });
-    // }
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
-        this.passageiro.nome = value.value;
+        var _this = this;
+        var idSelected = value.id;
+        this.passageiros.forEach(function (passageiro) {
+            if (idSelected == passageiro.id) {
+                _this.passageiro.nome = value.nome;
+                _this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true });
+                _this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true });
+            }
+        });
         this.valid[9] = value.valid;
     };
+    // updateNomeHandler(value: IInput){
+    //   this.passageiro.nome = value.value
+    //   this.valid[9] = value.valid;
+    // }
     ListaPassageirosComponent.prototype.updateDocumentSelectedHandler = function (value) {
         this.passageiro.typeDocumentSelected = value.value;
     };
@@ -248,7 +265,8 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
-                input_radio_component_1.InputRadioComponent
+                input_radio_component_1.InputRadioComponent,
+                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent
             ],
             templateUrl: './lista-passageiros.component.html',
             styleUrl: './lista-passageiros.component.css'

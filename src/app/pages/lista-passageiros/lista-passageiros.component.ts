@@ -17,10 +17,12 @@ import { InputTimeComponent } from "../../shared/components/input-time/input-tim
 import { IListaPassageiros } from '../../interfaces/i-listaPassageiros';
 import { AuthService } from '../../core/services/authService/auth-service.service';
 import { Router } from '@angular/router';
-import { IClienteAutocomplete } from '../../interfaces/i-clienteAutocomplete';
+import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { ICliente } from '../../interfaces/i-cliente';
 import { DialogPassageiroComponent } from '../../shared/components/dialog-passageiro/dialog-passageiro.component';
 import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
+import { PassageiroService } from '../../core/services/passageiroService/passageiro-service.service';
+import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
@@ -36,7 +38,8 @@ import { InputRadioComponent } from "../../shared/components/input-radio/input-r
     InputTextComponent,
     InputDateComponent,
     InputTimeComponent,
-    InputRadioComponent
+    InputRadioComponent,
+    InputAutocompleteDataPessoaComponent
 ],
   templateUrl: './lista-passageiros.component.html',
   styleUrl: './lista-passageiros.component.css'
@@ -45,9 +48,17 @@ export class ListaPassageirosComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   readonly dialogPassageiro = inject(MatDialog);
+
   clienteService = inject(ClienteService);
+  passageiroService = inject(PassageiroService);
+
   clientes: ICliente[] = [];
-  arrayNomeClientes: IClienteAutocomplete[] = [];
+  passageiros: IPassageiro[] = [];
+
+  arrayNomeClientes: IPessoaAutocomplete[] = [];
+  arrayNomePassageiros: IPessoaAutocomplete[] = [];
+  // arrayNomePassageiros: IClienteAutocomplete[] = [];
+
   listaPassageiros: IListaPassageiros = {
     numeroCarro: '',
     placa: '',
@@ -62,11 +73,13 @@ export class ListaPassageirosComponent implements OnInit {
     passageiros: [
     ]
   };
+
   passageiro: IPassageiro = {
     nome: '',
     documento: '',
     typeDocumentSelected: 'RG'
   };
+
   valid: boolean[] = [];
   loading = false;
   motoristas: string[] = ["Crairton", "Claudiney"];
@@ -82,6 +95,7 @@ export class ListaPassageirosComponent implements OnInit {
 
   ngOnInit(): void {
     // this.povoaArrayClientes();
+    this.povoaArrayPassageiros();
   }
 
   onSubmit() {
@@ -142,6 +156,15 @@ export class ListaPassageirosComponent implements OnInit {
         this.arrayNomeClientes.push({nome: cliente.nome, id: cliente.id})
       }
     });
+  }
+
+  povoaArrayPassageiros(){
+    this.passageiroService.getAll().subscribe(passageiros =>{
+      this.passageiros = passageiros;
+      for(let passageiro of this.passageiros){
+        this.arrayNomePassageiros.push({nome: passageiro.nome, id: passageiro.id!});
+      }
+    })
   }
 
   adicionarPassageiro(): void {
@@ -253,23 +276,22 @@ export class ListaPassageirosComponent implements OnInit {
     this.listaPassageiros.extensaoRoteiroKm = value.value
   }
 
-  // updateNomeHandler(value: any){
-  //   console.log(value)
-  //   this.passageiro.nome = value.value.nome;
-  //   console.log(this.passageiro)
-  //   const idSelected = value.id;
-  //   this.valid[9] = value.valid;
-  //   this.clientes.forEach(element => {
-  //     if(idSelected == element.id){
-  //       this.updateDocumentoHandler({ value: element.documento || '', valid: true});
-  //     }
-  //   });
-  // }
-
-  updateNomeHandler(value: IInput){
-    this.passageiro.nome = value.value
+  updateNomeHandler(value: any){
+    const idSelected = value.id;
+    this.passageiros.forEach(passageiro => {
+      if(idSelected == passageiro.id){
+        this.passageiro.nome = value.nome;
+        this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true});
+        this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true});
+      }
+    });
     this.valid[9] = value.valid;
   }
+
+  // updateNomeHandler(value: IInput){
+  //   this.passageiro.nome = value.value
+  //   this.valid[9] = value.valid;
+  // }
 
   updateDocumentSelectedHandler(value: IInput){
     this.passageiro.typeDocumentSelected = value.value;
