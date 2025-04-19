@@ -4,12 +4,14 @@
     Preencha os campos para gerar o recibo
   </h2>
   <form (ngSubmit)="onSubmit()">
+
     <!-- cliente -->
-    <app-input-text
+    <app-input-autocomplete
+      [options]="nomeCLientes"
       [label]="'Nome completo do cliente'"
       [placeholder]="'ex: Crairton de Matos Leite'"
       (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-text>
+    ></app-input-autocomplete>
 
     <!-- pacote de viagem -->
     <app-input-text

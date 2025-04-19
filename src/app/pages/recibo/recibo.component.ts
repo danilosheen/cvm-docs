@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { InputTextComponent } from "../../shared/components/input-text/input-text.component";
@@ -10,6 +10,8 @@ import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { InputSelectComponent } from "../../shared/components/input-select/input-select.component";
+import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
+import { ClienteService } from '../../core/services/clienteService/cliente.service';
 
 @Component({
   selector: 'app-recibo',
@@ -21,12 +23,13 @@ import { InputSelectComponent } from "../../shared/components/input-select/input
     NgIf,
     MatButtonModule,
     FormsModule,
-    InputSelectComponent
+    InputSelectComponent,
+    InputAutocompleteComponent
 ],
   templateUrl: './recibo.component.html',
   styleUrl: './recibo.component.css'
 })
-export class ReciboComponent {
+export class ReciboComponent implements OnInit {
 
   loading: boolean = false;
   errorMessage = signal('');
@@ -37,13 +40,23 @@ export class ReciboComponent {
     formaPagamento: '',
   };
   valid: boolean[] = [];
-  formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"]
+  formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"];
+  nomeCLientes: string[] = [];
+  clienteService = inject(ClienteService);
 
   constructor(private pdfRecibo: ReciboPDFService) {
     //inicializando o array de campos válidos
     for (let i = 0; i < 4; i++) {
       this.valid.push(false)
     }
+  }
+
+  ngOnInit(): void {
+    this.clienteService.getAll().subscribe(clientes =>{
+      for(let cliente of clientes){
+        this.nomeCLientes.push(cliente.nome);
+      }
+    })
   }
 
   onSubmit() {
