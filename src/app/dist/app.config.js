@@ -20,7 +20,7 @@ exports.appConfig = {
         core_1.provideZoneChangeDetection({ eventCoalescing: true }),
         router_1.provideRouter(app_routes_1.routes), async_1.provideAnimationsAsync(),
         async_1.provideAnimationsAsync(),
-        http_1.provideHttpClient(http_1.withFetch()),
+        http_1.provideHttpClient(http_1.withFetch(), http_1.withInterceptorsFromDi()),
         animations_1.provideAnimations(),
         ngx_lottie_1.provideLottieOptions({ player: playerFactory }),
         { provide: http_1.HTTP_INTERCEPTORS, useClass: auth_interceptor_service_1.AuthInterceptorService, multi: true }

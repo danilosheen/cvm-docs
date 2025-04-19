@@ -76,16 +76,10 @@ var FichaExcursaoComponent = /** @class */ (function () {
     }
     FichaExcursaoComponent.prototype.ngOnInit = function () {
         var _this = this;
-        try {
-            this.clienteService.getAll().subscribe(function (result) {
-                _this.clientes = result;
-                _this.loadClientListNames();
-            });
-        }
-        catch (error) {
-            alert("Seu token de acesso expirou, faça login novamente!");
-            this.router.navigate(['/']);
-        }
+        this.clienteService.getAll().subscribe(function (result) {
+            _this.clientes = result;
+            _this.loadClientListNames();
+        });
     };
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../../core/services/loginService/login-service.service';
 import { Router } from '@angular/router';
@@ -39,6 +39,11 @@ export class LoginComponent {
     if(this.authService.getToken()){
       this.router.navigate(["/home"]);
     }
+
+    const email = localStorage.getItem("email");
+    if(email){
+      this.email = email;
+    }
   }
 
   login(){
@@ -46,6 +51,7 @@ export class LoginComponent {
     this.loginService.login(this.email, this.senha).subscribe({
       next: (result) => {
         if (result.token) {
+          localStorage.setItem("email", this.email);
           this.router.navigate(["/home"]);
           this.isLoading = false;
         }
@@ -64,6 +70,11 @@ export class LoginComponent {
     event.preventDefault();
     event.stopImmediatePropagation();
     this.typePassword == 'password' ? this.typePassword = 'text' : this.typePassword = 'password';
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnterPress(event: KeyboardEvent) {
+    this.login();
   }
 
   showErro(){

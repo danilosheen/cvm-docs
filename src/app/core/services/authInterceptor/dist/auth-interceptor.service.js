@@ -11,9 +11,8 @@ var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
 var operators_1 = require("rxjs/operators");
 var AuthInterceptorService = /** @class */ (function () {
-    function AuthInterceptorService(router, ngZone) {
+    function AuthInterceptorService(router) {
         this.router = router;
-        this.ngZone = ngZone;
     }
     AuthInterceptorService.prototype.intercept = function (req, next) {
         var _this = this;
@@ -21,17 +20,24 @@ var AuthInterceptorService = /** @class */ (function () {
         var authReq = req;
         if (token) {
             authReq = req.clone({
-                setHeaders: { Authorization: "Bearer " + token }
+                setHeaders: {
+                    Authorization: "Bearer " + token
+                }
             });
         }
         return next.handle(authReq).pipe(operators_1.catchError(function (error) {
-            if (error) {
+            var _a, _b;
+            // Se for 401 e a mensagem for "Token expirado"
+            if (error.status === 401 && ((_a = error.error) === null || _a === void 0 ? void 0 : _a.error) === 'Token expirado') {
                 localStorage.removeItem('authToken');
-                alert("Sua sessão expirou, faça login novamente!");
-                // Força o Angular a processar o redirecionamento no contexto correto
-                _this.ngZone.run(function () {
-                    _this.router.navigate(['/']);
-                });
+                alert('Sua sessão expirou, faça login novamente!');
+                _this.router.navigate(['/']);
+            }
+            // Se for 401 genérico (token inválido, por exemplo)
+            if (error.status === 401 && ((_b = error.error) === null || _b === void 0 ? void 0 : _b.error) === 'Token inválido') {
+                localStorage.removeItem('authToken');
+                alert('Sessão inválida. Faça login novamente.');
+                _this.router.navigate(['/']);
             }
             return rxjs_1.throwError(function () { return error; });
         }));

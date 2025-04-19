@@ -99,15 +99,10 @@ export class FichaExcursaoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    try {
-      this.clienteService.getAll().subscribe(result =>{
-        this.clientes = result
-        this.loadClientListNames();
-      });
-    } catch (error) {
-      alert("Seu token de acesso expirou, faça login novamente!");
-      this.router.navigate(['/']);
-    }
+    this.clienteService.getAll().subscribe(result =>{
+      this.clientes = result
+      this.loadClientListNames();
+    });
   }
 
   onSubmit() {

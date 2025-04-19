@@ -67,24 +67,17 @@ export class ClientesComponent implements AfterViewInit {
   }
 
   carregarClientes() {
-    try {
-      this.clienteService.getAll().subscribe(result => {
-        this.clientes = result;
-        this.dataSource.data = this.clientes;
-        // this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          if(this.clientes.length == 0){
-            this.hasClient = false;
-          }
-        });
+    this.clienteService.getAll().subscribe(result => {
+      this.clientes = result;
+      this.dataSource.data = this.clientes;
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        if(this.clientes.length == 0){
+          this.hasClient = false;
+        }
       });
-    } catch (error) {
-      alert("Seu token de acesso expirou, faça login novamente!");
-      this.router.navigate(['/']);
-    }
+    });
   }
 
   applyFilter(event: Event) {

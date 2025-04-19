@@ -51,25 +51,17 @@ var ClientesComponent = /** @class */ (function () {
     };
     ClientesComponent.prototype.carregarClientes = function () {
         var _this = this;
-        try {
-            this.clienteService.getAll().subscribe(function (result) {
-                _this.clientes = result;
-                _this.dataSource.data = _this.clientes;
-                // this.dataSource.paginator = this.paginator;
-                // this.dataSource.sort = this.sort;
-                setTimeout(function () {
-                    _this.dataSource.paginator = _this.paginator;
-                    _this.dataSource.sort = _this.sort;
-                    if (_this.clientes.length == 0) {
-                        _this.hasClient = false;
-                    }
-                });
+        this.clienteService.getAll().subscribe(function (result) {
+            _this.clientes = result;
+            _this.dataSource.data = _this.clientes;
+            setTimeout(function () {
+                _this.dataSource.paginator = _this.paginator;
+                _this.dataSource.sort = _this.sort;
+                if (_this.clientes.length == 0) {
+                    _this.hasClient = false;
+                }
             });
-        }
-        catch (error) {
-            alert("Seu token de acesso expirou, faça login novamente!");
-            this.router.navigate(['/']);
-        }
+        });
     };
     ClientesComponent.prototype.applyFilter = function (event) {
         var filterValue = event.target.value;

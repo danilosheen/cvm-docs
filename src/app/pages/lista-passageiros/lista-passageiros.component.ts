@@ -74,15 +74,7 @@ export class ListaPassageirosComponent implements OnInit {
   typesDocument: string[] = ['RG', 'CPF', 'Registro'];
 
   constructor(
-    private pdfListaPassageiros: ListaPassageirosService,
-    private authService: AuthService,
-    private router: Router
-  ){
-
-    if(!this.authService.getToken()){
-      this.router.navigate(["/"]);
-    }
-
+    private pdfListaPassageiros: ListaPassageirosService){
     for (let i = 0; i <= 10; i++) {
       this.valid.push(false)
     }

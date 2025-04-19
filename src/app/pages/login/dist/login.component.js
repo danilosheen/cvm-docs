@@ -27,6 +27,10 @@ var LoginComponent = /** @class */ (function () {
         if (this.authService.getToken()) {
             this.router.navigate(["/home"]);
         }
+        var email = localStorage.getItem("email");
+        if (email) {
+            this.email = email;
+        }
     }
     LoginComponent.prototype.login = function () {
         var _this = this;
@@ -34,6 +38,7 @@ var LoginComponent = /** @class */ (function () {
         this.loginService.login(this.email, this.senha).subscribe({
             next: function (result) {
                 if (result.token) {
+                    localStorage.setItem("email", _this.email);
                     _this.router.navigate(["/home"]);
                     _this.isLoading = false;
                 }
@@ -52,12 +57,18 @@ var LoginComponent = /** @class */ (function () {
         event.stopImmediatePropagation();
         this.typePassword == 'password' ? this.typePassword = 'text' : this.typePassword = 'password';
     };
+    LoginComponent.prototype.onEnterPress = function (event) {
+        this.login();
+    };
     LoginComponent.prototype.showErro = function () {
         if (this.errorMessage) {
             return true;
         }
         return false;
     };
+    __decorate([
+        core_1.HostListener('document:keydown.enter', ['$event'])
+    ], LoginComponent.prototype, "onEnterPress");
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'app-login',

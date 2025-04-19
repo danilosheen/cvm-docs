@@ -24,10 +24,8 @@ var dialog_passageiro_component_1 = require("../../shared/components/dialog-pass
 var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 var ListaPassageirosComponent = /** @class */ (function () {
-    function ListaPassageirosComponent(pdfListaPassageiros, authService, router) {
+    function ListaPassageirosComponent(pdfListaPassageiros) {
         this.pdfListaPassageiros = pdfListaPassageiros;
-        this.authService = authService;
-        this.router = router;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogPassageiro = core_1.inject(dialog_1.MatDialog);
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
@@ -56,9 +54,6 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.motoristas = ["Crairton", "Claudiney"];
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
         this.typesDocument = ['RG', 'CPF', 'Registro'];
-        if (!this.authService.getToken()) {
-            this.router.navigate(["/"]);
-        }
         for (var i = 0; i <= 10; i++) {
             this.valid.push(false);
         }
