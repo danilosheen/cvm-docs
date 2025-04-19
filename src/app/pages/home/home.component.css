@@ -4,7 +4,7 @@ button{
   max-width: 400px;
 }
 .container-screen{
-  max-width: 650px;
+  width: 80%;
   margin: 0 auto;
   min-height: calc(100vh - 165px);
   display: flex;

@@ -9,6 +9,8 @@ import { OrcamentoComponent } from './pages/orcamento/orcamento.component';
 import { ListaPassageirosComponent } from './pages/lista-passageiros/lista-passageiros.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { PassageirosComponent } from './pages/passageiros/passageiros.component';
+import { CalculadoraComponent } from './pages/calculadora/calculadora.component';
+import { UtilitariosComponent } from './pages/utilitarios/utilitarios.component';
 
 
 export const routes: Routes = [
@@ -21,4 +23,6 @@ export const routes: Routes = [
   { path: 'lista-passageiros', component: ListaPassageirosComponent },
   { path: 'clientes', component: ClientesComponent, canActivate: [AuthGuardService] },
   { path: 'passageiros', component: PassageirosComponent, canActivate: [AuthGuardService] },
+  { path: 'calculadora', component: CalculadoraComponent, canActivate: [AuthGuardService] },
+  { path: 'utilitarios', component: UtilitariosComponent, canActivate: [AuthGuardService] },
 ];

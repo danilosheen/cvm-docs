@@ -185,7 +185,6 @@ export class PassageirosComponent {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.hasPassageiro = this.passageiros.length > 0;
-      console.log(response)
     });
   }
 

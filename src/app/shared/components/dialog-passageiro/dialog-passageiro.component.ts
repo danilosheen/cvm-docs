@@ -51,7 +51,6 @@ export class DialogPassageiroComponent {
   }
 
   constructor(){
-    console.log(this.passageiroData)
     // inicia validadores como false
     for (let i = 0; i < 2; i++) {
       this.valid.push(false);

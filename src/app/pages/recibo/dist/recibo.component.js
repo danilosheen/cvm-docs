@@ -111,7 +111,6 @@ var ReciboComponent = /** @class */ (function () {
         this.valid[2] = (value.valid);
     };
     ReciboComponent.prototype.updateFormaPagamentoHandler = function (value) {
-        console.log(value);
         this.reciboData.formaPagamento = value.value;
         this.valid[3] = (value.valid);
     };

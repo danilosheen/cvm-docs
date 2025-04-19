@@ -100,7 +100,6 @@ var DialogFromMenu = /** @class */ (function () {
         }
     };
     DialogFromMenu.prototype.updateDocumentSelectedHandler = function (value) {
-        console.log(this.typeDocumentSelected);
         this.typeDocumentSelected = value.value;
     };
     DialogFromMenu.prototype.updatePoltronaDependenteHandler = function (value) {

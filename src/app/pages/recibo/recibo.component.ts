@@ -128,7 +128,6 @@ export class ReciboComponent implements OnInit {
   }
 
   updateFormaPagamentoHandler(value: IInput) {
-    console.log(value)
     this.reciboData.formaPagamento = value.value;
     this.valid[3] = (value.valid);
   }

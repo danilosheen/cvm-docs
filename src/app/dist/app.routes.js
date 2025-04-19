@@ -11,6 +11,8 @@ var orcamento_component_1 = require("./pages/orcamento/orcamento.component");
 var lista_passageiros_component_1 = require("./pages/lista-passageiros/lista-passageiros.component");
 var clientes_component_1 = require("./pages/clientes/clientes.component");
 var passageiros_component_1 = require("./pages/passageiros/passageiros.component");
+var calculadora_component_1 = require("./pages/calculadora/calculadora.component");
+var utilitarios_component_1 = require("./pages/utilitarios/utilitarios.component");
 exports.routes = [
     { path: '', component: login_component_1.LoginComponent },
     { path: 'home', component: home_component_1.HomeComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
@@ -21,4 +23,6 @@ exports.routes = [
     { path: 'lista-passageiros', component: lista_passageiros_component_1.ListaPassageirosComponent },
     { path: 'clientes', component: clientes_component_1.ClientesComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'passageiros', component: passageiros_component_1.PassageirosComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
+    { path: 'calculadora', component: calculadora_component_1.CalculadoraComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
+    { path: 'utilitarios', component: utilitarios_component_1.UtilitariosComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
 ];

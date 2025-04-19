@@ -30,7 +30,6 @@ var DialogPassageiroComponent = /** @class */ (function () {
         this.passageiroData = this.inputsData.passageiro || this.passageiroClean;
         this.title = this.inputsData.title;
         this.confirmButton = this.inputsData.confirmButton;
-        console.log(this.passageiroData);
         // inicia validadores como false
         for (var i = 0; i < 2; i++) {
             this.valid.push(false);

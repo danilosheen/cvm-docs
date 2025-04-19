@@ -84,7 +84,6 @@ var FichaExcursaoComponent = /** @class */ (function () {
     FichaExcursaoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        console.log(this.fichaExcursaoData);
         if (!this.fichaExcursaoData.cliente.documento) {
             this.fichaExcursaoData.cliente.documento = 'Não informado';
         }

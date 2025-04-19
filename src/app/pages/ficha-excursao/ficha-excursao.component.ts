@@ -107,7 +107,6 @@ export class FichaExcursaoComponent implements OnInit {
 
   onSubmit() {
       this.loading = true;
-      console.log(this.fichaExcursaoData)
       if(!this.fichaExcursaoData.cliente.documento){
         this.fichaExcursaoData.cliente.documento = 'Não informado'
       }

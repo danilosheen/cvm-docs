@@ -161,7 +161,6 @@ var PassageirosComponent = /** @class */ (function () {
             _this.dataSource.paginator = _this.paginator;
             _this.dataSource.sort = _this.sort;
             _this.hasPassageiro = _this.passageiros.length > 0;
-            console.log(response);
         });
     };
     // Personalização do paginator do Angular Material

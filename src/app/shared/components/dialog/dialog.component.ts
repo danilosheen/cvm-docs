@@ -119,7 +119,6 @@ export class DialogFromMenu {
   }
 
   updateDocumentSelectedHandler(value: IInput){
-    console.log(this.typeDocumentSelected)
     this.typeDocumentSelected = value.value
   }
 
