@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container">
+  @if (isLoading) {
+    <app-loading-blue></app-loading-blue>
+  } @else if (!isLoading) {
+    <div class="content">
+      <div>
+        <h3 class="title-table">Aniversariantes do mês de {{meses[mesSelected].toLocaleLowerCase()}}</h3>
+      </div>
+      <div class="container-top-table">
+        <div>
+        </div>
+        <app-input-select
+          class="input-select"
+          [listItens]="meses"
+          [label]="'Selecione um mês'"
+          (selectedInputValue)="updateSelectedMonth($event)"
+        ></app-input-select>
+      </div>
+      @if (!isLoading && aniversariantesDoMes.length > 0) {
+        <div class="container-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Data de Nascimento</th>
+                <th>Nome</th>
+                <th>Contato</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (aniversariante of aniversariantesDoMes; track $index) {
+                <tr>
+                  <td>{{aniversariante.dataNascimento}}</td>
+                  <td>{{aniversariante.nome}}</td>
+                  <td>{{aniversariante.contato}}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <p class="msg-no-data-table">Não há aniversariantes esse mês</p>
+      }
+      </div>
+    }
+</div>
+<app-footer></app-footer>

@@ -1,7 +1,10 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <div class="content">
-    <img src="/assets/developing.jpg" alt="">
-  </div>
+  <app-button-card
+      [routerLink]="['aniversariantes']"
+      [icon]="'../../../assets/aniversariantes.png'"
+      [title]="'Aniversariantes do mês'"
+      [description]="'Visualize os clientes que estão aniversariando'"
+    ></app-button-card>
 </div>
 <app-footer></app-footer>

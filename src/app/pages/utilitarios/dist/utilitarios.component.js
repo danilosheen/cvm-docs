@@ -10,13 +10,15 @@ exports.UtilitariosComponent = void 0;
 var core_1 = require("@angular/core");
 var navbar_component_1 = require("../../shared/components/navbar/navbar.component");
 var footer_component_1 = require("../../shared/components/footer/footer.component");
+var button_card_component_1 = require("../../shared/components/button-card/button-card.component");
+var router_1 = require("@angular/router");
 var UtilitariosComponent = /** @class */ (function () {
     function UtilitariosComponent() {
     }
     UtilitariosComponent = __decorate([
         core_1.Component({
             selector: 'app-utilitarios',
-            imports: [navbar_component_1.NavbarComponent, footer_component_1.FooterComponent],
+            imports: [navbar_component_1.NavbarComponent, footer_component_1.FooterComponent, button_card_component_1.ButtonCardComponent, router_1.RouterLink],
             templateUrl: './utilitarios.component.html',
             styleUrl: './utilitarios.component.css'
         })

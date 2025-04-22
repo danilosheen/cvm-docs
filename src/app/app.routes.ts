@@ -11,6 +11,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
 import { PassageirosComponent } from './pages/passageiros/passageiros.component';
 import { CalculadoraComponent } from './pages/calculadora/calculadora.component';
 import { UtilitariosComponent } from './pages/utilitarios/utilitarios.component';
+import { AniversariantesComponent } from './pages/utilitarios/aniversariantes/aniversariantes.component';
 
 
 export const routes: Routes = [
@@ -25,4 +26,5 @@ export const routes: Routes = [
   { path: 'passageiros', component: PassageirosComponent, canActivate: [AuthGuardService] },
   { path: 'calculadora', component: CalculadoraComponent, canActivate: [AuthGuardService] },
   { path: 'utilitarios', component: UtilitariosComponent, canActivate: [AuthGuardService] },
+  { path: 'utilitarios/aniversariantes', component: AniversariantesComponent, canActivate: [AuthGuardService] },
 ];
