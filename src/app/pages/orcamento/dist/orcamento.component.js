@@ -20,6 +20,8 @@ var input_number_component_1 = require("../../shared/components/input-number/inp
 var input_date_component_1 = require("../../shared/components/input-date/input-date.component");
 var input_time_component_1 = require("../../shared/components/input-time/input-time.component");
 var input_autocomplete_component_1 = require("../../shared/components/input-autocomplete/input-autocomplete.component");
+var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
+var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var OrcamentoComponent = /** @class */ (function () {
     function OrcamentoComponent(pdfOrcamento) {
         this.pdfOrcamento = pdfOrcamento;
@@ -44,11 +46,24 @@ var OrcamentoComponent = /** @class */ (function () {
         };
         this.valid = [];
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
+        this.clienteService = core_1.inject(cliente_service_1.ClienteService);
+        this.nomeClientes = [];
+        this.isLoadingClientes = true;
         //inicializando o array de campos válidos
         for (var i = 0; i <= 11; i++) {
             this.valid.push(false);
         }
     }
+    OrcamentoComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.clienteService.getAll().subscribe(function (clientes) {
+            for (var _i = 0, clientes_1 = clientes; _i < clientes_1.length; _i++) {
+                var cliente = clientes_1[_i];
+                _this.nomeClientes.push(cliente.nome);
+            }
+            _this.isLoadingClientes = false;
+        });
+    };
     OrcamentoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
@@ -173,7 +188,8 @@ var OrcamentoComponent = /** @class */ (function () {
                 input_number_component_1.InputNumberComponent,
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
-                input_autocomplete_component_1.InputAutocompleteComponent
+                input_autocomplete_component_1.InputAutocompleteComponent,
+                loading_blue_component_1.LoadingBlueComponent
             ],
             templateUrl: './orcamento.component.html',
             styleUrl: './orcamento.component.css'

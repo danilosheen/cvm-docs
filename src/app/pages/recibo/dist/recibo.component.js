@@ -32,7 +32,7 @@ var ReciboComponent = /** @class */ (function () {
         };
         this.valid = [];
         this.formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"];
-        this.nomeCLientes = [];
+        this.nomeClientes = [];
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
         this.isLoadingClientes = true;
         //inicializando o array de campos válidos
@@ -45,7 +45,7 @@ var ReciboComponent = /** @class */ (function () {
         this.clienteService.getAll().subscribe(function (clientes) {
             for (var _i = 0, clientes_1 = clientes; _i < clientes_1.length; _i++) {
                 var cliente = clientes_1[_i];
-                _this.nomeCLientes.push(cliente.nome);
+                _this.nomeClientes.push(cliente.nome);
             }
             _this.isLoadingClientes = false;
         });

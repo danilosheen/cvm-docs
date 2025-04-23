@@ -43,7 +43,7 @@ export class ReciboComponent implements OnInit {
   };
   valid: boolean[] = [];
   formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"];
-  nomeCLientes: string[] = [];
+  nomeClientes: string[] = [];
   clienteService = inject(ClienteService);
   isLoadingClientes = true;
 
@@ -57,7 +57,7 @@ export class ReciboComponent implements OnInit {
   ngOnInit(): void {
     this.clienteService.getAll().subscribe(clientes =>{
       for(let cliente of clientes){
-        this.nomeCLientes.push(cliente.nome);
+        this.nomeClientes.push(cliente.nome);
       }
       this.isLoadingClientes = false;
     });

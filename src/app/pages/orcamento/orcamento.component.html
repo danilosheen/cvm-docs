@@ -1,140 +1,146 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <h2 class="title-orcamento">
-    Preencha os dados para gerar o orçamento
-  </h2>
-  <form (ngSubmit)="onSubmit()">
-    <!-- cliente -->
-    <app-input-text
-      [label]="'Nome do cliente'"
-      [placeholder]="'ex: Crairton Matos'"
-      (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-text>
+  @if(isLoadingClientes){
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2 class="title-orcamento">
+      Preencha os dados para gerar o orçamento
+    </h2>
+    <form (ngSubmit)="onSubmit()">
+      <!-- cliente -->
+      <app-input-autocomplete
+        [options]="nomeClientes"
+        [label]="'Nome completo do cliente'"
+        [placeholder]="'ex: Crairton de Matos Leite'"
+        (inputValue)="updateNomeClienteHandler($event)"
+      ></app-input-autocomplete>
 
-    <!-- contato -->
-    <app-input-number
-      [label]="'Telefone'"
-      [placeholder]="'ex: (88)9.8888-8888'"
-      [type]="'tel'"
-      (inputValue)="updateTelefoneContatoHandler($event)"
-    ></app-input-number>
+      <!-- contato -->
+      <app-input-number
+        [label]="'Telefone'"
+        [placeholder]="'ex: (88)9.8888-8888'"
+        [type]="'tel'"
+        (inputValue)="updateTelefoneContatoHandler($event)"
+      ></app-input-number>
 
-    <!-- pacote de viagem -->
-    <app-input-text
-      [label]="'Pacote de viagem'"
-      [placeholder]="'ex: De Juazeiro do norte à fortaleza'"
-      (inputValue)="updatePacoteViagemHandler($event)"
-    ></app-input-text>
+      <!-- pacote de viagem -->
+      <app-input-text
+        [label]="'Pacote de viagem'"
+        [placeholder]="'ex: De Juazeiro do norte à fortaleza'"
+        (inputValue)="updatePacoteViagemHandler($event)"
+      ></app-input-text>
 
-    <!-- Local de saída -->
-    <!-- <app-input-select
-      [label]="'Selecione o local de saída'"
-      [listItens]="cidades"
-      [errorMessage]="'Por favor, selecione um local.'"
-      (selectedInputValue)="updateLocalSaidaHandler($event)"
-    ></app-input-select> -->
+      <!-- Local de saída -->
+      <!-- <app-input-select
+        [label]="'Selecione o local de saída'"
+        [listItens]="cidades"
+        [errorMessage]="'Por favor, selecione um local.'"
+        (selectedInputValue)="updateLocalSaidaHandler($event)"
+      ></app-input-select> -->
 
-    <!-- Local de saída -->
-    <app-input-autocomplete
-      [label]="'Selecione o local de saída'"
-      [options]="cidades"
-      [errorMessage]="'Por favor, selecione um local.'"
-      (inputValue)="updateLocalSaidaHandler($event)"
-    ></app-input-autocomplete>
+      <!-- Local de saída -->
+      <app-input-autocomplete
+        [label]="'Selecione o local de saída'"
+        [options]="cidades"
+        [errorMessage]="'Por favor, selecione um local.'"
+        (inputValue)="updateLocalSaidaHandler($event)"
+      ></app-input-autocomplete>
 
-    <!-- Data de saída -->
-    <app-input-date
-      [label]="'Selecione a data de saída.'"
-      (inputDate)="updateDataSaidaHandler($event)"
-    ></app-input-date>
+      <!-- Data de saída -->
+      <app-input-date
+        [label]="'Selecione a data de saída.'"
+        (inputDate)="updateDataSaidaHandler($event)"
+      ></app-input-date>
 
-    <!-- Hora de saída -->
-    <app-input-time
-      [label]="'Selecione a hora de saída.'"
-      (inputTime)="updateHoraSaidaHandler($event)"
-    ></app-input-time>
+      <!-- Hora de saída -->
+      <app-input-time
+        [label]="'Selecione a hora de saída.'"
+        (inputTime)="updateHoraSaidaHandler($event)"
+      ></app-input-time>
 
-    <!-- Data de retorno -->
-    <app-input-date
-      [label]="'Selecione a data de retorno'"
-      (inputDate)="updateDataRetornoHandler($event)"
-    ></app-input-date>
+      <!-- Data de retorno -->
+      <app-input-date
+        [label]="'Selecione a data de retorno'"
+        (inputDate)="updateDataRetornoHandler($event)"
+      ></app-input-date>
 
-    <!-- Hora de retorno -->
-    <app-input-time
-      [label]="'Selecione a hora de retorno'"
-      (inputTime)="updateHoraRetornoHandler($event)"
-    ></app-input-time>
+      <!-- Hora de retorno -->
+      <app-input-time
+        [label]="'Selecione a hora de retorno'"
+        (inputTime)="updateHoraRetornoHandler($event)"
+      ></app-input-time>
 
-    <!-- valor com despeza do motorista inclusa -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor cliente pagando despesa'"
-      [placeholder]="'ex: 2.500,00'"
-      (inputValue)="updateValorComDespezaHandler($event)"
-    ></app-input-number>
+      <!-- valor com despeza do motorista inclusa -->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Valor cliente pagando despesa'"
+        [placeholder]="'ex: 2.500,00'"
+        (inputValue)="updateValorComDespezaHandler($event)"
+      ></app-input-number>
 
-    <!-- valor sem despeza do motorista inclusa -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor CVM pagando despesa'"
-      [placeholder]="'ex: 2.500,00'"
-      (inputValue)="updateValorSemDespezaHandler($event)"
-    ></app-input-number>
+      <!-- valor sem despeza do motorista inclusa -->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Valor CVM pagando despesa'"
+        [placeholder]="'ex: 2.500,00'"
+        (inputValue)="updateValorSemDespezaHandler($event)"
+      ></app-input-number>
 
-    <!-- valor com emissão de nota fiscal -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor com emissão de nota fiscal'"
-      [placeholder]="'ex: 2.500,00'"
-      (inputValue)="updateValorComNotaHandler($event)"
-    ></app-input-number>
+      <!-- valor com emissão de nota fiscal -->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Valor com emissão de nota fiscal'"
+        [placeholder]="'ex: 2.500,00'"
+        (inputValue)="updateValorComNotaHandler($event)"
+      ></app-input-number>
 
-    <!-- Taxa do PIX -->
-    <app-input-number
-      [type]="'text'"
-      [label]="'Taxa do PIX'"
-      [defaultValue]="'6'"
-      (inputValue)="updateTaxaPixHandler($event)"
-    ></app-input-number>
+      <!-- Taxa do PIX -->
+      <app-input-number
+        [type]="'text'"
+        [label]="'Taxa do PIX'"
+        [defaultValue]="'6'"
+        (inputValue)="updateTaxaPixHandler($event)"
+      ></app-input-number>
 
-    <!-- modelo van -->
-    <app-input-text
-      [label]="'Detalhes do veículo'"
-      [optional]="true"
-      [placeholder]="'ex: Van com 20 assentos, som, ar-condicionado...'"
-      (inputValue)="updateModeloVanHandler($event)"
-    ></app-input-text>
+      <!-- modelo van -->
+      <app-input-text
+        [label]="'Detalhes do veículo'"
+        [optional]="true"
+        [placeholder]="'ex: Van com 20 assentos, som, ar-condicionado...'"
+        (inputValue)="updateModeloVanHandler($event)"
+      ></app-input-text>
 
-    <!-- cortesiaKm -->
-    <app-input-number
-      [type]="'text'"
-      [label]="'Km de cortesia'"
-      [placeholder]="'30'"
-      [optional]="true"
-      (inputValue)="updateCortesiaKmHandler($event)"
-    ></app-input-number>
+      <!-- cortesiaKm -->
+      <app-input-number
+        [type]="'text'"
+        [label]="'Km de cortesia'"
+        [placeholder]="'30'"
+        [optional]="true"
+        (inputValue)="updateCortesiaKmHandler($event)"
+      ></app-input-number>
 
-    <!-- valor km-->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor por km excedido'"
-      [placeholder]="'ex: 5,00'"
-      [optional]="true"
-      (inputValue)="updateValorAcrescimoKmHandler($event)"
-    ></app-input-number>
+      <!-- valor km-->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Valor por km excedido'"
+        [placeholder]="'ex: 5,00'"
+        [optional]="true"
+        (inputValue)="updateValorAcrescimoKmHandler($event)"
+      ></app-input-number>
 
-  </form>
-  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-    <ng-container *ngIf="loading; else btnText">
-      <div class="button-loading">
-        <img class="loading" src="./assets/loading.gif" alt="Carregando">
-        <p>Gerando PDF</p>
-      </div>
-    </ng-container>
-    <ng-template #btnText>
-      Gerar PDF
-    </ng-template>
-  </button>
+    </form>
+    <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <ng-container *ngIf="loading; else btnText">
+        <div class="button-loading">
+          <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          <p>Gerando PDF</p>
+        </div>
+      </ng-container>
+      <ng-template #btnText>
+        Gerar PDF
+      </ng-template>
+    </button>
+  }
+
 </div>
 <app-footer></app-footer>

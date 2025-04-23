@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { OrcamentoPDFService } from '../../core/services/orcamentoService/orcamento-pdf.service';
@@ -15,6 +15,8 @@ import { InputDateComponent } from "../../shared/components/input-date/input-dat
 import { InputTimeComponent } from "../../shared/components/input-time/input-time.component";
 import { IInput } from '../../interfaces/i-handlerInput';
 import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
+import { ClienteService } from '../../core/services/clienteService/cliente.service';
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 
 
 @Component({
@@ -31,12 +33,13 @@ import { InputAutocompleteComponent } from "../../shared/components/input-autoco
     InputNumberComponent,
     InputDateComponent,
     InputTimeComponent,
-    InputAutocompleteComponent
+    InputAutocompleteComponent,
+    LoadingBlueComponent
 ],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.css'
 })
-export class OrcamentoComponent{
+export class OrcamentoComponent implements OnInit{
 
   loading: boolean = false;
   errorMessage = signal('');
@@ -59,12 +62,24 @@ export class OrcamentoComponent{
   };
   valid: boolean[] = [];
   cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
+  clienteService = inject(ClienteService);
+  nomeClientes: string[] = [];
+  isLoadingClientes = true;
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
     //inicializando o array de campos válidos
     for (let i = 0; i <= 11; i++) {
       this.valid.push(false)
     }
+  }
+
+  ngOnInit(): void {
+    this.clienteService.getAll().subscribe(clientes =>{
+      for(let cliente of clientes){
+        this.nomeClientes.push(cliente.nome);
+      }
+      this.isLoadingClientes = false;
+    });
   }
 
   onSubmit() {

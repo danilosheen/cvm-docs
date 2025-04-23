@@ -9,7 +9,7 @@
     <form (ngSubmit)="onSubmit()">
       <!-- cliente -->
       <app-input-autocomplete
-        [options]="nomeCLientes"
+        [options]="nomeClientes"
         [label]="'Nome completo do cliente'"
         [placeholder]="'ex: Crairton de Matos Leite'"
         (inputValue)="updateNomeClienteHandler($event)"
