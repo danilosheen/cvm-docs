@@ -15,6 +15,7 @@ var calculadora_component_1 = require("./pages/calculadora/calculadora.component
 var utilitarios_component_1 = require("./pages/utilitarios/utilitarios.component");
 var aniversariantes_component_1 = require("./pages/utilitarios/aniversariantes/aniversariantes.component");
 var controle_contas_component_1 = require("./pages/utilitarios/controle-contas/controle-contas.component");
+var nota_agradecimento_component_1 = require("./pages/nota-agradecimento/nota-agradecimento.component");
 exports.routes = [
     { path: '', component: login_component_1.LoginComponent },
     { path: 'home', component: home_component_1.HomeComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
@@ -22,6 +23,7 @@ exports.routes = [
     { path: 'ficha-excursao', component: ficha_excursao_component_1.FichaExcursaoComponent },
     { path: 'orcamento', component: orcamento_component_1.OrcamentoComponent },
     { path: 'recibo', component: recibo_component_1.ReciboComponent },
+    { path: 'nota-agradecimento', component: nota_agradecimento_component_1.NotaAgradecimentoComponent },
     { path: 'lista-passageiros', component: lista_passageiros_component_1.ListaPassageirosComponent },
     { path: 'clientes', component: clientes_component_1.ClientesComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'passageiros', component: passageiros_component_1.PassageirosComponent, canActivate: [auth_guard_service_1.AuthGuardService] },

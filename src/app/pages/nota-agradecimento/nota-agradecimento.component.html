@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<div class="container">
+  @if (isLoadingClientes) {
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2>Informe o nome do cliente e gere uma nota de agradecimento</h2>
+    <app-input-autocomplete
+      [options]="nomeClientes"
+      [label]="'Nome completo do cliente'"
+      (inputValue)="updateNomeClienteHandler($event)"
+    ></app-input-autocomplete>
+    <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <ng-container *ngIf="loading; else btnText">
+        <div class="button-loading">
+          <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          <p>Gerando PDF</p>
+        </div>
+      </ng-container>
+      <ng-template #btnText>
+        Gerar PDF
+      </ng-template>
+    </button>
+  }
+</div>
+<app-footer></app-footer>

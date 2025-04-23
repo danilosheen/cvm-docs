@@ -13,6 +13,7 @@ import { CalculadoraComponent } from './pages/calculadora/calculadora.component'
 import { UtilitariosComponent } from './pages/utilitarios/utilitarios.component';
 import { AniversariantesComponent } from './pages/utilitarios/aniversariantes/aniversariantes.component';
 import { ControleContasComponent } from './pages/utilitarios/controle-contas/controle-contas.component';
+import { NotaAgradecimentoComponent } from './pages/nota-agradecimento/nota-agradecimento.component';
 
 
 export const routes: Routes = [
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'ficha-excursao', component: FichaExcursaoComponent },
   { path: 'orcamento', component: OrcamentoComponent },
   { path: 'recibo', component: ReciboComponent },
+  { path: 'nota-agradecimento', component: NotaAgradecimentoComponent },
   { path: 'lista-passageiros', component: ListaPassageirosComponent },
   { path: 'clientes', component: ClientesComponent, canActivate: [AuthGuardService] },
   { path: 'passageiros', component: PassageirosComponent, canActivate: [AuthGuardService] },
