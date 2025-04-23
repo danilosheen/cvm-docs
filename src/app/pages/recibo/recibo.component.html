@@ -1,52 +1,56 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <h2 class="title-recibo">
-    Preencha os campos para gerar o recibo
-  </h2>
-  <form (ngSubmit)="onSubmit()">
+  @if (isLoadingClientes) {
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2 class="title-recibo">
+      Preencha os campos para gerar o recibo
+    </h2>
+    <form (ngSubmit)="onSubmit()">
+      <!-- cliente -->
+      <app-input-autocomplete
+        [options]="nomeCLientes"
+        [label]="'Nome completo do cliente'"
+        [placeholder]="'ex: Crairton de Matos Leite'"
+        (inputValue)="updateNomeClienteHandler($event)"
+      ></app-input-autocomplete>
 
-    <!-- cliente -->
-    <app-input-autocomplete
-      [options]="nomeCLientes"
-      [label]="'Nome completo do cliente'"
-      [placeholder]="'ex: Crairton de Matos Leite'"
-      (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-autocomplete>
+      <!-- pacote de viagem -->
+      <app-input-text
+        [label]="'Orçamento referente à'"
+        [placeholder]="'ex: fretamento de van de Juazeiro à Fortaleza'"
+        (inputValue)="updatePacoteViagemHandler($event)"
+      ></app-input-text>
 
-    <!-- pacote de viagem -->
-    <app-input-text
-      [label]="'Orçamento referente à'"
-      [placeholder]="'ex: fretamento de van de Juazeiro à Fortaleza'"
-      (inputValue)="updatePacoteViagemHandler($event)"
-    ></app-input-text>
+      <!-- valor -->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Valor do orçamento'"
+        [placeholder]="'ex: 2.500,00'"
+        (inputValue)="updateValorHandler($event)"
+      ></app-input-number>
 
-    <!-- valor -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor do orçamento'"
-      [placeholder]="'ex: 2.500,00'"
-      (inputValue)="updateValorHandler($event)"
-    ></app-input-number>
+      <!-- Forma de pagamento -->
+      <app-input-select
+        [label]="'Selecione a forma de Pagamento.'"
+        [errorMessage]="'Esse campo precisa ser selecionado.'"
+        [listItens]="formasPagamento"
+        (selectedInputValue)="updateFormaPagamentoHandler($event)"
+      ></app-input-select>
 
-    <!-- Forma de pagamento -->
-    <app-input-select
-      [label]="'Selecione a forma de Pagamento.'"
-      [errorMessage]="'Esse campo precisa ser selecionado.'"
-      [listItens]="formasPagamento"
-      (selectedInputValue)="updateFormaPagamentoHandler($event)"
-    ></app-input-select>
+    </form>
+    <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <ng-container *ngIf="loading; else btnText">
+        <div class="button-loading">
+          <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          <p>Gerando PDF</p>
+        </div>
+      </ng-container>
+      <ng-template #btnText>
+        Gerar PDF
+      </ng-template>
+    </button>
+  }
 
-  </form>
-  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-    <ng-container *ngIf="loading; else btnText">
-      <div class="button-loading">
-        <img class="loading" src="./assets/loading.gif" alt="Carregando">
-        <p>Gerando PDF</p>
-      </div>
-    </ng-container>
-    <ng-template #btnText>
-      Gerar PDF
-    </ng-template>
-  </button>
 </div>
 <app-footer></app-footer>

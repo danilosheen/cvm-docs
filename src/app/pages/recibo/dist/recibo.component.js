@@ -18,6 +18,7 @@ var forms_1 = require("@angular/forms");
 var input_select_component_1 = require("../../shared/components/input-select/input-select.component");
 var input_autocomplete_component_1 = require("../../shared/components/input-autocomplete/input-autocomplete.component");
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
+var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var ReciboComponent = /** @class */ (function () {
     function ReciboComponent(pdfRecibo) {
         this.pdfRecibo = pdfRecibo;
@@ -33,6 +34,7 @@ var ReciboComponent = /** @class */ (function () {
         this.formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"];
         this.nomeCLientes = [];
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
+        this.isLoadingClientes = true;
         //inicializando o array de campos válidos
         for (var i = 0; i < 4; i++) {
             this.valid.push(false);
@@ -45,6 +47,7 @@ var ReciboComponent = /** @class */ (function () {
                 var cliente = clientes_1[_i];
                 _this.nomeCLientes.push(cliente.nome);
             }
+            _this.isLoadingClientes = false;
         });
     };
     ReciboComponent.prototype.onSubmit = function () {
@@ -126,7 +129,8 @@ var ReciboComponent = /** @class */ (function () {
                 button_1.MatButtonModule,
                 forms_1.FormsModule,
                 input_select_component_1.InputSelectComponent,
-                input_autocomplete_component_1.InputAutocompleteComponent
+                input_autocomplete_component_1.InputAutocompleteComponent,
+                loading_blue_component_1.LoadingBlueComponent
             ],
             templateUrl: './recibo.component.html',
             styleUrl: './recibo.component.css'
