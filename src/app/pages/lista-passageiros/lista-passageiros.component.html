@@ -133,32 +133,33 @@
         </button>
       </div>
 
-      @if (listaPassageiros.passageiros.length) {
-        <h2 class="title-table">Lista de Passageiros</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th>Passageiro</th>
-              <th>Documento de porte</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
-              <td class="center">{{ i+1 }}</td>
-              <td>{{ passageiro.nome }}</td>
-              <td>{{ passageiro.documento }}</td>
-              <td class="action-column">
-                <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
-                <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
-                <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      }
-
+      <div class="container-table">
+        @if (listaPassageiros.passageiros.length) {
+          <h2 class="title-table">Lista de Passageiros</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>Passageiro</th>
+                <th>Documento de porte</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
+                <td class="center">{{ i+1 }}</td>
+                <td>{{ passageiro.nome }}</td>
+                <td>{{ passageiro.documento }}</td>
+                <td class="action-column">
+                  <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
+                  <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
+                  <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        }
+      </div>
       <div class="container-button-gerar">
         <button [disabled]="!canGerarPdf()" class="button-gerar" mat-flat-button (click)="onSubmit()">
           <ng-container *ngIf="loading; else btnText">

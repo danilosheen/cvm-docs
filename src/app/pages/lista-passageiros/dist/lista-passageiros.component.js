@@ -139,11 +139,28 @@ var ListaPassageirosComponent = /** @class */ (function () {
         });
     };
     ListaPassageirosComponent.prototype.adicionarPassageiro = function () {
-        if (this.passageiro.typeDocumentSelected == 'Registro') {
-            this.passageiro.nome = this.passageiro.nome + " (crian\u00E7a)";
+        var _this = this;
+        if (this.verificaPassageiroNovo(this.passageiro.documento)) {
+            if (this.passageiro.typeDocumentSelected == 'Registro') {
+                this.passageiro.nome = this.passageiro.nome + " (crian\u00E7a)";
+            }
+            this.passageiroService.create(this.passageiro).subscribe(function (passageiro) {
+                _this.arrayNomePassageiros.push({ nome: passageiro.nome, id: passageiro.id });
+                _this.listaPassageiros.passageiros.push(_this.passageiro);
+                _this.passageiros.push(_this.passageiro);
+                _this.passageiro = { nome: '', documento: '', typeDocumentSelected: 'RG' };
+            });
         }
-        this.listaPassageiros.passageiros.push(this.passageiro);
-        this.passageiro = { nome: '', documento: '', typeDocumentSelected: 'RG' };
+        else {
+            if (this.listaPassageiros.passageiros.filter(function (p) { return p.documento == _this.passageiro.documento; }).length > 0) {
+                alert("Já existe um passageiro com este documento.");
+            }
+            else {
+                this.listaPassageiros.passageiros.push(this.passageiro);
+                this.passageiros.push(this.passageiro);
+            }
+            this.passageiro = { nome: '', documento: '', typeDocumentSelected: 'RG' };
+        }
         this.resetArrayValid();
     };
     ListaPassageirosComponent.prototype.editPassageiro = function (index) {
@@ -153,9 +170,6 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 passageiro: this.listaPassageiros.passageiros[index],
                 title: 'atualizar',
                 confirmButton: 'Salvar'
-                // nome: this.listaPassageiros.passageiros[index].nome,
-                // documento: this.listaPassageiros.passageiros[index].documento,
-                // typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected,
             }
         });
         dialogRef.afterClosed().subscribe(function (passageiro) {
@@ -164,6 +178,13 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 _this.listaPassageiros.passageiros[index] = passageiroData;
             }
         });
+    };
+    ListaPassageirosComponent.prototype.verificaPassageiroNovo = function (documento) {
+        var passageiroRegistrado = this.passageiros.filter(function (passageiro) { return passageiro.documento == documento; });
+        if (passageiroRegistrado.length == 0) {
+            return true;
+        }
+        return false;
     };
     ListaPassageirosComponent.prototype.camposValidos = function () {
         for (var i = 9; i < this.valid.length; i++) {
@@ -238,22 +259,24 @@ var ListaPassageirosComponent = /** @class */ (function () {
             this.passageiro.nome = value.nome;
             this.passageiros.forEach(function (passageiro) {
                 if (idSelected == passageiro.id) {
-                    _this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true });
-                    _this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true });
+                    _this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected, valid: true });
+                    _this.updateDocumentoHandler({ value: passageiro.documento, valid: true });
                 }
             });
         }
         else {
             this.passageiro.nome = value.value.nome;
-            console.log(this.passageiro.nome);
+            if (value.value.nome == '') {
+                this.updateDocumentSelectedHandler({ value: 'RG', valid: true });
+                this.updateDocumentoHandler({ value: '', valid: false });
+            }
         }
         this.valid[9] = value.valid;
     };
-    // updateNomeHandler(value: IInput){
-    //   this.passageiro.nome = value.value
-    //   this.valid[9] = value.valid;
-    // }
     ListaPassageirosComponent.prototype.updateDocumentSelectedHandler = function (value) {
+        if (this.passageiro.typeDocumentSelected !== value.value) {
+            this.passageiro.documento = '';
+        }
         this.passageiro.typeDocumentSelected = value.value;
     };
     ListaPassageirosComponent.prototype.updateDocumentoHandler = function (value) {

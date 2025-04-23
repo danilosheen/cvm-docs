@@ -172,11 +172,25 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   adicionarPassageiro(): void {
-    if(this.passageiro.typeDocumentSelected == 'Registro'){
-      this.passageiro.nome = `${this.passageiro.nome} (criança)`
+    if(this.verificaPassageiroNovo(this.passageiro.documento)){
+      if(this.passageiro.typeDocumentSelected == 'Registro'){
+        this.passageiro.nome = `${this.passageiro.nome} (criança)`
+      }
+      this.passageiroService.create(this.passageiro).subscribe(passageiro =>{
+        this.arrayNomePassageiros.push({nome: passageiro.nome, id: passageiro.id!});
+        this.listaPassageiros.passageiros.push(this.passageiro);
+        this.passageiros.push(this.passageiro);
+        this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
+      });
+    } else {
+      if(this.listaPassageiros.passageiros.filter(p => p.documento == this.passageiro.documento).length > 0){
+        alert("Já existe um passageiro com este documento.")
+      } else {
+        this.listaPassageiros.passageiros.push(this.passageiro);
+        this.passageiros.push(this.passageiro);
+      }
+      this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
     }
-    this.listaPassageiros.passageiros.push(this.passageiro);
-    this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
     this.resetArrayValid();
   }
 
@@ -186,9 +200,6 @@ export class ListaPassageirosComponent implements OnInit {
         passageiro: this.listaPassageiros.passageiros[index],
         title: 'atualizar',
         confirmButton: 'Salvar'
-        // nome: this.listaPassageiros.passageiros[index].nome,
-        // documento: this.listaPassageiros.passageiros[index].documento,
-        // typeDocumentSelected: this.listaPassageiros.passageiros[index].typeDocumentSelected,
       }
     });
 
@@ -198,6 +209,14 @@ export class ListaPassageirosComponent implements OnInit {
         this.listaPassageiros.passageiros[index] = passageiroData;
       }
     });
+  }
+
+  verificaPassageiroNovo(documento: string): boolean{
+    const passageiroRegistrado = this.passageiros.filter(passageiro => passageiro.documento == documento);
+    if(passageiroRegistrado.length == 0){
+      return true;
+    }
+    return false;
   }
 
   camposValidos(): boolean {
@@ -286,23 +305,24 @@ export class ListaPassageirosComponent implements OnInit {
       this.passageiro.nome = value.nome;
       this.passageiros.forEach(passageiro => {
         if(idSelected == passageiro.id){
-          this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true});
-          this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true});
+          this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected, valid: true});
+          this.updateDocumentoHandler({ value: passageiro.documento, valid: true});
         }
       });
     } else {
       this.passageiro.nome = value.value.nome;
-      console.log(this.passageiro.nome)
+      if(value.value.nome == ''){
+        this.updateDocumentSelectedHandler({ value: 'RG', valid: true});
+        this.updateDocumentoHandler({ value: '', valid: false});
+      }
     }
     this.valid[9] = value.valid;
   }
 
-  // updateNomeHandler(value: IInput){
-  //   this.passageiro.nome = value.value
-  //   this.valid[9] = value.valid;
-  // }
-
   updateDocumentSelectedHandler(value: IInput){
+    if (this.passageiro.typeDocumentSelected !== value.value) {
+      this.passageiro.documento = '';
+    }
     this.passageiro.typeDocumentSelected = value.value;
   }
 
