@@ -23,6 +23,7 @@ import { DialogPassageiroComponent } from '../../shared/components/dialog-passag
 import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
 import { PassageiroService } from '../../core/services/passageiroService/passageiro-service.service';
 import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
@@ -39,7 +40,8 @@ import { InputAutocompleteDataPessoaComponent } from "../../shared/components/in
     InputDateComponent,
     InputTimeComponent,
     InputRadioComponent,
-    InputAutocompleteDataPessoaComponent
+    InputAutocompleteDataPessoaComponent,
+    LoadingBlueComponent
 ],
   templateUrl: './lista-passageiros.component.html',
   styleUrl: './lista-passageiros.component.css'
@@ -82,6 +84,7 @@ export class ListaPassageirosComponent implements OnInit {
 
   valid: boolean[] = [];
   loading = false;
+  isLoadingPassageiros = true;
   motoristas: string[] = ["Crairton", "Claudiney"];
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
   typesDocument: string[] = ['RG', 'CPF', 'Registro'];
@@ -164,7 +167,8 @@ export class ListaPassageirosComponent implements OnInit {
       for(let passageiro of this.passageiros){
         this.arrayNomePassageiros.push({nome: passageiro.nome, id: passageiro.id!});
       }
-    })
+      this.isLoadingPassageiros = false;
+    });
   }
 
   adicionarPassageiro(): void {
@@ -278,13 +282,18 @@ export class ListaPassageirosComponent implements OnInit {
 
   updateNomeHandler(value: any){
     const idSelected = value.id;
-    this.passageiros.forEach(passageiro => {
-      if(idSelected == passageiro.id){
-        this.passageiro.nome = value.nome;
-        this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true});
-        this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true});
-      }
-    });
+    if(idSelected){
+      this.passageiro.nome = value.nome;
+      this.passageiros.forEach(passageiro => {
+        if(idSelected == passageiro.id){
+          this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true});
+          this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true});
+        }
+      });
+    } else {
+      this.passageiro.nome = value.value.nome;
+      console.log(this.passageiro.nome)
+    }
     this.valid[9] = value.valid;
   }
 

@@ -1,174 +1,179 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <h2 class="title-lista-passageiros">
-    Preencha os campos para gerar uma nova lista de passageiros
-  </h2>
-  <div class="content">
-    <!-- Número do carro -->
-    <app-input-number
-      [label]="'Número do carro'"
-      [defaultValue]="'25152001'"
-      [placeholder]="'ex: 25152001'"
-      (inputValue)="updateNumeroCarroHandler($event)"
-    ></app-input-number>
-
-    <!-- Placa do carro -->
-    <app-input-number
-      [label]="'Placa do carro'"
-      [defaultValue]="'OSQ1619'"
-      [placeholder]="'ex: OSQ1619'"
-      (inputValue)="updatePlacaHandler($event)"
-    ></app-input-number>
-
-    <!-- Motorista -->
-    <app-input-autocomplete
-      [label]="'Motorista'"
-      [options]="motoristas"
-      [errorMessage]="'Selecione o motorista da viagem'"
-      (inputValue)="updateMotoristaHandler($event)"
-    ></app-input-autocomplete>
-
-    <!-- Oridem -->
-    <app-input-autocomplete
-      [label]="'Local de saída'"
-      [options]="cidades"
-      [errorMessage]="'Selecione o local de saída'"
-      (inputValue)="updateLocalSaidaHandler($event)"
-    ></app-input-autocomplete>
-
-    <!-- Destino -->
-    <app-input-text
-      [label]="'Destino da viagem'"
-      [placeholder]="'ex: Canoa Quebrada'"
-      (inputValue)="updateDestinoHandler($event)"
-    ></app-input-text>
-
-    <!-- Data de saída -->
-    <app-input-date
-      [label]="'Data de saída'"
-      (inputDate)="updateDataSaidaHandler($event)"
-    ></app-input-date>
-
-    <!-- Hora de saída -->
-    <app-input-time
-      [label]="'Hora de saída'"
-      (inputTime)="updateHoraSaidaHandler($event)"
-    ></app-input-time>
-
-    <!-- Data de retorno -->
-    <app-input-date
-      [label]="'Data de retorno'"
-      (inputDate)="updateDataRetornoHandler($event)"
-    ></app-input-date>
-
-    <!-- Hora de retorno -->
-    <app-input-time
-      [label]="'Hora de retorno'"
-      (inputTime)="updateHoraRetornoHandler($event)"
-    ></app-input-time>
-
-    <!-- Extensão do roteiro -->
-    <app-input-number
-      [label]="'Extensão do roteiro em (KM)'"
-      [type]="'text'"
-      [optional]="true"
-      (inputValue)="updateExtensaoKmHandler($event)"
-    ></app-input-number>
-
-    <h3 class="title-passageiros">Inserir passageiros</h3>
-
-    <!-- Nome do passageiro -->
-    <app-input-autocomplete-data-pessoa
-      [options]="arrayNomePassageiros"
-      [label]="'Nome do passageiro'"
-      [defaultValue]="passageiro.nome"
-      [errorMessage]="'Este campo é obrigatório'"
-      (inputValue)="updateNomeHandler($event)"
-    ></app-input-autocomplete-data-pessoa>
-
-    <!-- <app-input-autocomplete
-      [label]="'Nome do passageiro'"
-      [defaultValue]="passageiro.nome"
-      [errorMessage]="'Este campo é obrigatório'"
-      (inputValue)="updateNomeHandler($event)"
-    ></app-input-autocomplete> -->
-
-    <!-- Tipo de documento -->
-    <app-input-radio
-      [label]="'Selecione o tipo de documento'"
-      [listItems]="typesDocument"
-      [dropdown]="false"
-      [defaultValue]="passageiro.typeDocumentSelected"
-      (selectedValue)="updateDocumentSelectedHandler($event)"
-    ></app-input-radio>
-    @if (passageiro.typeDocumentSelected == 'CPF') {
+  @if(isLoadingPassageiros){
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2 class="title-lista-passageiros">
+      Preencha os campos para gerar uma nova lista de passageiros
+    </h2>
+    <div class="content">
+      <!-- Número do carro -->
       <app-input-number
-        [label]="'CPF do passageiro'"
-        [type]="'cpf'"
-        [defaultValue]="passageiro.documento"
-        (inputValue)="updateDocumentoHandler($event)"
+        [label]="'Número do carro'"
+        [defaultValue]="'25152001'"
+        [placeholder]="'ex: 25152001'"
+        (inputValue)="updateNumeroCarroHandler($event)"
       ></app-input-number>
-    } @else if (passageiro.typeDocumentSelected == 'RG'){
+
+      <!-- Placa do carro -->
       <app-input-number
-        [label]="'RG do passageiro'"
+        [label]="'Placa do carro'"
+        [defaultValue]="'OSQ1619'"
+        [placeholder]="'ex: OSQ1619'"
+        (inputValue)="updatePlacaHandler($event)"
+      ></app-input-number>
+
+      <!-- Motorista -->
+      <app-input-autocomplete
+        [label]="'Motorista'"
+        [options]="motoristas"
+        [errorMessage]="'Selecione o motorista da viagem'"
+        (inputValue)="updateMotoristaHandler($event)"
+      ></app-input-autocomplete>
+
+      <!-- Oridem -->
+      <app-input-autocomplete
+        [label]="'Local de saída'"
+        [options]="cidades"
+        [errorMessage]="'Selecione o local de saída'"
+        (inputValue)="updateLocalSaidaHandler($event)"
+      ></app-input-autocomplete>
+
+      <!-- Destino -->
+      <app-input-text
+        [label]="'Destino da viagem'"
+        [placeholder]="'ex: Canoa Quebrada'"
+        (inputValue)="updateDestinoHandler($event)"
+      ></app-input-text>
+
+      <!-- Data de saída -->
+      <app-input-date
+        [label]="'Data de saída'"
+        (inputDate)="updateDataSaidaHandler($event)"
+      ></app-input-date>
+
+      <!-- Hora de saída -->
+      <app-input-time
+        [label]="'Hora de saída'"
+        (inputTime)="updateHoraSaidaHandler($event)"
+      ></app-input-time>
+
+      <!-- Data de retorno -->
+      <app-input-date
+        [label]="'Data de retorno'"
+        (inputDate)="updateDataRetornoHandler($event)"
+      ></app-input-date>
+
+      <!-- Hora de retorno -->
+      <app-input-time
+        [label]="'Hora de retorno'"
+        (inputTime)="updateHoraRetornoHandler($event)"
+      ></app-input-time>
+
+      <!-- Extensão do roteiro -->
+      <app-input-number
+        [label]="'Extensão do roteiro em (KM)'"
         [type]="'text'"
-        [defaultValue]="passageiro.documento"
-        (inputValue)="updateDocumentoHandler($event)"
+        [optional]="true"
+        (inputValue)="updateExtensaoKmHandler($event)"
       ></app-input-number>
-    } @else {
-      <app-input-number
-        [label]="'Registro da criança'"
-        [type]="'text'"
-        [defaultValue]="passageiro.documento"
-        (inputValue)="updateDocumentoHandler($event)"
-      ></app-input-number>
-    }
 
-    <div class="container-button-adicionar">
-      <button [disabled]="!camposValidos()" (click)="adicionarPassageiro()" class="button-adicionar" mat-flat-button>
-        Adicionar passageiro
-      </button>
+      <h3 class="title-passageiros">Inserir passageiros</h3>
+
+      <!-- Nome do passageiro -->
+      <app-input-autocomplete-data-pessoa
+        [options]="arrayNomePassageiros"
+        [label]="'Nome do passageiro'"
+        [defaultValue]="passageiro.nome"
+        [errorMessage]="'Este campo é obrigatório'"
+        (inputValue)="updateNomeHandler($event)"
+      ></app-input-autocomplete-data-pessoa>
+
+      <!-- <app-input-autocomplete
+        [label]="'Nome do passageiro'"
+        [defaultValue]="passageiro.nome"
+        [errorMessage]="'Este campo é obrigatório'"
+        (inputValue)="updateNomeHandler($event)"
+      ></app-input-autocomplete> -->
+
+      <!-- Tipo de documento -->
+      <app-input-radio
+        [label]="'Selecione o tipo de documento'"
+        [listItems]="typesDocument"
+        [dropdown]="false"
+        [defaultValue]="passageiro.typeDocumentSelected"
+        (selectedValue)="updateDocumentSelectedHandler($event)"
+      ></app-input-radio>
+      @if (passageiro.typeDocumentSelected == 'CPF') {
+        <app-input-number
+          [label]="'CPF do passageiro'"
+          [type]="'cpf'"
+          [defaultValue]="passageiro.documento"
+          (inputValue)="updateDocumentoHandler($event)"
+        ></app-input-number>
+      } @else if (passageiro.typeDocumentSelected == 'RG'){
+        <app-input-number
+          [label]="'RG do passageiro'"
+          [type]="'text'"
+          [defaultValue]="passageiro.documento"
+          (inputValue)="updateDocumentoHandler($event)"
+        ></app-input-number>
+      } @else {
+        <app-input-number
+          [label]="'Registro da criança'"
+          [type]="'text'"
+          [defaultValue]="passageiro.documento"
+          (inputValue)="updateDocumentoHandler($event)"
+        ></app-input-number>
+      }
+
+      <div class="container-button-adicionar">
+        <button [disabled]="!camposValidos()" (click)="adicionarPassageiro()" class="button-adicionar" mat-flat-button>
+          Adicionar passageiro
+        </button>
+      </div>
+
+      @if (listaPassageiros.passageiros.length) {
+        <h2 class="title-table">Lista de Passageiros</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th>Passageiro</th>
+              <th>Documento de porte</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
+              <td class="center">{{ i+1 }}</td>
+              <td>{{ passageiro.nome }}</td>
+              <td>{{ passageiro.documento }}</td>
+              <td class="action-column">
+                <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
+                <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
+                <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      }
+
+      <div class="container-button-gerar">
+        <button [disabled]="!canGerarPdf()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+          <ng-container *ngIf="loading; else btnText">
+            <div class="button-loading">
+              <img class="loading" src="./assets/loading.gif" alt="Carregando">
+              <p>Gerando PDF</p>
+            </div>
+          </ng-container>
+          <ng-template #btnText>
+            Gerar PDF
+          </ng-template>
+        </button>
+      </div>
     </div>
+  }
 
-    @if (listaPassageiros.passageiros.length) {
-      <h2 class="title-table">Lista de Passageiros</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nº</th>
-            <th>Passageiro</th>
-            <th>Documento de porte</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
-            <td class="center">{{ i+1 }}</td>
-            <td>{{ passageiro.nome }}</td>
-            <td>{{ passageiro.documento }}</td>
-            <td class="action-column">
-              <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
-              <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
-              <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    }
-
-    <div class="container-button-gerar">
-      <button [disabled]="!canGerarPdf()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-        <ng-container *ngIf="loading; else btnText">
-          <div class="button-loading">
-            <img class="loading" src="./assets/loading.gif" alt="Carregando">
-            <p>Gerando PDF</p>
-          </div>
-        </ng-container>
-        <ng-template #btnText>
-          Gerar PDF
-        </ng-template>
-      </button>
-    </div>
-  </div>
 </div>
 <app-footer></app-footer>

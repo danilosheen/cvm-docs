@@ -32,7 +32,7 @@ var InputAutocompleteDataPessoaComponent = /** @class */ (function () {
             if (selected) {
                 this.inputControl.setValue(selected);
             }
-            else {
+            else if (this.defaultValue == '') {
                 this.inputControl.setValue('');
             }
             this.inputControl.markAsPristine();

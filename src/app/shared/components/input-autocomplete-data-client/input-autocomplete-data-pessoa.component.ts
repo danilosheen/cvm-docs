@@ -40,7 +40,7 @@ export class InputAutocompleteDataPessoaComponent {
       const selected = this.options.find(opt => opt.nome === this.defaultValue);
       if (selected) {
         this.inputControl.setValue(selected);
-      } else {
+      } else if(this.defaultValue == ''){
         this.inputControl.setValue('');
       }
 

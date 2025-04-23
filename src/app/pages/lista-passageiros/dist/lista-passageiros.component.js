@@ -24,6 +24,7 @@ var dialog_passageiro_component_1 = require("../../shared/components/dialog-pass
 var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
 var passageiro_service_service_1 = require("../../core/services/passageiroService/passageiro-service.service");
 var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
+var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 var ListaPassageirosComponent = /** @class */ (function () {
     function ListaPassageirosComponent(pdfListaPassageiros) {
@@ -57,6 +58,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
         };
         this.valid = [];
         this.loading = false;
+        this.isLoadingPassageiros = true;
         this.motoristas = ["Crairton", "Claudiney"];
         this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
         this.typesDocument = ['RG', 'CPF', 'Registro'];
@@ -133,6 +135,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 var passageiro = _a[_i];
                 _this.arrayNomePassageiros.push({ nome: passageiro.nome, id: passageiro.id });
             }
+            _this.isLoadingPassageiros = false;
         });
     };
     ListaPassageirosComponent.prototype.adicionarPassageiro = function () {
@@ -231,13 +234,19 @@ var ListaPassageirosComponent = /** @class */ (function () {
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
         var _this = this;
         var idSelected = value.id;
-        this.passageiros.forEach(function (passageiro) {
-            if (idSelected == passageiro.id) {
-                _this.passageiro.nome = value.nome;
-                _this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true });
-                _this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true });
-            }
-        });
+        if (idSelected) {
+            this.passageiro.nome = value.nome;
+            this.passageiros.forEach(function (passageiro) {
+                if (idSelected == passageiro.id) {
+                    _this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected || '', valid: true });
+                    _this.updateDocumentoHandler({ value: passageiro.documento || '', valid: true });
+                }
+            });
+        }
+        else {
+            this.passageiro.nome = value.value.nome;
+            console.log(this.passageiro.nome);
+        }
         this.valid[9] = value.valid;
     };
     // updateNomeHandler(value: IInput){
@@ -266,7 +275,8 @@ var ListaPassageirosComponent = /** @class */ (function () {
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
                 input_radio_component_1.InputRadioComponent,
-                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent
+                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent,
+                loading_blue_component_1.LoadingBlueComponent
             ],
             templateUrl: './lista-passageiros.component.html',
             styleUrl: './lista-passageiros.component.css'
