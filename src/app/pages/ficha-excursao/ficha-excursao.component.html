@@ -1,213 +1,218 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <h2 class="title-ficha-excursao">
-    Preencha os campos para gerar uma nova ficha de excursão
-  </h2>
-  <form (ngSubmit)="onSubmit()">
-    <!-- Excursão para -->
-    <app-input-text
-      [label]="'Excursão para'"
-      [placeholder]="'ex: Canoa Quebrada - CE'"
-      (inputValue)="updateExcursaoParaHandler($event)"
-    ></app-input-text>
+  @if(isLoadingCliente){
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2 class="title-ficha-excursao">
+      Preencha os campos para gerar uma nova ficha de excursão
+    </h2>
+    <form (ngSubmit)="onSubmit()">
+      <!-- Excursão para -->
+      <app-input-text
+        [label]="'Excursão para'"
+        [placeholder]="'ex: Canoa Quebrada - CE'"
+        (inputValue)="updateExcursaoParaHandler($event)"
+      ></app-input-text>
 
-    <!-- localSaída -->
-    <app-input-autocomplete
-      [label]="'Local de saída'"
-      [options]="cidades"
-      [placeholder]="'ex: Juazeiro do Norte'"
-      [errorMessage]="'Defina o local de saída.'"
-      (inputValue)="updateLocalSaidaHandler($event)"
-    ></app-input-autocomplete>
-    <!-- dataSaída -->
-    <app-input-date
-      [label]="'Data de saída'"
-      (inputDate)="updateDataSaidaHandler($event)"
-    ></app-input-date>
-    <!-- horaSaída -->
-    <app-input-time
-      [label]="'Hora de saída'"
-      (inputTime)="updateHoraSaidaHandler($event)"
-    ></app-input-time>
-    <!-- dataRetorno -->
-    <app-input-date
-      [label]="'Data de retorno'"
-      (inputDate)="updateDataRetornoHandler($event)"
-    ></app-input-date>
-    <!-- horaRetorno -->
-    <app-input-time
-      [label]="'Hora de retorno'"
-      (inputTime)="updateHoraRetornoHandler($event)"
-    ></app-input-time>
-    <!-- nomeCliente -->
-    <app-input-autocomplete-data-pessoa
-      [options]="nomesClientes"
-      [attr.autocomplete]="'off'"
-      [label]="'Nome do cliente'"
-      [defaultValue]="fichaExcursaoData.cliente.nome"
-      [errorMessage]="'Este campo é obrigatório'"
-      (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-autocomplete-data-pessoa>
-    <!-- dataNascimento -->
-    <app-input-number
-      [label]="'Data de nascimento'"
-      [type]="'date'"
-      [optional]="true"
-      [placeholder]="'ex: 01/01/2000'"
-      [defaultValue]="fichaExcursaoData.cliente.dataNascimento"
-      (inputValue)="updateDataNascimentoHandler($event)"
-    ></app-input-number>
-    <!-- contato -->
-    <app-input-number
-      [label]="'Telefone/WhatsApp'"
-      [placeholder]="'(88)9.8888-8888'"
-      [defaultValue]="fichaExcursaoData.cliente.contato"
-      [type]="'tel'"
-      (inputValue)="updateContatoHandler($event)"
-    ></app-input-number>
-    <app-input-radio
-      [label]="'Selecione o tipo de documento'"
-      [listItems]="typesDocument"
-      [dropdown]="false"
-      [defaultValue]="fichaExcursaoData.cliente.typeDocumentSelected"
-      (selectedValue)="updateTypeDocumentSelectedHandler($event)"
-    ></app-input-radio>
-    @if (fichaExcursaoData.cliente.typeDocumentSelected == 'RG') {
-      <!-- rg -->
+      <!-- localSaída -->
+      <app-input-autocomplete
+        [label]="'Local de saída'"
+        [options]="cidades"
+        [placeholder]="'ex: Juazeiro do Norte'"
+        [errorMessage]="'Defina o local de saída.'"
+        (inputValue)="updateLocalSaidaHandler($event)"
+      ></app-input-autocomplete>
+      <!-- dataSaída -->
+      <app-input-date
+        [label]="'Data de saída'"
+        (inputDate)="updateDataSaidaHandler($event)"
+      ></app-input-date>
+      <!-- horaSaída -->
+      <app-input-time
+        [label]="'Hora de saída'"
+        (inputTime)="updateHoraSaidaHandler($event)"
+      ></app-input-time>
+      <!-- dataRetorno -->
+      <app-input-date
+        [label]="'Data de retorno'"
+        (inputDate)="updateDataRetornoHandler($event)"
+      ></app-input-date>
+      <!-- horaRetorno -->
+      <app-input-time
+        [label]="'Hora de retorno'"
+        (inputTime)="updateHoraRetornoHandler($event)"
+      ></app-input-time>
+      <!-- nomeCliente -->
+      <app-input-autocomplete-data-pessoa
+        [options]="nomesClientes"
+        [attr.autocomplete]="'off'"
+        [label]="'Nome do cliente'"
+        [defaultValue]="fichaExcursaoData.cliente.nome"
+        [errorMessage]="'Este campo é obrigatório'"
+        (inputValue)="updateNomeClienteHandler($event)"
+      ></app-input-autocomplete-data-pessoa>
+      <!-- dataNascimento -->
       <app-input-number
-        [label]="'Informe o RG'"
+        [label]="'Data de nascimento'"
+        [type]="'date'"
+        [optional]="true"
+        [placeholder]="'ex: 01/01/2000'"
+        [defaultValue]="fichaExcursaoData.cliente.dataNascimento"
+        (inputValue)="updateDataNascimentoHandler($event)"
+      ></app-input-number>
+      <!-- contato -->
+      <app-input-number
+        [label]="'Telefone/WhatsApp'"
+        [placeholder]="'(88)9.8888-8888'"
+        [defaultValue]="fichaExcursaoData.cliente.contato"
+        [type]="'tel'"
+        (inputValue)="updateContatoHandler($event)"
+      ></app-input-number>
+      <app-input-radio
+        [label]="'Selecione o tipo de documento'"
+        [listItems]="typesDocument"
+        [dropdown]="false"
+        [defaultValue]="fichaExcursaoData.cliente.typeDocumentSelected"
+        (selectedValue)="updateTypeDocumentSelectedHandler($event)"
+      ></app-input-radio>
+      @if (fichaExcursaoData.cliente.typeDocumentSelected == 'RG') {
+        <!-- rg -->
+        <app-input-number
+          [label]="'Informe o RG'"
+          [type]="'text'"
+          [defaultValue]="fichaExcursaoData.cliente.documento"
+          [placeholder]="'ex: 000000000-0'"
+          [optional]="true"
+          (inputValue)="updateDocumentHandler($event)"
+        ></app-input-number>
+      } @else {
+        <!-- cpf -->
+        <app-input-number
+          [label]="'Informe o CPF'"
+          [type]="'cpf'"
+          [defaultValue]="fichaExcursaoData.cliente.documento"
+          [placeholder]="'ex: 999.999.999-00'"
+          [optional]="true"
+          (inputValue)="updateDocumentHandler($event)"
+        ></app-input-number>
+      }
+      <!-- cidade -->
+      <app-input-text
+        [label]="'Cidade'"
+        [defaultValue]="fichaExcursaoData.cliente.endereco.cidade"
+        [placeholder]="'ex: Juazeiro do Norte'"
+        (inputValue)="updateCidadeHandler($event)"
+      ></app-input-text>
+      <!-- bairro -->
+      <app-input-text
+        [label]="'Bairro'"
+        [defaultValue]="fichaExcursaoData.cliente.endereco.bairro"
+        [placeholder]="'ex: Lagoa Seca'"
+        (inputValue)="updateBairroHandler($event)"
+      ></app-input-text>
+      <!-- rua -->
+      <app-input-text
+        [label]="'Rua'"
+        [defaultValue]="fichaExcursaoData.cliente.endereco.rua"
+        [placeholder]="'ex: José Horácio Pequeno'"
+        (inputValue)="updateRuaHandler($event)"
+      ></app-input-text>
+      <!-- numero -->
+      <app-input-number
         [type]="'text'"
-        [defaultValue]="fichaExcursaoData.cliente.documento"
-        [placeholder]="'ex: 000000000-0'"
-        [optional]="true"
-        (inputValue)="updateDocumentHandler($event)"
+        [label]="'Número da casa'"
+        [defaultValue]="fichaExcursaoData.cliente.endereco.numero"
+        [placeholder]="'ex: 30'"
+        (inputValue)="updateNumeroCasaHandler($event)"
       ></app-input-number>
-    } @else {
-      <!-- cpf -->
+      <!-- serviços -->
+      <app-input-checkbox
+        [label]="'Selecione os serviços'"
+        (checkedValues)="updateServicosSelecionadosHandler($event)"
+      ></app-input-checkbox>
+      <!-- tipoDeHospedagem -->
+       <app-input-radio
+        [label]="'Tipo de hospedagem'"
+        [listItems]="hospedagens"
+        (selectedValue)="updateTipoHospedagemHandler($event)"
+       ></app-input-radio>
+      <!-- <app-input-checkbox
+        [label]="'Tipo de hospedagem'"
+      ></app-input-checkbox> -->
+      <!-- valorIntegralExcursão -->
       <app-input-number
-        [label]="'Informe o CPF'"
-        [type]="'cpf'"
-        [defaultValue]="fichaExcursaoData.cliente.documento"
-        [placeholder]="'ex: 999.999.999-00'"
-        [optional]="true"
-        (inputValue)="updateDocumentHandler($event)"
+        [type]="'number'"
+        [label]="'Valor total da excursão'"
+        [placeholder]="'ex: 3.550,00'"
+        (inputValue)="updateValorTotalExcursaoHandler($event)"
       ></app-input-number>
-    }
-    <!-- cidade -->
-    <app-input-text
-      [label]="'Cidade'"
-      [defaultValue]="fichaExcursaoData.cliente.endereco.cidade"
-      [placeholder]="'ex: Juazeiro do Norte'"
-      (inputValue)="updateCidadeHandler($event)"
-    ></app-input-text>
-    <!-- bairro -->
-    <app-input-text
-      [label]="'Bairro'"
-      [defaultValue]="fichaExcursaoData.cliente.endereco.bairro"
-      [placeholder]="'ex: Lagoa Seca'"
-      (inputValue)="updateBairroHandler($event)"
-    ></app-input-text>
-    <!-- rua -->
-    <app-input-text
-      [label]="'Rua'"
-      [defaultValue]="fichaExcursaoData.cliente.endereco.rua"
-      [placeholder]="'ex: José Horácio Pequeno'"
-      (inputValue)="updateRuaHandler($event)"
-    ></app-input-text>
-    <!-- numero -->
-    <app-input-number
-      [type]="'text'"
-      [label]="'Número da casa'"
-      [defaultValue]="fichaExcursaoData.cliente.endereco.numero"
-      [placeholder]="'ex: 30'"
-      (inputValue)="updateNumeroCasaHandler($event)"
-    ></app-input-number>
-    <!-- serviços -->
-    <app-input-checkbox
-      [label]="'Selecione os serviços'"
-      (checkedValues)="updateServicosSelecionadosHandler($event)"
-    ></app-input-checkbox>
-    <!-- tipoDeHospedagem -->
-     <app-input-radio
-      [label]="'Tipo de hospedagem'"
-      [listItems]="hospedagens"
-      (selectedValue)="updateTipoHospedagemHandler($event)"
-     ></app-input-radio>
-    <!-- <app-input-checkbox
-      [label]="'Tipo de hospedagem'"
-    ></app-input-checkbox> -->
-    <!-- valorIntegralExcursão -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor total da excursão'"
-      [placeholder]="'ex: 3.550,00'"
-      (inputValue)="updateValorTotalExcursaoHandler($event)"
-    ></app-input-number>
-    <!-- entradaParcelamento -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Entrada do parcelamento'"
-      [placeholder]="'ex: 550,00'"
-      [optional]="true"
-      (inputValue)="updateEntradaParcelamentoHandler($event)"
-    ></app-input-number>
-    <!-- qtdParcelas -->
-    <app-input-number
-      [type]="'text'"
-      [label]="'Quantidade de parcelas'"
-      [placeholder]="'5'"
-      [defaultValue]="'1'"
-      (inputValue)="updateQtdParcelasHandler($event)"
-    ></app-input-number>
-    <!-- dataPagamentoParcela -->
-    <app-input-number
-      [type]="'text'"
-      [label]="'Dia do vencimento'"
-      [placeholder]="'ex: 20'"
-      (inputValue)="updateDataVencimentoHandler($event)"
-    ></app-input-number>
-    <!-- dependentes -->
-  </form>
+      <!-- entradaParcelamento -->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Entrada do parcelamento'"
+        [placeholder]="'ex: 550,00'"
+        [optional]="true"
+        (inputValue)="updateEntradaParcelamentoHandler($event)"
+      ></app-input-number>
+      <!-- qtdParcelas -->
+      <app-input-number
+        [type]="'text'"
+        [label]="'Quantidade de parcelas'"
+        [placeholder]="'5'"
+        [defaultValue]="'1'"
+        (inputValue)="updateQtdParcelasHandler($event)"
+      ></app-input-number>
+      <!-- dataPagamentoParcela -->
+      <app-input-number
+        [type]="'text'"
+        [label]="'Dia do vencimento'"
+        [placeholder]="'ex: 20'"
+        (inputValue)="updateDataVencimentoHandler($event)"
+      ></app-input-number>
+      <!-- dependentes -->
+    </form>
 
-  @if (fichaExcursaoData.dependentes.length) {
-    <h2 class="title-table">Lista de dependentes</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Documento</th>
-          <th>Poltrona</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let dependente of fichaExcursaoData.dependentes; index as i">
-          <td>{{ dependente.nome }}</td>
-          <td>{{ dependente.documento }}</td>
-          <td class="center">{{ dependente.poltrona }}</td>
-          <td>
-            <img class="icon-red" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
-            <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    @if (fichaExcursaoData.dependentes.length) {
+      <h2 class="title-table">Lista de dependentes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Documento</th>
+            <th>Poltrona</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dependente of fichaExcursaoData.dependentes; index as i">
+            <td>{{ dependente.nome }}</td>
+            <td>{{ dependente.documento }}</td>
+            <td class="center">{{ dependente.poltrona }}</td>
+            <td>
+              <img class="icon-red" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
+              <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    }
+
+    <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <ng-container *ngIf="loading; else btnText">
+        <div class="button-loading">
+          <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          <p>Gerando PDF</p>
+        </div>
+      </ng-container>
+      <ng-template #btnText>
+        Gerar PDF
+      </ng-template>
+    </button>
+    <app-dialog
+      class="button-add-dependentes"
+      (sendDependente)="updateDependentesHandler($event)"
+    ></app-dialog>
   }
 
-  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-    <ng-container *ngIf="loading; else btnText">
-      <div class="button-loading">
-        <img class="loading" src="./assets/loading.gif" alt="Carregando">
-        <p>Gerando PDF</p>
-      </div>
-    </ng-container>
-    <ng-template #btnText>
-      Gerar PDF
-    </ng-template>
-  </button>
-  <app-dialog
-    class="button-add-dependentes"
-    (sendDependente)="updateDependentesHandler($event)"
-  ></app-dialog>
 </div>
 <app-footer></app-footer>

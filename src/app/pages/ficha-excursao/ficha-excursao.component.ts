@@ -24,6 +24,7 @@ import { ClienteService } from '../../core/services/clienteService/cliente.servi
 import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 import { Router } from '@angular/router';
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 
 @Component({
   selector: 'app-ficha-excursao',
@@ -42,7 +43,8 @@ import { Router } from '@angular/router';
     InputCheckboxComponent,
     InputRadioComponent,
     DialogComponent,
-    InputAutocompleteDataPessoaComponent
+    InputAutocompleteDataPessoaComponent,
+    LoadingBlueComponent
 ],
   templateUrl: './ficha-excursao.component.html',
   styleUrl: './ficha-excursao.component.css'
@@ -51,6 +53,7 @@ export class FichaExcursaoComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   loading: boolean = false;
+  isLoadingCliente = true;
   errorMessage = signal('');
   valid: boolean[] = [];
   showModalDependente: boolean = false;
@@ -101,6 +104,7 @@ export class FichaExcursaoComponent implements OnInit {
   ngOnInit(): void {
     this.clienteService.getAll().subscribe(result =>{
       this.clientes = result
+      this.isLoadingCliente = false;
       this.loadClientListNames();
     });
   }
@@ -263,21 +267,26 @@ export class FichaExcursaoComponent implements OnInit {
     }
 
     updateNomeClienteHandler(value: any) {
-      this.fichaExcursaoData.cliente.nome = value.nome;
       const idSelected = value.id;
+      if(idSelected){
+        this.fichaExcursaoData.cliente.nome = value.nome;
+        this.clientes.forEach(element => {
+          if(idSelected == element.id){
+            this.updateDataNascimentoHandler({ value: element.dataNascimento!, valid: true});
+            this.updateContatoHandler({ value: element.contato!, valid: true});
+            this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true});
+            this.updateDocumentHandler({ value: element.documento || '', valid: true});
+            this.updateCidadeHandler({ value: element.cidade!, valid: true});
+            this.updateBairroHandler({ value: element.bairro!, valid: true});
+            this.updateRuaHandler({ value: element.rua!, valid: true});
+            this.updateNumeroCasaHandler({ value: element.numero!, valid: true});
+          }
+        });
+      } else {
+        this.fichaExcursaoData.cliente.nome = value.value.nome;
+      }
+      console.log(value)
       this.valid[6] = (value.valid);
-      this.clientes.forEach(element => {
-        if(idSelected == element.id){
-          this.updateDataNascimentoHandler({ value: element.dataNascimento!, valid: true});
-          this.updateContatoHandler({ value: element.contato!, valid: true});
-          this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true});
-          this.updateDocumentHandler({ value: element.documento || '', valid: true});
-          this.updateCidadeHandler({ value: element.cidade!, valid: true});
-          this.updateBairroHandler({ value: element.bairro!, valid: true});
-          this.updateRuaHandler({ value: element.rua!, valid: true});
-          this.updateNumeroCasaHandler({ value: element.numero!, valid: true});
-        }
-      });
     }
 
     updateDataNascimentoHandler(value: IInput) {

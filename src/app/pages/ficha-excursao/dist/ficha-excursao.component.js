@@ -25,12 +25,14 @@ var dialog_1 = require("@angular/material/dialog");
 var dialog_generic_component_1 = require("../../shared/components/dialog-generic/dialog-generic.component");
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
 var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
+var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var FichaExcursaoComponent = /** @class */ (function () {
     function FichaExcursaoComponent(pdfFichaExcursao, router) {
         this.pdfFichaExcursao = pdfFichaExcursao;
         this.router = router;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.loading = false;
+        this.isLoadingCliente = true;
         this.errorMessage = core_1.signal('');
         this.valid = [];
         this.showModalDependente = false;
@@ -78,6 +80,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
         var _this = this;
         this.clienteService.getAll().subscribe(function (result) {
             _this.clientes = result;
+            _this.isLoadingCliente = false;
             _this.loadClientListNames();
         });
     };
@@ -224,21 +227,27 @@ var FichaExcursaoComponent = /** @class */ (function () {
     };
     FichaExcursaoComponent.prototype.updateNomeClienteHandler = function (value) {
         var _this = this;
-        this.fichaExcursaoData.cliente.nome = value.nome;
         var idSelected = value.id;
+        if (idSelected) {
+            this.fichaExcursaoData.cliente.nome = value.nome;
+            this.clientes.forEach(function (element) {
+                if (idSelected == element.id) {
+                    _this.updateDataNascimentoHandler({ value: element.dataNascimento, valid: true });
+                    _this.updateContatoHandler({ value: element.contato, valid: true });
+                    _this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true });
+                    _this.updateDocumentHandler({ value: element.documento || '', valid: true });
+                    _this.updateCidadeHandler({ value: element.cidade, valid: true });
+                    _this.updateBairroHandler({ value: element.bairro, valid: true });
+                    _this.updateRuaHandler({ value: element.rua, valid: true });
+                    _this.updateNumeroCasaHandler({ value: element.numero, valid: true });
+                }
+            });
+        }
+        else {
+            this.fichaExcursaoData.cliente.nome = value.value.nome;
+        }
+        console.log(value);
         this.valid[6] = (value.valid);
-        this.clientes.forEach(function (element) {
-            if (idSelected == element.id) {
-                _this.updateDataNascimentoHandler({ value: element.dataNascimento, valid: true });
-                _this.updateContatoHandler({ value: element.contato, valid: true });
-                _this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true });
-                _this.updateDocumentHandler({ value: element.documento || '', valid: true });
-                _this.updateCidadeHandler({ value: element.cidade, valid: true });
-                _this.updateBairroHandler({ value: element.bairro, valid: true });
-                _this.updateRuaHandler({ value: element.rua, valid: true });
-                _this.updateNumeroCasaHandler({ value: element.numero, valid: true });
-            }
-        });
     };
     FichaExcursaoComponent.prototype.updateDataNascimentoHandler = function (value) {
         if (value.value != 'NaN/NaN/NaN') {
@@ -322,7 +331,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
                 input_checkbox_component_1.InputCheckboxComponent,
                 input_radio_component_1.InputRadioComponent,
                 dialog_component_1.DialogComponent,
-                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent
+                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent,
+                loading_blue_component_1.LoadingBlueComponent
             ],
             templateUrl: './ficha-excursao.component.html',
             styleUrl: './ficha-excursao.component.css'
