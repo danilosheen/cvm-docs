@@ -1,8 +1,8 @@
 export interface IOrcamento {
   nomeCliente: string;
   telefoneContato: string;
-  pacoteViagem: string;
   localSaida: string;
+  destinoViagem: string;
   dataSaida: string;
   horaSaida: string;
   dataRetorno: string;

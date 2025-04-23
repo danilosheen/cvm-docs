@@ -46,8 +46,8 @@ export class OrcamentoComponent implements OnInit{
   orcamentoData: IOrcamento = {
     nomeCliente: '',
     telefoneContato: '',
-    pacoteViagem: '',
     localSaida: '',
+    destinoViagem: '',
     dataSaida: '',
     horaSaida: '',
     dataRetorno: '',
@@ -147,14 +147,14 @@ export class OrcamentoComponent implements OnInit{
     this.valid[1] = (value.valid);
   }
 
-  updatePacoteViagemHandler(value: IInput) {
-    this.orcamentoData.pacoteViagem = value.value;
-    this.valid[2] = (value.valid);
-  }
-
   updateLocalSaidaHandler(value: IInput) {
     this.orcamentoData.localSaida = value.value;
     this.valid[3] = (value.valid);
+  }
+
+  updateDestinoViagemHandler(value: IInput) {
+    this.orcamentoData.destinoViagem = value.value;
+    this.valid[2] = (value.valid);
   }
 
   updateDataSaidaHandler(value: IInput) {

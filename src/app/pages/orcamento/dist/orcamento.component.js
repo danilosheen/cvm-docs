@@ -30,8 +30,8 @@ var OrcamentoComponent = /** @class */ (function () {
         this.orcamentoData = {
             nomeCliente: '',
             telefoneContato: '',
-            pacoteViagem: '',
             localSaida: '',
+            destinoViagem: '',
             dataSaida: '',
             horaSaida: '',
             dataRetorno: '',
@@ -124,13 +124,13 @@ var OrcamentoComponent = /** @class */ (function () {
         this.orcamentoData.telefoneContato = value.value;
         this.valid[1] = (value.valid);
     };
-    OrcamentoComponent.prototype.updatePacoteViagemHandler = function (value) {
-        this.orcamentoData.pacoteViagem = value.value;
-        this.valid[2] = (value.valid);
-    };
     OrcamentoComponent.prototype.updateLocalSaidaHandler = function (value) {
         this.orcamentoData.localSaida = value.value;
         this.valid[3] = (value.valid);
+    };
+    OrcamentoComponent.prototype.updateDestinoViagemHandler = function (value) {
+        this.orcamentoData.destinoViagem = value.value;
+        this.valid[2] = (value.valid);
     };
     OrcamentoComponent.prototype.updateDataSaidaHandler = function (value) {
         this.orcamentoData.dataSaida = value.value;
