@@ -12,6 +12,7 @@ import { PassageirosComponent } from './pages/passageiros/passageiros.component'
 import { CalculadoraComponent } from './pages/calculadora/calculadora.component';
 import { UtilitariosComponent } from './pages/utilitarios/utilitarios.component';
 import { AniversariantesComponent } from './pages/utilitarios/aniversariantes/aniversariantes.component';
+import { ControleContasComponent } from './pages/utilitarios/controle-contas/controle-contas.component';
 
 
 export const routes: Routes = [
@@ -27,4 +28,5 @@ export const routes: Routes = [
   { path: 'calculadora', component: CalculadoraComponent, canActivate: [AuthGuardService] },
   { path: 'utilitarios', component: UtilitariosComponent, canActivate: [AuthGuardService] },
   { path: 'utilitarios/aniversariantes', component: AniversariantesComponent, canActivate: [AuthGuardService] },
+  { path: 'utilitarios/controle-contas', component: ControleContasComponent, canActivate: [AuthGuardService] },
 ];

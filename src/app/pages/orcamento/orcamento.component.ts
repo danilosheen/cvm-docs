@@ -17,6 +17,9 @@ import { IInput } from '../../interfaces/i-handlerInput';
 import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
+import { ICliente } from '../../interfaces/i-cliente';
+import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
+import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 
 
 @Component({
@@ -34,7 +37,8 @@ import { LoadingBlueComponent } from "../../shared/components/loading-blue/loadi
     InputDateComponent,
     InputTimeComponent,
     InputAutocompleteComponent,
-    LoadingBlueComponent
+    LoadingBlueComponent,
+    InputAutocompleteDataPessoaComponent
 ],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.css'
@@ -63,7 +67,8 @@ export class OrcamentoComponent implements OnInit{
   valid: boolean[] = [];
   cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
   clienteService = inject(ClienteService);
-  nomeClientes: string[] = [];
+  clientes:ICliente[] = [];
+  nomeClientes: IPessoaAutocomplete[] = [];
   isLoadingClientes = true;
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
@@ -75,8 +80,9 @@ export class OrcamentoComponent implements OnInit{
 
   ngOnInit(): void {
     this.clienteService.getAll().subscribe(clientes =>{
+      this.clientes = clientes;
       for(let cliente of clientes){
-        this.nomeClientes.push(cliente.nome);
+        this.nomeClientes.push({nome: cliente.nome, id: cliente.id!});
       }
       this.isLoadingClientes = false;
     });
@@ -137,12 +143,25 @@ export class OrcamentoComponent implements OnInit{
   }
 
   // Handler para os campos
-  updateNomeClienteHandler(value: IInput) {
-    this.orcamentoData.nomeCliente = value.value;
+  updateNomeClienteHandler(value: any) {
+    console.log(value)
+    const idSelected = value.id;
+    if(idSelected){
+      this.clientes.forEach(cliente =>{
+        if(cliente.id == idSelected){
+          this.orcamentoData.nomeCliente = cliente.nome;
+          this.updateTelefoneContatoHandler({value: cliente.contato, valid: true});
+          console.log(cliente, this.orcamentoData)
+        }
+      })
+    } else {
+      this.orcamentoData.nomeCliente = value.value.nome;
+    }
     this.valid[0] = (value.valid);
   }
 
   updateTelefoneContatoHandler(value: IInput) {
+    console.log(value)
     this.orcamentoData.telefoneContato = value.value;
     this.valid[1] = (value.valid);
   }

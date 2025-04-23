@@ -22,6 +22,7 @@ var input_time_component_1 = require("../../shared/components/input-time/input-t
 var input_autocomplete_component_1 = require("../../shared/components/input-autocomplete/input-autocomplete.component");
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
 var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
+var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
 var OrcamentoComponent = /** @class */ (function () {
     function OrcamentoComponent(pdfOrcamento) {
         this.pdfOrcamento = pdfOrcamento;
@@ -47,6 +48,7 @@ var OrcamentoComponent = /** @class */ (function () {
         this.valid = [];
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
+        this.clientes = [];
         this.nomeClientes = [];
         this.isLoadingClientes = true;
         //inicializando o array de campos válidos
@@ -57,9 +59,10 @@ var OrcamentoComponent = /** @class */ (function () {
     OrcamentoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.clienteService.getAll().subscribe(function (clientes) {
+            _this.clientes = clientes;
             for (var _i = 0, clientes_1 = clientes; _i < clientes_1.length; _i++) {
                 var cliente = clientes_1[_i];
-                _this.nomeClientes.push(cliente.nome);
+                _this.nomeClientes.push({ nome: cliente.nome, id: cliente.id });
             }
             _this.isLoadingClientes = false;
         });
@@ -117,10 +120,25 @@ var OrcamentoComponent = /** @class */ (function () {
     };
     // Handler para os campos
     OrcamentoComponent.prototype.updateNomeClienteHandler = function (value) {
-        this.orcamentoData.nomeCliente = value.value;
+        var _this = this;
+        console.log(value);
+        var idSelected = value.id;
+        if (idSelected) {
+            this.clientes.forEach(function (cliente) {
+                if (cliente.id == idSelected) {
+                    _this.orcamentoData.nomeCliente = cliente.nome;
+                    _this.updateTelefoneContatoHandler({ value: cliente.contato, valid: true });
+                    console.log(cliente, _this.orcamentoData);
+                }
+            });
+        }
+        else {
+            this.orcamentoData.nomeCliente = value.value.nome;
+        }
         this.valid[0] = (value.valid);
     };
     OrcamentoComponent.prototype.updateTelefoneContatoHandler = function (value) {
+        console.log(value);
         this.orcamentoData.telefoneContato = value.value;
         this.valid[1] = (value.valid);
     };
@@ -189,7 +207,8 @@ var OrcamentoComponent = /** @class */ (function () {
                 input_date_component_1.InputDateComponent,
                 input_time_component_1.InputTimeComponent,
                 input_autocomplete_component_1.InputAutocompleteComponent,
-                loading_blue_component_1.LoadingBlueComponent
+                loading_blue_component_1.LoadingBlueComponent,
+                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent
             ],
             templateUrl: './orcamento.component.html',
             styleUrl: './orcamento.component.css'

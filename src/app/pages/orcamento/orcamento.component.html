@@ -8,17 +8,20 @@
     </h2>
     <form (ngSubmit)="onSubmit()">
       <!-- cliente -->
-      <app-input-autocomplete
+      <app-input-autocomplete-data-pessoa
         [options]="nomeClientes"
+        [attr.autocomplete]="'off'"
         [label]="'Nome completo do cliente'"
-        [placeholder]="'ex: Crairton de Matos Leite'"
+        [defaultValue]="orcamentoData.nomeCliente"
+        [errorMessage]="'Este campo é obrigatório'"
         (inputValue)="updateNomeClienteHandler($event)"
-      ></app-input-autocomplete>
+      ></app-input-autocomplete-data-pessoa>
 
       <!-- contato -->
       <app-input-number
         [label]="'Telefone'"
         [placeholder]="'ex: (88)9.8888-8888'"
+        [defaultValue]="orcamentoData.telefoneContato"
         [type]="'tel'"
         (inputValue)="updateTelefoneContatoHandler($event)"
       ></app-input-number>
