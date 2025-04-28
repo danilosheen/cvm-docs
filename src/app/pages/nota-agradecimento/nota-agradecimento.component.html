@@ -9,17 +9,30 @@
       [label]="'Nome completo do cliente'"
       (inputValue)="updateNomeClienteHandler($event)"
     ></app-input-autocomplete>
-    <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-      <ng-container *ngIf="loading; else btnText">
-        <div class="button-loading">
-          <img class="loading" src="./assets/loading.gif" alt="Carregando">
-          <p>Gerando PDF</p>
-        </div>
-      </ng-container>
-      <ng-template #btnText>
-        Gerar PDF
-      </ng-template>
-    </button>
+    <div class="container-buttons">
+      <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+        <ng-container *ngIf="loading; else btnText">
+          <div class="button-loading">
+            <img class="loading" src="./assets/loading.gif" alt="Carregando">
+            <p>Gerando PDF</p>
+          </div>
+        </ng-container>
+        <ng-template #btnText>
+          Gerar PDF
+        </ng-template>
+      </button>
+      <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="enviarPorEmail()">
+        <ng-container *ngIf="loading; else btnTextEmail">
+          <div class="button-loading">
+            <img class="loading" src="./assets/loading.gif" alt="Carregando">
+            <p>Enviando</p>
+          </div>
+        </ng-container>
+        <ng-template #btnTextEmail>
+          Enviar por email
+        </ng-template>
+      </button>
+    </div>
   }
 </div>
 <app-footer></app-footer>

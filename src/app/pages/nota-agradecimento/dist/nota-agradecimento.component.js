@@ -66,6 +66,9 @@ var NotaAgradecimentoComponent = /** @class */ (function () {
             }
         });
     };
+    NotaAgradecimentoComponent.prototype.enviarPorEmail = function () {
+        this.loading = true;
+    };
     NotaAgradecimentoComponent.prototype.formatNomeCliente = function () {
         try {
             var nome = "" + this.nomeCliente.split(" ")[0];

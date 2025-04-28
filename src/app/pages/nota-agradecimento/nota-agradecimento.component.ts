@@ -74,6 +74,11 @@ export class NotaAgradecimentoComponent implements OnInit{
       );
   }
 
+  enviarPorEmail(){
+    this.loading = true;
+
+  }
+
   formatNomeCliente(){
     try {
       const nome = `${this.nomeCliente.split(" ")[0]}`;

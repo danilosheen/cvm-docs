@@ -10,11 +10,18 @@ h2{
   margin: 0 auto;
 }
 
+.container-buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
 .button-gerar{
   display: flex;
-  margin: 20px auto 40px auto;
   width: 70%;
   max-width: 200px;
+  margin-top: 20px;
 }
 
 .button-loading{
@@ -24,4 +31,9 @@ h2{
   gap: 5px;
 }
 
+@media(max-width: 600px){
+  .container-buttons{
+    flex-direction: column;
+  }
+}
 
