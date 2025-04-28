@@ -3,11 +3,13 @@ export interface ICliente {
   nome: string,
   dataNascimento?: string,
   contato: string,
+  email?: string,
   typeDocumentSelected: string,
   documento: string,
   cidade: string,
   bairro: string,
   rua: string,
   numero: string,
-  updatedAt?: string
+  updatedAt?: string,
+  ultimaViagem?: string,
 }

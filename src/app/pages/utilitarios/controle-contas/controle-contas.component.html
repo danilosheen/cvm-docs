@@ -1,1 +1,51 @@
-<p>controle-contas works!</p>
+<app-navbar></app-navbar>
+<div class="container">
+  <button matButton (click)="openAdicionarFluxo()">Adicionar</button>
+  <table>
+    <thead>
+      <tr>
+        <td>Saldo anterior</td>
+        <td>Entradas</td>
+        <td>Saídas</td>
+        <td>Saldo restante</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Movimentação</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Forma de pagamento</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (fluxo of fluxos; track $index) {
+        <tr [ngClass]="{
+          'saida': fluxo.tipo == 'SAIDA',
+          'entrada': fluxo.tipo == 'ENTRADA'
+          }"
+        >
+          <td>{{fluxo.data | dataFormatada}}</td>
+          <td>{{fluxo.tipo}}</td>
+          <td>{{fluxo.descricao}}</td>
+          <td>R$ {{fluxo.valor| brCurrency }}</td>
+          <td class="center">{{fluxo.formaPagamento}}</td>
+          <td class="container-action-buttons">
+            <img (click)="openEditarMovimentacao(fluxo)" src="../../../../assets/icons-svg/pen.svg">
+            <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<app-footer></app-footer>

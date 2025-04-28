@@ -23,6 +23,7 @@ import { MY_FORMATS } from './formats';
 export class InputDateComponent {
   @Input() label = '';
   @Input() optional = false;
+  @Input() defaultValue = '';
   @Output() inputDate = new EventEmitter();
 
   input: FormControl = new FormControl('');

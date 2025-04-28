@@ -20,6 +20,7 @@ var InputDateComponent = /** @class */ (function () {
         var _this = this;
         this.label = '';
         this.optional = false;
+        this.defaultValue = '';
         this.inputDate = new core_1.EventEmitter();
         this.input = new forms_1.FormControl('');
         // readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
@@ -58,6 +59,9 @@ var InputDateComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputDateComponent.prototype, "optional");
+    __decorate([
+        core_1.Input()
+    ], InputDateComponent.prototype, "defaultValue");
     __decorate([
         core_1.Output()
     ], InputDateComponent.prototype, "inputDate");
