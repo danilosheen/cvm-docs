@@ -1,0 +1,54 @@
+<div class="container-dialog-fluxo">
+  <mat-dialog-content>
+    Preencha os campos para {{dataFluxo.title}} uma movimentação
+  </mat-dialog-content>
+  <div class="container-inputs">
+
+    <!-- Data da movimentação -->
+    <app-input-number
+      [type]="'date'"
+      [label]="'Informe a data da movimentação'"
+      [defaultValue]="fluxoData.data"
+      [placeholder]="'ex: 01/01/2025'"
+      (inputValue)="updateDataMovimentacaoHandler($event)"
+    ></app-input-number>
+
+    <!-- Tipo de movimentação -->
+    <app-input-select
+      [label]="'Selecione o tipo de movimentação'"
+      [listItens]="tiposMovimentacao"
+      [errorMessage]="'Este campo é obrigatório'"
+      (selectedInputValue)="updateTipoMovimentacaoHandler($event)"
+    ></app-input-select>
+
+    <!-- Valor -->
+    <app-input-number
+      [label]="'Informe o valor'"
+      [type]="'number'"
+      [defaultValue]="fluxoData.valor | brCurrency"
+      (inputValue)="updateValorHandler($event)"
+    ></app-input-number>
+
+    <!-- Descrição -->
+    <app-input-text
+      [label]="'Descrição da movimentação'"
+      [defaultValue]="fluxoData.descricao"
+      (inputValue)="updateDescricaoHandler($event)"
+    ></app-input-text>
+
+    <!-- Forma de pagamento -->
+    <app-input-select
+      [label]="'Selecione a forma de pagamento'"
+      [listItens]="formasPagamento"
+      (selectedInputValue)="updateFormaPagamentoHandler($event)"
+    ></app-input-select>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button
+    [disabled]="!isValid()"
+    (click)="onClickHandler()"
+    (window:keydown.enter)="onClickHandler()"
+    >{{dataFluxo.confirmButton}}</button>
+  </mat-dialog-actions>
+</div>
