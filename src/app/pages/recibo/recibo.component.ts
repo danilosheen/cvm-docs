@@ -69,7 +69,7 @@ export class ReciboComponent implements OnInit {
           const link = document.createElement('a');
           const date = new Date();
           link.href = pdfUrl;
-          link.download = `Recibo CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf.pdf`;
+          link.download = `Recibo CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
           link.click();
           this.loading = false;
           window.scrollTo({

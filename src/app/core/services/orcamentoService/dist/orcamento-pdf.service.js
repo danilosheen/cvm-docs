@@ -8,11 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.OrcamentoPDFService = void 0;
 var core_1 = require("@angular/core");
+var environment_1 = require("../../../../environments/environment");
 var OrcamentoPDFService = /** @class */ (function () {
+    // private apiUrl = 'http://localhost:3000/api/pdf/orcamento';
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/orcamento';
     function OrcamentoPDFService(http) {
         this.http = http;
-        // private apiUrl = 'http://localhost:3000/api/pdf/orcamento';
-        this.apiUrl = 'https://backend-cvm.vercel.app/api/pdf/orcamento';
+        this.apiUrl = environment_1.environment.apiUrl + "/pdf/orcamento";
     }
     OrcamentoPDFService.prototype.generatePDF = function (data) {
         return this.http.post(this.apiUrl, data, { responseType: 'blob' });

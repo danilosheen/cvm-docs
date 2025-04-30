@@ -57,7 +57,7 @@ var ReciboComponent = /** @class */ (function () {
             var link = document.createElement('a');
             var date = new Date();
             link.href = pdfUrl;
-            link.download = "Recibo CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf.pdf";
+            link.download = "Recibo CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
             link.click();
             _this.loading = false;
             window.scrollTo({

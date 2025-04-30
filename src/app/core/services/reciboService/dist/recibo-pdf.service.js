@@ -8,11 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.ReciboPDFService = void 0;
 var core_1 = require("@angular/core");
+var environment_1 = require("../../../../environments/environment");
 var ReciboPDFService = /** @class */ (function () {
+    //  private apiUrl = 'http://localhost:3000/api/pdf/recibo';
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/recibo';
     function ReciboPDFService(http) {
         this.http = http;
-        //  private apiUrl = 'http://localhost:3000/api/pdf/recibo';
-        this.apiUrl = 'https://backend-cvm.vercel.app/api/pdf/recibo';
+        this.apiUrl = environment_1.environment.apiUrl + "/pdf/recibo";
     }
     ReciboPDFService.prototype.generatePDF = function (data) {
         return this.http.post(this.apiUrl, data, { responseType: 'blob' });

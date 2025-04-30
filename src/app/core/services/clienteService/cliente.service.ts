@@ -3,13 +3,15 @@ import { ICliente } from '../../../interfaces/i-cliente';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../authService/auth-service.service';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = `${environment.apiUrl}`;
+  // private apiUrl = 'http://localhost:3000/api';
   // private apiUrl = 'https://backend-cvm.vercel.app/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}

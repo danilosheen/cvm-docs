@@ -9,12 +9,14 @@ exports.__esModule = true;
 exports.PassageiroService = void 0;
 var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
+var environment_1 = require("../../../../environments/environment");
 var PassageiroService = /** @class */ (function () {
+    // private apiUrl = 'http://localhost:3000/api';
     // private apiUrl = 'https://backend-cvm.vercel.app/api';
     function PassageiroService(http, authService) {
         this.http = http;
         this.authService = authService;
-        this.apiUrl = 'http://localhost:3000/api';
+        this.apiUrl = "" + environment_1.environment.apiUrl;
     }
     PassageiroService.prototype.getHeaders = function () {
         var token = this.authService.getToken();

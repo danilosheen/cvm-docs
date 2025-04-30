@@ -9,12 +9,14 @@ exports.__esModule = true;
 exports.ClienteService = void 0;
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
+var environment_1 = require("../../../../environments/environment");
 var ClienteService = /** @class */ (function () {
+    // private apiUrl = 'http://localhost:3000/api';
     // private apiUrl = 'https://backend-cvm.vercel.app/api';
     function ClienteService(http, authService) {
         this.http = http;
         this.authService = authService;
-        this.apiUrl = 'http://localhost:3000/api';
+        this.apiUrl = "" + environment_1.environment.apiUrl;
     }
     ClienteService.prototype.getHeaders = function () {
         var token = this.authService.getToken();

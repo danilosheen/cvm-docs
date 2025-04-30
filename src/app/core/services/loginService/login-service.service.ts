@@ -2,14 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../authService/auth-service.service';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
+  private apiUrl = `${environment.apiUrl}/login`;
   // private apiUrl = 'http://localhost:3000/api/login';
-  private apiUrl = 'https://backend-cvm.vercel.app/api/login';
+  // private apiUrl = 'https://backend-cvm.vercel.app/api/login';
 
 
   constructor( private http: HttpClient, private authService: AuthService) {}
