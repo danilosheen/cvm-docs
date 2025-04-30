@@ -14,13 +14,15 @@ var dialog_2 = require("@angular/material/dialog");
 var common_1 = require("@angular/common");
 var DialogViewComponent = /** @class */ (function () {
     function DialogViewComponent() {
-        var _a;
+        var _a, _b;
         this.dialogRef = core_1.inject(dialog_2.MatDialogRef());
         this.inputsData = core_1.inject(dialog_1.MAT_DIALOG_DATA);
         this.type = this.inputsData.type;
         this.data = this.inputsData.pessoa;
         this.datePipe = core_1.inject(common_1.DatePipe);
         this.updatedAt = (_a = this.datePipe.transform(this.data.updatedAt, "dd/MM/yyyy 'às' HH:mm:ss")) !== null && _a !== void 0 ? _a : '';
+        this.ultimaViagem = (_b = this.datePipe.transform(this.data.ultimaViagem, "dd/MM/yyyy")) !== null && _b !== void 0 ? _b : '';
+        console.log(this.ultimaViagem);
     }
     DialogViewComponent.prototype.onClickHandler = function () {
         this.dialogRef.close(true);

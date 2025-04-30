@@ -18,6 +18,7 @@ import { NgIf } from '@angular/common';
 import { DialogClienteComponent } from '../../shared/components/dialog-cliente/dialog-cliente.component';
 import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-view.component';
 import { Router } from '@angular/router';
+import { DataFormatadaPipe } from "../../pipes/data-formatada.pipe";
 
 @Component({
   selector: 'app-clientes',
@@ -32,14 +33,15 @@ import { Router } from '@angular/router';
     MatPaginatorModule,
     MatButtonModule,
     LoadingBlueComponent,
-    NgIf
+    NgIf,
+    DataFormatadaPipe
 ],
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
 
 export class ClientesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['nome', 'dataNascimento', 'contato', 'acao'];
+  displayedColumns: string[] = ['nome', 'dataNascimento', 'contato', 'ultimaViagem', 'acao'];
   dataSource: MatTableDataSource<ICliente>;
   clientes: ICliente[] = [];
   readonly dialog = inject(MatDialog);

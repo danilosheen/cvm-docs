@@ -12,11 +12,14 @@ var DataFormatadaPipe = /** @class */ (function () {
     function DataFormatadaPipe() {
     }
     DataFormatadaPipe.prototype.transform = function (value) {
-        var data = new Date(value);
-        var dia = data.getDate().toString().padStart(2, '0');
-        var mes = (data.getMonth() + 1).toString().padStart(2, '0');
-        var ano = data.getFullYear();
-        return dia + "/" + mes + "/" + ano;
+        if (value) {
+            var data = new Date(value);
+            var dia = data.getDate().toString().padStart(2, '0');
+            var mes = (data.getMonth() + 1).toString().padStart(2, '0');
+            var ano = data.getFullYear();
+            return dia + "/" + mes + "/" + ano;
+        }
+        return '';
     };
     DataFormatadaPipe = __decorate([
         core_1.Pipe({

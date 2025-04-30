@@ -272,6 +272,7 @@ export class FichaExcursaoComponent implements OnInit {
         this.fichaExcursaoData.cliente.nome = value.nome;
         this.clientes.forEach(element => {
           if(idSelected == element.id){
+            this.fichaExcursaoData.cliente.id = element.id;
             this.updateDataNascimentoHandler({ value: element.dataNascimento!, valid: true});
             this.updateContatoHandler({ value: element.contato!, valid: true});
             this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true});
@@ -285,7 +286,6 @@ export class FichaExcursaoComponent implements OnInit {
       } else {
         this.fichaExcursaoData.cliente.nome = value.value.nome;
       }
-      console.log(value)
       this.valid[6] = (value.valid);
     }
 

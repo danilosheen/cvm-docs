@@ -2,36 +2,40 @@
   Prencha os campos para adicionar o dependente
 </mat-dialog-content>
 <div class="container-inputs">
-  <app-input-text
-    [label]="'Informe o nome do dependente'"
-    [placeholder]="'ex: Crairton de Matos Leite'"
-    (inputValue)="updateNomeDependenteHandler($event)"
-  ></app-input-text>
-  <app-input-radio
-    [label]="'Selecione o tipo de documento'"
-    [listItems]="typesDocument"
-    [dropdown]="false"
-    [defaultValue]="typeDocumentSelected"
-    (selectedValue)="updateDocumentSelectedHandler($event)"
-  ></app-input-radio>
-  @if (typeDocumentSelected == 'CPF') {
-    <app-input-number
-      [label]="'Informe o CPF do dependente'"
-      [type]="'cpf'"
-      [optional]="true"
-      (inputValue)="updateDocumentoDependenteHandler($event)"
-    ></app-input-number>
-  } @else if(typeDocumentSelected == 'RG'){
-    <app-input-number
-      [label]="'Informe o RG do dependente'"
-      [type]="'text'"
-      [optional]="true"
-      (inputValue)="updateDocumentoDependenteHandler($event)"
-    ></app-input-number>
+  @if (!isLoadingDependentes || dialodData) {
+    <app-input-autocomplete-data-pessoa
+      [label]="'Informe o nome do dependente'"
+      [options]="dependentesOptions"
+      (inputValue)="updateNomeDependenteHandler($event)"
+    ></app-input-autocomplete-data-pessoa>
+    <app-input-radio
+      [label]="'Selecione o tipo de documento'"
+      [listItems]="typesDocument"
+      [dropdown]="false"
+      [defaultValue]="typeDocumentSelected"
+      (selectedValue)="updateDocumentSelectedHandler($event)"
+    ></app-input-radio>
+    @if (typeDocumentSelected == 'CPF') {
+      <app-input-number
+        [label]="'Informe o CPF do dependente'"
+        [type]="'cpf'"
+        [defaultValue]="documento"
+        [optional]="true"
+        (inputValue)="updateDocumentoDependenteHandler($event)"
+      ></app-input-number>
+    } @else if(typeDocumentSelected == 'RG'){
+      <app-input-number
+        [label]="'Informe o RG do dependente'"
+        [type]="'text'"
+        [defaultValue]="documento"
+        [optional]="true"
+        (inputValue)="updateDocumentoDependenteHandler($event)"
+      ></app-input-number>
   } @else {
     <app-input-number
       [label]="'Informe o Registro do dependente'"
       [type]="'text'"
+      [defaultValue]="documento"
       [optional]="true"
       (inputValue)="updateDocumentoDependenteHandler($event)"
     ></app-input-number>
@@ -41,12 +45,16 @@
     [type]="'text'"
     (inputValue)="updatePoltronaDependenteHandler($event)"
   ></app-input-number>
+  } @else {
+    <app-loading-blue></app-loading-blue>
+  }
+
 </div>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancelar</button>
   <button mat-button
   [disabled]="!isValid()"
-  (click)="adicionarDependente(nome, documento, poltrona)"
-  (window:keydown.enter)="adicionarDependente(nome, documento, poltrona)"
+  (click)="adicionarDependente(nome, typeDocumentSelected, documento, dialodData.idCliente, poltrona)"
+  (window:keydown.enter)="adicionarDependente(nome, typeDocumentSelected, documento, dialodData.idCliente, poltrona)"
   >Adicionar</button>
 </mat-dialog-actions>

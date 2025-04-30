@@ -45,6 +45,7 @@ var DialogClienteComponent = /** @class */ (function () {
             this.updateNomeClienteHandler({ value: this.clienteData.nome, valid: true });
             this.updateDataNascimentoHandler({ value: this.clienteData.dataNascimento || '', valid: true });
             this.updateContatoHandler({ value: this.clienteData.contato, valid: true });
+            this.updateEmailHandler({ value: this.clienteData.email || '', valid: true });
             this.updateDocumentSelectedHandler({ value: this.clienteData.typeDocumentSelected, valid: true });
             this.updateDocumentoClienteHandler({ value: this.clienteData.documento, valid: true });
             this.updateCidadeHandler({ value: this.clienteData.cidade, valid: true });
@@ -77,6 +78,9 @@ var DialogClienteComponent = /** @class */ (function () {
     DialogClienteComponent.prototype.updateContatoHandler = function (value) {
         this.clienteData.contato = value.value;
         this.valid[2] = value.valid;
+    };
+    DialogClienteComponent.prototype.updateEmailHandler = function (value) {
+        this.clienteData.email = value.value;
     };
     DialogClienteComponent.prototype.updateDocumentSelectedHandler = function (value) {
         if (this.clienteData.typeDocumentSelected !== value.value) {

@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class ListaPassageirosService {
 
 
-  //  private apiUrl = 'http://localhost:3000/api/pdf/lista-passageiros';
-  private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/lista-passageiros';
+   private apiUrl = 'http://localhost:3000/api/pdf/lista-passageiros';
+  // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/lista-passageiros';
 
   constructor(private http: HttpClient) { }
 

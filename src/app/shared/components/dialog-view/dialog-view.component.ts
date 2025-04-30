@@ -30,10 +30,10 @@ export class DialogViewComponent {
   data: any = this.inputsData.pessoa;
   datePipe: DatePipe = inject(DatePipe);
   updatedAt: string = this.datePipe.transform(this.data.updatedAt, "dd/MM/yyyy 'às' HH:mm:ss") ?? '';
-
+  ultimaViagem: string = this.datePipe.transform(this.data.ultimaViagem, "dd/MM/yyyy") ?? '';
 
   constructor() {
-
+    console.log(this.ultimaViagem)
   }
 
   onClickHandler(){

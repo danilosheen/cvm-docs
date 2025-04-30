@@ -14,6 +14,10 @@
         <td class="right">{{data.contato}}</td>
       </tr>
       <tr>
+        <td class="left">Email:</td>
+        <td class="right">{{data.email || 'Não cadastrado'}}</td>
+      </tr>
+      <tr>
         <td class="left">Tipo do documento:</td>
         <td class="right">{{data.typeDocumentSelected}}</td>
       </tr>
@@ -40,6 +44,10 @@
       <tr>
         <td class="left">Última atualização:</td>
         <td class="right">{{updatedAt}}</td>
+      </tr>
+      <tr>
+        <td class="left">Última viagem:</td>
+        <td class="right">{{ultimaViagem || 'Não viajou'}}</td>
       </tr>
     </table>
   } @else {

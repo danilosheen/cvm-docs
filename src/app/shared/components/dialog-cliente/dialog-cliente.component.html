@@ -21,6 +21,12 @@
       [defaultValue]="clienteData.contato"
       (inputValue)="updateContatoHandler($event)"
     ></app-input-number>
+    <app-input-text
+      [label]="'Email'"
+      [optional]="true"
+      [defaultValue]="clienteData.email || ''"
+      (inputValue)="updateEmailHandler($event)"
+    ></app-input-text>
     <app-input-radio
       [label]="'Selecione o tipo de documento'"
       [listItems]="typesDocument"

@@ -232,6 +232,7 @@ var FichaExcursaoComponent = /** @class */ (function () {
             this.fichaExcursaoData.cliente.nome = value.nome;
             this.clientes.forEach(function (element) {
                 if (idSelected == element.id) {
+                    _this.fichaExcursaoData.cliente.id = element.id;
                     _this.updateDataNascimentoHandler({ value: element.dataNascimento, valid: true });
                     _this.updateContatoHandler({ value: element.contato, valid: true });
                     _this.updateTypeDocumentSelectedHandler({ value: element.typeDocumentSelected || '', valid: true });
@@ -246,7 +247,6 @@ var FichaExcursaoComponent = /** @class */ (function () {
         else {
             this.fichaExcursaoData.cliente.nome = value.value.nome;
         }
-        console.log(value);
         this.valid[6] = (value.valid);
     };
     FichaExcursaoComponent.prototype.updateDataNascimentoHandler = function (value) {

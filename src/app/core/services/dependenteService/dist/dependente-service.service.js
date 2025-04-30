@@ -6,39 +6,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.PassageiroService = void 0;
+exports.DependenteService = void 0;
 var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
-var PassageiroService = /** @class */ (function () {
+var DependenteService = /** @class */ (function () {
     // private apiUrl = 'https://backend-cvm.vercel.app/api';
-    function PassageiroService(http, authService) {
+    function DependenteService(http, authService) {
         this.http = http;
         this.authService = authService;
         this.apiUrl = 'http://localhost:3000/api';
     }
-    PassageiroService.prototype.getHeaders = function () {
+    DependenteService.prototype.getHeaders = function () {
         var token = this.authService.getToken();
         return new http_1.HttpHeaders({
             'Authorization': "Bearer " + token
         });
     };
-    PassageiroService.prototype.getAll = function () {
-        return this.http.get(this.apiUrl + "/passageiros", { headers: this.getHeaders() });
+    DependenteService.prototype.getAll = function (idCliente) {
+        return this.http.get(this.apiUrl + "/dependentes/" + idCliente, { headers: this.getHeaders() });
     };
-    PassageiroService.prototype.create = function (data) {
-        return this.http.post(this.apiUrl + "/passageiro", data, { headers: this.getHeaders() });
+    DependenteService.prototype.create = function (data) {
+        return this.http.post(this.apiUrl + "/dependente", data, { headers: this.getHeaders() });
     };
-    PassageiroService.prototype.update = function (id, data) {
-        return this.http.put(this.apiUrl + "/passageiro/" + id, data, { headers: this.getHeaders() });
+    DependenteService.prototype.update = function (id, data) {
+        return this.http.put(this.apiUrl + "/dependente/" + id, data, { headers: this.getHeaders() });
     };
-    PassageiroService.prototype["delete"] = function (id) {
-        return this.http["delete"](this.apiUrl + "/passageiro/" + id, { headers: this.getHeaders() });
+    DependenteService.prototype["delete"] = function (id) {
+        return this.http["delete"](this.apiUrl + "/dependente/" + id, { headers: this.getHeaders() });
     };
-    PassageiroService = __decorate([
+    DependenteService = __decorate([
         core_1.Injectable({
             providedIn: 'root'
         })
-    ], PassageiroService);
-    return PassageiroService;
+    ], DependenteService);
+    return DependenteService;
 }());
-exports.PassageiroService = PassageiroService;
+exports.DependenteService = DependenteService;

@@ -73,6 +73,7 @@ export class DialogClienteComponent {
       this.updateNomeClienteHandler({value: this.clienteData.nome, valid: true});
       this.updateDataNascimentoHandler({value: this.clienteData.dataNascimento || '', valid: true});
       this.updateContatoHandler({value: this.clienteData.contato, valid: true});
+      this.updateEmailHandler({value: this.clienteData.email || '', valid: true});
       this.updateDocumentSelectedHandler({value: this.clienteData.typeDocumentSelected, valid: true});
       this.updateDocumentoClienteHandler({value: this.clienteData.documento, valid: true});
       this.updateCidadeHandler({value: this.clienteData.cidade, valid: true});
@@ -104,6 +105,10 @@ export class DialogClienteComponent {
   updateContatoHandler(value: IInput){
     this.clienteData.contato = value.value;
     this.valid[2] = value.valid;
+  }
+
+  updateEmailHandler(value: IInput){
+    this.clienteData.email = value.value;
   }
 
   updateDocumentSelectedHandler(value: IInput){

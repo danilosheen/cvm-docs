@@ -9,10 +9,10 @@ exports.__esModule = true;
 exports.ListaPassageirosService = void 0;
 var core_1 = require("@angular/core");
 var ListaPassageirosService = /** @class */ (function () {
+    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/lista-passageiros';
     function ListaPassageirosService(http) {
         this.http = http;
-        //  private apiUrl = 'http://localhost:3000/api/pdf/lista-passageiros';
-        this.apiUrl = 'https://backend-cvm.vercel.app/api/pdf/lista-passageiros';
+        this.apiUrl = 'http://localhost:3000/api/pdf/lista-passageiros';
     }
     ListaPassageirosService.prototype.generatePDF = function (data) {
         return this.http.post(this.apiUrl, data, { responseType: 'blob' });

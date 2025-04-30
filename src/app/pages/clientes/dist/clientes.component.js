@@ -30,13 +30,14 @@ var loading_blue_component_1 = require("../../shared/components/loading-blue/loa
 var common_1 = require("@angular/common");
 var dialog_cliente_component_1 = require("../../shared/components/dialog-cliente/dialog-cliente.component");
 var dialog_view_component_1 = require("../../shared/components/dialog-view/dialog-view.component");
+var data_formatada_pipe_1 = require("../../pipes/data-formatada.pipe");
 var ClientesComponent = /** @class */ (function () {
     function ClientesComponent(authService, clienteService, paginatorIntl, router) {
         this.authService = authService;
         this.clienteService = clienteService;
         this.paginatorIntl = paginatorIntl;
         this.router = router;
-        this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'acao'];
+        this.displayedColumns = ['nome', 'dataNascimento', 'contato', 'ultimaViagem', 'acao'];
         this.clientes = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogCliente = core_1.inject(dialog_1.MatDialog);
@@ -198,7 +199,8 @@ var ClientesComponent = /** @class */ (function () {
                 paginator_1.MatPaginatorModule,
                 button_1.MatButtonModule,
                 loading_blue_component_1.LoadingBlueComponent,
-                common_1.NgIf
+                common_1.NgIf,
+                data_formatada_pipe_1.DataFormatadaPipe
             ],
             templateUrl: './clientes.component.html',
             styleUrl: './clientes.component.css'

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, Output, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output, viewChild} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {
@@ -8,6 +8,7 @@ import {
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
+  MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +19,11 @@ import { InputTextComponent } from "../input-text/input-text.component";
 import { InputNumberComponent } from "../input-number/input-number.component";
 import { IInput } from '../../../interfaces/i-handlerInput';
 import { InputRadioComponent } from "../input-radio/input-radio.component";
+import { InputAutocompleteDataPessoaComponent } from "../input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
+import { DependenteService } from '../../../core/services/dependenteService/dependente-service.service';
+import { IPessoaAutocomplete } from '../../../interfaces/i-clienteAutocomplete';
+import { IDependente } from '../../../interfaces/i-dependente';
+import { LoadingBlueComponent } from "../loading-blue/loading-blue.component";
 
 @Component({
   selector: 'app-dialog',
@@ -32,13 +38,21 @@ import { InputRadioComponent } from "../input-radio/input-radio.component";
   styleUrl: './dialog.component.css'
 })
 export class DialogComponent {
+  @Input() idCliente = '';
   @Output() sendDependente = new EventEmitter();
 
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   readonly dialog = inject(MatDialog);
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogFromMenu, { restoreFocus: false });
+    const dialogRef = this.dialog.open(DialogFromMenu,
+      {
+        restoreFocus: false,
+        autoFocus: false,
+        data: {
+          idCliente: this.idCliente
+        }
+      });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -60,23 +74,28 @@ export class DialogComponent {
     MatButtonModule,
     MatDialogContent,
     MatDialogActions,
-    InputTextComponent,
     InputNumberComponent,
-    InputRadioComponent
+    InputRadioComponent,
+    InputAutocompleteDataPessoaComponent,
+    LoadingBlueComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogFromMenu {
+export class DialogFromMenu implements OnInit {
 
   readonly dialogRef = inject(MatDialogRef<DialogFromMenu>);
+  dialodData = inject(MAT_DIALOG_DATA);
 
   nome: string = '';
   documento: string = '';
   poltrona: string = '';
-  dependentes: object[] = [];
+  dependentes: IDependente[] = [];
+  dependentesOptions: IPessoaAutocomplete[] = [];
   valid: boolean[] = [];
   typesDocument: string[] = ['RG', 'CPF', 'Registro']
   typeDocumentSelected: string = 'RG';
+  dependenteService = inject(DependenteService);
+  isLoadingDependentes = false;
 
 
   constructor(){
@@ -85,14 +104,37 @@ export class DialogFromMenu {
     }
   }
 
+  ngOnInit() {
+    this.dialogRef.afterOpened().subscribe(() => {
+      if(this.dialodData.idCliente){
+        this.isLoadingDependentes = true;
+        this.dependenteService.getAll(this.dialodData.idCliente).subscribe(response => {
+          this.dependentes = response;
+          this.isLoadingDependentes = false;
+          this.povoaDependentesOptions();
+        });
+      }
+    });
+  }
+
+
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  adicionarDependente(nome: string, documento: string, poltrona: string){
+  adicionarDependente(nome: string, typeDocumentSelected: string, documento: string, clienteId: string, poltrona: string){
     if(this.isValid()){
-      const novoDependente = { nome, documento, poltrona };
+      const novoDependente = { nome, typeDocumentSelected, documento, clienteId, poltrona };
+      this.dependenteService.create({ nome, typeDocumentSelected, documento, clienteId }).subscribe();
       this.dialogRef.close(novoDependente);
+    }
+  }
+
+  povoaDependentesOptions(){
+    if(this.dependentes){
+      for(let dependente of this.dependentes){
+        this.dependentesOptions.push({id: dependente.id!, nome: dependente.nome});
+      }
     }
   }
 
@@ -105,9 +147,23 @@ export class DialogFromMenu {
     return true;
   }
 
-  updateNomeDependenteHandler(value: IInput){
-    this.nome = value.value;
-    this.valid[0] = value.valid;
+  updateNomeDependenteHandler(value: any){
+    const pessoa = value?.value || value;
+    this.nome = pessoa.nome;
+    if (this.dialodData.idCliente && pessoa.id) {
+      this.dependentes.forEach(depentende => {
+        if(depentende.id == pessoa.id){
+          this.updateDocumentSelectedHandler({value: depentende.typeDocumentSelected, valid: true});
+          this.updateDocumentoDependenteHandler({value: depentende.documento, valid: true});
+        }
+      })
+    }
+    this.valid[0] = value.valid ?? true;
+  }
+
+
+  updateDocumentSelectedHandler(value: IInput){
+    this.typeDocumentSelected = value.value
   }
 
   updateDocumentoDependenteHandler(value: IInput){
@@ -116,10 +172,6 @@ export class DialogFromMenu {
     } else{
       this.documento = value.value;
     }
-  }
-
-  updateDocumentSelectedHandler(value: IInput){
-    this.typeDocumentSelected = value.value
   }
 
   updatePoltronaDependenteHandler(value: IInput){

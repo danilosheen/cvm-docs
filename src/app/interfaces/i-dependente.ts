@@ -1,5 +1,8 @@
 export interface IDependente {
-  nome: string;
-  documento: string;
-  poltrona: string;
+  id?: string,
+  nome: string,
+  typeDocumentSelected: string,
+  clienteId?: string,
+  documento: string,
+  poltrona: string,
 }
