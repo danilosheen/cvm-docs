@@ -18,6 +18,7 @@ import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-
 import { IPassageiro } from '../../interfaces/i-passageiro';
 import { PassageiroService } from '../../core/services/passageiroService/passageiro-service.service';
 import { DialogPassageiroComponent } from '../../shared/components/dialog-passageiro/dialog-passageiro.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-passageiros',
@@ -43,6 +44,7 @@ export class PassageirosComponent {
   passageiros: IPassageiro[] = [];
   readonly dialog = inject(MatDialog);
   readonly dialogPassageiro = inject(MatDialog);
+  readonly snackBar = inject(MatSnackBar);
   hasPassageiro = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -178,15 +180,22 @@ export class PassageirosComponent {
   }
 
   removerPassageiro(id: string) {
-    this.passageiroService.delete(id).subscribe((response) => {
-      const listaTemp = this.dataSource.data.filter(cliente => cliente.id !== id);
-      this.passageiros = listaTemp;
-      this.dataSource.data = this.passageiros;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.hasPassageiro = this.passageiros.length > 0;
+    this.passageiroService.delete(id).subscribe({
+      next: (response) => {
+        const listaTemp = this.dataSource.data.filter(cliente => cliente.id !== id);
+        this.passageiros = listaTemp;
+        this.dataSource.data = this.passageiros;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.hasPassageiro = this.passageiros.length > 0;
+      },
+      error: (error) => {
+        const errorMsg = error?.error?.error || 'Erro ao remover passageiro';
+        this.snackBar.open(errorMsg, 'Ok', { duration: 15000 });
+      }
     });
   }
+
 
   // Personalização do paginator do Angular Material
   customizarPaginador() {

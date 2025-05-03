@@ -30,6 +30,7 @@ var loading_blue_component_1 = require("../../shared/components/loading-blue/loa
 var common_1 = require("@angular/common");
 var dialog_view_component_1 = require("../../shared/components/dialog-view/dialog-view.component");
 var dialog_passageiro_component_1 = require("../../shared/components/dialog-passageiro/dialog-passageiro.component");
+var snack_bar_1 = require("@angular/material/snack-bar");
 var PassageirosComponent = /** @class */ (function () {
     function PassageirosComponent(authService, passageiroService, paginatorIntl) {
         this.authService = authService;
@@ -39,6 +40,7 @@ var PassageirosComponent = /** @class */ (function () {
         this.passageiros = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogPassageiro = core_1.inject(dialog_1.MatDialog);
+        this.snackBar = core_1.inject(snack_bar_1.MatSnackBar);
         this.hasPassageiro = true;
         this.dataSource = new table_1.MatTableDataSource();
         this.customizarPaginador();
@@ -154,13 +156,20 @@ var PassageirosComponent = /** @class */ (function () {
     };
     PassageirosComponent.prototype.removerPassageiro = function (id) {
         var _this = this;
-        this.passageiroService["delete"](id).subscribe(function (response) {
-            var listaTemp = _this.dataSource.data.filter(function (cliente) { return cliente.id !== id; });
-            _this.passageiros = listaTemp;
-            _this.dataSource.data = _this.passageiros;
-            _this.dataSource.paginator = _this.paginator;
-            _this.dataSource.sort = _this.sort;
-            _this.hasPassageiro = _this.passageiros.length > 0;
+        this.passageiroService["delete"](id).subscribe({
+            next: function (response) {
+                var listaTemp = _this.dataSource.data.filter(function (cliente) { return cliente.id !== id; });
+                _this.passageiros = listaTemp;
+                _this.dataSource.data = _this.passageiros;
+                _this.dataSource.paginator = _this.paginator;
+                _this.dataSource.sort = _this.sort;
+                _this.hasPassageiro = _this.passageiros.length > 0;
+            },
+            error: function (error) {
+                var _a;
+                var errorMsg = ((_a = error === null || error === void 0 ? void 0 : error.error) === null || _a === void 0 ? void 0 : _a.error) || 'Erro ao remover passageiro';
+                _this.snackBar.open(errorMsg, 'Ok', { duration: 15000 });
+            }
         });
     };
     // Personalização do paginator do Angular Material
