@@ -9,13 +9,17 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
+import { IDependente } from '../../../interfaces/i-dependente';
+import { DependenteService } from '../../../core/services/dependenteService/dependente-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-dialog-view',
   imports: [
     MatButtonModule,
     MatDialogActions,
-    MatDialogClose
+    MatDialogClose,
+    MatTooltipModule
   ],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,9 +35,27 @@ export class DialogViewComponent {
   datePipe: DatePipe = inject(DatePipe);
   updatedAt: string = this.datePipe.transform(this.data.updatedAt, "dd/MM/yyyy 'às' HH:mm:ss") ?? '';
   ultimaViagem: string = this.datePipe.transform(this.data.ultimaViagem, "dd/MM/yyyy") ?? '';
+  dependenteService = inject(DependenteService);
+  dependentes: IDependente[] = [];
+  showDependentes = false;
 
   constructor() {
-    console.log(this.ultimaViagem)
+    if(this.type== 'cliente'){
+      this.dependenteService.getAll(this.data.id).subscribe(dependentes=>{
+        this.dependentes = dependentes;
+      });
+    }
+  }
+
+  toggleExibeDependentes(){
+    if(this.dependentes.length > 0){
+      this.showDependentes = !this.showDependentes;
+    }
+  }
+
+  removerDependente(dependenteID: string, index: number){
+    this.dependenteService.delete(dependenteID).subscribe();
+    this.dependentes.splice(index, 1);
   }
 
   onClickHandler(){

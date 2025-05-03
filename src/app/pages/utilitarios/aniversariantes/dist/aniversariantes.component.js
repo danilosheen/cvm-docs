@@ -13,9 +13,16 @@ var footer_component_1 = require("../../../shared/components/footer/footer.compo
 var cliente_service_1 = require("../../../core/services/clienteService/cliente.service");
 var loading_blue_component_1 = require("../../../shared/components/loading-blue/loading-blue.component");
 var input_select_component_1 = require("../../../shared/components/input-select/input-select.component");
+var common_1 = require("@angular/common");
+var tooltip_1 = require("@angular/material/tooltip");
+var dialog_1 = require("@angular/material/dialog");
+var dialog_generic_component_1 = require("../../../shared/components/dialog-generic/dialog-generic.component");
+var email_service_service_1 = require("../../../core/services/emailService/email-service.service");
 var AniversariantesComponent = /** @class */ (function () {
     function AniversariantesComponent() {
         var _this = this;
+        this.dialog = core_1.inject(dialog_1.MatDialog);
+        this.emailService = core_1.inject(email_service_service_1.EmailService);
         this.date = new Date();
         this.mesAtual = this.date.getMonth();
         this.mesSelected = this.mesAtual;
@@ -47,6 +54,26 @@ var AniversariantesComponent = /** @class */ (function () {
             });
         }
     };
+    AniversariantesComponent.prototype.openEnviarEmailAniversario = function (nomeCliente, emailCliente) {
+        var _this = this;
+        var dialogRef = this.dialog.open(dialog_generic_component_1.DialogGenericComponent, {
+            data: {
+                dialogTitle: 'Enviar mensagem ao aniversariante',
+                dialogContent: 'Você deseja enviar uma mensagem de felicitações ao aniversariante?'
+            }
+        });
+        dialogRef.afterClosed().subscribe(function (data) {
+            if (data) {
+                _this.emailService.enviarEmailAniversario({
+                    nomeCliente: nomeCliente,
+                    destinatario: emailCliente,
+                    assunto: 'Feliz aniversário!!!'
+                }).subscribe(function (result) {
+                    console.log(result);
+                });
+            }
+        });
+    };
     // handlers
     AniversariantesComponent.prototype.updateSelectedMonth = function (value) {
         if (value.value) {
@@ -63,7 +90,14 @@ var AniversariantesComponent = /** @class */ (function () {
     AniversariantesComponent = __decorate([
         core_1.Component({
             selector: 'app-aniversariantes',
-            imports: [navbar_component_1.NavbarComponent, footer_component_1.FooterComponent, loading_blue_component_1.LoadingBlueComponent, input_select_component_1.InputSelectComponent],
+            imports: [
+                navbar_component_1.NavbarComponent,
+                footer_component_1.FooterComponent,
+                loading_blue_component_1.LoadingBlueComponent,
+                input_select_component_1.InputSelectComponent,
+                common_1.NgClass,
+                tooltip_1.MatTooltipModule
+            ],
             templateUrl: './aniversariantes.component.html',
             styleUrl: './aniversariantes.component.css'
         })

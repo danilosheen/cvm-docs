@@ -1,55 +1,89 @@
 <div class="container-dialog-view">
   @if (type == 'cliente') {
-    <table>
-      <tr>
-        <td class="left">Nome:</td>
-        <td class="right">{{data.nome}}</td>
-      </tr>
-      <tr>
-        <td class="left">Data de Nascimento:</td>
-        <td class="right">{{data.dataNascimento}}</td>
-      </tr>
-      <tr>
-        <td class="left">Contato:</td>
-        <td class="right">{{data.contato}}</td>
-      </tr>
-      <tr>
-        <td class="left">Email:</td>
-        <td class="right">{{data.email || 'Não cadastrado'}}</td>
-      </tr>
-      <tr>
-        <td class="left">Tipo do documento:</td>
-        <td class="right">{{data.typeDocumentSelected}}</td>
-      </tr>
-      <tr>
-        <td class="left">Documento:</td>
-        <td class="right">{{data.documento}}</td>
-      </tr>
-      <tr>
-        <td class="left">Cidade:</td>
-        <td class="right">{{data.cidade}}</td>
-      </tr>
-      <tr>
-        <td class="left">Bairro:</td>
-        <td class="right">{{data.bairro}}</td>
-      </tr>
-      <tr>
-        <td class="left">Rua:</td>
-        <td class="right">{{data.rua}}</td>
-      </tr>
-      <tr>
-        <td class="left">Número:</td>
-        <td class="right">{{data.numero}}</td>
-      </tr>
-      <tr>
-        <td class="left">Última atualização:</td>
-        <td class="right">{{updatedAt}}</td>
-      </tr>
-      <tr>
-        <td class="left">Última viagem:</td>
-        <td class="right">{{ultimaViagem || 'Não viajou'}}</td>
-      </tr>
-    </table>
+    @if (showDependentes) {
+      <table>
+        <tr>
+          <th>Nome</th>
+          <th>Documento</th>
+          <th>Ação</th>
+        </tr>
+        @for (dependente of dependentes; track $index) {
+          <tr>
+            <td class="right padding-left">{{dependente.nome}}</td>
+            <td class="right padding-left">{{dependente.documento}}</td>
+            <td>
+              <div class="center">
+                <img (click)="removerDependente(dependente.id!, $index)" src="../../../../assets/icons-svg/delete-icon.svg">
+              </div>
+            </td>
+          </tr>
+        }
+      </table>
+    } @else {
+      <table>
+        <tr>
+          <td class="left">Nome:</td>
+          <td class="right">{{data.nome}}</td>
+        </tr>
+        <tr>
+          <td class="left">Data de Nascimento:</td>
+          <td class="right">{{data.dataNascimento}}</td>
+        </tr>
+        <tr>
+          <td class="left">Contato:</td>
+          <td class="right">{{data.contato}}</td>
+        </tr>
+        <tr>
+          <td class="left">Email:</td>
+          <td class="right">{{data.email || 'Não cadastrado'}}</td>
+        </tr>
+        <tr>
+          <td class="left">Tipo do documento:</td>
+          <td class="right">{{data.typeDocumentSelected}}</td>
+        </tr>
+        <tr>
+          <td class="left">Documento:</td>
+          <td class="right">{{data.documento}}</td>
+        </tr>
+        <tr>
+          <td class="left">Cidade:</td>
+          <td class="right">{{data.cidade}}</td>
+        </tr>
+        <tr>
+          <td class="left">Bairro:</td>
+          <td class="right">{{data.bairro}}</td>
+        </tr>
+        <tr>
+          <td class="left">Rua:</td>
+          <td class="right">{{data.rua}}</td>
+        </tr>
+        <tr>
+          <td class="left">Número:</td>
+          <td class="right">{{data.numero}}</td>
+        </tr>
+        <tr>
+          <td class="left">Última atualização:</td>
+          <td class="right">{{updatedAt}}</td>
+        </tr>
+        <tr>
+          <td class="left">Última viagem:</td>
+          <td class="right">{{ultimaViagem || 'Não viajou'}}</td>
+        </tr>
+        <tr>
+          <td class="left">Dependentes</td>
+          <td class="right">
+            <div class="icon-left">
+              <img class="button-exibir-dependentes"
+                (click)="toggleExibeDependentes()"
+                src="../../../../assets/icons-svg/visible-icon.svg"
+                matTooltip="Visualizar dependentes"
+                [matTooltipPosition]="'right'"
+              >
+            </div>
+          </td>
+        </tr>
+      </table>
+    }
   } @else {
     <table>
       <tr>
@@ -64,6 +98,17 @@
         <td class="left">Documento:</td>
         <td class="right">{{data.documento}}</td>
       </tr>
+      @if (data.dependenteId) {
+        <tr>
+          <td class="left">Dependente:</td>
+          <td class="right">Sim</td>
+        </tr>
+      } @else {
+        <tr>
+          <td class="left">Dependente:</td>
+          <td class="right">Não</td>
+        </tr>
+      }
       <tr>
         <td class="left">Última atualização:</td>
         <td class="right">{{updatedAt}}</td>
@@ -72,6 +117,9 @@
   }
 
   <mat-dialog-actions>
+    @if (showDependentes && type == 'cliente') {
+      <button mat-button (click)="toggleExibeDependentes()">Voltar</button>
+    }
     <button mat-button mat-dialog-close cdkFocusInitial (click)="onClickHandler()">Fechar</button>
   </mat-dialog-actions>
 </div>

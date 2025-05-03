@@ -1,16 +1,18 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <app-button-card
-      [routerLink]="['aniversariantes']"
-      [icon]="'../../../assets/aniversariantes.png'"
-      [title]="'Aniversariantes do mês'"
-      [description]="'Visualize os clientes que estão aniversariando'"
-    ></app-button-card>
+  <div class="container-cards">
     <app-button-card
-      [routerLink]="['controle-contas']"
-      [icon]="'../../../assets/entrada-saida.png'"
-      [title]="'Entradas e Saídas CVM'"
-      [description]="'Faça o controle de entradas e saídas mensal'"
-    ></app-button-card>
+        [routerLink]="['aniversariantes']"
+        [icon]="'../../../assets/aniversariantes.png'"
+        [title]="'Aniversariantes do mês'"
+        [description]="'Visualize os clientes que estão aniversariando'"
+      ></app-button-card>
+      <app-button-card
+        [routerLink]="['controle-contas']"
+        [icon]="'../../../assets/entrada-saida.png'"
+        [title]="'Entradas e Saídas CVM'"
+        [description]="'Faça o controle de entradas e saídas mensal'"
+      ></app-button-card>
+  </div>
 </div>
 <app-footer></app-footer>

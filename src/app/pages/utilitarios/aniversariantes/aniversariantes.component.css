@@ -64,6 +64,30 @@ th{
   text-align: center;
 }
 
+.container-button-forward{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-forward{
+  transition: transform 0.3s ease;
+  border: none;
+  background-color: transparent;
+}
+
+.button-forward:hover.enable{
+  cursor: pointer;
+  transform: scale(1.08);
+}
+
+.disabled{
+  opacity: 50%;
+  cursor: default;
+}
+
+
+
 @media (max-width: 330px) {
   .container-top-table{
     flex-direction: column;

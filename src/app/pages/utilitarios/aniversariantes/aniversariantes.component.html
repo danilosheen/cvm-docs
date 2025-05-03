@@ -25,6 +25,7 @@
                 <th>Data de Nascimento</th>
                 <th>Nome</th>
                 <th>Contato</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -33,6 +34,20 @@
                   <td>{{aniversariante.dataNascimento}}</td>
                   <td>{{aniversariante.nome}}</td>
                   <td>{{aniversariante.contato}}</td>
+                  <td>
+                    <div class="container-button-forward">
+                      <button
+                        [disabled]="!aniversariante.email"
+                        [ngClass]="{'disabled': !aniversariante.email, 'enable': aniversariante.email}"
+                        class="button-forward"
+                        (click)="openEnviarEmailAniversario(aniversariante.nome, aniversariante.email!)"
+                        [matTooltip]="aniversariante.email ? 'Enviar email para aniversariante' : null"
+                        [matTooltipPosition]="'below'"
+                      >
+                        <img class="button-forward" src="../../../../assets/icons-svg/sendMail.svg">
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               }
             </tbody>
