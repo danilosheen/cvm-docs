@@ -35,7 +35,7 @@ export class ControleContasComponent {
   dialog = inject(MatDialog);
 
   constructor(){
-    this.fluxoService.getAll().subscribe(fluxos =>{
+    this.fluxoService.getAll().subscribe(fluxos => {
       this.fluxos = fluxos;
     })
   }

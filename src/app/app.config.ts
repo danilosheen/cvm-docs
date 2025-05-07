@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptorService } from './core/services/authInterceptor/auth-interceptor.service';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 // Lotties
 import { provideLottieOptions } from 'ngx-lottie';
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideAnimations(),
     provideLottieOptions({ player: playerFactory }),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
   ]
 };
