@@ -8,11 +8,15 @@ import { environment } from '../../../../environments/environment';
 })
 export class EmailService {
 
-  private apiUrl = `${environment.apiUrl}/pdf/feliz-aniversario`;
+  private apiUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
-  enviarEmailAniversario(data: any): Observable<object> {
-    return this.http.post(this.apiUrl, data);
+  enviarEmailAniversario(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/pdf/feliz-aniversario`, data);
+  }
+
+  enviarEmailNotaAgradecimento(data: any) : Observable<any>{
+    return this.http.post(`${this.apiUrl}/pdf/enviar-nota-agradecimento`, data);
   }
 }

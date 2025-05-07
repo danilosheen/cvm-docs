@@ -14,6 +14,7 @@ var dialog_2 = require("@angular/material/dialog");
 var common_1 = require("@angular/common");
 var dependente_service_service_1 = require("../../../core/services/dependenteService/dependente-service.service");
 var tooltip_1 = require("@angular/material/tooltip");
+var snack_bar_1 = require("@angular/material/snack-bar");
 var DialogViewComponent = /** @class */ (function () {
     function DialogViewComponent() {
         var _this = this;
@@ -28,6 +29,7 @@ var DialogViewComponent = /** @class */ (function () {
         this.dependenteService = core_1.inject(dependente_service_service_1.DependenteService);
         this.dependentes = [];
         this.showDependentes = false;
+        this.snackBar = core_1.inject(snack_bar_1.MatSnackBar);
         if (this.type == 'cliente') {
             this.dependenteService.getAll(this.data.id).subscribe(function (dependentes) {
                 _this.dependentes = dependentes;
@@ -40,7 +42,19 @@ var DialogViewComponent = /** @class */ (function () {
         }
     };
     DialogViewComponent.prototype.removerDependente = function (dependenteID, index) {
-        this.dependenteService["delete"](dependenteID).subscribe();
+        var _this = this;
+        this.dependenteService["delete"](dependenteID).subscribe({
+            next: function (msg) {
+                _this.snackBar.open(msg.message, 'Ok', {
+                    duration: 6000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
         this.dependentes.splice(index, 1);
     };
     DialogViewComponent.prototype.onClickHandler = function () {

@@ -4,11 +4,11 @@
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2>Informe o nome do cliente e gere uma nota de agradecimento</h2>
-    <app-input-autocomplete
+    <app-input-autocomplete-data-pessoa
       [options]="nomeClientes"
       [label]="'Nome completo do cliente'"
       (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-autocomplete>
+    ></app-input-autocomplete-data-pessoa>
     <div class="container-buttons">
       <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="onSubmit()">
         <ng-container *ngIf="loading; else btnText">
@@ -21,8 +21,8 @@
           Gerar PDF
         </ng-template>
       </button>
-      <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="enviarPorEmail()">
-        <ng-container *ngIf="loading; else btnTextEmail">
+      <button [disabled]="!hasEmail()" class="button-gerar" mat-flat-button (click)="enviarPorEmail()">
+        <ng-container *ngIf="loadingEmail; else btnTextEmail">
           <div class="button-loading">
             <img class="loading" src="./assets/loading.gif" alt="Carregando">
             <p>Enviando</p>

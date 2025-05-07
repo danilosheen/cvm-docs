@@ -121,14 +121,12 @@ var OrcamentoComponent = /** @class */ (function () {
     // Handler para os campos
     OrcamentoComponent.prototype.updateNomeClienteHandler = function (value) {
         var _this = this;
-        console.log(value);
         var idSelected = value.id;
         if (idSelected) {
             this.clientes.forEach(function (cliente) {
                 if (cliente.id == idSelected) {
                     _this.orcamentoData.nomeCliente = cliente.nome;
                     _this.updateTelefoneContatoHandler({ value: cliente.contato, valid: true });
-                    console.log(cliente, _this.orcamentoData);
                 }
             });
         }

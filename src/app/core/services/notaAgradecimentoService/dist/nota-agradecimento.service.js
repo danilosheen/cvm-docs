@@ -10,8 +10,6 @@ exports.NotaAgradecimentoService = void 0;
 var core_1 = require("@angular/core");
 var environment_1 = require("../../../../environments/environment");
 var NotaAgradecimentoService = /** @class */ (function () {
-    // private apiUrl = 'http://localhost:3000/api/pdf/nota-agradecimento';
-    // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/nota-agradecimento';
     function NotaAgradecimentoService(http) {
         this.http = http;
         this.apiUrl = environment_1.environment.apiUrl + "/pdf/nota-agradecimento";

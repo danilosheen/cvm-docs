@@ -8,6 +8,11 @@ import { IInput } from '../../interfaces/i-handlerInput';
 import { NotaAgradecimentoService } from '../../core/services/notaAgradecimentoService/nota-agradecimento.service';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
+import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
+import { ICliente } from '../../interfaces/i-cliente';
+import { EmailService } from '../../core/services/emailService/email-service.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-nota-agradecimento',
@@ -15,27 +20,35 @@ import { MatButtonModule } from '@angular/material/button';
     NavbarComponent,
     FooterComponent,
     LoadingBlueComponent,
-    InputAutocompleteComponent,
     NgIf,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    InputAutocompleteDataPessoaComponent
+],
   templateUrl: './nota-agradecimento.component.html',
   styleUrl: './nota-agradecimento.component.css'
 })
 export class NotaAgradecimentoComponent implements OnInit{
 
   loading = false;
+  loadingEmail = false;
   isLoadingClientes = true;
   clienteService = inject(ClienteService);
-  nomeCliente = '';
-  nomeClientes: string[] = [];
+  emailService = inject(EmailService);
+  snackBar = inject(MatSnackBar);
   valid: boolean[] = [false];
   notaAgradecimentoService = inject(NotaAgradecimentoService);
+  clientes: ICliente[] = [];
+  nomeClientes: IPessoaAutocomplete[] = [];
+
+  nomeCliente = '';
+  idCliente: string = '';
+  emailCliente: string = '';
 
   ngOnInit(): void {
     this.clienteService.getAll().subscribe(clientes => {
-      for(let cliente of clientes){
-        this.nomeClientes.push(cliente.nome);
+      this.clientes = clientes;
+      for(let cliente of this.clientes){
+        this.nomeClientes.push({id: cliente.id!, nome: cliente.nome});
       }
       this.isLoadingClientes = false;
     })
@@ -43,16 +56,17 @@ export class NotaAgradecimentoComponent implements OnInit{
 
   onSubmit() {
     this.loading = true;
+    const nomeClienteFormated = this.formatNomeCliente();
+    const date = new Date();
+    const pdfName = `Nota de Agradecimento CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`
 
-    this.notaAgradecimentoService.generatePDF(this.nomeCliente)
+    this.notaAgradecimentoService.generatePDF({nomeCliente: this.nomeCliente, pdfName: pdfName})
       .subscribe(
         (pdfBlob) => {
-          const nomeClienteFormated = this.formatNomeCliente();
           const pdfUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
-          const date = new Date();
           link.href = pdfUrl;
-          link.download = `Nota de Agradecimento CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = pdfName;
           link.click();
           this.loading = false;
           window.scrollTo({
@@ -75,8 +89,41 @@ export class NotaAgradecimentoComponent implements OnInit{
   }
 
   enviarPorEmail(){
-    this.loading = true;
+    this.loadingEmail = true;
+    const data = {
+      nomeCliente: this.nomeCliente,
+      destinatario: this.emailCliente,
+      assunto: "Nota de agradecimento"
+    }
+    this.emailService.enviarEmailNotaAgradecimento(data).subscribe({
+      next: (response) => {
+        this.loadingEmail = false;
+        if (response?.message) {
+          this.snackBar.open(response.message, 'Ok', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            data:{}
+          });
+        }
+      },
+      error: (error) => {
+        this.loadingEmail = false;
+        this.snackBar.open('Erro ao enviar o e-mail.', 'Ok', {
+          duration: 5000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+        console.error(error);
+      }
+    });
+  }
 
+  hasEmail(){
+    if(this.emailCliente && this.isValid()){
+      return true;
+    }
+    return false;
   }
 
   formatNomeCliente(){
@@ -100,9 +147,21 @@ export class NotaAgradecimentoComponent implements OnInit{
     return true
   }
 
-  updateNomeClienteHandler(value: IInput){
-    this.nomeCliente = value.value;
-    this.valid[0] = value.valid;
+  updateNomeClienteHandler(value: any){
+    console.log(value)
+    const pessoa = value?.value || value;
+    this.nomeCliente = pessoa.nome;
+    if (pessoa.id) {
+      this.clientes.forEach(cliente => {
+        if(cliente.id == pessoa.id){
+          this.nomeCliente = cliente.nome;
+          this.emailCliente = cliente.email || "";
+        }
+      });
+    } else {
+      this.emailCliente = '';
+    }
+    this.valid[0] = value.valid ?? true;
   }
 
 }

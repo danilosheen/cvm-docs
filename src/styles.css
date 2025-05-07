@@ -11,6 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --text-blue: #005cbb;
   --text-black: #33333b;
   --text-grey: #707078;
+  /* colors snackbar */
+  --mat-sys-inverse-surface: #005cbb;
+  --mat-sys-inverse-primary: #ffffff
 }
 
 .container{

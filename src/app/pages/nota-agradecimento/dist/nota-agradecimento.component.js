@@ -12,26 +12,35 @@ var navbar_component_1 = require("../../shared/components/navbar/navbar.componen
 var footer_component_1 = require("../../shared/components/footer/footer.component");
 var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
-var input_autocomplete_component_1 = require("../../shared/components/input-autocomplete/input-autocomplete.component");
 var nota_agradecimento_service_1 = require("../../core/services/notaAgradecimentoService/nota-agradecimento.service");
 var common_1 = require("@angular/common");
 var button_1 = require("@angular/material/button");
+var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
+var email_service_service_1 = require("../../core/services/emailService/email-service.service");
+var snack_bar_1 = require("@angular/material/snack-bar");
 var NotaAgradecimentoComponent = /** @class */ (function () {
     function NotaAgradecimentoComponent() {
         this.loading = false;
+        this.loadingEmail = false;
         this.isLoadingClientes = true;
         this.clienteService = core_1.inject(cliente_service_1.ClienteService);
-        this.nomeCliente = '';
-        this.nomeClientes = [];
+        this.emailService = core_1.inject(email_service_service_1.EmailService);
+        this.snackBar = core_1.inject(snack_bar_1.MatSnackBar);
         this.valid = [false];
         this.notaAgradecimentoService = core_1.inject(nota_agradecimento_service_1.NotaAgradecimentoService);
+        this.clientes = [];
+        this.nomeClientes = [];
+        this.nomeCliente = '';
+        this.idCliente = '';
+        this.emailCliente = '';
     }
     NotaAgradecimentoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.clienteService.getAll().subscribe(function (clientes) {
-            for (var _i = 0, clientes_1 = clientes; _i < clientes_1.length; _i++) {
-                var cliente = clientes_1[_i];
-                _this.nomeClientes.push(cliente.nome);
+            _this.clientes = clientes;
+            for (var _i = 0, _a = _this.clientes; _i < _a.length; _i++) {
+                var cliente = _a[_i];
+                _this.nomeClientes.push({ id: cliente.id, nome: cliente.nome });
             }
             _this.isLoadingClientes = false;
         });
@@ -39,14 +48,15 @@ var NotaAgradecimentoComponent = /** @class */ (function () {
     NotaAgradecimentoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        this.notaAgradecimentoService.generatePDF(this.nomeCliente)
+        var nomeClienteFormated = this.formatNomeCliente();
+        var date = new Date();
+        var pdfName = "Nota de Agradecimento CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.notaAgradecimentoService.generatePDF({ nomeCliente: this.nomeCliente, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
-            var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
-            var date = new Date();
             link.href = pdfUrl;
-            link.download = "Nota de Agradecimento CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = pdfName;
             link.click();
             _this.loading = false;
             window.scrollTo({
@@ -67,7 +77,41 @@ var NotaAgradecimentoComponent = /** @class */ (function () {
         });
     };
     NotaAgradecimentoComponent.prototype.enviarPorEmail = function () {
-        this.loading = true;
+        var _this = this;
+        this.loadingEmail = true;
+        var data = {
+            nomeCliente: this.nomeCliente,
+            destinatario: this.emailCliente,
+            assunto: "Nota de agradecimento"
+        };
+        this.emailService.enviarEmailNotaAgradecimento(data).subscribe({
+            next: function (response) {
+                _this.loadingEmail = false;
+                if (response === null || response === void 0 ? void 0 : response.message) {
+                    _this.snackBar.open(response.message, 'Ok', {
+                        duration: 5000,
+                        verticalPosition: 'top',
+                        horizontalPosition: 'center',
+                        data: {}
+                    });
+                }
+            },
+            error: function (error) {
+                _this.loadingEmail = false;
+                _this.snackBar.open('Erro ao enviar o e-mail.', 'Ok', {
+                    duration: 5000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
+                console.error(error);
+            }
+        });
+    };
+    NotaAgradecimentoComponent.prototype.hasEmail = function () {
+        if (this.emailCliente && this.isValid()) {
+            return true;
+        }
+        return false;
     };
     NotaAgradecimentoComponent.prototype.formatNomeCliente = function () {
         try {
@@ -91,8 +135,23 @@ var NotaAgradecimentoComponent = /** @class */ (function () {
         return true;
     };
     NotaAgradecimentoComponent.prototype.updateNomeClienteHandler = function (value) {
-        this.nomeCliente = value.value;
-        this.valid[0] = value.valid;
+        var _this = this;
+        var _a;
+        console.log(value);
+        var pessoa = (value === null || value === void 0 ? void 0 : value.value) || value;
+        this.nomeCliente = pessoa.nome;
+        if (pessoa.id) {
+            this.clientes.forEach(function (cliente) {
+                if (cliente.id == pessoa.id) {
+                    _this.nomeCliente = cliente.nome;
+                    _this.emailCliente = cliente.email || "";
+                }
+            });
+        }
+        else {
+            this.emailCliente = '';
+        }
+        this.valid[0] = (_a = value.valid) !== null && _a !== void 0 ? _a : true;
     };
     NotaAgradecimentoComponent = __decorate([
         core_1.Component({
@@ -101,9 +160,9 @@ var NotaAgradecimentoComponent = /** @class */ (function () {
                 navbar_component_1.NavbarComponent,
                 footer_component_1.FooterComponent,
                 loading_blue_component_1.LoadingBlueComponent,
-                input_autocomplete_component_1.InputAutocompleteComponent,
                 common_1.NgIf,
-                button_1.MatButtonModule
+                button_1.MatButtonModule,
+                input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent
             ],
             templateUrl: './nota-agradecimento.component.html',
             styleUrl: './nota-agradecimento.component.css'

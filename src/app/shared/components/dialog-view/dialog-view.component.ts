@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { IDependente } from '../../../interfaces/i-dependente';
 import { DependenteService } from '../../../core/services/dependenteService/dependente-service.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dialog-view',
@@ -38,6 +39,8 @@ export class DialogViewComponent {
   dependenteService = inject(DependenteService);
   dependentes: IDependente[] = [];
   showDependentes = false;
+  readonly snackBar = inject(MatSnackBar);
+
 
   constructor() {
     if(this.type== 'cliente'){
@@ -54,7 +57,18 @@ export class DialogViewComponent {
   }
 
   removerDependente(dependenteID: string, index: number){
-    this.dependenteService.delete(dependenteID).subscribe();
+    this.dependenteService.delete(dependenteID).subscribe({
+      next: (msg) => {
+        this.snackBar.open(msg.message, 'Ok', {
+          duration: 6000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+      },
+      error: (error) =>{
+        console.log(error)
+      }
+    });
     this.dependentes.splice(index, 1);
   }
 

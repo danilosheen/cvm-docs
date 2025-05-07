@@ -18,11 +18,13 @@ var tooltip_1 = require("@angular/material/tooltip");
 var dialog_1 = require("@angular/material/dialog");
 var dialog_generic_component_1 = require("../../../shared/components/dialog-generic/dialog-generic.component");
 var email_service_service_1 = require("../../../core/services/emailService/email-service.service");
+var snack_bar_1 = require("@angular/material/snack-bar");
 var AniversariantesComponent = /** @class */ (function () {
     function AniversariantesComponent() {
         var _this = this;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.emailService = core_1.inject(email_service_service_1.EmailService);
+        this.snackBar = core_1.inject(snack_bar_1.MatSnackBar);
         this.date = new Date();
         this.mesAtual = this.date.getMonth();
         this.mesSelected = this.mesAtual;
@@ -68,8 +70,21 @@ var AniversariantesComponent = /** @class */ (function () {
                     nomeCliente: nomeCliente,
                     destinatario: emailCliente,
                     assunto: 'Feliz aniversário!!!'
-                }).subscribe(function (result) {
-                    console.log(result);
+                }).subscribe({
+                    next: function (response) {
+                        _this.snackBar.open(response === null || response === void 0 ? void 0 : response.message, 'Ok', {
+                            duration: 6000,
+                            verticalPosition: 'top',
+                            horizontalPosition: 'center'
+                        });
+                    },
+                    error: function (error) {
+                        _this.snackBar.open(error === null || error === void 0 ? void 0 : error.error, 'Ok', {
+                            duration: 6000,
+                            verticalPosition: 'top',
+                            horizontalPosition: 'center'
+                        });
+                    }
                 });
             }
         });

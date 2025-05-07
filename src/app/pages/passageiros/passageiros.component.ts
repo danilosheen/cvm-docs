@@ -188,10 +188,19 @@ export class PassageirosComponent {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.hasPassageiro = this.passageiros.length > 0;
+        this.snackBar.open(response.message, 'Ok', {
+          duration: 6000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       },
       error: (error) => {
         const errorMsg = error?.error?.error || 'Erro ao remover passageiro';
-        this.snackBar.open(errorMsg, 'Ok', { duration: 15000 });
+        this.snackBar.open(errorMsg, 'Ok', {
+          duration: 10000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       }
     });
   }

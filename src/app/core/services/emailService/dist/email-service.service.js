@@ -12,10 +12,13 @@ var environment_1 = require("../../../../environments/environment");
 var EmailService = /** @class */ (function () {
     function EmailService(http) {
         this.http = http;
-        this.apiUrl = environment_1.environment.apiUrl + "/pdf/feliz-aniversario";
+        this.apiUrl = "" + environment_1.environment.apiUrl;
     }
     EmailService.prototype.enviarEmailAniversario = function (data) {
-        return this.http.post(this.apiUrl, data);
+        return this.http.post(this.apiUrl + "/pdf/feliz-aniversario", data);
+    };
+    EmailService.prototype.enviarEmailNotaAgradecimento = function (data) {
+        return this.http.post(this.apiUrl + "/pdf/enviar-nota-agradecimento", data);
     };
     EmailService = __decorate([
         core_1.Injectable({

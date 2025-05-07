@@ -164,11 +164,20 @@ var PassageirosComponent = /** @class */ (function () {
                 _this.dataSource.paginator = _this.paginator;
                 _this.dataSource.sort = _this.sort;
                 _this.hasPassageiro = _this.passageiros.length > 0;
+                _this.snackBar.open(response.message, 'Ok', {
+                    duration: 6000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
             },
             error: function (error) {
                 var _a;
                 var errorMsg = ((_a = error === null || error === void 0 ? void 0 : error.error) === null || _a === void 0 ? void 0 : _a.error) || 'Erro ao remover passageiro';
-                _this.snackBar.open(errorMsg, 'Ok', { duration: 15000 });
+                _this.snackBar.open(errorMsg, 'Ok', {
+                    duration: 10000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
             }
         });
     };

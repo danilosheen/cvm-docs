@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { ClienteService } from '../../../core/services/clienteService/cliente.service';
@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../../shared/components/dialog-generic/dialog-generic.component';
 import { EmailService } from '../../../core/services/emailService/email-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-aniversariantes',
@@ -28,7 +29,8 @@ import { EmailService } from '../../../core/services/emailService/email-service.
 export class AniversariantesComponent{
 
   dialog = inject(MatDialog);
-  emailService = inject(EmailService)
+  emailService = inject(EmailService);
+  snackBar = inject(MatSnackBar);
 
   date = new Date();
   mesAtual: number = this.date.getMonth();
@@ -73,17 +75,30 @@ export class AniversariantesComponent{
       }
     });
 
-    dialogRef.afterClosed().subscribe(data =>{
-      if(data){
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
         this.emailService.enviarEmailAniversario({
           nomeCliente: nomeCliente,
           destinatario: emailCliente,
           assunto: 'Feliz aniversário!!!'
-        }).subscribe(result=>{
-          console.log(result)
+        }).subscribe({
+          next: (response) => {
+            this.snackBar.open(response?.message, 'Ok', {
+              duration: 6000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            })
+          },
+          error: (error) => {
+            this.snackBar.open(error?.error, 'Ok', {
+              duration: 6000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            })
+          }
         })
       }
-    })
+    });
   }
 
   // handlers

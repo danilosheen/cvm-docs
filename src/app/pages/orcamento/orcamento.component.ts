@@ -144,14 +144,12 @@ export class OrcamentoComponent implements OnInit{
 
   // Handler para os campos
   updateNomeClienteHandler(value: any) {
-    console.log(value)
     const idSelected = value.id;
     if(idSelected){
       this.clientes.forEach(cliente =>{
         if(cliente.id == idSelected){
           this.orcamentoData.nomeCliente = cliente.nome;
           this.updateTelefoneContatoHandler({value: cliente.contato, valid: true});
-          console.log(cliente, this.orcamentoData)
         }
       })
     } else {

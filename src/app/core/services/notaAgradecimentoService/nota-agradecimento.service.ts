@@ -9,8 +9,6 @@ import { environment } from '../../../../environments/environment';
 export class NotaAgradecimentoService {
 
   private apiUrl = `${environment.apiUrl}/pdf/nota-agradecimento`;
-  // private apiUrl = 'http://localhost:3000/api/pdf/nota-agradecimento';
-  // private apiUrl = 'https://backend-cvm.vercel.app/api/pdf/nota-agradecimento';
 
   constructor(private http: HttpClient) {}
 
