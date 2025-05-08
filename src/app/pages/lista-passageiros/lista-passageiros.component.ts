@@ -103,16 +103,16 @@ export class ListaPassageirosComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    const date = new Date();
+    const pdfName = `Lista de passageiros CVM - ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`
 
-    this.pdfListaPassageiros.generatePDF(this.listaPassageiros)
+    this.pdfListaPassageiros.generatePDF({pdfData: this.listaPassageiros, pdfName: pdfName})
       .subscribe(
         (pdfBlob) => {
-          // const nomeDestinoFormated = this.formatNomeDestino();
           const pdfUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
-          const date = new Date();
           link.href = pdfUrl;
-          link.download = `Lista de passageiros CVM - ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = pdfName;
           link.click();
           this.loading = false;
           window.scrollTo({

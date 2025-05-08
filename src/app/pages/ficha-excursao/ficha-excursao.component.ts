@@ -119,17 +119,17 @@ export class FichaExcursaoComponent implements OnInit {
         this.fichaExcursaoData.cliente.dataNascimento = 'Não informado'
       }
 
-      this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
+      const date = new Date();
+      const nomeClienteFormated = this.formatNomeCliente();
+      const pdfName = `Ficha de Excursão CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`
+
+      this.pdfFichaExcursao.generatePDF({pdfData: this.fichaExcursaoData, pdfName: pdfName})
         .subscribe(
           (pdfBlob) => {
-            // this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
-            // this.clientes = this.clienteService.getAllClients();
-            const nomeClienteFormated = this.formatNomeCliente();
             const pdfUrl = URL.createObjectURL(pdfBlob);
             const link = document.createElement('a');
-            const date = new Date();
             link.href = pdfUrl;
-            link.download = `Ficha de Excursão CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+            link.download = pdfName;
             link.click();
             this.loading = false;
             window.scrollTo({

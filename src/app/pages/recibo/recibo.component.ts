@@ -61,15 +61,17 @@ export class ReciboComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.pdfRecibo.generatePDF(this.reciboData)
+    const date = new Date();
+    const nomeClienteFormated = this.formatNomeCliente();
+    const pdfName = `Recibo CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`
+
+    this.pdfRecibo.generatePDF({pdfData: this.reciboData, pdfName: pdfName})
       .subscribe(
         (pdfBlob) => {
-          const nomeClienteFormated = this.formatNomeCliente();
           const pdfUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
-          const date = new Date();
           link.href = pdfUrl;
-          link.download = `Recibo CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`;
+          link.download = pdfName;
           link.click();
           this.loading = false;
           window.scrollTo({

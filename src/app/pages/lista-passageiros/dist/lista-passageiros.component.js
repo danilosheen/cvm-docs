@@ -73,14 +73,14 @@ var ListaPassageirosComponent = /** @class */ (function () {
     ListaPassageirosComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        this.pdfListaPassageiros.generatePDF(this.listaPassageiros)
+        var date = new Date();
+        var pdfName = "Lista de passageiros CVM - " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.pdfListaPassageiros.generatePDF({ pdfData: this.listaPassageiros, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
-            // const nomeDestinoFormated = this.formatNomeDestino();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
-            var date = new Date();
             link.href = pdfUrl;
-            link.download = "Lista de passageiros CVM - " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = pdfName;
             link.click();
             _this.loading = false;
             window.scrollTo({

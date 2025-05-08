@@ -70,14 +70,15 @@ var OrcamentoComponent = /** @class */ (function () {
     OrcamentoComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        this.pdfOrcamento.generatePDF(this.orcamentoData)
+        var date = new Date();
+        var nomeClienteFormated = this.formatNomeCliente();
+        var pdfName = "Or\u00E7. CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.pdfOrcamento.generatePDF({ pdfData: this.orcamentoData, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
-            var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
-            var date = new Date();
             link.href = pdfUrl;
-            link.download = "Or\u00E7. CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = pdfName;
             link.click();
             _this.loading = false;
             window.scrollTo({

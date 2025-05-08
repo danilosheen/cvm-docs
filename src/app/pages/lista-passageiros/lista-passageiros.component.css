@@ -75,6 +75,14 @@ td{
   padding: 5px;
 }
 
+.container-actions-table{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 100%;
+}
+
 .center{
   text-align: center;
   width: 20% !important;
@@ -96,9 +104,4 @@ td{
   align-items: center;
   justify-content: center;
   gap: 5px;
-}
-
-.action-column{
-  display: flex;
-  gap: 10px;
 }

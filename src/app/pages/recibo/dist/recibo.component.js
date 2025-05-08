@@ -50,14 +50,15 @@ var ReciboComponent = /** @class */ (function () {
     ReciboComponent.prototype.onSubmit = function () {
         var _this = this;
         this.loading = true;
-        this.pdfRecibo.generatePDF(this.reciboData)
+        var date = new Date();
+        var nomeClienteFormated = this.formatNomeCliente();
+        var pdfName = "Recibo CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.pdfRecibo.generatePDF({ pdfData: this.reciboData, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
-            var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
-            var date = new Date();
             link.href = pdfUrl;
-            link.download = "Recibo CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = pdfName;
             link.click();
             _this.loading = false;
             window.scrollTo({

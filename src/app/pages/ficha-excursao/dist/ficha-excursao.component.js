@@ -93,16 +93,15 @@ var FichaExcursaoComponent = /** @class */ (function () {
         if (!this.fichaExcursaoData.cliente.dataNascimento) {
             this.fichaExcursaoData.cliente.dataNascimento = 'Não informado';
         }
-        this.pdfFichaExcursao.generatePDF(this.fichaExcursaoData)
+        var date = new Date();
+        var nomeClienteFormated = this.formatNomeCliente();
+        var pdfName = "Ficha de Excurs\u00E3o CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.pdfFichaExcursao.generatePDF({ pdfData: this.fichaExcursaoData, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
-            // this.clienteService.saveClient(this.filtraDados(this.fichaExcursaoData), this.clientes);
-            // this.clientes = this.clienteService.getAllClients();
-            var nomeClienteFormated = _this.formatNomeCliente();
             var pdfUrl = URL.createObjectURL(pdfBlob);
             var link = document.createElement('a');
-            var date = new Date();
             link.href = pdfUrl;
-            link.download = "Ficha de Excurs\u00E3o CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+            link.download = pdfName;
             link.click();
             _this.loading = false;
             window.scrollTo({
