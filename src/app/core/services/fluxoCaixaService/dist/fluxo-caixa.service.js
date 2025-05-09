@@ -27,6 +27,20 @@ var FluxoCaixaService = /** @class */ (function () {
     FluxoCaixaService.prototype.getAll = function () {
         return this.http.get(this.apiUrl + "/fluxos", { headers: this.getHeaders() });
     };
+    FluxoCaixaService.prototype.getByMonthYear = function (mes, ano) {
+        var params = { mes: mes.toString().padStart(2, "0"), ano: ano.toString() };
+        return this.http.get(this.apiUrl + "/fluxos-mes", {
+            params: params,
+            headers: this.getHeaders()
+        });
+    };
+    FluxoCaixaService.prototype.getByIntervalData = function (dataInicial, dataFinal) {
+        var params = { dataInicio: dataInicial, dataFim: dataFinal };
+        return this.http.get(this.apiUrl + "/fluxos-interval", {
+            params: params,
+            headers: this.getHeaders()
+        });
+    };
     FluxoCaixaService.prototype.create = function (data) {
         return this.http.post(this.apiUrl + "/fluxo", data, { headers: this.getHeaders() });
     };

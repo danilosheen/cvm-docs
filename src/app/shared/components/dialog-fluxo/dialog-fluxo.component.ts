@@ -29,7 +29,7 @@ import { BrCurrencyPipe } from "../../../pipes/br-currency.pipe";
     InputTextComponent,
     InputNumberComponent,
     InputSelectComponent,
-    BrCurrencyPipe
+    InputDateComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dialog-fluxo.component.html',
@@ -40,7 +40,7 @@ export class DialogFluxoComponent {
   readonly dialogRef = inject(MatDialogRef<DialogFluxoComponent>);
   valid: boolean[] = [];
   tiposMovimentacao: string[] = ['ENTRADA', 'SAIDA'];
-  formasPagamento: string[] = ['PIX', 'DINHEIRO', 'CARTAO_CREDITO'];
+  formasPagamento: string[] = ['PIX', 'DINHEIRO', 'CARTAO_DE_CREDITO'];
   dataFluxo = inject(MAT_DIALOG_DATA);
   fluxoDataClean: IFluxoCaixa = {
     data: '',
@@ -50,7 +50,7 @@ export class DialogFluxoComponent {
     formaPagamento: '',
   }
 
-  fluxoData: IFluxoCaixa = this.dataFluxo.fluxo || this.fluxoDataClean;
+  fluxoData: any = this.dataFluxo.fluxo || this.fluxoDataClean;
 
   inputsDialog = inject(MAT_DIALOG_DATA);
 
@@ -63,15 +63,13 @@ export class DialogFluxoComponent {
       this.valid.push(false);
     }
 
-
-
     if(this.dataFluxo.editFluxo){
-      console.log(this.fluxoData)
       this.updateDataMovimentacaoHandler({value: this.fluxoData.data, valid: true})
       this.updateTipoMovimentacaoHandler({value: this.fluxoData.tipo, valid: true})
       this.updateDescricaoHandler({value: this.fluxoData.descricao, valid: true})
       this.updateValorHandler({value: this.fluxoData.valor, valid: true})
       this.updateFormaPagamentoHandler({value: this.fluxoData.formaPagamento, valid: true})
+      this.converterValorFloatToString();
     }
   }
 
@@ -84,38 +82,59 @@ export class DialogFluxoComponent {
     return true;
   }
 
+  formatarParaBRL(valor: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(valor).replace("R$", "").trim();
+  }
+
+  converterValorFloatToString(){
+    if(this.fluxoData.valor){
+      this.fluxoData.valor = this.formatarParaBRL(this.fluxoData.valor);
+    }
+  }
+
+  converterValorStringToFloat(){
+    this.fluxoData.valor = parseFloat(
+      this.fluxoData.valor
+      .toString()
+      .replace(".", "")
+      .replace(",",".")
+    );
+  }
+
   updateDataMovimentacaoHandler(value: IInput){
     this.fluxoData.data = value.value;
-    this.valid[0] = value.valid
+    this.valid[0] = value.valid;
   }
 
   updateTipoMovimentacaoHandler(value: IInput){
     this.fluxoData.tipo = value.value;
-    this.valid[1] = value.valid
+    this.valid[1] = value.valid;
   }
 
   updateDescricaoHandler(value: IInput){
     this.fluxoData.descricao = value.value;
-    this.valid[2] = value.valid
+    this.valid[2] = value.valid;
   }
 
   updateValorHandler(value: IInput){
     this.fluxoData.valor = value.value;
-    this.valid[3] = value.valid
+    this.valid[3] = value.valid;
   }
 
   updateFormaPagamentoHandler(value: IInput){
     this.fluxoData.formaPagamento = value.value;
-    this.valid[4] = value.valid
+    this.valid[4] = value.valid;
   }
-
-
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   onClickHandler(){
+    this.converterValorStringToFloat();
     this.dialogRef.close(this.fluxoData);
   }
 }

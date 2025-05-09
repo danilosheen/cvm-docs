@@ -1,6 +1,41 @@
+.flat-button{
+  margin-top: 30px;
+}
+
+.container-content{
+  width: 80%;
+  margin: 0 auto;
+  overflow-x: auto;
+  padding: 30px 0;
+}
+
+.container-buttons-topo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 685px;
+  max-width: 900px;
+}
+
+.container-button-add{
+  display: flex;
+  justify-content: end;
+  min-width: 685px;
+  max-width: 900px;
+}
+
+table{
+  min-width: 685px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  max-width: 900px;
+}
+
 th{
-  background-color: black;
+  background-color: rgb(46, 46, 46);
   color: white;
+  font-weight: 500;
 }
 
 th, td{
@@ -10,6 +45,20 @@ th, td{
 td img{
   cursor: pointer;
   transition: transform 0.3 ease;
+}
+
+.line-first-table{
+  background-color: var(--text-blue);
+  color: white;
+  font-weight: 500;
+}
+
+.line-first-table td{
+  padding: 10px;
+}
+
+.button-saldo{
+  cursor: pointer;
 }
 
 .saida{

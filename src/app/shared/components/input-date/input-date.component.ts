@@ -39,6 +39,10 @@ export class InputDateComponent {
     if (!this.optional) {
       this.input.setValidators([Validators.required]);
     }
+
+    if(this.defaultValue){
+      this.input.setValue(this.defaultValue);
+    }
   }
 
   updateErrorMessage() {

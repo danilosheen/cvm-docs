@@ -5,18 +5,17 @@
   <div class="container-inputs">
 
     <!-- Data da movimentação -->
-    <app-input-number
-      [type]="'date'"
+    <app-input-date
       [label]="'Informe a data da movimentação'"
       [defaultValue]="fluxoData.data"
-      [placeholder]="'ex: 01/01/2025'"
-      (inputValue)="updateDataMovimentacaoHandler($event)"
-    ></app-input-number>
+      (inputDate)="updateDataMovimentacaoHandler($event)"
+    ></app-input-date>
 
     <!-- Tipo de movimentação -->
     <app-input-select
       [label]="'Selecione o tipo de movimentação'"
       [listItens]="tiposMovimentacao"
+      [defaultValue]="fluxoData.tipo"
       [errorMessage]="'Este campo é obrigatório'"
       (selectedInputValue)="updateTipoMovimentacaoHandler($event)"
     ></app-input-select>
@@ -25,7 +24,7 @@
     <app-input-number
       [label]="'Informe o valor'"
       [type]="'number'"
-      [defaultValue]="fluxoData.valor | brCurrency"
+      [defaultValue]="fluxoData.valor"
       (inputValue)="updateValorHandler($event)"
     ></app-input-number>
 
@@ -40,6 +39,7 @@
     <app-input-select
       [label]="'Selecione a forma de pagamento'"
       [listItens]="formasPagamento"
+      [defaultValue]="fluxoData.formaPagamento"
       (selectedInputValue)="updateFormaPagamentoHandler($event)"
     ></app-input-select>
   </div>

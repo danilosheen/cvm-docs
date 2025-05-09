@@ -25,6 +25,23 @@ export class FluxoCaixaService {
     return this.http.get(`${this.apiUrl}/fluxos`, { headers: this.getHeaders() });
   }
 
+  getByMonthYear(mes: number, ano: number): Observable<any> {
+    const params = { mes: mes.toString().padStart(2, "0"), ano: ano.toString() };
+    return this.http.get(`${this.apiUrl}/fluxos-mes`, {
+      params,
+      headers: this.getHeaders()
+    });
+  }
+
+
+  getByIntervalData(dataInicial: string, dataFinal: string): Observable<any> {
+    const params = { dataInicio: dataInicial, dataFim: dataFinal };
+    return this.http.get(`${this.apiUrl}/fluxos-interval`, {
+      params,
+      headers: this.getHeaders()
+    });
+  }
+
   create(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/fluxo`, data, { headers: this.getHeaders() });
   }

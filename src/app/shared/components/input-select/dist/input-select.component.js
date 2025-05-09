@@ -17,11 +17,17 @@ var InputSelectComponent = /** @class */ (function () {
         this.errorMessage = '';
         this.listItens = [];
         this.label = '';
+        this.defaultValue = '';
         this.selectedInputValue = new core_1.EventEmitter();
-        this.inputControl = new forms_1.FormControl(null, forms_1.Validators.required);
+        this.inputControl = new forms_1.FormControl('', forms_1.Validators.required);
         this.selectFormControl = new forms_1.FormControl('', forms_1.Validators.required);
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
     }
+    InputSelectComponent.prototype.ngOnInit = function () {
+        if (this.defaultValue && this.listItens.includes(this.defaultValue)) {
+            this.inputControl.setValue(this.defaultValue);
+        }
+    };
     InputSelectComponent.prototype.sendSelectedInputHandler = function (event, item) {
         if (event.isUserInput) {
             this.selectedInputValue.emit({ value: item, valid: (item ? true : false) });
@@ -36,6 +42,9 @@ var InputSelectComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputSelectComponent.prototype, "label");
+    __decorate([
+        core_1.Input()
+    ], InputSelectComponent.prototype, "defaultValue");
     __decorate([
         core_1.Output()
     ], InputSelectComponent.prototype, "selectedInputValue");

@@ -182,13 +182,17 @@ export class InputNumberComponent implements OnInit {
   }
 
   moneyValidator(control: AbstractControl): ValidationErrors | null {
-    const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+    const raw = control.value;
+    const rawValue = typeof raw === 'string' ? raw.replace(/\D/g, '') : String(raw ?? '').replace(/\D/g, '');
     const value = parseInt(rawValue, 10) || 0;
+
     if (value <= 0) {
       return { invalidMoney: true };
     }
+
     return null;
   }
+
 
   phoneNumberValidator(control: AbstractControl): ValidationErrors | null {
     const rawValue = control.value ? control.value.replace(/\D/g, '') : '';

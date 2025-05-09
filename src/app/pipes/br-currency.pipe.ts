@@ -12,9 +12,11 @@ export class BrCurrencyPipe implements PipeTransform {
       ? parseFloat(value.replace(',', '.'))
       : value;
 
-    // Formata com 2 casas decimais e troca ponto por vírgula
-    return numberValue
-      .toFixed(2)
-      .replace('.', ',');
+
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(numberValue).replace("R$", "").trim();
   }
 }
+

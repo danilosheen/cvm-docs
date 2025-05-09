@@ -172,7 +172,8 @@ var InputNumberComponent = /** @class */ (function () {
         this.inputValue.emit({ value: valueFormated, valid: this.input.valid });
     };
     InputNumberComponent.prototype.moneyValidator = function (control) {
-        var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+        var raw = control.value;
+        var rawValue = typeof raw === 'string' ? raw.replace(/\D/g, '') : String(raw !== null && raw !== void 0 ? raw : '').replace(/\D/g, '');
         var value = parseInt(rawValue, 10) || 0;
         if (value <= 0) {
             return { invalidMoney: true };

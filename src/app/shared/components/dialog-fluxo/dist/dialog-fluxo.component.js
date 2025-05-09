@@ -15,14 +15,14 @@ var form_field_1 = require("@angular/material/form-field");
 var input_1 = require("@angular/material/input");
 var input_text_component_1 = require("../input-text/input-text.component");
 var input_number_component_1 = require("../input-number/input-number.component");
+var input_date_component_1 = require("../input-date/input-date.component");
 var input_select_component_1 = require("../input-select/input-select.component");
-var br_currency_pipe_1 = require("../../../pipes/br-currency.pipe");
 var DialogFluxoComponent = /** @class */ (function () {
     function DialogFluxoComponent() {
         this.dialogRef = core_1.inject(dialog_1.MatDialogRef());
         this.valid = [];
         this.tiposMovimentacao = ['ENTRADA', 'SAIDA'];
-        this.formasPagamento = ['PIX', 'DINHEIRO', 'CARTAO_CREDITO'];
+        this.formasPagamento = ['PIX', 'DINHEIRO', 'CARTAO_DE_CREDITO'];
         this.dataFluxo = core_1.inject(dialog_1.MAT_DIALOG_DATA);
         this.fluxoDataClean = {
             data: '',
@@ -37,12 +37,12 @@ var DialogFluxoComponent = /** @class */ (function () {
             this.valid.push(false);
         }
         if (this.dataFluxo.editFluxo) {
-            console.log(this.fluxoData);
             this.updateDataMovimentacaoHandler({ value: this.fluxoData.data, valid: true });
             this.updateTipoMovimentacaoHandler({ value: this.fluxoData.tipo, valid: true });
             this.updateDescricaoHandler({ value: this.fluxoData.descricao, valid: true });
             this.updateValorHandler({ value: this.fluxoData.valor, valid: true });
             this.updateFormaPagamentoHandler({ value: this.fluxoData.formaPagamento, valid: true });
+            this.converterValorFloatToString();
         }
     }
     DialogFluxoComponent.prototype.dateNow = function () {
@@ -56,6 +56,23 @@ var DialogFluxoComponent = /** @class */ (function () {
             }
         }
         return true;
+    };
+    DialogFluxoComponent.prototype.formatarParaBRL = function (valor) {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(valor).replace("R$", "").trim();
+    };
+    DialogFluxoComponent.prototype.converterValorFloatToString = function () {
+        if (this.fluxoData.valor) {
+            this.fluxoData.valor = this.formatarParaBRL(this.fluxoData.valor);
+        }
+    };
+    DialogFluxoComponent.prototype.converterValorStringToFloat = function () {
+        this.fluxoData.valor = parseFloat(this.fluxoData.valor
+            .toString()
+            .replace(".", "")
+            .replace(",", "."));
     };
     DialogFluxoComponent.prototype.updateDataMovimentacaoHandler = function (value) {
         this.fluxoData.data = value.value;
@@ -81,6 +98,7 @@ var DialogFluxoComponent = /** @class */ (function () {
         this.dialogRef.close();
     };
     DialogFluxoComponent.prototype.onClickHandler = function () {
+        this.converterValorStringToFloat();
         this.dialogRef.close(this.fluxoData);
     };
     DialogFluxoComponent = __decorate([
@@ -96,7 +114,7 @@ var DialogFluxoComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_number_component_1.InputNumberComponent,
                 input_select_component_1.InputSelectComponent,
-                br_currency_pipe_1.BrCurrencyPipe
+                input_date_component_1.InputDateComponent
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,
             templateUrl: './dialog-fluxo.component.html',

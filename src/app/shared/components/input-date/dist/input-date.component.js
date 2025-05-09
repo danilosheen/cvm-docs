@@ -31,6 +31,9 @@ var InputDateComponent = /** @class */ (function () {
         if (!this.optional) {
             this.input.setValidators([forms_1.Validators.required]);
         }
+        if (this.defaultValue) {
+            this.input.setValue(this.defaultValue);
+        }
     };
     InputDateComponent.prototype.updateErrorMessage = function () {
         if (this.input.hasError('required')) {
