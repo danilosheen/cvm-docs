@@ -29,10 +29,16 @@ export class DialogSaldoComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {
-      dialogTitle: string | 'Adicionar saldo anterior';
-      dialogContent: string | 'Insira o valor do saldo anterior'
+      dialogTitle: string | 'Adicionar saldo anterior',
+      dialogContent: string | 'Insira o valor do saldo anterior',
+      saldoAnterior: number
     }
-  ) {}
+  ) {
+    this.valueInputed = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(data.saldoAnterior).replace("R$", "").trim();
+  }
 
   onClickHandler(){
     this.dialogRef.close(this.valueInputed);

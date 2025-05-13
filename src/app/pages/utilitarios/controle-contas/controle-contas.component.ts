@@ -12,6 +12,7 @@ import { BrCurrencyPipe } from '../../../pipes/br-currency.pipe';
 import { DialogGenericComponent } from '../../../shared/components/dialog-generic/dialog-generic.component';
 import { InputMonthYearComponent } from "../../../shared/components/input-month-year/input-month-year.component";
 import { DialogSaldoComponent } from '../../../shared/components/dialog-saldo/dialog-saldo.component';
+import { SaldoAnteriorService } from '../../../core/services/saldoAnteriorService/saldo-anterior.service';
 
 @Component({
   selector: 'app-controle-contas',
@@ -34,6 +35,7 @@ export class ControleContasComponent {
   entradas: number[] = [];
   saidas: number[] = [];
   dialog = inject(MatDialog);
+  saldoAnteriorService = inject(SaldoAnteriorService);
   data = new Date();
   mesAtual = this.data.getMonth() + 1;
   anoAtual = this.data.getFullYear();
@@ -47,15 +49,17 @@ export class ControleContasComponent {
 
   constructor(){
     this.carregarFluxos();
+    this.carregarSaldoAnterior();
   }
 
   get mesAnoSelected() {
     return this._mesAnoSelected;
   }
 
-  set mesAnoSelected(value: { mes: any, ano: any }) {
+  set mesAnoSelected(value: { mes: number, ano: number }) {
     this._mesAnoSelected = value;
     this.carregarFluxos();
+    this.carregarSaldoAnterior();
   }
 
   carregarFluxos(){
@@ -69,6 +73,19 @@ export class ControleContasComponent {
         console.log(error);
       })
     });
+  }
+
+  carregarSaldoAnterior(){
+    this.saldoAnteriorService.buscarSaldoAnterior(this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
+      next:(response)=>{
+        this.saldoAnterior = response.saldoAnterior;
+        console.log(response)
+      },
+      error:(error)=>{
+        console.log(error)
+        this.saldoAnterior = 0;
+      }
+    })
   }
 
   gerarRelatorioMensal(){
@@ -114,9 +131,7 @@ export class ControleContasComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        console.log(result)
-        this.fluxoService.update(fluxo.id!, fluxo).subscribe(response=>{
-          console.log(response)
+        this.fluxoService.update(fluxo.id!, fluxo).subscribe(()=>{
           this.atualizarSaldo();
         });
       }
@@ -144,15 +159,27 @@ export class ControleContasComponent {
   openAdicionarSaldoAnterior(){
     const dialogRef = this.dialog.open(DialogSaldoComponent, {
       data: {
-        dialogTitle: "Adicionar saldo anterior",
-        dialogContent: "Insira o valor do saldo anterior"
+        dialogTitle: "Atualizar saldo anterior",
+        dialogContent: "Insira o valor do saldo anterior",
+        saldoAnterior: this.saldoAnterior
       }
     });
 
     dialogRef.afterClosed().subscribe((result: string) => {
       const valorFormatado = parseFloat(result.replace(".", "").replace(",", "."));
-      this.saldoAnterior = valorFormatado;
-      this.saldoRestante = this.saldoAnterior + this.somaEntradas - this.somaSaidas;
+      const mesAtual = this.mesAnoSelected.mes.toString().padStart(2, "0");
+      const anoAtual = this.mesAnoSelected.ano.toString();
+      this.saldoAnteriorService.adicionarSaldoAnterior({
+        mes: mesAtual, ano: anoAtual, saldoAnterior: valorFormatado
+        }).subscribe({
+          next:(response)=>{
+            this.saldoAnterior = valorFormatado;
+            this.saldoRestante = this.saldoAnterior + this.somaEntradas - this.somaSaidas;
+          },
+          error:(error)=>{
+            console.log(error)
+          }
+      });
     });
   }
 

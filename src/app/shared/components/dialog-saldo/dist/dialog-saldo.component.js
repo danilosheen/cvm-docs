@@ -20,6 +20,10 @@ var DialogSaldoComponent = /** @class */ (function () {
         this.data = data;
         this.dialogRef = core_1.inject(dialog_2.MatDialogRef());
         this.valueInputed = '';
+        this.valueInputed = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(data.saldoAnterior).replace("R$", "").trim();
     }
     DialogSaldoComponent.prototype.onClickHandler = function () {
         this.dialogRef.close(this.valueInputed);

@@ -20,6 +20,7 @@ var br_currency_pipe_1 = require("../../../pipes/br-currency.pipe");
 var dialog_generic_component_1 = require("../../../shared/components/dialog-generic/dialog-generic.component");
 var input_month_year_component_1 = require("../../../shared/components/input-month-year/input-month-year.component");
 var dialog_saldo_component_1 = require("../../../shared/components/dialog-saldo/dialog-saldo.component");
+var saldo_anterior_service_1 = require("../../../core/services/saldoAnteriorService/saldo-anterior.service");
 var ControleContasComponent = /** @class */ (function () {
     function ControleContasComponent() {
         this.fluxoService = core_1.inject(fluxo_caixa_service_1.FluxoCaixaService);
@@ -27,6 +28,7 @@ var ControleContasComponent = /** @class */ (function () {
         this.entradas = [];
         this.saidas = [];
         this.dialog = core_1.inject(dialog_1.MatDialog);
+        this.saldoAnteriorService = core_1.inject(saldo_anterior_service_1.SaldoAnteriorService);
         this.data = new Date();
         this.mesAtual = this.data.getMonth() + 1;
         this.anoAtual = this.data.getFullYear();
@@ -36,6 +38,7 @@ var ControleContasComponent = /** @class */ (function () {
         this.somaSaidas = 0;
         this.saldoRestante = 0;
         this.carregarFluxos();
+        this.carregarSaldoAnterior();
     }
     Object.defineProperty(ControleContasComponent.prototype, "mesAnoSelected", {
         get: function () {
@@ -44,6 +47,7 @@ var ControleContasComponent = /** @class */ (function () {
         set: function (value) {
             this._mesAnoSelected = value;
             this.carregarFluxos();
+            this.carregarSaldoAnterior();
         },
         enumerable: false,
         configurable: true
@@ -58,6 +62,19 @@ var ControleContasComponent = /** @class */ (function () {
             error: (function (error) {
                 console.log(error);
             })
+        });
+    };
+    ControleContasComponent.prototype.carregarSaldoAnterior = function () {
+        var _this = this;
+        this.saldoAnteriorService.buscarSaldoAnterior(this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
+            next: function (response) {
+                _this.saldoAnterior = response.saldoAnterior;
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+                _this.saldoAnterior = 0;
+            }
         });
     };
     ControleContasComponent.prototype.gerarRelatorioMensal = function () {
@@ -99,9 +116,7 @@ var ControleContasComponent = /** @class */ (function () {
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
-                console.log(result);
-                _this.fluxoService.update(fluxo.id, fluxo).subscribe(function (response) {
-                    console.log(response);
+                _this.fluxoService.update(fluxo.id, fluxo).subscribe(function () {
                     _this.atualizarSaldo();
                 });
             }
@@ -128,14 +143,26 @@ var ControleContasComponent = /** @class */ (function () {
         var _this = this;
         var dialogRef = this.dialog.open(dialog_saldo_component_1.DialogSaldoComponent, {
             data: {
-                dialogTitle: "Adicionar saldo anterior",
-                dialogContent: "Insira o valor do saldo anterior"
+                dialogTitle: "Atualizar saldo anterior",
+                dialogContent: "Insira o valor do saldo anterior",
+                saldoAnterior: this.saldoAnterior
             }
         });
         dialogRef.afterClosed().subscribe(function (result) {
             var valorFormatado = parseFloat(result.replace(".", "").replace(",", "."));
-            _this.saldoAnterior = valorFormatado;
-            _this.saldoRestante = _this.saldoAnterior + _this.somaEntradas - _this.somaSaidas;
+            var mesAtual = _this.mesAnoSelected.mes.toString().padStart(2, "0");
+            var anoAtual = _this.mesAnoSelected.ano.toString();
+            _this.saldoAnteriorService.adicionarSaldoAnterior({
+                mes: mesAtual, ano: anoAtual, saldoAnterior: valorFormatado
+            }).subscribe({
+                next: function (response) {
+                    _this.saldoAnterior = valorFormatado;
+                    _this.saldoRestante = _this.saldoAnterior + _this.somaEntradas - _this.somaSaidas;
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
     };
     ControleContasComponent.prototype.atualizarEntradas = function () {
