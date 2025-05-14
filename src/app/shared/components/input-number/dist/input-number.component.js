@@ -83,12 +83,15 @@ var InputNumberComponent = /** @class */ (function () {
         }
     };
     InputNumberComponent.prototype.decimalFormat = function (value) {
-        var numeros = value.replace(/\D/g, '');
+        // Permite o sinal negativo no início
+        var isNegative = value.trim().startsWith('-');
+        var numeros = value.replace(/[^0-9]/g, '');
         var numeroFormatado = parseInt(numeros, 10) || 0;
-        return (numeroFormatado / 100).toLocaleString('pt-BR', {
+        var resultado = (numeroFormatado / 100).toLocaleString('pt-BR', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
+        return isNegative ? "-" + resultado : resultado;
     };
     InputNumberComponent.prototype.onPhoneInputChange = function (value) {
         var numeros = value.replace(/\D/g, '');
@@ -172,10 +175,14 @@ var InputNumberComponent = /** @class */ (function () {
         this.inputValue.emit({ value: valueFormated, valid: this.input.valid });
     };
     InputNumberComponent.prototype.moneyValidator = function (control) {
-        var raw = control.value;
-        var rawValue = typeof raw === 'string' ? raw.replace(/\D/g, '') : String(raw !== null && raw !== void 0 ? raw : '').replace(/\D/g, '');
+        var _a;
+        var raw = (_a = control.value) !== null && _a !== void 0 ? _a : '';
+        var isNegative = String(raw).trim().startsWith('-');
+        var rawValue = String(raw).replace(/[^0-9]/g, '');
         var value = parseInt(rawValue, 10) || 0;
-        if (value <= 0) {
+        var signedValue = isNegative ? -value : value;
+        // Se quiser permitir valores negativos e positivos, apenas rejeitar zero:
+        if (signedValue === 0) {
             return { invalidMoney: true };
         }
         return null;

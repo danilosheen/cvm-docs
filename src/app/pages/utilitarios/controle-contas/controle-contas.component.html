@@ -9,22 +9,24 @@
       ></app-input-month-year>
       <button mat-flat-button (click)="gerarRelatorioMensal()">Gerar relatório</button>
     </div>
-    <table>
-      <thead>
-        <tr class="line-first-table">
-          <th>Saldo anterior</th>
-          <th>Entradas</th>
-          <th>Saídas</th>
-          <th>Saldo restante</th>
-        </tr>
-        <tr>
-          <th class="button-saldo" (click)="openAdicionarSaldoAnterior()">R$ {{saldoAnterior | brCurrency}}</th>
-          <th>R$ {{somaEntradas | brCurrency}}</th>
-          <th>R$ {{somaSaidas | brCurrency}}</th>
-          <th>R$ {{saldoRestante | brCurrency}}</th>
-        </tr>
-      </thead>
-    </table>
+    <div class="container-table">
+      <table>
+        <thead>
+          <tr class="line-first-table">
+            <th>Saldo anterior</th>
+            <th>Entradas</th>
+            <th>Saídas</th>
+            <th>Saldo restante</th>
+          </tr>
+          <tr>
+            <th class="button-saldo" (click)="openAdicionarSaldoAnterior()">R$ {{saldoAnterior | brCurrency}}</th>
+            <th>R$ {{somaEntradas | brCurrency}}</th>
+            <th>R$ {{somaSaidas | brCurrency}}</th>
+            <th>R$ {{saldoRestante | brCurrency}}</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
     <div class="container-button-add">
       <button class="flat-button"
         mat-flat-button
@@ -34,37 +36,39 @@
       </button>
     </div>
     @if (this.fluxos.length > 0) {
-      <table>
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Movimentação</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Forma de pagamento</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (fluxo of fluxos; track $index) {
-            <tr [ngClass]="{
-              'saida': fluxo.tipo == 'SAIDA',
-              'entrada': fluxo.tipo == 'ENTRADA'
-              }"
-            >
-              <td>{{fluxo.data | dataFormatada}}</td>
-              <td>{{fluxo.tipo}}</td>
-              <td>{{fluxo.descricao}}</td>
-              <td>R$ {{fluxo.valor | brCurrency}}
-              <td class="center">{{fluxo.formaPagamento}}</td>
-              <td class="container-action-buttons">
-                <img (click)="openEditarMovimentacao(fluxo, $index)" src="../../../../assets/icons-svg/pen.svg">
-                <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
-              </td>
+      <div class="container-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Movimentação</th>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Forma de pagamento</th>
+              <th>Ações</th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (fluxo of fluxos; track $index) {
+              <tr [ngClass]="{
+                'saida': fluxo.tipo == 'SAIDA',
+                'entrada': fluxo.tipo == 'ENTRADA'
+                }"
+              >
+                <td>{{fluxo.data | dataFormatada}}</td>
+                <td>{{fluxo.tipo}}</td>
+                <td>{{fluxo.descricao}}</td>
+                <td>R$ {{fluxo.valor | brCurrency}}
+                <td class="center">{{fluxo.formaPagamento}}</td>
+                <td class="container-action-buttons">
+                  <img (click)="openEditarMovimentacao(fluxo, $index)" src="../../../../assets/icons-svg/pen.svg">
+                  <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
   </div>
 </div>

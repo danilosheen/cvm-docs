@@ -83,13 +83,19 @@ export class InputNumberComponent implements OnInit {
   }
 
   decimalFormat(value: string): string {
-    let numeros = value.replace(/\D/g, '');
-    let numeroFormatado = parseInt(numeros, 10) || 0;
-    return (numeroFormatado / 100).toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  }
+  // Permite o sinal negativo no início
+  const isNegative = value.trim().startsWith('-');
+  let numeros = value.replace(/[^0-9]/g, '');
+  let numeroFormatado = parseInt(numeros, 10) || 0;
+
+  const resultado = (numeroFormatado / 100).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return isNegative ? `-${resultado}` : resultado;
+}
+
 
   onPhoneInputChange(value: string): string {
     let numeros = value.replace(/\D/g, '');
@@ -182,16 +188,20 @@ export class InputNumberComponent implements OnInit {
   }
 
   moneyValidator(control: AbstractControl): ValidationErrors | null {
-    const raw = control.value;
-    const rawValue = typeof raw === 'string' ? raw.replace(/\D/g, '') : String(raw ?? '').replace(/\D/g, '');
+    const raw = control.value ?? '';
+    const isNegative = String(raw).trim().startsWith('-');
+    const rawValue = String(raw).replace(/[^0-9]/g, '');
     const value = parseInt(rawValue, 10) || 0;
+    const signedValue = isNegative ? -value : value;
 
-    if (value <= 0) {
+    // Se quiser permitir valores negativos e positivos, apenas rejeitar zero:
+    if (signedValue === 0) {
       return { invalidMoney: true };
     }
 
     return null;
   }
+
 
 
   phoneNumberValidator(control: AbstractControl): ValidationErrors | null {
