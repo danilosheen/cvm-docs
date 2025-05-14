@@ -44,6 +44,7 @@ export class ControleContasComponent {
   data = new Date();
   mesAtual = this.data.getMonth() + 1;
   anoAtual = this.data.getFullYear();
+  mesAnoAtual = `${this.mesAtual}/${this.anoAtual}`
   private _mesAnoSelected = {mes: this.mesAtual, ano: this.anoAtual}
   loading = false;
 

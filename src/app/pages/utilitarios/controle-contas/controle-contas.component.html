@@ -4,7 +4,7 @@
     <div class="container-buttons-topo">
       <app-input-month-year
         [label]="'Mês e ano atual'"
-        [defaultValue]="'04/2025'"
+        [defaultValue]="mesAnoAtual"
         (dateSelected)="updateMonthYearSelectedHandler($event)"
       ></app-input-month-year>
       <button mat-flat-button [disabled]="fluxos.length == 0" (click)="gerarRelatorioMensal()">

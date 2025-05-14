@@ -34,6 +34,7 @@ var ControleContasComponent = /** @class */ (function () {
         this.data = new Date();
         this.mesAtual = this.data.getMonth() + 1;
         this.anoAtual = this.data.getFullYear();
+        this.mesAnoAtual = this.mesAtual + "/" + this.anoAtual;
         this._mesAnoSelected = { mes: this.mesAtual, ano: this.anoAtual };
         this.loading = false;
         this.saldoAnterior = 0;
