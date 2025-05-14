@@ -4,7 +4,7 @@ import { FooterComponent } from "../../../shared/components/footer/footer.compon
 import { FluxoCaixaService } from '../../../core/services/fluxoCaixaService/fluxo-caixa.service';
 import { IFluxoCaixa } from '../../../interfaces/i-fluxo-caixa';
 import { DataFormatadaPipe } from "../../../pipes/data-formatada.pipe";
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFluxoComponent } from '../../../shared/components/dialog-fluxo/dialog-fluxo.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,6 +13,9 @@ import { DialogGenericComponent } from '../../../shared/components/dialog-generi
 import { InputMonthYearComponent } from "../../../shared/components/input-month-year/input-month-year.component";
 import { DialogSaldoComponent } from '../../../shared/components/dialog-saldo/dialog-saldo.component';
 import { SaldoAnteriorService } from '../../../core/services/saldoAnteriorService/saldo-anterior.service';
+import { IRelatorioMensal } from '../../../interfaces/i-relatorioMensal';
+import { GerarRelatorioService } from '../../../core/services/gerarRelatorioService/gerar-relatorio.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-controle-contas',
@@ -23,7 +26,8 @@ import { SaldoAnteriorService } from '../../../core/services/saldoAnteriorServic
     NgClass,
     MatButtonModule,
     BrCurrencyPipe,
-    InputMonthYearComponent
+    InputMonthYearComponent,
+    NgIf
 ],
   templateUrl: './controle-contas.component.html',
   styleUrl: './controle-contas.component.css'
@@ -31,6 +35,7 @@ import { SaldoAnteriorService } from '../../../core/services/saldoAnteriorServic
 export class ControleContasComponent {
 
   fluxoService = inject(FluxoCaixaService);
+  relatorioService = inject(GerarRelatorioService);
   fluxos: any[] = [];
   entradas: number[] = [];
   saidas: number[] = [];
@@ -40,6 +45,7 @@ export class ControleContasComponent {
   mesAtual = this.data.getMonth() + 1;
   anoAtual = this.data.getFullYear();
   private _mesAnoSelected = {mes: this.mesAtual, ano: this.anoAtual}
+  loading = false;
 
 
   saldoAnterior = 0;
@@ -62,24 +68,33 @@ export class ControleContasComponent {
     this.carregarSaldoAnterior();
   }
 
+  resetarValores(){
+    this.fluxos = [];
+    this.saldoAnterior = 0;
+    this.somaEntradas = 0;
+    this.somaSaidas = 0;
+    this.saldoRestante = 0;
+  }
+
   carregarFluxos(){
+    this.resetarValores();
     this.fluxoService.getByMonthYear(
       this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
-      next:(fluxos =>{
+      next:(fluxos) => {
         this.fluxos = fluxos;
         this.atualizarSaldo();
-      }),
-      error:(error=>{
-        console.log(error);
-      })
+      },
+      error:(error) => {
+        console.error('Erro ao carregar fluxos:', error);
+      }
     });
   }
 
   carregarSaldoAnterior(){
-    this.saldoAnteriorService.buscarSaldoAnterior(this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
+    this.saldoAnteriorService.buscarSaldoAnterior(this.mesAnoSelected.mes, this.mesAnoSelected.ano)
+    .subscribe({
       next:(response)=>{
         this.saldoAnterior = response.saldoAnterior;
-        console.log(response)
       },
       error:(error)=>{
         console.log(error)
@@ -89,14 +104,39 @@ export class ControleContasComponent {
   }
 
   gerarRelatorioMensal(){
-    const relatorioData = {
+    // monta objeto
+    const mes = this.mesAnoSelected.mes.toString().padStart(2,"0");
+    const ano = this.mesAnoSelected.ano.toString();
+    const pdfName = `Relatório mensal CVM - ${mes}/${ano}.pdf`
+    const relatorioData: IRelatorioMensal = {
       fluxos: this.fluxos,
       saldoAnterior: this.saldoAnterior,
-      somaEntradas: this.somaEntradas,
-      somaSaidas: this.somaSaidas,
-      saldoRestante: this.saldoRestante
+      entradas: this.somaEntradas,
+      saidas: this.somaSaidas,
+      saldoRestante: this.saldoRestante,
+      mesAno: `${mes}/${ano}`,
+      pdfName: pdfName
     }
-    console.log(relatorioData)
+    // faz requisição
+    this.loading = true;
+    this.relatorioService.gerarRelatorio(relatorioData).subscribe({
+      next:(pdfBlob)=>{
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = pdfName;
+        link.click();
+        this.loading = false;
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+      },
+      error:(error)=>{
+        console.log(error)
+      }
+    })
   }
 
   openAdicionarMovimentacao(): void{

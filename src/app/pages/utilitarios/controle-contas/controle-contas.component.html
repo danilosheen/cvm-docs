@@ -7,7 +7,17 @@
         [defaultValue]="'04/2025'"
         (dateSelected)="updateMonthYearSelectedHandler($event)"
       ></app-input-month-year>
-      <button mat-flat-button (click)="gerarRelatorioMensal()">Gerar relatório</button>
+      <button mat-flat-button [disabled]="fluxos.length == 0" (click)="gerarRelatorioMensal()">
+        <ng-container *ngIf="loading else btnText">
+          <div class="button-loading">
+            <img class="loading" src="./assets/loading.gif" alt="Carregando">
+            <p>Gerando PDF</p>
+          </div>
+        </ng-container>
+        <ng-template #btnText>
+          Gerar relatório
+        </ng-template>
+      </button>
     </div>
     <div class="container-table">
       <table>

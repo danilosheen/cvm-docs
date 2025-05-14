@@ -90,6 +90,13 @@ td img{
   gap: 10px;
 }
 
+.button-loading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
 td img:hover{
   transform: scale(1.08);
 }
