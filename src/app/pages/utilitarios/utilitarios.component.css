@@ -4,7 +4,9 @@
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  padding: 30px;
+  padding: 50px 20px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .container-cards{

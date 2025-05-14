@@ -24,6 +24,8 @@
 .container-table{
   width: 100%;
   overflow-x: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .container-button-add{
@@ -92,25 +94,37 @@ td img:hover{
   transform: scale(1.08);
 }
 
+@media (max-width: 990px){
+  .container-table{
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 860px){
+
+  .container-buttons-topo, table{
+    min-width: 0px;
+  }
+
+  .container-button-add, table{
+    min-width: 0px;
+  }
+
+}
+
 @media (max-width: 750px){
 
   .container-content{
     width: 90%;
   }
-
-  .container-buttons-topo{
-    min-width: 0px;
-  }
-
-  .container-button-add{
-    min-width: 0px;
-  }
 }
 
 @media (max-width: 450px){
+
   .container-buttons-topo{
     flex-direction: column-reverse;
     gap: 30px;
   }
+
 }
 
