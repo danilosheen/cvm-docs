@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { InputSelectComponent } from "../../shared/components/input-select/input-select.component";
 import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 
 @Component({
   selector: 'app-recibo',
@@ -24,7 +25,8 @@ import { ClienteService } from '../../core/services/clienteService/cliente.servi
     MatButtonModule,
     FormsModule,
     InputSelectComponent,
-    InputAutocompleteComponent
+    InputAutocompleteComponent,
+    LoadingBlueComponent
 ],
   templateUrl: './recibo.component.html',
   styleUrl: './recibo.component.css'
@@ -43,6 +45,7 @@ export class ReciboComponent implements OnInit {
   formasPagamento = ["Pix", "Dinheiro", "Cartão de crédito"];
   nomeCLientes: string[] = [];
   clienteService = inject(ClienteService);
+  isLoading = false;
 
   constructor(private pdfRecibo: ReciboPDFService) {
     //inicializando o array de campos válidos
@@ -52,9 +55,11 @@ export class ReciboComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.clienteService.getAll().subscribe(clientes =>{
       for(let cliente of clientes){
         this.nomeCLientes.push(cliente.nome);
+        this.isLoading = false;
       }
     })
   }
