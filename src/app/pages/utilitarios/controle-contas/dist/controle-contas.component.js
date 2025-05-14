@@ -69,7 +69,6 @@ var ControleContasComponent = /** @class */ (function () {
             next: function (fluxos) {
                 _this.fluxos = fluxos;
                 _this.atualizarSaldo();
-                console.log(fluxos);
             },
             error: function (error) {
                 console.error('Erro ao carregar fluxos:', error);
