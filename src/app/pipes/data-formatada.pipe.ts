@@ -5,14 +5,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DataFormatadaPipe implements PipeTransform {
   transform(value: string | Date): string {
-    if(value){
-      const data = new Date(value);
-      const dia = data.getDate().toString().padStart(2, '0');
-      const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-      const ano = data.getFullYear();
+    if (value) {
+      let dataIso: string;
 
+      if (value instanceof Date) {
+        // Se já for Date, pegar a parte ISO
+        dataIso = value.toISOString();
+      } else {
+        dataIso = value;
+      }
+
+      // Extrair 'yyyy-MM-dd'
+      const [ano, mes, dia] = dataIso.substring(0, 10).split('-');
       return `${dia}/${mes}/${ano}`;
     }
-    return ''
+    return '';
   }
 }

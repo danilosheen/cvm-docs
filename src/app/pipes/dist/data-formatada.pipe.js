@@ -13,10 +13,16 @@ var DataFormatadaPipe = /** @class */ (function () {
     }
     DataFormatadaPipe.prototype.transform = function (value) {
         if (value) {
-            var data = new Date(value);
-            var dia = data.getDate().toString().padStart(2, '0');
-            var mes = (data.getMonth() + 1).toString().padStart(2, '0');
-            var ano = data.getFullYear();
+            var dataIso = void 0;
+            if (value instanceof Date) {
+                // Se já for Date, pegar a parte ISO
+                dataIso = value.toISOString();
+            }
+            else {
+                dataIso = value;
+            }
+            // Extrair 'yyyy-MM-dd'
+            var _a = dataIso.substring(0, 10).split('-'), ano = _a[0], mes = _a[1], dia = _a[2];
             return dia + "/" + mes + "/" + ano;
         }
         return '';
