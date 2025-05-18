@@ -10,7 +10,7 @@ export interface IFichaExcursao {
   cliente: {
     id?: string,
     nome: string,
-    dataNascimento: string,
+    dataNascimento?: string,
     contato: string,
     typeDocumentSelected: string,
     documento: string,
@@ -25,8 +25,8 @@ export interface IFichaExcursao {
   tipoDeHospedagem: string,
   valorIntegralExcursao: string,
   entradaParcelamento: string,
-  valorParcelas: string,
-  qtdParcelas: string,
-  dataPagamentoParcela: string,
+  valorParcelas: number,
+  qtdParcelas: number,
+  dataPagamentoParcela: number,
   dependentes: IDependente[]
 }

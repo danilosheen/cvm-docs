@@ -1,6 +1,6 @@
 export interface IRecibo {
   nomeCliente: string;
   pacoteViagem: string;
-  valor: string;
+  valor: number;
   formaPagamento: string;
 }

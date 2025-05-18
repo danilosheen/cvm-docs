@@ -172,8 +172,6 @@ export class ClientesComponent implements AfterViewInit {
   }
 
   editarCliente(id: string, cliente: ICliente){
-    const updatedAt = new Date().toISOString();
-    cliente.updatedAt = updatedAt;
     this.clienteService.update(id, cliente).subscribe(()=>{
     })
   }

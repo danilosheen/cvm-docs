@@ -1,7 +1,7 @@
 export interface IFluxoCaixa{
   id?: string,
   tipo: string,
-  valor: string,
+  valor: number,
   data: string,
   formaPagamento: string,
   descricao: string
