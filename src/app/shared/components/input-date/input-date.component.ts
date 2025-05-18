@@ -27,8 +27,6 @@ export class InputDateComponent {
   @Output() inputDate = new EventEmitter();
 
   input: FormControl = new FormControl('');
-
-  // readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
   errorMessage: WritableSignal<string> = signal('');
 
   constructor() {
@@ -42,6 +40,7 @@ export class InputDateComponent {
 
     if(this.defaultValue){
       this.input.setValue(this.defaultValue);
+      console.log(this.defaultValue)
     }
   }
 
@@ -54,19 +53,22 @@ export class InputDateComponent {
   }
 
   onDatepickerClose(){
-    this.sendDataSaidaInputHandler();
+    if(this.input.value){
+      this.sendDataSaidaInputHandler();
+    }
   }
 
   sendDataSaidaInputHandler(){
     //envia output
-    const dataSaida = new Date(this.input.value);
+    // const dataSaida = new Date(this.input.value);
 
-    // Formata a data para dd/mm/yyyy
-    const dia = String(dataSaida.getDate()).padStart(2, "0");
-    const mes = String(dataSaida.getMonth() + 1).padStart(2, "0"); // Meses começam do 0
-    const ano = dataSaida.getFullYear();
-    const dataFormatada = `${dia}/${mes}/${ano}`;
+    // // Formata a data para dd/mm/yyyy
+    // const dia = String(dataSaida.getDate()).padStart(2, "0");
+    // const mes = String(dataSaida.getMonth() + 1).padStart(2, "0"); // Meses começam do 0
+    // const ano = dataSaida.getFullYear();
+    // const dataFormatada = `${dia}/${mes}/${ano}`;
 
-    this.inputDate.emit({value: dataFormatada, valid: this.input.valid});
+    console.log(this.input.value)
+    this.inputDate.emit({value: this.input.value, valid: this.input.valid});
   }
 }

@@ -46,7 +46,7 @@ export class DialogFluxoComponent {
     data: '',
     tipo: '',
     descricao:'',
-    valor: '',
+    valor: null,
     formaPagamento: '',
   }
 
@@ -69,7 +69,6 @@ export class DialogFluxoComponent {
       this.updateDescricaoHandler({value: this.fluxoData.descricao, valid: true})
       this.updateValorHandler({value: this.fluxoData.valor, valid: true})
       this.updateFormaPagamentoHandler({value: this.fluxoData.formaPagamento, valid: true})
-      this.converterValorFloatToString();
     }
   }
 
@@ -89,10 +88,14 @@ export class DialogFluxoComponent {
     }).format(valor).replace("R$", "").trim();
   }
 
-  converterValorFloatToString(){
+  get valorFormatado(): string {
     if(this.fluxoData.valor){
-      this.fluxoData.valor = this.formatarParaBRL(this.fluxoData.valor);
+      return this.fluxoData.valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
     }
+    return ''
   }
 
   converterValorStringToFloat(){
@@ -104,32 +107,35 @@ export class DialogFluxoComponent {
     );
   }
 
-  updateDataMovimentacaoHandler(value: IInput){
+  updateDataMovimentacaoHandler(value: IInput<string>){
     this.fluxoData.data = value.value;
     this.valid[0] = value.valid;
   }
 
-  updateTipoMovimentacaoHandler(value: IInput){
+  updateTipoMovimentacaoHandler(value: IInput<string>){
     this.fluxoData.tipo = value.value;
     this.valid[1] = value.valid;
   }
 
-  updateDescricaoHandler(value: IInput){
+  updateDescricaoHandler(value: IInput<string>){
     this.fluxoData.descricao = value.value;
     this.valid[2] = value.valid;
   }
 
-  updateValorHandler(value: IInput){
+  updateValorHandler(value: IInput<number>){
     this.fluxoData.valor = value.value;
     this.valid[3] = value.valid;
   }
 
-  updateFormaPagamentoHandler(value: IInput){
+  updateFormaPagamentoHandler(value: IInput<string>){
     this.fluxoData.formaPagamento = value.value;
     this.valid[4] = value.valid;
   }
 
   onNoClick(): void {
+    if(this.dataFluxo.valor){
+      this.converterValorStringToFloat();
+    }
     this.dialogRef.close();
   }
 

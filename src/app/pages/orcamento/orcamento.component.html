@@ -23,7 +23,7 @@
         [placeholder]="'ex: (88)9.8888-8888'"
         [defaultValue]="orcamentoData.telefoneContato"
         [type]="'tel'"
-        (inputValue)="updateTelefoneContatoHandler($event)"
+        (inputValueString)="updateTelefoneContatoHandler($event)"
       ></app-input-number>
 
       <!-- Local de saída -->
@@ -70,7 +70,7 @@
         [type]="'number'"
         [label]="'Valor cliente pagando despesa'"
         [placeholder]="'ex: 2.500,00'"
-        (inputValue)="updateValorComDespezaHandler($event)"
+        (inputValueNumber)="updateValorComDespezaHandler($event)"
       ></app-input-number>
 
       <!-- valor sem despeza do motorista inclusa -->
@@ -78,7 +78,7 @@
         [type]="'number'"
         [label]="'Valor CVM pagando despesa'"
         [placeholder]="'ex: 2.500,00'"
-        (inputValue)="updateValorSemDespezaHandler($event)"
+        (inputValueNumber)="updateValorSemDespezaHandler($event)"
       ></app-input-number>
 
       <!-- valor com emissão de nota fiscal -->
@@ -86,7 +86,7 @@
         [type]="'number'"
         [label]="'Valor com emissão de nota fiscal'"
         [placeholder]="'ex: 2.500,00'"
-        (inputValue)="updateValorComNotaHandler($event)"
+        (inputValueNumber)="updateValorComNotaHandler($event)"
       ></app-input-number>
 
       <!-- Taxa do PIX -->
@@ -94,7 +94,7 @@
         [type]="'text'"
         [label]="'Taxa do PIX'"
         [defaultValue]="'6'"
-        (inputValue)="updateTaxaPixHandler($event)"
+        (inputValueNumber)="updateTaxaPixHandler($event)"
       ></app-input-number>
 
       <!-- modelo van -->
@@ -111,7 +111,7 @@
         [label]="'Km de cortesia'"
         [placeholder]="'30'"
         [optional]="true"
-        (inputValue)="updateCortesiaKmHandler($event)"
+        (inputValueNumber)="updateCortesiaKmHandler($event)"
       ></app-input-number>
 
       <!-- valor km-->
@@ -120,7 +120,7 @@
         [label]="'Valor por km excedido'"
         [placeholder]="'ex: 5,00'"
         [optional]="true"
-        (inputValue)="updateValorAcrescimoKmHandler($event)"
+        (inputValueNumber)="updateValorAcrescimoKmHandler($event)"
       ></app-input-number>
 
     </form>

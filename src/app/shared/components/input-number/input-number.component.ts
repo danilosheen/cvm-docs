@@ -4,6 +4,7 @@ import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, Validat
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
+import { IInput } from '../../../interfaces/i-handlerInput';
 
 @Component({
   selector: 'app-input-number',
@@ -16,9 +17,10 @@ export class InputNumberComponent implements OnInit {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() type: string = '';
-  @Input() defaultValue: string = '';
+  @Input() defaultValue: string | number | null = null;
   @Input() optional: boolean = false;
-  @Output() inputValue = new EventEmitter<{ value: string, valid: boolean }>();
+  @Output() inputValueString = new EventEmitter<IInput<string>>();
+  @Output() inputValueNumber = new EventEmitter<IInput<number>>();
 
   errorMessage = signal('');
   input: FormControl;
@@ -28,6 +30,10 @@ export class InputNumberComponent implements OnInit {
     merge(this.input.statusChanges, this.input.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
+
+      if(this.defaultValue){
+        this.input.setValue(this.defaultValue);
+      }
   }
 
   ngOnInit(): void {
@@ -36,7 +42,7 @@ export class InputNumberComponent implements OnInit {
     }
     if(this.defaultValue){
       this.input.setValue(this.defaultValue);
-      this.sendNumberInputHandler(this.defaultValue)
+      this.sendInputHandler<string | number>(this.defaultValue)
     }
     this.setValidators();
   }
@@ -155,36 +161,79 @@ export class InputNumberComponent implements OnInit {
   }
 
   onInputChange(event: Event) {
-    if (this.type == 'number' && this.input.value) {
-        const inputElement = event.target as HTMLInputElement;
-        const formattedValue = this.decimalFormat(inputElement.value);
-        this.input.setValue(formattedValue, { emitEvent: false });
-        this.sendNumberInputHandler(formattedValue);
-    } else if (this.type == 'tel' && this.input.value) {
-        const inputElement = event.target as HTMLInputElement;
-        const formattedValue = this.onPhoneInputChange(inputElement.value);
-        this.input.setValue(formattedValue, { emitEvent: false });
-        this.sendNumberInputHandler(formattedValue);
-    } else if (this.type == 'cpf' && this.input.value) {
-        const inputElement = event.target as HTMLInputElement;
-        const formattedValue = this.onCpfFormat(inputElement.value);
-        this.input.setValue(formattedValue, { emitEvent: false });
-        this.sendNumberInputHandler(formattedValue);
-    } else if (this.type == 'date' && this.input.value) {
-        const inputElement = event.target as HTMLInputElement;
-        const formattedValue = this.onDateFormat(inputElement.value);
-        this.input.setValue(formattedValue, { emitEvent: false });
-        this.sendNumberInputHandler(formattedValue);
-    } else if (this.type == 'text' && this.input.value){
-        const inputElement = event.target as HTMLInputElement;
-        this.sendNumberInputHandler(inputElement.value);
-    } else if (this.optional && !this.input.value){
-        this.sendNumberInputHandler("");
+    const inputElement = event.target as HTMLInputElement;
+    const rawValue = inputElement.value;
+
+    if (this.type === 'number' && rawValue) {
+
+      if (rawValue.trim() === '-') {
+        this.input.setValue('0,00', { emitEvent: false });
+        this.sendInputHandler<number>(0);
+        return;
+      }
+
+      // Remove tudo que não é número ou "-"
+      let onlyDigits = rawValue.replace(/[^\d-]/g, '');
+
+      // Verifica se há "-" no final (ou em qualquer lugar)
+      const isNegative = onlyDigits.includes('-');
+
+      // Remove o "-" para processar só os dígitos
+      onlyDigits = onlyDigits.replace(/-/g, '');
+
+      // Converte para centavos
+      let numericValue = parseFloat(onlyDigits) / 100;
+
+      if (isNegative) {
+        numericValue = numericValue * -1;
+      }
+
+      if (Object.is(numericValue, -0)) {
+        numericValue = 0;
+      }
+
+      // Formata para BRL sem símbolo
+      const formatted = numericValue.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      // Atualiza visualmente
+      this.input.setValue(formatted, { emitEvent: false });
+      this.sendInputHandler<number>(numericValue);
+
+    } else if (this.type === 'tel' && rawValue) {
+      const formattedValue = this.onPhoneInputChange(rawValue);
+      this.input.setValue(formattedValue, { emitEvent: false });
+      this.sendInputHandler<string>(formattedValue);
+
+    } else if (this.type === 'cpf' && rawValue) {
+      const formattedValue = this.onCpfFormat(rawValue);
+      this.input.setValue(formattedValue, { emitEvent: false });
+      this.sendInputHandler<string>(formattedValue);
+
+    } else if (this.type === 'date' && rawValue) {
+      const formattedValue = this.onDateFormat(rawValue);
+      this.input.setValue(formattedValue, { emitEvent: false });
+      this.sendInputHandler<string>(formattedValue);
+
+    } else if (this.type === 'text' && rawValue) {
+      this.sendInputHandler<number>(parseInt(rawValue));
+
+    } else if (this.optional && !rawValue) {
+      this.sendInputHandler<number | string>('');
     }
   }
 
-  sendNumberInputHandler(valueFormated: string) {
-    this.inputValue.emit({ value: valueFormated, valid: this.input.valid });
+
+  sendInputHandler<T extends string | number>(valueInputed: T): void {
+    const payload = { value: valueInputed, valid: this.input.valid };
+
+    if (typeof valueInputed === 'number') {
+      this.inputValueNumber.emit(payload as IInput<number>);
+    } else {
+      this.inputValueString.emit(payload as IInput<string>);
+    }
   }
 
   moneyValidator(control: AbstractControl): ValidationErrors | null {
@@ -201,8 +250,6 @@ export class InputNumberComponent implements OnInit {
 
     return null;
   }
-
-
 
   phoneNumberValidator(control: AbstractControl): ValidationErrors | null {
     const rawValue = control.value ? control.value.replace(/\D/g, '') : '';

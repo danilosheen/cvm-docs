@@ -9,6 +9,6 @@ export interface ICliente {
   cidade?: string,
   bairro?: string,
   rua?: string,
-  numero?: number,
+  numero?: string,
   ultimaViagem?: string,
 }

@@ -86,11 +86,11 @@ export class FichaExcursaoComponent implements OnInit {
     },
     servicos: [],
     tipoDeHospedagem: '',
-    valorIntegralExcursao: '',
-    entradaParcelamento: '0,00',
-    valorParcelas: '',
-    qtdParcelas: '',
-    dataPagamentoParcela: '',
+    valorIntegralExcursao: 0,
+    entradaParcelamento: 0,
+    valorParcelas: 0,
+    qtdParcelas: 0,
+    dataPagamentoParcela: 0,
     dependentes: []
     };
 
@@ -198,20 +198,9 @@ export class FichaExcursaoComponent implements OnInit {
       return true
     }
 
-    atualizaValorParcela(valorIntegral: string, qtdParcelas: string, entrada: string) {
-      const valorIntegralLimpo = valorIntegral.replace(/\./g, '').replace(',', '.');
-      const valorEntradalLimpo = entrada.replace(/\./g, '').replace(',', '.');
-      const intValorIntegral = parseFloat(valorIntegralLimpo);
-      const intValorEntrada = parseFloat(valorEntradalLimpo) || 0;
-      const intQtdParcelas = parseFloat(qtdParcelas);
-      const valorParcela = (intValorIntegral - intValorEntrada) / intQtdParcelas;
-      const valorFormatado = new Intl.NumberFormat('pt-BR', {
-        style: 'decimal',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(valorParcela);
-
-      this.fichaExcursaoData.valorParcelas = valorFormatado;
+    atualizaValorParcela(valorIntegral: number, qtdParcelas: number, entrada: number) {
+      const valorParcela = (valorIntegral - entrada) / qtdParcelas;
+      this.fichaExcursaoData.valorParcelas = valorParcela;
     }
 
     openDialog(enterAnimationDuration: string, exitAnimationDuration: string, i: number): void {
@@ -236,32 +225,32 @@ export class FichaExcursaoComponent implements OnInit {
       this.showModalDependente = !this.showModalDependente
     }
 
-    updateExcursaoParaHandler(value: IInput) {
+    updateExcursaoParaHandler(value: IInput<string>) {
           this.fichaExcursaoData.excursaoPara = value.value.toUpperCase();
           this.valid[0] = (value.valid);
     }
 
-    updateLocalSaidaHandler(value: IInput) {
+    updateLocalSaidaHandler(value: IInput<string>) {
       this.fichaExcursaoData.localSaida = value.value;
       this.valid[1] = (value.valid);
     }
 
-    updateDataSaidaHandler(value: IInput) {
+    updateDataSaidaHandler(value: IInput<string>) {
       this.fichaExcursaoData.dataSaida = value.value;
       this.valid[2] = (value.valid);
     }
 
-    updateHoraSaidaHandler(value: IInput) {
+    updateHoraSaidaHandler(value: IInput<string>) {
       this.fichaExcursaoData.horaSaida = value.value;
       this.valid[3] = (value.valid);
     }
 
-    updateDataRetornoHandler(value: IInput) {
+    updateDataRetornoHandler(value: IInput<string>) {
       this.fichaExcursaoData.dataRetorno = value.value;
       this.valid[4] = (value.valid);
     }
 
-    updateHoraRetornoHandler(value: IInput) {
+    updateHoraRetornoHandler(value: IInput<string>) {
       this.fichaExcursaoData.horaRetorno = value.value;
       this.valid[5] = (value.valid);
     }
@@ -289,41 +278,41 @@ export class FichaExcursaoComponent implements OnInit {
       this.valid[6] = (value.valid);
     }
 
-    updateDataNascimentoHandler(value: IInput) {
+    updateDataNascimentoHandler(value: IInput<string>) {
       if(value.value != 'NaN/NaN/NaN'){
         this.fichaExcursaoData.cliente.dataNascimento = value.value;
       }
     }
 
-    updateContatoHandler(value: IInput) {
+    updateContatoHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.contato = value.value;
       this.valid[7] = (value.valid);
     }
 
-    updateTypeDocumentSelectedHandler(value: IInput) {
+    updateTypeDocumentSelectedHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.typeDocumentSelected = value.value;
     }
 
-    updateDocumentHandler(value: IInput) {
+    updateDocumentHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.documento = value.value;
     }
 
-    updateCidadeHandler(value: IInput) {
+    updateCidadeHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.endereco.cidade = value.value;
       this.valid[8] = (value.valid);
     }
 
-    updateBairroHandler(value: IInput) {
+    updateBairroHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.endereco.bairro = value.value;
       this.valid[9] = (value.valid);
     }
 
-    updateRuaHandler(value: IInput) {
+    updateRuaHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.endereco.rua = value.value;
       this.valid[10] = (value.valid);
     }
 
-    updateNumeroCasaHandler(value: IInput) {
+    updateNumeroCasaHandler(value: IInput<string>) {
       this.fichaExcursaoData.cliente.endereco.numero = value.value;
       this.valid[11] = (value.valid);
     }
@@ -341,26 +330,26 @@ export class FichaExcursaoComponent implements OnInit {
       this.valid[12] = !!value.length;
     }
 
-    updateTipoHospedagemHandler(value: IInput) {
+    updateTipoHospedagemHandler(value: IInput<string>) {
       this.fichaExcursaoData.tipoDeHospedagem = value.value;
       this.valid[13] = (value.valid);
     }
 
-    updateValorTotalExcursaoHandler(value: IInput) {
+    updateValorTotalExcursaoHandler(value: IInput<number>) {
       this.fichaExcursaoData.valorIntegralExcursao = value.value;
       this.valid[14] = (value.valid);
     }
 
-    updateEntradaParcelamentoHandler(value: IInput) {
+    updateEntradaParcelamentoHandler(value: IInput<number>) {
       this.fichaExcursaoData.entradaParcelamento = value.value;
     }
 
-    updateQtdParcelasHandler(value: IInput) {
+    updateQtdParcelasHandler(value: IInput<number>) {
       this.fichaExcursaoData.qtdParcelas = value.value;
       this.valid[15] = (value.valid);
     }
 
-    updateDataVencimentoHandler(value: IInput) {
+    updateDataVencimentoHandler(value: IInput<number>) {
       this.fichaExcursaoData.dataPagamentoParcela = value.value;
       this.valid[16] = (value.valid);
     }

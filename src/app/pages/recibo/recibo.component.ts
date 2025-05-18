@@ -38,7 +38,7 @@ export class ReciboComponent implements OnInit {
   reciboData: IRecibo = {
     nomeCliente: '',
     pacoteViagem: '',
-    valor: '',
+    valor: 0,
     formaPagamento: '',
   };
   valid: boolean[] = [];
@@ -119,22 +119,22 @@ export class ReciboComponent implements OnInit {
     return true
   }
 
-  updateNomeClienteHandler(value: IInput) {
+  updateNomeClienteHandler(value: IInput<string>) {
       this.reciboData.nomeCliente = value.value;
       this.valid[0] = (value.valid);
   }
 
-  updatePacoteViagemHandler(value: IInput) {
+  updatePacoteViagemHandler(value: IInput<string>) {
     this.reciboData.pacoteViagem = value.value;
     this.valid[1] = (value.valid);
   }
 
-  updateValorHandler(value: IInput) {
+  updateValorHandler(value: IInput<number>) {
     this.reciboData.valor = value.value;
     this.valid[2] = (value.valid);
   }
 
-  updateFormaPagamentoHandler(value: IInput) {
+  updateFormaPagamentoHandler(value: IInput<string>) {
     this.reciboData.formaPagamento = value.value;
     this.valid[3] = (value.valid);
   }

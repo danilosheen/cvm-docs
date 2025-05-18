@@ -23,7 +23,6 @@ var InputDateComponent = /** @class */ (function () {
         this.defaultValue = '';
         this.inputDate = new core_1.EventEmitter();
         this.input = new forms_1.FormControl('');
-        // readonly input = new FormControl('', { validators: [Validators.required], nonNullable: true });
         this.errorMessage = core_1.signal('');
         this.input.valueChanges.subscribe(function () { return _this.updateErrorMessage(); });
     }
@@ -33,6 +32,7 @@ var InputDateComponent = /** @class */ (function () {
         }
         if (this.defaultValue) {
             this.input.setValue(this.defaultValue);
+            console.log(this.defaultValue);
         }
     };
     InputDateComponent.prototype.updateErrorMessage = function () {
@@ -44,17 +44,20 @@ var InputDateComponent = /** @class */ (function () {
         }
     };
     InputDateComponent.prototype.onDatepickerClose = function () {
-        this.sendDataSaidaInputHandler();
+        if (this.input.value) {
+            this.sendDataSaidaInputHandler();
+        }
     };
     InputDateComponent.prototype.sendDataSaidaInputHandler = function () {
         //envia output
-        var dataSaida = new Date(this.input.value);
-        // Formata a data para dd/mm/yyyy
-        var dia = String(dataSaida.getDate()).padStart(2, "0");
-        var mes = String(dataSaida.getMonth() + 1).padStart(2, "0"); // Meses começam do 0
-        var ano = dataSaida.getFullYear();
-        var dataFormatada = dia + "/" + mes + "/" + ano;
-        this.inputDate.emit({ value: dataFormatada, valid: this.input.valid });
+        // const dataSaida = new Date(this.input.value);
+        // // Formata a data para dd/mm/yyyy
+        // const dia = String(dataSaida.getDate()).padStart(2, "0");
+        // const mes = String(dataSaida.getMonth() + 1).padStart(2, "0"); // Meses começam do 0
+        // const ano = dataSaida.getFullYear();
+        // const dataFormatada = `${dia}/${mes}/${ano}`;
+        console.log(this.input.value);
+        this.inputDate.emit({ value: this.input.value, valid: this.input.valid });
     };
     __decorate([
         core_1.Input()

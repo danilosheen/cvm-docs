@@ -16,6 +16,7 @@ import { SaldoAnteriorService } from '../../../core/services/saldoAnteriorServic
 import { IRelatorioMensal } from '../../../interfaces/i-relatorioMensal';
 import { GerarRelatorioService } from '../../../core/services/gerarRelatorioService/gerar-relatorio.service';
 import { catchError, of } from 'rxjs';
+import { LoadingBlueComponent } from "../../../shared/components/loading-blue/loading-blue.component";
 
 @Component({
   selector: 'app-controle-contas',
@@ -27,7 +28,8 @@ import { catchError, of } from 'rxjs';
     MatButtonModule,
     BrCurrencyPipe,
     InputMonthYearComponent,
-    NgIf
+    NgIf,
+    LoadingBlueComponent
 ],
   templateUrl: './controle-contas.component.html',
   styleUrl: './controle-contas.component.css'
@@ -46,7 +48,8 @@ export class ControleContasComponent {
   anoAtual = this.data.getFullYear();
   mesAnoAtual = `${this.mesAtual}/${this.anoAtual}`
   private _mesAnoSelected = {mes: this.mesAtual, ano: this.anoAtual}
-  loading = false;
+  loadingPdf = false;
+  isLoading = false;
 
 
   saldoAnterior = 0;
@@ -78,15 +81,18 @@ export class ControleContasComponent {
   }
 
   carregarFluxos(){
+    this.isLoading = true;
     this.resetarValores();
     this.fluxoService.getByMonthYear(
       this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
       next:(fluxos) => {
         this.fluxos = fluxos;
         this.atualizarSaldo();
+        this.isLoading = false;
       },
       error:(error) => {
         console.error('Erro ao carregar fluxos:', error);
+        this.isLoading = false;
       }
     });
   }
@@ -119,7 +125,7 @@ export class ControleContasComponent {
       pdfName: pdfName
     }
     // faz requisição
-    this.loading = true;
+    this.loadingPdf = true;
     this.relatorioService.gerarRelatorio(relatorioData).subscribe({
       next:(pdfBlob)=>{
         const pdfUrl = URL.createObjectURL(pdfBlob);
@@ -127,7 +133,7 @@ export class ControleContasComponent {
         link.href = pdfUrl;
         link.download = pdfName;
         link.click();
-        this.loading = false;
+        this.loadingPdf = false;
         window.scrollTo({
           top: 0,
           left: 0,
@@ -206,21 +212,23 @@ export class ControleContasComponent {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: string) => {
-      const valorFormatado = parseFloat(result.replace(".", "").replace(",", "."));
-      const mesAtual = this.mesAnoSelected.mes.toString().padStart(2, "0");
-      const anoAtual = this.mesAnoSelected.ano.toString();
-      this.saldoAnteriorService.adicionarSaldoAnterior({
-        mes: mesAtual, ano: anoAtual, saldoAnterior: valorFormatado
-        }).subscribe({
-          next:(response)=>{
-            this.saldoAnterior = valorFormatado;
-            this.saldoRestante = this.saldoAnterior + this.somaEntradas - this.somaSaidas;
-          },
-          error:(error)=>{
-            console.log(error)
-          }
-      });
+    dialogRef.afterClosed().subscribe((result: number) => {
+      if(result || result === 0){
+        const valorFormatado = result;
+        const mesAtual = this.mesAnoSelected.mes.toString().padStart(2, "0");
+        const anoAtual = this.mesAnoSelected.ano.toString();
+        this.saldoAnteriorService.adicionarSaldoAnterior({
+          mes: mesAtual, ano: anoAtual, saldoAnterior: valorFormatado
+          }).subscribe({
+            next:(response)=>{
+              this.saldoAnterior = valorFormatado;
+              this.saldoRestante = this.saldoAnterior + this.somaEntradas - this.somaSaidas;
+            },
+            error:(error)=>{
+              console.log(error)
+            }
+        });
+      }
     });
   }
 

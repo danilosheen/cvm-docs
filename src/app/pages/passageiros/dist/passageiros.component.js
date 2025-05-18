@@ -123,8 +123,6 @@ var PassageirosComponent = /** @class */ (function () {
         });
         dialogRef.afterClosed().subscribe(function (result) {
             if (result) {
-                var updatedAt = new Date().toISOString();
-                passageiro.updatedAt = updatedAt;
                 _this.editarPassageiro(passageiro.id, passageiro);
             }
             else {
@@ -149,8 +147,6 @@ var PassageirosComponent = /** @class */ (function () {
         });
     };
     PassageirosComponent.prototype.editarPassageiro = function (id, passageiro) {
-        var updatedAt = new Date().toISOString();
-        passageiro.updatedAt = updatedAt;
         this.passageiroService.update(id, passageiro).subscribe(function () {
         });
     };

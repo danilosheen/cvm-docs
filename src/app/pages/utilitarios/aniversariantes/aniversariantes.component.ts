@@ -102,7 +102,7 @@ export class AniversariantesComponent{
   }
 
   // handlers
-  updateSelectedMonth(value: IInput){
+  updateSelectedMonth(value: IInput<any>){
     if (value.value) {
       const mes = value.value;
       for(let i = 0; i< this.meses.length; i++){

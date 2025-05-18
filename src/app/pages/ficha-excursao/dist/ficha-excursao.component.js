@@ -64,11 +64,11 @@ var FichaExcursaoComponent = /** @class */ (function () {
             },
             servicos: [],
             tipoDeHospedagem: '',
-            valorIntegralExcursao: '',
-            entradaParcelamento: '0,00',
-            valorParcelas: '',
-            qtdParcelas: '',
-            dataPagamentoParcela: '',
+            valorIntegralExcursao: 0,
+            entradaParcelamento: 0,
+            valorParcelas: 0,
+            qtdParcelas: 0,
+            dataPagamentoParcela: 0,
             dependentes: []
         };
         //inicializando o array de campos válidos
@@ -167,18 +167,8 @@ var FichaExcursaoComponent = /** @class */ (function () {
         return true;
     };
     FichaExcursaoComponent.prototype.atualizaValorParcela = function (valorIntegral, qtdParcelas, entrada) {
-        var valorIntegralLimpo = valorIntegral.replace(/\./g, '').replace(',', '.');
-        var valorEntradalLimpo = entrada.replace(/\./g, '').replace(',', '.');
-        var intValorIntegral = parseFloat(valorIntegralLimpo);
-        var intValorEntrada = parseFloat(valorEntradalLimpo) || 0;
-        var intQtdParcelas = parseFloat(qtdParcelas);
-        var valorParcela = (intValorIntegral - intValorEntrada) / intQtdParcelas;
-        var valorFormatado = new Intl.NumberFormat('pt-BR', {
-            style: 'decimal',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }).format(valorParcela);
-        this.fichaExcursaoData.valorParcelas = valorFormatado;
+        var valorParcela = (valorIntegral - entrada) / qtdParcelas;
+        this.fichaExcursaoData.valorParcelas = valorParcela;
     };
     FichaExcursaoComponent.prototype.openDialog = function (enterAnimationDuration, exitAnimationDuration, i) {
         var _this = this;

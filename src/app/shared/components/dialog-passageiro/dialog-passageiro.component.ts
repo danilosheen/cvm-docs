@@ -76,19 +76,19 @@ export class DialogPassageiroComponent {
   }
 
   // Handlers
-  updateNomeClienteHandler(value: IInput){
+  updateNomeClienteHandler(value: IInput<string>){
     this.passageiroData.nome = value.value;
     this.valid[0] = value.valid;
   }
 
-  updateDocumentSelectedHandler(value: IInput){
+  updateDocumentSelectedHandler(value: IInput<string>){
     if (this.passageiroData.typeDocumentSelected !== value.value) {
       this.passageiroData.documento = '';
     }
     this.passageiroData.typeDocumentSelected = value.value;
   }
 
-  updateDocumentoClienteHandler(value: IInput){
+  updateDocumentoClienteHandler(value: IInput<string>){
     this.passageiroData.documento = value.value;
     this.valid[1] = value.valid;
   }

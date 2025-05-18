@@ -57,8 +57,8 @@
         [type]="'date'"
         [optional]="true"
         [placeholder]="'ex: 01/01/2000'"
-        [defaultValue]="fichaExcursaoData.cliente.dataNascimento"
-        (inputValue)="updateDataNascimentoHandler($event)"
+        [defaultValue]="fichaExcursaoData.cliente.dataNascimento || ''"
+        (inputValueString)="updateDataNascimentoHandler($event)"
       ></app-input-number>
       <!-- contato -->
       <app-input-number
@@ -66,7 +66,7 @@
         [placeholder]="'(88)9.8888-8888'"
         [defaultValue]="fichaExcursaoData.cliente.contato"
         [type]="'tel'"
-        (inputValue)="updateContatoHandler($event)"
+        (inputValueString)="updateContatoHandler($event)"
       ></app-input-number>
       <app-input-radio
         [label]="'Selecione o tipo de documento'"
@@ -83,7 +83,7 @@
           [defaultValue]="fichaExcursaoData.cliente.documento"
           [placeholder]="'ex: 000000000-0'"
           [optional]="true"
-          (inputValue)="updateDocumentHandler($event)"
+          (inputValueString)="updateDocumentHandler($event)"
         ></app-input-number>
       } @else {
         <!-- cpf -->
@@ -93,7 +93,7 @@
           [defaultValue]="fichaExcursaoData.cliente.documento"
           [placeholder]="'ex: 999.999.999-00'"
           [optional]="true"
-          (inputValue)="updateDocumentHandler($event)"
+          (inputValueString)="updateDocumentHandler($event)"
         ></app-input-number>
       }
       <!-- cidade -->
@@ -123,7 +123,7 @@
         [label]="'Número da casa'"
         [defaultValue]="fichaExcursaoData.cliente.endereco.numero"
         [placeholder]="'ex: 30'"
-        (inputValue)="updateNumeroCasaHandler($event)"
+        (inputValueString)="updateNumeroCasaHandler($event)"
       ></app-input-number>
       <!-- serviços -->
       <app-input-checkbox
@@ -144,7 +144,7 @@
         [type]="'number'"
         [label]="'Valor total da excursão'"
         [placeholder]="'ex: 3.550,00'"
-        (inputValue)="updateValorTotalExcursaoHandler($event)"
+        (inputValueNumber)="updateValorTotalExcursaoHandler($event)"
       ></app-input-number>
       <!-- entradaParcelamento -->
       <app-input-number
@@ -152,22 +152,22 @@
         [label]="'Entrada do parcelamento'"
         [placeholder]="'ex: 550,00'"
         [optional]="true"
-        (inputValue)="updateEntradaParcelamentoHandler($event)"
+        (inputValueNumber)="updateEntradaParcelamentoHandler($event)"
       ></app-input-number>
       <!-- qtdParcelas -->
       <app-input-number
         [type]="'text'"
         [label]="'Quantidade de parcelas'"
         [placeholder]="'5'"
-        [defaultValue]="'1'"
-        (inputValue)="updateQtdParcelasHandler($event)"
+        [defaultValue]="1"
+        (inputValueNumber)="updateQtdParcelasHandler($event)"
       ></app-input-number>
       <!-- dataPagamentoParcela -->
       <app-input-number
         [type]="'text'"
         [label]="'Dia do vencimento'"
         [placeholder]="'ex: 20'"
-        (inputValue)="updateDataVencimentoHandler($event)"
+        (inputValueNumber)="updateDataVencimentoHandler($event)"
       ></app-input-number>
       <!-- dependentes -->
     </form>

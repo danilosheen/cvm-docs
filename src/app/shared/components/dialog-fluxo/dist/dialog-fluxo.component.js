@@ -28,7 +28,7 @@ var DialogFluxoComponent = /** @class */ (function () {
             data: '',
             tipo: '',
             descricao: '',
-            valor: '',
+            valor: null,
             formaPagamento: ''
         };
         this.fluxoData = this.dataFluxo.fluxo || this.fluxoDataClean;
@@ -42,7 +42,6 @@ var DialogFluxoComponent = /** @class */ (function () {
             this.updateDescricaoHandler({ value: this.fluxoData.descricao, valid: true });
             this.updateValorHandler({ value: this.fluxoData.valor, valid: true });
             this.updateFormaPagamentoHandler({ value: this.fluxoData.formaPagamento, valid: true });
-            this.converterValorFloatToString();
         }
     }
     DialogFluxoComponent.prototype.dateNow = function () {
@@ -63,11 +62,19 @@ var DialogFluxoComponent = /** @class */ (function () {
             currency: 'BRL'
         }).format(valor).replace("R$", "").trim();
     };
-    DialogFluxoComponent.prototype.converterValorFloatToString = function () {
-        if (this.fluxoData.valor) {
-            this.fluxoData.valor = this.formatarParaBRL(this.fluxoData.valor);
-        }
-    };
+    Object.defineProperty(DialogFluxoComponent.prototype, "valorFormatado", {
+        get: function () {
+            if (this.fluxoData.valor) {
+                return this.fluxoData.valor.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+            return '';
+        },
+        enumerable: false,
+        configurable: true
+    });
     DialogFluxoComponent.prototype.converterValorStringToFloat = function () {
         this.fluxoData.valor = parseFloat(this.fluxoData.valor
             .toString()
@@ -95,6 +102,9 @@ var DialogFluxoComponent = /** @class */ (function () {
         this.valid[4] = value.valid;
     };
     DialogFluxoComponent.prototype.onNoClick = function () {
+        if (this.dataFluxo.valor) {
+            this.converterValorStringToFloat();
+        }
         this.dialogRef.close();
     };
     DialogFluxoComponent.prototype.onClickHandler = function () {

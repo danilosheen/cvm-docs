@@ -21,21 +21,21 @@
         [label]="'CPF do passageiro'"
         [type]="'cpf'"
         [defaultValue]="passageiroData.documento"
-        (inputValue)="updateDocumentoClienteHandler($event)"
+        (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     } @else if (this.passageiroData.typeDocumentSelected == 'RG'){
       <app-input-number
         [label]="'RG do passageiro'"
         [type]="'text'"
         [defaultValue]="passageiroData.documento"
-        (inputValue)="updateDocumentoClienteHandler($event)"
+        (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     } @else if (this.passageiroData.typeDocumentSelected == 'Registro'){
       <app-input-number
         [label]="'Registro da criança'"
         [type]="'text'"
         [defaultValue]="passageiroData.documento"
-        (inputValue)="updateDocumentoClienteHandler($event)"
+        (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     }
   </div>

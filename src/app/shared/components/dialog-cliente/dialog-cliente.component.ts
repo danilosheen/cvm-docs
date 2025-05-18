@@ -51,7 +51,6 @@ export class DialogClienteComponent {
     bairro: '',
     rua: '',
     numero: '',
-    updatedAt: new Date().toISOString()
   }
 
   inputsDialog = inject(MAT_DIALOG_DATA);
@@ -76,10 +75,10 @@ export class DialogClienteComponent {
       this.updateEmailHandler({value: this.clienteData.email || '', valid: true});
       this.updateDocumentSelectedHandler({value: this.clienteData.typeDocumentSelected, valid: true});
       this.updateDocumentoClienteHandler({value: this.clienteData.documento, valid: true});
-      this.updateCidadeHandler({value: this.clienteData.cidade, valid: true});
-      this.updateBairroHandler({value: this.clienteData.bairro, valid: true});
-      this.updateRuaHandler({value: this.clienteData.rua, valid: true});
-      this.updateNumeroHandler({value: this.clienteData.numero, valid: true});
+      this.updateCidadeHandler({value: this.clienteData.cidade || '', valid: true});
+      this.updateBairroHandler({value: this.clienteData.bairro || '', valid: true});
+      this.updateRuaHandler({value: this.clienteData.rua || '', valid: true});
+      this.updateNumeroHandler({value: this.clienteData.numero || '', valid: true});
     }
   }
 
@@ -92,52 +91,52 @@ export class DialogClienteComponent {
     return true;
   }
 
-  updateNomeClienteHandler(value: IInput){
+  updateNomeClienteHandler(value: IInput<string>){
     this.clienteData.nome = value.value;
     this.valid[0] = value.valid;
   }
 
-  updateDataNascimentoHandler(value: IInput){
+  updateDataNascimentoHandler(value: IInput<string>){
     this.clienteData.dataNascimento = value.value;
     this.valid[1] = value.valid;
   }
 
-  updateContatoHandler(value: IInput){
+  updateContatoHandler(value: IInput<string>){
     this.clienteData.contato = value.value;
     this.valid[2] = value.valid;
   }
 
-  updateEmailHandler(value: IInput){
+  updateEmailHandler(value: IInput<string>){
     this.clienteData.email = value.value;
   }
 
-  updateDocumentSelectedHandler(value: IInput){
+  updateDocumentSelectedHandler(value: IInput<string>){
     if(this.clienteData.typeDocumentSelected !== value.value){
       this.clienteData.documento = ''
     }
     this.clienteData.typeDocumentSelected = value.value;
   }
 
-  updateDocumentoClienteHandler(value: IInput){
+  updateDocumentoClienteHandler(value: IInput<string>){
     this.clienteData.documento = value.value;
   }
 
-  updateCidadeHandler(value: IInput){
+  updateCidadeHandler(value: IInput<string>){
     this.clienteData.cidade = value.value;
     this.valid[3] = value.valid;
   }
 
-  updateBairroHandler(value: IInput){
+  updateBairroHandler(value: IInput<string>){
     this.clienteData.bairro = value.value;
     this.valid[4] = value.valid;
   }
 
-  updateRuaHandler(value: IInput){
+  updateRuaHandler(value: IInput<string>){
     this.clienteData.rua = value.value;
     this.valid[5] = value.valid;
   }
 
-  updateNumeroHandler(value: IInput){
+  updateNumeroHandler(value: IInput<string>){
     this.clienteData.numero = value.value;
     this.valid[6] = value.valid;
   }

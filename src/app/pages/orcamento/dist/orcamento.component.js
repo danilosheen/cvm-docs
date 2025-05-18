@@ -37,13 +37,13 @@ var OrcamentoComponent = /** @class */ (function () {
             horaSaida: '',
             dataRetorno: '',
             horaRetorno: '',
-            valorComDespesa: '',
-            valorSemDespesa: '',
-            valorComNota: '',
-            taxaPix: '',
+            valorComDespesa: null,
+            valorSemDespesa: null,
+            valorComNota: null,
+            taxaPix: null,
             modeloVan: '',
-            cortesiaKm: '',
-            valorAcrescimoKm: ''
+            cortesiaKm: null,
+            valorAcrescimoKm: null
         };
         this.valid = [];
         this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
@@ -137,7 +137,6 @@ var OrcamentoComponent = /** @class */ (function () {
         this.valid[0] = (value.valid);
     };
     OrcamentoComponent.prototype.updateTelefoneContatoHandler = function (value) {
-        console.log(value);
         this.orcamentoData.telefoneContato = value.value;
         this.valid[1] = (value.valid);
     };

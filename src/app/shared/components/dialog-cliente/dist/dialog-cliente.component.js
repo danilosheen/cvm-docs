@@ -31,8 +31,7 @@ var DialogClienteComponent = /** @class */ (function () {
             cidade: '',
             bairro: '',
             rua: '',
-            numero: '',
-            updatedAt: new Date().toISOString()
+            numero: ''
         };
         this.inputsDialog = core_1.inject(dialog_1.MAT_DIALOG_DATA);
         this.title = this.inputsDialog.title;
@@ -48,10 +47,10 @@ var DialogClienteComponent = /** @class */ (function () {
             this.updateEmailHandler({ value: this.clienteData.email || '', valid: true });
             this.updateDocumentSelectedHandler({ value: this.clienteData.typeDocumentSelected, valid: true });
             this.updateDocumentoClienteHandler({ value: this.clienteData.documento, valid: true });
-            this.updateCidadeHandler({ value: this.clienteData.cidade, valid: true });
-            this.updateBairroHandler({ value: this.clienteData.bairro, valid: true });
-            this.updateRuaHandler({ value: this.clienteData.rua, valid: true });
-            this.updateNumeroHandler({ value: this.clienteData.numero, valid: true });
+            this.updateCidadeHandler({ value: this.clienteData.cidade || '', valid: true });
+            this.updateBairroHandler({ value: this.clienteData.bairro || '', valid: true });
+            this.updateRuaHandler({ value: this.clienteData.rua || '', valid: true });
+            this.updateNumeroHandler({ value: this.clienteData.numero || '', valid: true });
         }
     }
     // clienteData: ICliente = inject(MAT_DIALOG_DATA);

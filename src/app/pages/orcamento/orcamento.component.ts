@@ -56,13 +56,13 @@ export class OrcamentoComponent implements OnInit{
     horaSaida: '',
     dataRetorno: '',
     horaRetorno: '',
-    valorComDespesa: '',
-    valorSemDespesa: '',
-    valorComNota: '',
-    taxaPix:'',
+    valorComDespesa: null,
+    valorSemDespesa: null,
+    valorComNota: null,
+    taxaPix: null,
     modeloVan: '',
-    cortesiaKm: '',
-    valorAcrescimoKm: '',
+    cortesiaKm: null,
+    valorAcrescimoKm: null,
   };
   valid: boolean[] = [];
   cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
@@ -159,71 +159,70 @@ export class OrcamentoComponent implements OnInit{
     this.valid[0] = (value.valid);
   }
 
-  updateTelefoneContatoHandler(value: IInput) {
-    console.log(value)
+  updateTelefoneContatoHandler(value: IInput<string>) {
     this.orcamentoData.telefoneContato = value.value;
     this.valid[1] = (value.valid);
   }
 
-  updateLocalSaidaHandler(value: IInput) {
+  updateLocalSaidaHandler(value: IInput<string>) {
     this.orcamentoData.localSaida = value.value;
     this.valid[3] = (value.valid);
   }
 
-  updateDestinoViagemHandler(value: IInput) {
+  updateDestinoViagemHandler(value: IInput<string>) {
     this.orcamentoData.destinoViagem = value.value;
     this.valid[2] = (value.valid);
   }
 
-  updateDataSaidaHandler(value: IInput) {
+  updateDataSaidaHandler(value: IInput<string>) {
     this.orcamentoData.dataSaida = value.value;
     this.valid[4] = (value.valid);
   }
 
-  updateHoraSaidaHandler(value: IInput) {
+  updateHoraSaidaHandler(value: IInput<string>) {
     this.orcamentoData.horaSaida = value.value;
     this.valid[5] = (value.valid);
   }
 
-  updateDataRetornoHandler(value: IInput) {
+  updateDataRetornoHandler(value: IInput<string>) {
     this.orcamentoData.dataRetorno = value.value;
     this.valid[6] = (value.valid);
   }
 
-  updateHoraRetornoHandler(value: IInput) {
+  updateHoraRetornoHandler(value: IInput<string>) {
     this.orcamentoData.horaRetorno = value.value;
     this.valid[7] = (value.valid);
   }
 
-  updateValorComDespezaHandler(value: IInput) {
+  updateValorComDespezaHandler(value: IInput<number>) {
     this.orcamentoData.valorComDespesa = value.value;
     this.valid[8] = (value.valid);
   }
 
-  updateValorSemDespezaHandler(value: IInput) {
+  updateValorSemDespezaHandler(value: IInput<number>) {
     this.orcamentoData.valorSemDespesa = value.value;
     this.valid[9] = (value.valid);
   }
 
-  updateValorComNotaHandler(value: IInput) {
+  updateValorComNotaHandler(value: IInput<number>) {
     this.orcamentoData.valorComNota = value.value;
     this.valid[10] = (value.valid);
   }
 
-  updateTaxaPixHandler(value: IInput){
+  updateTaxaPixHandler(value: IInput<number>){
     this.orcamentoData.taxaPix = value.value;
     this.valid[11] = (value.valid);
   }
 
-  updateModeloVanHandler(value: IInput) {
+  updateModeloVanHandler(value: IInput<string>) {
     this.orcamentoData.modeloVan = value.value;
   }
 
-  updateCortesiaKmHandler(value: IInput){
+  updateCortesiaKmHandler(value: IInput<number>){
     this.orcamentoData.cortesiaKm = value.value;
   }
 
-  updateValorAcrescimoKmHandler(value: IInput) {
+  updateValorAcrescimoKmHandler(value: IInput<number>) {
     this.orcamentoData.valorAcrescimoKm = value.value;
   }
 

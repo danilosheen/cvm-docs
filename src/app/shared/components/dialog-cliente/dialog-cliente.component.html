@@ -12,14 +12,15 @@
     <app-input-number
       [label]="'Data de nascimento'"
       [type]="'date'"
+      [optional]="true"
       [defaultValue]="clienteData.dataNascimento!"
-      (inputValue)="updateDataNascimentoHandler($event)"
+      (inputValueString)="updateDataNascimentoHandler($event)"
     ></app-input-number>
     <app-input-number
       [label]="'Contato'"
       [type]="'tel'"
       [defaultValue]="clienteData.contato"
-      (inputValue)="updateContatoHandler($event)"
+      (inputValueString)="updateContatoHandler($event)"
     ></app-input-number>
     <app-input-text
       [label]="'Email'"
@@ -39,40 +40,44 @@
         [label]="'CPF do cliente'"
         [type]="'cpf'"
         [defaultValue]="clienteData.documento"
-        (inputValue)="updateDocumentoClienteHandler($event)"
+        (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     } @else {
       <app-input-number
         [label]="'RG do cliente'"
         [type]="'text'"
         [defaultValue]="clienteData.documento"
-        (inputValue)="updateDocumentoClienteHandler($event)"
+        (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     }
     <app-input-text
       [label]="'Cidade'"
+      [optional]="true"
       [placeholder]="'ex: Juazeiro do Norte'"
-      [defaultValue]="clienteData.cidade"
+      [defaultValue]="clienteData.cidade || ''"
       (inputValue)="updateCidadeHandler($event)"
     ></app-input-text>
     <app-input-text
       [label]="'Bairro'"
+      [optional]="true"
       [placeholder]="'ex: Lagoa Seca'"
-      [defaultValue]="clienteData.bairro"
+      [defaultValue]="clienteData.bairro || ''"
       (inputValue)="updateBairroHandler($event)"
     ></app-input-text>
     <app-input-text
       [label]="'Rua'"
+      [optional]="true"
       [placeholder]="'ex: São Pedro'"
-      [defaultValue]="clienteData.rua"
+      [defaultValue]="clienteData.rua || ''"
       (inputValue)="updateRuaHandler($event)"
     ></app-input-text>
     <app-input-number
       [label]="'Número'"
+      [optional]="true"
       [type]="'text'"
       [placeholder]="'ex: 37'"
-      [defaultValue]="clienteData.numero"
-      (inputValue)="updateNumeroHandler($event)"
+      [defaultValue]="clienteData.numero || ''"
+      (inputValueString)="updateNumeroHandler($event)"
     ></app-input-number>
   </div>
   <mat-dialog-actions>

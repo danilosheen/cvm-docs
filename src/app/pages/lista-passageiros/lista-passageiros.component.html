@@ -12,7 +12,7 @@
         [label]="'Número do carro'"
         [defaultValue]="'25152001'"
         [placeholder]="'ex: 25152001'"
-        (inputValue)="updateNumeroCarroHandler($event)"
+        (inputValueString)="updateNumeroCarroHandler($event)"
       ></app-input-number>
 
       <!-- Placa do carro -->
@@ -20,7 +20,7 @@
         [label]="'Placa do carro'"
         [defaultValue]="'OSQ1619'"
         [placeholder]="'ex: OSQ1619'"
-        (inputValue)="updatePlacaHandler($event)"
+        (inputValueString)="updatePlacaHandler($event)"
       ></app-input-number>
 
       <!-- Motorista -->
@@ -75,7 +75,7 @@
         [label]="'Extensão do roteiro em (KM)'"
         [type]="'text'"
         [optional]="true"
-        (inputValue)="updateExtensaoKmHandler($event)"
+        (inputValueString)="updateExtensaoKmHandler($event)"
       ></app-input-number>
 
       <h3 class="title-passageiros">Inserir passageiros</h3>
@@ -109,21 +109,21 @@
           [label]="'CPF do passageiro'"
           [type]="'cpf'"
           [defaultValue]="passageiro.documento"
-          (inputValue)="updateDocumentoHandler($event)"
+          (inputValueString)="updateDocumentoHandler($event)"
         ></app-input-number>
       } @else if (passageiro.typeDocumentSelected == 'RG'){
         <app-input-number
           [label]="'RG do passageiro'"
           [type]="'text'"
           [defaultValue]="passageiro.documento"
-          (inputValue)="updateDocumentoHandler($event)"
+          (inputValueString)="updateDocumentoHandler($event)"
         ></app-input-number>
       } @else {
         <app-input-number
           [label]="'Registro da criança'"
           [type]="'text'"
           [defaultValue]="passageiro.documento"
-          (inputValue)="updateDocumentoHandler($event)"
+          (inputValueString)="updateDocumentoHandler($event)"
         ></app-input-number>
       }
 

@@ -7,11 +7,11 @@ export interface IOrcamento {
   horaSaida: string;
   dataRetorno: string;
   horaRetorno: string;
-  valorComDespesa: string;
-  valorSemDespesa: string;
-  valorComNota: string;
-  taxaPix: string;
+  valorComDespesa: number | null;
+  valorSemDespesa: number | null;
+  valorComNota: number | null;
+  taxaPix: number | null;
   modeloVan?: string;
-  cortesiaKm?: string;
-  valorAcrescimoKm?: string;
+  cortesiaKm?: number | null;
+  valorAcrescimoKm?: number | null;
 }

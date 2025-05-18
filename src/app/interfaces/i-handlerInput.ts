@@ -1,4 +1,4 @@
-export interface IInput {
-  value: string,
-  valid: boolean
+export interface IInput<T> {
+  value: T;
+  valid: boolean;
 }

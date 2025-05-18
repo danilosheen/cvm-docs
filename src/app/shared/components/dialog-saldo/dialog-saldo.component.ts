@@ -9,6 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { InputNumberComponent } from "../input-number/input-number.component";
 import { IInput } from '../../../interfaces/i-handlerInput';
+import { BrCurrencyPipe } from "../../../pipes/br-currency.pipe";
 
 @Component({
   selector: 'app-dialog-saldo',
@@ -17,7 +18,8 @@ import { IInput } from '../../../interfaces/i-handlerInput';
     MatDialogActions,
     MatDialogClose,
     MatDialogTitle,
-    InputNumberComponent
+    InputNumberComponent,
+    BrCurrencyPipe
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dialog-saldo.component.html',
@@ -25,26 +27,20 @@ import { IInput } from '../../../interfaces/i-handlerInput';
 })
 export class DialogSaldoComponent {
   readonly dialogRef = inject(MatDialogRef<DialogSaldoComponent>);
-  valueInputed = '';
+  valueInputed: number | string = '0,00';
+  data = inject(MAT_DIALOG_DATA)
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      dialogTitle: string | 'Adicionar saldo anterior',
-      dialogContent: string | 'Insira o valor do saldo anterior',
-      saldoAnterior: number
+  constructor() {
+    if(this.data.saldoAnterior){
+      this.valueInputed = this.data.saldoAnterior
     }
-  ) {
-    this.valueInputed = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(data.saldoAnterior).replace("R$", "").trim();
   }
 
   onClickHandler(){
     this.dialogRef.close(this.valueInputed);
   }
 
-  updateValueHandler(value: IInput){
+  updateValueHandler(value: IInput<number>){
     this.valueInputed = value.value;
   }
 }

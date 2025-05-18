@@ -27,7 +27,7 @@ var ReciboComponent = /** @class */ (function () {
         this.reciboData = {
             nomeCliente: '',
             pacoteViagem: '',
-            valor: '',
+            valor: 0,
             formaPagamento: ''
         };
         this.valid = [];

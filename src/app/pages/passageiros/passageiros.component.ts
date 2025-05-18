@@ -146,8 +146,6 @@ export class PassageirosComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const updatedAt = new Date().toISOString()
-        passageiro.updatedAt = updatedAt;
         this.editarPassageiro(passageiro.id!, passageiro);
       } else {
         this.carregarPassageiros();
@@ -173,8 +171,6 @@ export class PassageirosComponent {
   }
 
   editarPassageiro(id: string, passageiro: IPassageiro){
-    const updatedAt = new Date().toISOString();
-    passageiro.updatedAt = updatedAt;
     this.passageiroService.update(id, passageiro).subscribe(()=>{
     })
   }

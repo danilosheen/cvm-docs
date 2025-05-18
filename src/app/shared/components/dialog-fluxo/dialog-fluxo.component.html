@@ -24,8 +24,8 @@
     <app-input-number
       [label]="'Informe o valor'"
       [type]="'number'"
-      [defaultValue]="fluxoData.valor"
-      (inputValue)="updateValorHandler($event)"
+      [defaultValue]="valorFormatado"
+      (inputValueNumber)="updateValorHandler($event)"
     ></app-input-number>
 
     <!-- Descrição -->

@@ -250,52 +250,52 @@ export class ListaPassageirosComponent implements OnInit {
     }
   }
 
-  updateNumeroCarroHandler(value: IInput){
+  updateNumeroCarroHandler(value: IInput<string>){
     this.listaPassageiros.numeroCarro = value.value
     this.valid[0] = value.valid;
   }
 
-  updatePlacaHandler(value: IInput){
+  updatePlacaHandler(value: IInput<string>){
     this.listaPassageiros.placa = value.value
     this.valid[1] = value.valid;
   }
 
-  updateMotoristaHandler(value: IInput){
+  updateMotoristaHandler(value: IInput<string>){
     this.listaPassageiros.motorista = value.value
     this.valid[2] = value.valid;
   }
 
-  updateLocalSaidaHandler(value: IInput){
+  updateLocalSaidaHandler(value: IInput<string>){
     this.listaPassageiros.origem = value.value
     this.valid[3] = value.valid;
   }
 
-  updateDestinoHandler(value: IInput){
+  updateDestinoHandler(value: IInput<string>){
     this.listaPassageiros.destino = value.value
     this.valid[4] = value.valid;
   }
 
-  updateDataSaidaHandler(value: IInput){
+  updateDataSaidaHandler(value: IInput<string>){
     this.listaPassageiros.dataSaida = value.value
     this.valid[5] = value.valid;
   }
 
-  updateHoraSaidaHandler(value: IInput){
+  updateHoraSaidaHandler(value: IInput<string>){
     this.listaPassageiros.horaSaida = value.value
     this.valid[6] = value.valid;
   }
 
-  updateDataRetornoHandler(value: IInput){
+  updateDataRetornoHandler(value: IInput<string>){
     this.listaPassageiros.dataRetorno = value.value
     this.valid[7] = value.valid;
   }
 
-  updateHoraRetornoHandler(value: IInput){
+  updateHoraRetornoHandler(value: IInput<string>){
     this.listaPassageiros.horaRetorno = value.value
     this.valid[8] = value.valid;
   }
 
-  updateExtensaoKmHandler(value: IInput){
+  updateExtensaoKmHandler(value: IInput<string>){
     this.listaPassageiros.extensaoRoteiroKm = value.value
   }
 
@@ -319,14 +319,14 @@ export class ListaPassageirosComponent implements OnInit {
     this.valid[9] = value.valid;
   }
 
-  updateDocumentSelectedHandler(value: IInput){
+  updateDocumentSelectedHandler(value: IInput<string>){
     if (this.passageiro.typeDocumentSelected !== value.value) {
       this.passageiro.documento = '';
     }
     this.passageiro.typeDocumentSelected = value.value;
   }
 
-  updateDocumentoHandler(value: IInput){
+  updateDocumentoHandler(value: IInput<string>){
     this.passageiro.documento = value.value
     this.valid[10] = value.valid;
   }

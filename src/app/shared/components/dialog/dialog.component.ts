@@ -88,7 +88,7 @@ export class DialogFromMenu implements OnInit {
 
   nome: string = '';
   documento: string = '';
-  poltrona: string = '';
+  poltrona: number | null = null;
   dependentes: IDependente[] = [];
   dependentesOptions: IPessoaAutocomplete[] = [];
   valid: boolean[] = [];
@@ -122,7 +122,7 @@ export class DialogFromMenu implements OnInit {
     this.dialogRef.close();
   }
 
-  adicionarDependente(nome: string, typeDocumentSelected: string, documento: string, clienteId: string, poltrona: string){
+  adicionarDependente(nome: string, typeDocumentSelected: string, documento: string, clienteId: string, poltrona: number){
     if(this.isValid()){
       const novoDependente = { nome, typeDocumentSelected, documento, clienteId, poltrona };
       this.dependenteService.create({ nome, typeDocumentSelected, documento, clienteId }).subscribe();
@@ -162,11 +162,11 @@ export class DialogFromMenu implements OnInit {
   }
 
 
-  updateDocumentSelectedHandler(value: IInput){
+  updateDocumentSelectedHandler(value: IInput<string>){
     this.typeDocumentSelected = value.value
   }
 
-  updateDocumentoDependenteHandler(value: IInput){
+  updateDocumentoDependenteHandler(value: IInput<string>){
     if(value.value == ''){
       this.documento = 'Não informado.'
     } else{
@@ -174,7 +174,7 @@ export class DialogFromMenu implements OnInit {
     }
   }
 
-  updatePoltronaDependenteHandler(value: IInput){
+  updatePoltronaDependenteHandler(value: IInput<number>){
     this.poltrona = value.value;
     this.valid[1] = value.valid;
   }

@@ -19,14 +19,18 @@ var InputNumberComponent = /** @class */ (function () {
         this.label = '';
         this.placeholder = '';
         this.type = '';
-        this.defaultValue = '';
+        this.defaultValue = null;
         this.optional = false;
-        this.inputValue = new core_1.EventEmitter();
+        this.inputValueString = new core_1.EventEmitter();
+        this.inputValueNumber = new core_1.EventEmitter();
         this.errorMessage = core_1.signal('');
         this.input = new forms_1.FormControl('');
         rxjs_1.merge(this.input.statusChanges, this.input.valueChanges)
             .pipe(rxjs_interop_1.takeUntilDestroyed())
             .subscribe(function () { return _this.updateErrorMessage(); });
+        if (this.defaultValue) {
+            this.input.setValue(this.defaultValue);
+        }
     }
     InputNumberComponent.prototype.ngOnInit = function () {
         if (!this.optional) {
@@ -34,7 +38,7 @@ var InputNumberComponent = /** @class */ (function () {
         }
         if (this.defaultValue) {
             this.input.setValue(this.defaultValue);
-            this.sendNumberInputHandler(this.defaultValue);
+            this.sendInputHandler(this.defaultValue);
         }
         this.setValidators();
     };
@@ -139,40 +143,67 @@ var InputNumberComponent = /** @class */ (function () {
         return formattedValue;
     };
     InputNumberComponent.prototype.onInputChange = function (event) {
-        if (this.type == 'number' && this.input.value) {
-            var inputElement = event.target;
-            var formattedValue = this.decimalFormat(inputElement.value);
+        var inputElement = event.target;
+        var rawValue = inputElement.value;
+        if (this.type === 'number' && rawValue) {
+            if (rawValue.trim() === '-') {
+                this.input.setValue('0,00', { emitEvent: false });
+                this.sendInputHandler(0);
+                return;
+            }
+            // Remove tudo que não é número ou "-"
+            var onlyDigits = rawValue.replace(/[^\d-]/g, '');
+            // Verifica se há "-" no final (ou em qualquer lugar)
+            var isNegative = onlyDigits.includes('-');
+            // Remove o "-" para processar só os dígitos
+            onlyDigits = onlyDigits.replace(/-/g, '');
+            // Converte para centavos
+            var numericValue = parseFloat(onlyDigits) / 100;
+            if (isNegative) {
+                numericValue = numericValue * -1;
+            }
+            if (Object.is(numericValue, -0)) {
+                numericValue = 0;
+            }
+            // Formata para BRL sem símbolo
+            var formatted = numericValue.toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            // Atualiza visualmente
+            this.input.setValue(formatted, { emitEvent: false });
+            this.sendInputHandler(numericValue);
+        }
+        else if (this.type === 'tel' && rawValue) {
+            var formattedValue = this.onPhoneInputChange(rawValue);
             this.input.setValue(formattedValue, { emitEvent: false });
-            this.sendNumberInputHandler(formattedValue);
+            this.sendInputHandler(formattedValue);
         }
-        else if (this.type == 'tel' && this.input.value) {
-            var inputElement = event.target;
-            var formattedValue = this.onPhoneInputChange(inputElement.value);
+        else if (this.type === 'cpf' && rawValue) {
+            var formattedValue = this.onCpfFormat(rawValue);
             this.input.setValue(formattedValue, { emitEvent: false });
-            this.sendNumberInputHandler(formattedValue);
+            this.sendInputHandler(formattedValue);
         }
-        else if (this.type == 'cpf' && this.input.value) {
-            var inputElement = event.target;
-            var formattedValue = this.onCpfFormat(inputElement.value);
+        else if (this.type === 'date' && rawValue) {
+            var formattedValue = this.onDateFormat(rawValue);
             this.input.setValue(formattedValue, { emitEvent: false });
-            this.sendNumberInputHandler(formattedValue);
+            this.sendInputHandler(formattedValue);
         }
-        else if (this.type == 'date' && this.input.value) {
-            var inputElement = event.target;
-            var formattedValue = this.onDateFormat(inputElement.value);
-            this.input.setValue(formattedValue, { emitEvent: false });
-            this.sendNumberInputHandler(formattedValue);
+        else if (this.type === 'text' && rawValue) {
+            this.sendInputHandler(parseInt(rawValue));
         }
-        else if (this.type == 'text' && this.input.value) {
-            var inputElement = event.target;
-            this.sendNumberInputHandler(inputElement.value);
-        }
-        else if (this.optional && !this.input.value) {
-            this.sendNumberInputHandler("");
+        else if (this.optional && !rawValue) {
+            this.sendInputHandler('');
         }
     };
-    InputNumberComponent.prototype.sendNumberInputHandler = function (valueFormated) {
-        this.inputValue.emit({ value: valueFormated, valid: this.input.valid });
+    InputNumberComponent.prototype.sendInputHandler = function (valueInputed) {
+        var payload = { value: valueInputed, valid: this.input.valid };
+        if (typeof valueInputed === 'number') {
+            this.inputValueNumber.emit(payload);
+        }
+        else {
+            this.inputValueString.emit(payload);
+        }
     };
     InputNumberComponent.prototype.moneyValidator = function (control) {
         var _a;
@@ -235,7 +266,10 @@ var InputNumberComponent = /** @class */ (function () {
     ], InputNumberComponent.prototype, "optional");
     __decorate([
         core_1.Output()
-    ], InputNumberComponent.prototype, "inputValue");
+    ], InputNumberComponent.prototype, "inputValueString");
+    __decorate([
+        core_1.Output()
+    ], InputNumberComponent.prototype, "inputValueNumber");
     InputNumberComponent = __decorate([
         core_1.Component({
             selector: 'app-input-number',

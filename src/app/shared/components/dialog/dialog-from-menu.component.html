@@ -21,7 +21,7 @@
         [type]="'cpf'"
         [defaultValue]="documento"
         [optional]="true"
-        (inputValue)="updateDocumentoDependenteHandler($event)"
+        (inputValueString)="updateDocumentoDependenteHandler($event)"
       ></app-input-number>
     } @else if(typeDocumentSelected == 'RG'){
       <app-input-number
@@ -29,7 +29,7 @@
         [type]="'text'"
         [defaultValue]="documento"
         [optional]="true"
-        (inputValue)="updateDocumentoDependenteHandler($event)"
+        (inputValueString)="updateDocumentoDependenteHandler($event)"
       ></app-input-number>
   } @else {
     <app-input-number
@@ -37,13 +37,13 @@
       [type]="'text'"
       [defaultValue]="documento"
       [optional]="true"
-      (inputValue)="updateDocumentoDependenteHandler($event)"
+      (inputValueString)="updateDocumentoDependenteHandler($event)"
     ></app-input-number>
   }
   <app-input-number
     [label]="'Informe a poltrona'"
     [type]="'text'"
-    (inputValue)="updatePoltronaDependenteHandler($event)"
+    (inputValueNumber)="updatePoltronaDependenteHandler($event)"
   ></app-input-number>
   } @else {
     <app-loading-blue></app-loading-blue>
@@ -54,7 +54,7 @@
   <button mat-button (click)="onNoClick()">Cancelar</button>
   <button mat-button
   [disabled]="!isValid()"
-  (click)="adicionarDependente(nome, typeDocumentSelected, documento, dialodData.idCliente, poltrona)"
-  (window:keydown.enter)="adicionarDependente(nome, typeDocumentSelected, documento, dialodData.idCliente, poltrona)"
+  (click)="adicionarDependente(nome, typeDocumentSelected, documento, dialodData.idCliente, poltrona!)"
+  (window:keydown.enter)="adicionarDependente(nome, typeDocumentSelected, documento, dialodData.idCliente, poltrona!)"
   >Adicionar</button>
 </mat-dialog-actions>

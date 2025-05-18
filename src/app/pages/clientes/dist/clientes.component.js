@@ -147,8 +147,6 @@ var ClientesComponent = /** @class */ (function () {
         });
     };
     ClientesComponent.prototype.editarCliente = function (id, cliente) {
-        var updatedAt = new Date().toISOString();
-        cliente.updatedAt = updatedAt;
         this.clienteService.update(id, cliente).subscribe(function () {
         });
     };
