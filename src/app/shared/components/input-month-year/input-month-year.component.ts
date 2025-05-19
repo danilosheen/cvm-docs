@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, LOCALE_ID, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, LOCALE_ID, OnChanges, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, provideMomentDateAdapter} from '@angular/material-moment-adapter';
 import {MatDatepicker, MatDatepickerModule} from '@angular/material/datepicker';
@@ -41,7 +41,7 @@ export const MY_FORMATS = {
   templateUrl: './input-month-year.component.html',
   styleUrl: './input-month-year.component.css'
 })
-export class InputMonthYearComponent {
+export class InputMonthYearComponent implements OnChanges {
 
   @Input() label = '';
   @Input() defaultValue = '';
@@ -52,6 +52,13 @@ export class InputMonthYearComponent {
 
   constructor(){
     if(this.defaultValue){
+      const dataMoment = moment(this.defaultValue, 'MM/YYYY');
+      this.date.setValue(dataMoment);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['defaultValue']) {
       const dataMoment = moment(this.defaultValue, 'MM/YYYY');
       this.date.setValue(dataMoment);
     }

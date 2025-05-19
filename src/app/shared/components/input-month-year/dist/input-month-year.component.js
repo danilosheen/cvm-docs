@@ -40,6 +40,12 @@ var InputMonthYearComponent = /** @class */ (function () {
             this.date.setValue(dataMoment);
         }
     }
+    InputMonthYearComponent.prototype.ngOnChanges = function (changes) {
+        if (changes['defaultValue']) {
+            var dataMoment = moment(this.defaultValue, 'MM/YYYY');
+            this.date.setValue(dataMoment);
+        }
+    };
     InputMonthYearComponent.prototype.setMonthAndYear = function (normalizedMonthAndYear, datepicker) {
         var _a;
         var ctrlValue = (_a = this.date.value) !== null && _a !== void 0 ? _a : moment();

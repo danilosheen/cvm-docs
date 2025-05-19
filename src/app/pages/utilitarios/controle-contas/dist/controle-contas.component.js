@@ -69,10 +69,13 @@ var ControleContasComponent = /** @class */ (function () {
         var _this = this;
         this.isLoading = true;
         this.resetarValores();
+        var mes = this.mesAnoSelected.mes;
+        var ano = this.mesAnoSelected.ano;
         this.fluxoService.getByMonthYear(this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
             next: function (fluxos) {
                 _this.fluxos = fluxos;
                 _this.atualizarSaldo();
+                _this.mesAnoAtual = mes + "/" + ano;
                 _this.isLoading = false;
             },
             error: function (error) {

@@ -83,11 +83,14 @@ export class ControleContasComponent {
   carregarFluxos(){
     this.isLoading = true;
     this.resetarValores();
+    const mes = this.mesAnoSelected.mes;
+    const ano = this.mesAnoSelected.ano;
     this.fluxoService.getByMonthYear(
       this.mesAnoSelected.mes, this.mesAnoSelected.ano).subscribe({
       next:(fluxos) => {
         this.fluxos = fluxos;
         this.atualizarSaldo();
+        this.mesAnoAtual = `${mes}/${ano}`
         this.isLoading = false;
       },
       error:(error) => {
