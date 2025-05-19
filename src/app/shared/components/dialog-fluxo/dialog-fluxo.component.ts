@@ -98,15 +98,6 @@ export class DialogFluxoComponent {
     return ''
   }
 
-  converterValorStringToFloat(){
-    this.fluxoData.valor = parseFloat(
-      this.fluxoData.valor
-      .toString()
-      .replace(".", "")
-      .replace(",",".")
-    );
-  }
-
   updateDataMovimentacaoHandler(value: IInput<string>){
     this.fluxoData.data = value.value;
     this.valid[0] = value.valid;
@@ -133,14 +124,10 @@ export class DialogFluxoComponent {
   }
 
   onNoClick(): void {
-    if(this.dataFluxo.valor){
-      this.converterValorStringToFloat();
-    }
     this.dialogRef.close();
   }
 
   onClickHandler(){
-    this.converterValorStringToFloat();
     this.dialogRef.close(this.fluxoData);
   }
 }

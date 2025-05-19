@@ -40,7 +40,6 @@ export class InputDateComponent {
 
     if(this.defaultValue){
       this.input.setValue(this.defaultValue);
-      console.log(this.defaultValue)
     }
   }
 

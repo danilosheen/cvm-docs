@@ -32,7 +32,6 @@ var InputDateComponent = /** @class */ (function () {
         }
         if (this.defaultValue) {
             this.input.setValue(this.defaultValue);
-            console.log(this.defaultValue);
         }
     };
     InputDateComponent.prototype.updateErrorMessage = function () {

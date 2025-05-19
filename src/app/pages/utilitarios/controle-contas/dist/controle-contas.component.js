@@ -143,8 +143,10 @@ var ControleContasComponent = /** @class */ (function () {
         });
         dialogRef.afterClosed().subscribe(function (fluxo) {
             if (fluxo) {
+                console.log(fluxo);
                 _this.fluxoService.create(fluxo).subscribe(function (response) {
                     // this.fluxos = [response, ...this.fluxos]
+                    console.log(response);
                     _this.carregarFluxos();
                 });
             }

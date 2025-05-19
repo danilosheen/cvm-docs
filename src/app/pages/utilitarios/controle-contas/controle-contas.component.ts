@@ -150,7 +150,6 @@ export class ControleContasComponent {
   }
 
   openAdicionarMovimentacao(): void{
-
     const dialogRef = this.dialog.open(DialogFluxoComponent, {
       data: {
         title: 'adicionar',
@@ -160,8 +159,10 @@ export class ControleContasComponent {
 
     dialogRef.afterClosed().subscribe((fluxo: IFluxoCaixa) => {
       if (fluxo) {
+      console.log(fluxo)
         this.fluxoService.create(fluxo).subscribe(response =>{
           // this.fluxos = [response, ...this.fluxos]
+          console.log(response)
           this.carregarFluxos();
         })
       }

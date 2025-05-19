@@ -75,12 +75,6 @@ var DialogFluxoComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    DialogFluxoComponent.prototype.converterValorStringToFloat = function () {
-        this.fluxoData.valor = parseFloat(this.fluxoData.valor
-            .toString()
-            .replace(".", "")
-            .replace(",", "."));
-    };
     DialogFluxoComponent.prototype.updateDataMovimentacaoHandler = function (value) {
         this.fluxoData.data = value.value;
         this.valid[0] = value.valid;
@@ -102,13 +96,9 @@ var DialogFluxoComponent = /** @class */ (function () {
         this.valid[4] = value.valid;
     };
     DialogFluxoComponent.prototype.onNoClick = function () {
-        if (this.dataFluxo.valor) {
-            this.converterValorStringToFloat();
-        }
         this.dialogRef.close();
     };
     DialogFluxoComponent.prototype.onClickHandler = function () {
-        this.converterValorStringToFloat();
         this.dialogRef.close(this.fluxoData);
     };
     DialogFluxoComponent = __decorate([
