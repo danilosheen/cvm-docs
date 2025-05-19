@@ -151,12 +151,13 @@ export class OrcamentoComponent implements OnInit{
         if(cliente.id == idSelected){
           this.orcamentoData.nomeCliente = cliente.nome;
           this.updateTelefoneContatoHandler({value: cliente.contato, valid: true});
+          this.valid[0] = true;
         }
       })
     } else {
       this.orcamentoData.nomeCliente = value.value.nome;
+      this.valid[0] = value.valid;
     }
-    this.valid[0] = (value.valid);
   }
 
   updateTelefoneContatoHandler(value: IInput<string>) {

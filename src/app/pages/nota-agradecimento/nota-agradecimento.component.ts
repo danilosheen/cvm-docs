@@ -148,7 +148,6 @@ export class NotaAgradecimentoComponent implements OnInit{
   }
 
   updateNomeClienteHandler(value: any){
-    console.log(value)
     const pessoa = value?.value || value;
     this.nomeCliente = pessoa.nome;
     if (pessoa.id) {

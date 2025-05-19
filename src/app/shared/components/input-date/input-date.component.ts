@@ -60,15 +60,6 @@ export class InputDateComponent {
 
   sendDataSaidaInputHandler(){
     //envia output
-    // const dataSaida = new Date(this.input.value);
-
-    // // Formata a data para dd/mm/yyyy
-    // const dia = String(dataSaida.getDate()).padStart(2, "0");
-    // const mes = String(dataSaida.getMonth() + 1).padStart(2, "0"); // Meses começam do 0
-    // const ano = dataSaida.getFullYear();
-    // const dataFormatada = `${dia}/${mes}/${ano}`;
-
-    console.log(this.input.value)
     this.inputDate.emit({value: this.input.value, valid: this.input.valid});
   }
 }

@@ -137,7 +137,6 @@ var NotaAgradecimentoComponent = /** @class */ (function () {
     NotaAgradecimentoComponent.prototype.updateNomeClienteHandler = function (value) {
         var _this = this;
         var _a;
-        console.log(value);
         var pessoa = (value === null || value === void 0 ? void 0 : value.value) || value;
         this.nomeCliente = pessoa.nome;
         if (pessoa.id) {

@@ -128,13 +128,14 @@ var OrcamentoComponent = /** @class */ (function () {
                 if (cliente.id == idSelected) {
                     _this.orcamentoData.nomeCliente = cliente.nome;
                     _this.updateTelefoneContatoHandler({ value: cliente.contato, valid: true });
+                    _this.valid[0] = true;
                 }
             });
         }
         else {
             this.orcamentoData.nomeCliente = value.value.nome;
+            this.valid[0] = value.valid;
         }
-        this.valid[0] = (value.valid);
     };
     OrcamentoComponent.prototype.updateTelefoneContatoHandler = function (value) {
         this.orcamentoData.telefoneContato = value.value;
