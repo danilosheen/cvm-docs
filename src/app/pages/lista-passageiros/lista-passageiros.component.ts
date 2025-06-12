@@ -62,8 +62,8 @@ export class ListaPassageirosComponent implements OnInit {
   // arrayNomePassageiros: IClienteAutocomplete[] = [];
 
   listaPassageiros: IListaPassageiros = {
-    numeroCarro: '',
-    placa: '',
+    numeroCarro: '25152001',
+    placa: 'OSQ1619',
     motorista: '',
     origem: '',
     destino: '',
@@ -250,8 +250,8 @@ export class ListaPassageirosComponent implements OnInit {
     }
   }
 
-  updateNumeroCarroHandler(value: IInput<string>){
-    this.listaPassageiros.numeroCarro = value.value
+  updateNumeroCarroHandler(value: IInput<number>){
+    this.listaPassageiros.numeroCarro = value.value.toString();
     this.valid[0] = value.valid;
   }
 

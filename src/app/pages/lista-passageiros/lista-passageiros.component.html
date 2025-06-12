@@ -10,18 +10,19 @@
       <!-- Número do carro -->
       <app-input-number
         [label]="'Número do carro'"
-        [defaultValue]="'25152001'"
+        [defaultValue]="listaPassageiros.numeroCarro"
+        [type]="'text'"
         [placeholder]="'ex: 25152001'"
-        (inputValueString)="updateNumeroCarroHandler($event)"
+        (inputValueNumber)="updateNumeroCarroHandler($event)"
       ></app-input-number>
 
       <!-- Placa do carro -->
-      <app-input-number
+      <app-input-text
         [label]="'Placa do carro'"
-        [defaultValue]="'OSQ1619'"
+        [defaultValue]="listaPassageiros.placa"
         [placeholder]="'ex: OSQ1619'"
-        (inputValueString)="updatePlacaHandler($event)"
-      ></app-input-number>
+        (inputValue)="updatePlacaHandler($event)"
+      ></app-input-text>
 
       <!-- Motorista -->
       <app-input-autocomplete

@@ -39,8 +39,8 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.arrayNomePassageiros = [];
         // arrayNomePassageiros: IClienteAutocomplete[] = [];
         this.listaPassageiros = {
-            numeroCarro: '',
-            placa: '',
+            numeroCarro: '25152001',
+            placa: 'OSQ1619',
             motorista: '',
             origem: '',
             destino: '',
@@ -214,7 +214,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
         }
     };
     ListaPassageirosComponent.prototype.updateNumeroCarroHandler = function (value) {
-        this.listaPassageiros.numeroCarro = value.value;
+        this.listaPassageiros.numeroCarro = value.value.toString();
         this.valid[0] = value.valid;
     };
     ListaPassageirosComponent.prototype.updatePlacaHandler = function (value) {
