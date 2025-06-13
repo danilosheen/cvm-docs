@@ -23,22 +23,43 @@
         </button>
       </div>
       <div class="container-table">
-        <table>
-          <thead>
+        @if (widthScreen > 875) {
+          <table>
+            <thead>
+              <tr class="line-first-table">
+                <th>Saldo anterior</th>
+                <th>Entradas</th>
+                <th>Saídas</th>
+                <th>Saldo restante</th>
+              </tr>
+              <tr>
+                <th class="button-saldo" (click)="openAdicionarSaldoAnterior()">R$ {{saldoAnterior | brCurrency}}</th>
+                <th>R$ {{somaEntradas | brCurrency}}</th>
+                <th>R$ {{somaSaidas | brCurrency}}</th>
+                <th>R$ {{saldoRestante | brCurrency}}</th>
+              </tr>
+            </thead>
+          </table>
+        } @else {
+          <table class="table-mobile">
             <tr class="line-first-table">
               <th>Saldo anterior</th>
-              <th>Entradas</th>
-              <th>Saídas</th>
-              <th>Saldo restante</th>
+              <th  class="button-saldo" (click)="openAdicionarSaldoAnterior()">R$ {{saldoAnterior | brCurrency}}</th>
             </tr>
             <tr>
-              <th class="button-saldo" (click)="openAdicionarSaldoAnterior()">R$ {{saldoAnterior | brCurrency}}</th>
+              <th>Entradas</th>
               <th>R$ {{somaEntradas | brCurrency}}</th>
+            </tr>
+            <tr>
+              <th>Saídas</th>
               <th>R$ {{somaSaidas | brCurrency}}</th>
+            </tr>
+            <tr>
+              <th>Saldo restante</th>
               <th>R$ {{saldoRestante | brCurrency}}</th>
             </tr>
-          </thead>
-        </table>
+          </table>
+        }
       </div>
       <div class="container-button-add">
         <button class="flat-button"
@@ -49,39 +70,73 @@
         </button>
       </div>
       @if (this.fluxos.length > 0) {
-        <div class="container-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Movimentação</th>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th>Forma de pagamento</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (fluxo of fluxos; track $index) {
-                <tr [ngClass]="{
-                  'saida': fluxo.tipo == 'SAIDA',
-                  'entrada': fluxo.tipo == 'ENTRADA'
+        @if (widthScreen > 1050) {
+          <div class="container-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Movimentação</th>
+                  <th>Descrição</th>
+                  <th>Valor</th>
+                  <th>Forma de pagamento</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (fluxo of fluxos; track $index) {
+                  <tr [ngClass]="{
+                    'saida': fluxo.tipo == 'SAIDA',
+                    'entrada': fluxo.tipo == 'ENTRADA'
+                    }"
+                  >
+                    <td>{{fluxo.data | dataFormatada}}</td>
+                    <td>{{fluxo.tipo}}</td>
+                    <td>{{fluxo.descricao}}</td>
+                    <td>R$ {{fluxo.valor | brCurrency}}
+                    <td class="center">{{fluxo.formaPagamento}}</td>
+                    <td class="container-action-buttons">
+                      <img (click)="openEditarMovimentacao(fluxo, $index)" src="../../../../assets/icons-svg/pen.svg">
+                      <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="container-cards">
+            @for (fluxo of fluxos; track $index) {
+              <div class="card">
+                <div class="card-topo">
+                  <div [ngClass]="{
+                    'vermelho': fluxo.tipo == 'SAIDA',
+                    'verde': fluxo.tipo == 'ENTRADA'
                   }"
-                >
-                  <td>{{fluxo.data | dataFormatada}}</td>
-                  <td>{{fluxo.tipo}}</td>
-                  <td>{{fluxo.descricao}}</td>
-                  <td>R$ {{fluxo.valor | brCurrency}}
-                  <td class="center">{{fluxo.formaPagamento}}</td>
-                  <td class="container-action-buttons">
+                  >
+                  {{fluxo.tipo}}
+                </div>
+                <div class="card-data">{{fluxo.data | dataFormatada}}</div>
+                  <div class="container-card-actions">
                     <img (click)="openEditarMovimentacao(fluxo, $index)" src="../../../../assets/icons-svg/pen.svg">
                     <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                </div>
+                <div class="card-description">{{fluxo.descricao}}</div>
+                <div class="card-rodape">
+                  <div class="card-forma-pagamento">{{fluxo.formaPagamento}}</div>
+                  <div
+                    [ngClass]="{
+                    'vermelho': fluxo.tipo == 'SAIDA',
+                    'verde': fluxo.tipo == 'ENTRADA'
+                    }"
+                  >R$ {{fluxo.valor | brCurrency}}</div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
       }
     }
   </div>

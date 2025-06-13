@@ -27,11 +27,12 @@ var ControleContasComponent = /** @class */ (function () {
     function ControleContasComponent() {
         this.fluxoService = core_1.inject(fluxo_caixa_service_1.FluxoCaixaService);
         this.relatorioService = core_1.inject(gerar_relatorio_service_1.GerarRelatorioService);
+        this.saldoAnteriorService = core_1.inject(saldo_anterior_service_1.SaldoAnteriorService);
+        this.dialog = core_1.inject(dialog_1.MatDialog);
+        this.widthScreen = window.innerWidth;
         this.fluxos = [];
         this.entradas = [];
         this.saidas = [];
-        this.dialog = core_1.inject(dialog_1.MatDialog);
-        this.saldoAnteriorService = core_1.inject(saldo_anterior_service_1.SaldoAnteriorService);
         this.data = new Date();
         this.mesAtual = this.data.getMonth() + 1;
         this.anoAtual = this.data.getFullYear();
