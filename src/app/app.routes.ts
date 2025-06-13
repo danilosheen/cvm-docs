@@ -12,8 +12,8 @@ import { PassageirosComponent } from './pages/passageiros/passageiros.component'
 import { CalculadoraComponent } from './pages/calculadora/calculadora.component';
 import { UtilitariosComponent } from './pages/utilitarios/utilitarios.component';
 import { AniversariantesComponent } from './pages/utilitarios/aniversariantes/aniversariantes.component';
-import { ControleContasComponent } from './pages/utilitarios/controle-contas/controle-contas.component';
-import { NotaAgradecimentoComponent } from './pages/nota-agradecimento/nota-agradecimento.component';
+import { ControleContasComponent } from './pages/controle-contas/controle-contas.component';
+import { NotaAgradecimentoComponent } from './pages/utilitarios/nota-agradecimento/nota-agradecimento.component';
 
 
 export const routes: Routes = [
@@ -23,12 +23,12 @@ export const routes: Routes = [
   { path: 'ficha-excursao', component: FichaExcursaoComponent },
   { path: 'orcamento', component: OrcamentoComponent },
   { path: 'recibo', component: ReciboComponent },
-  { path: 'nota-agradecimento', component: NotaAgradecimentoComponent },
+  { path: 'controle-contas', component: ControleContasComponent, canActivate: [AuthGuardService] },
   { path: 'lista-passageiros', component: ListaPassageirosComponent },
   { path: 'clientes', component: ClientesComponent, canActivate: [AuthGuardService] },
   { path: 'passageiros', component: PassageirosComponent, canActivate: [AuthGuardService] },
   { path: 'calculadora', component: CalculadoraComponent, canActivate: [AuthGuardService] },
   { path: 'utilitarios', component: UtilitariosComponent, canActivate: [AuthGuardService] },
   { path: 'utilitarios/aniversariantes', component: AniversariantesComponent, canActivate: [AuthGuardService] },
-  { path: 'utilitarios/controle-contas', component: ControleContasComponent, canActivate: [AuthGuardService] },
+  { path: 'utilitarios/nota-agradecimento', component: NotaAgradecimentoComponent },
 ];

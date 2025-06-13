@@ -1,17 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
-import { FooterComponent } from "../../shared/components/footer/footer.component";
-import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
-import { ClienteService } from '../../core/services/clienteService/cliente.service';
-import { InputAutocompleteComponent } from "../../shared/components/input-autocomplete/input-autocomplete.component";
-import { IInput } from '../../interfaces/i-handlerInput';
-import { NotaAgradecimentoService } from '../../core/services/notaAgradecimentoService/nota-agradecimento.service';
+import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../../shared/components/footer/footer.component";
+import { LoadingBlueComponent } from "../../../shared/components/loading-blue/loading-blue.component";
+import { ClienteService } from '../../../core/services/clienteService/cliente.service';
+import { InputAutocompleteComponent } from "../../../shared/components/input-autocomplete/input-autocomplete.component";
+import { IInput } from '../../../interfaces/i-handlerInput';
+import { NotaAgradecimentoService } from '../../../core/services/notaAgradecimentoService/nota-agradecimento.service';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
-import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
-import { ICliente } from '../../interfaces/i-cliente';
-import { EmailService } from '../../core/services/emailService/email-service.service';
+import { InputAutocompleteDataPessoaComponent } from "../../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
+import { IPessoaAutocomplete } from '../../../interfaces/i-clienteAutocomplete';
+import { ICliente } from '../../../interfaces/i-cliente';
+import { EmailService } from '../../../core/services/emailService/email-service.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({

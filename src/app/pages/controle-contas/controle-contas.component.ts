@@ -1,22 +1,22 @@
 import { Component, inject } from '@angular/core';
-import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
-import { FooterComponent } from "../../../shared/components/footer/footer.component";
-import { FluxoCaixaService } from '../../../core/services/fluxoCaixaService/fluxo-caixa.service';
-import { IFluxoCaixa } from '../../../interfaces/i-fluxo-caixa';
-import { DataFormatadaPipe } from "../../../pipes/data-formatada.pipe";
+import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../shared/components/footer/footer.component";
+import { FluxoCaixaService } from '../../core/services/fluxoCaixaService/fluxo-caixa.service';
+import { IFluxoCaixa } from '../../interfaces/i-fluxo-caixa';
+import { DataFormatadaPipe } from "../../pipes/data-formatada.pipe";
 import { NgClass, NgIf } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogFluxoComponent } from '../../../shared/components/dialog-fluxo/dialog-fluxo.component';
+import { DialogFluxoComponent } from '../../shared/components/dialog-fluxo/dialog-fluxo.component';
 import { MatButtonModule } from '@angular/material/button';
-import { BrCurrencyPipe } from '../../../pipes/br-currency.pipe';
-import { DialogGenericComponent } from '../../../shared/components/dialog-generic/dialog-generic.component';
-import { InputMonthYearComponent } from "../../../shared/components/input-month-year/input-month-year.component";
-import { DialogSaldoComponent } from '../../../shared/components/dialog-saldo/dialog-saldo.component';
-import { SaldoAnteriorService } from '../../../core/services/saldoAnteriorService/saldo-anterior.service';
-import { IRelatorioMensal } from '../../../interfaces/i-relatorioMensal';
-import { GerarRelatorioService } from '../../../core/services/gerarRelatorioService/gerar-relatorio.service';
+import { BrCurrencyPipe } from '../../pipes/br-currency.pipe';
+import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
+import { InputMonthYearComponent } from "../../shared/components/input-month-year/input-month-year.component";
+import { DialogSaldoComponent } from '../../shared/components/dialog-saldo/dialog-saldo.component';
+import { SaldoAnteriorService } from '../../core/services/saldoAnteriorService/saldo-anterior.service';
+import { IRelatorioMensal } from '../../interfaces/i-relatorioMensal';
+import { GerarRelatorioService } from '../../core/services/gerarRelatorioService/gerar-relatorio.service';
 import { catchError, of } from 'rxjs';
-import { LoadingBlueComponent } from "../../../shared/components/loading-blue/loading-blue.component";
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 
 @Component({
   selector: 'app-controle-contas',

@@ -14,8 +14,8 @@ var passageiros_component_1 = require("./pages/passageiros/passageiros.component
 var calculadora_component_1 = require("./pages/calculadora/calculadora.component");
 var utilitarios_component_1 = require("./pages/utilitarios/utilitarios.component");
 var aniversariantes_component_1 = require("./pages/utilitarios/aniversariantes/aniversariantes.component");
-var controle_contas_component_1 = require("./pages/utilitarios/controle-contas/controle-contas.component");
-var nota_agradecimento_component_1 = require("./pages/nota-agradecimento/nota-agradecimento.component");
+var controle_contas_component_1 = require("./pages/controle-contas/controle-contas.component");
+var nota_agradecimento_component_1 = require("./pages/utilitarios/nota-agradecimento/nota-agradecimento.component");
 exports.routes = [
     { path: '', component: login_component_1.LoginComponent },
     { path: 'home', component: home_component_1.HomeComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
@@ -23,12 +23,12 @@ exports.routes = [
     { path: 'ficha-excursao', component: ficha_excursao_component_1.FichaExcursaoComponent },
     { path: 'orcamento', component: orcamento_component_1.OrcamentoComponent },
     { path: 'recibo', component: recibo_component_1.ReciboComponent },
-    { path: 'nota-agradecimento', component: nota_agradecimento_component_1.NotaAgradecimentoComponent },
+    { path: 'controle-contas', component: controle_contas_component_1.ControleContasComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'lista-passageiros', component: lista_passageiros_component_1.ListaPassageirosComponent },
     { path: 'clientes', component: clientes_component_1.ClientesComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'passageiros', component: passageiros_component_1.PassageirosComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'calculadora', component: calculadora_component_1.CalculadoraComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'utilitarios', component: utilitarios_component_1.UtilitariosComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'utilitarios/aniversariantes', component: aniversariantes_component_1.AniversariantesComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
-    { path: 'utilitarios/controle-contas', component: controle_contas_component_1.ControleContasComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
+    { path: 'utilitarios/nota-agradecimento', component: nota_agradecimento_component_1.NotaAgradecimentoComponent },
 ];
