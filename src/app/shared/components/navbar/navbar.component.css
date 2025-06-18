@@ -19,12 +19,9 @@
   width: 90px;
 }
 
-.logout{
-  width: 30px;
+.mat-mdc-menu-trigger{
+  background-color: transparent;
+  border: none;
+  transform: scale(1.3);
   cursor: pointer;
-  transition: transform ease 0.3s;
-}
-
-.logout:hover{
-  transform: scale(1.07);
 }

@@ -40,6 +40,7 @@ export class InputDateComponent {
 
     if(this.defaultValue){
       this.input.setValue(this.defaultValue);
+      this.sendDataSaidaInputHandler();
     }
   }
 

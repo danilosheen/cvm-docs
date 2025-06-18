@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container">
-  @if(isLoadingClientes){
+  @if(isLoadingClientes && isLoadingOrcamentoBehaviorSubject){
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2 class="title-orcamento">
@@ -30,6 +30,7 @@
       <app-input-autocomplete
         [label]="'Selecione o local de saída'"
         [options]="cidades"
+        [defaultValue]="orcamentoData.localSaida"
         [errorMessage]="'Por favor, selecione um local.'"
         (inputValue)="updateLocalSaidaHandler($event)"
       ></app-input-autocomplete>
@@ -38,30 +39,35 @@
       <app-input-text
         [label]="'Destino da viagem'"
         [placeholder]="'ex: Fortaleza - CE'"
+        [defaultValue]="orcamentoData.destinoViagem"
         (inputValue)="updateDestinoViagemHandler($event)"
       ></app-input-text>
 
       <!-- Data de saída -->
       <app-input-date
         [label]="'Selecione a data de saída.'"
+        [defaultValue]="orcamentoData.dataSaida"
         (inputDate)="updateDataSaidaHandler($event)"
       ></app-input-date>
 
       <!-- Hora de saída -->
       <app-input-time
         [label]="'Selecione a hora de saída.'"
+        [defaultValue]="orcamentoData.horaSaida"
         (inputTime)="updateHoraSaidaHandler($event)"
       ></app-input-time>
 
       <!-- Data de retorno -->
       <app-input-date
         [label]="'Selecione a data de retorno'"
+        [defaultValue]="orcamentoData.dataRetorno"
         (inputDate)="updateDataRetornoHandler($event)"
       ></app-input-date>
 
       <!-- Hora de retorno -->
       <app-input-time
         [label]="'Selecione a hora de retorno'"
+        [defaultValue]="orcamentoData.horaRetorno"
         (inputTime)="updateHoraRetornoHandler($event)"
       ></app-input-time>
 
@@ -69,6 +75,7 @@
       <app-input-number
         [type]="'number'"
         [label]="'Valor cliente pagando despesa'"
+        [defaultValue]="orcamentoData.valorComDespesa"
         [placeholder]="'ex: 2.500,00'"
         (inputValueNumber)="updateValorComDespezaHandler($event)"
       ></app-input-number>
@@ -77,6 +84,7 @@
       <app-input-number
         [type]="'number'"
         [label]="'Valor CVM pagando despesa'"
+        [defaultValue]="orcamentoData.valorSemDespesa"
         [placeholder]="'ex: 3.000,00'"
         (inputValueNumber)="updateValorSemDespezaHandler($event)"
       ></app-input-number>
@@ -85,6 +93,7 @@
       <app-input-number
         [type]="'number'"
         [label]="'Valor com emissão de nota fiscal'"
+        [defaultValue]="orcamentoData.valorComNota"
         [placeholder]="'ex: 3.500,00'"
         (inputValueNumber)="updateValorComNotaHandler($event)"
       ></app-input-number>
@@ -93,7 +102,7 @@
       <app-input-number
         [type]="'text'"
         [label]="'Taxa do PIX'"
-        [defaultValue]="6"
+        [defaultValue]="orcamentoData.taxaPix || 6"
         (inputValueNumber)="updateTaxaPixHandler($event)"
       ></app-input-number>
 
@@ -101,6 +110,7 @@
       <app-input-text
         [label]="'Detalhes do veículo'"
         [optional]="true"
+        [defaultValue]="orcamentoData.modeloVan || ''"
         [placeholder]="'ex: Van com 20 assentos, som, ar-condicionado...'"
         (inputValue)="updateModeloVanHandler($event)"
       ></app-input-text>
@@ -109,6 +119,7 @@
       <app-input-number
         [type]="'text'"
         [label]="'Km de cortesia'"
+        [defaultValue]="orcamentoData.cortesiaKm || ''"
         [placeholder]="'30'"
         [optional]="true"
         (inputValueNumber)="updateCortesiaKmHandler($event)"
@@ -118,6 +129,7 @@
       <app-input-number
         [type]="'number'"
         [label]="'Valor por km excedido'"
+        [defaultValue]="orcamentoData.valorAcrescimoKm || ''"
         [placeholder]="'ex: 5,00'"
         [optional]="true"
         (inputValueNumber)="updateValorAcrescimoKmHandler($event)"

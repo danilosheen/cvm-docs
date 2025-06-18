@@ -23,49 +23,59 @@ var InputAutocompleteDataPessoaComponent = /** @class */ (function () {
         this.inputValue = new core_1.EventEmitter();
         this.inputControl = new forms_1.FormControl('');
         this.filteredOptions = [];
-        this.idSelected = '';
     }
     InputAutocompleteDataPessoaComponent.prototype.ngOnChanges = function (changes) {
-        var _this = this;
         if (changes['defaultValue']) {
-            var selected = this.options.find(function (opt) { return opt.nome === _this.defaultValue; });
-            if (selected) {
-                this.inputControl.setValue(selected);
-            }
-            else if (this.defaultValue == '') {
-                this.inputControl.setValue('');
-            }
-            this.inputControl.markAsPristine();
-            this.inputControl.markAsUntouched();
-            this.inputControl.updateValueAndValidity();
-            if (!this.defaultValue) {
-                this.filteredOptions = [];
-            }
+            this.setInitialValue(this.defaultValue);
         }
+    };
+    InputAutocompleteDataPessoaComponent.prototype.ngOnInit = function () {
+        this.setInitialValue(this.defaultValue);
+    };
+    InputAutocompleteDataPessoaComponent.prototype.setInitialValue = function (value) {
+        if (value) {
+            var matchedOption = this.options.find(function (opt) { return opt.nome === value; });
+            this.inputControl.setValue(matchedOption || value);
+            this.inputValue.emit({
+                value: matchedOption || { nome: value.trim(), id: '' },
+                valid: this.inputControl.valid
+            });
+        }
+        else {
+            this.inputControl.setValue('');
+            this.filteredOptions = [];
+        }
+        this.inputControl.markAsPristine();
+        this.inputControl.markAsUntouched();
+        this.inputControl.updateValueAndValidity();
     };
     InputAutocompleteDataPessoaComponent.prototype.filter = function () {
+        var _a;
         var value = typeof this.inputControl.value === 'string'
             ? this.inputControl.value.toLowerCase()
-            : this.inputControl.value.nome.toLowerCase();
+            : (_a = this.inputControl.value) === null || _a === void 0 ? void 0 : _a.nome.toLowerCase();
         this.filteredOptions = this.options.filter(function (option) {
-            return option.nome.toLowerCase().includes(value);
+            return option.nome.toLowerCase().includes(value || '');
         });
     };
-    InputAutocompleteDataPessoaComponent.prototype.displayFn = function (option) {
+    InputAutocompleteDataPessoaComponent.prototype.displayFn = function (value) {
         var _a;
-        return (_a = option === null || option === void 0 ? void 0 : option.nome) !== null && _a !== void 0 ? _a : '';
+        if (typeof value === 'string')
+            return value;
+        return (_a = value === null || value === void 0 ? void 0 : value.nome) !== null && _a !== void 0 ? _a : '';
     };
     InputAutocompleteDataPessoaComponent.prototype.setValue = function (optionSelecionado) {
-        if (optionSelecionado === null || optionSelecionado === void 0 ? void 0 : optionSelecionado.id) {
-            this.inputControl.setValue(optionSelecionado);
-            this.inputValue.emit(optionSelecionado);
-        }
+        this.inputControl.setValue(optionSelecionado);
+        this.inputValue.emit({
+            value: optionSelecionado,
+            valid: this.inputControl.valid
+        });
     };
     InputAutocompleteDataPessoaComponent.prototype.sendText = function () {
         var value = this.inputControl.value;
         if (typeof value === 'string') {
             this.inputValue.emit({
-                value: { nome: value.trim(), id: this.idSelected },
+                value: { nome: value.trim(), id: '' },
                 valid: this.inputControl.valid
             });
         }
@@ -100,6 +110,7 @@ var InputAutocompleteDataPessoaComponent = /** @class */ (function () {
     InputAutocompleteDataPessoaComponent = __decorate([
         core_1.Component({
             selector: 'app-input-autocomplete-data-pessoa',
+            standalone: true,
             imports: [
                 forms_1.FormsModule,
                 form_field_1.MatFormFieldModule,

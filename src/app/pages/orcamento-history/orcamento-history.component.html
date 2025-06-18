@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="content">
+    @if (isLoading) {
+    <app-loading-blue></app-loading-blue>
+    } @else {
+      <h2 class="title">Histórico de orçamentos</h2>
+      @if (widthScreen > 1050) {
+      <table>
+        <thead>
+          <tr>
+            <th>Data de geração</th>
+            <th>Nome do cliente</th>
+            <th>Valor com despesa</th>
+            <th>Valor sem despesa</th>
+            <th>Valor com nota</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (orcamento of orcamentos; track $index) {
+          <tr>
+            <td>{{orcamento.createdAt | dataFormatada }}</td>
+            <td>{{orcamento.nomeCliente}}</td>
+            <td>R$ {{orcamento.valorComDespesa | brCurrency}}</td>
+            <td>R$ {{orcamento.valorSemDespesa | brCurrency}}</td>
+            <td>R$ {{orcamento.valorComNota | brCurrency}}</td>
+            <td>
+              <img (click)="editarOrcamentoHistory(orcamento)" src="../../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverOrcamentoHistory(orcamento.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <div class="container-cards">
+        @for (orcamento of orcamentos; track $index) {
+        <div class="card">
+          <div class="card-topo">
+            <div>
+              {{orcamento.createdAt | dataFormatada}}
+            </div>
+            <div class="container-card-actions">
+              <img (click)="editarOrcamentoHistory(orcamento)" src="../../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverOrcamentoHistory(orcamento.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+            </div>
+          </div>
+          <div class="card-description">Cliente: {{orcamento.nomeCliente}}</div>
+          <div class="card-rodape">
+            <div class="container-card-rodape">
+              <span>Destino:</span>
+              <span>{{orcamento.destinoViagem }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Valor com despesa:</span>
+              <span>{{orcamento.valorComDespesa | brCurrency }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Valor sem despesa:</span>
+              <span>{{orcamento.valorSemDespesa | brCurrency }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Valor com nota:</span>
+              <span>{{orcamento.valorComNota | brCurrency }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Taxa PIX:</span>
+              <span>{{orcamento.taxaPix }}%</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    }
+    }
+  </div>
+</div>
+<app-footer></app-footer>

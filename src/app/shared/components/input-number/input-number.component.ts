@@ -41,15 +41,34 @@ export class InputNumberComponent implements OnInit {
       this.input.setValidators([Validators.required]);
     }
     if(this.defaultValue){
-      this.input.setValue(this.defaultValue);
-      this.sendInputHandler<string | number>(this.defaultValue)
+      if(this.type == 'number'){
+        // Formata para BRL sem símbolo
+        const formatted = this.defaultValue.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        this.input.setValue(formatted);
+        this.sendInputHandler<string | number>(this.defaultValue);
+      } else {
+        this.input.setValue(this.defaultValue);
+        this.sendInputHandler<string | number>(this.defaultValue);
+      }
     }
     this.setValidators();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['defaultValue'] && changes['defaultValue'].currentValue !== undefined) {
-      this.input.setValue(this.defaultValue);
+      if(this.type == 'number' && this.defaultValue){
+        // Formata para BRL sem símbolo
+        const formatted = this.defaultValue.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        this.input.setValue(formatted);
+      } else {
+        this.input.setValue(this.defaultValue);
+      }
       this.input.markAsPristine();
       this.input.markAsUntouched();
       this.input.updateValueAndValidity();

@@ -3,10 +3,18 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/authService/auth-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../dialog-generic/dialog-generic.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -35,6 +43,10 @@ export class NavbarComponent {
         this.logout();
       }
     });
+  }
+
+  abrirTelaOrcamentoHistory(){
+    this.router.navigate(['/orcamento-history']);
   }
 
   logout(){

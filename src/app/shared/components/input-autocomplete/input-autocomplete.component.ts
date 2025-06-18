@@ -36,6 +36,9 @@ export class InputAutocompleteComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['defaultValue']) {
       this.inputControl.setValue(this.defaultValue);
+      if(this.inputControl.value){
+        this.inputValue.emit({value: this.inputControl.value.trim(), valid: this.inputControl.valid});
+      }
       this.inputControl.markAsPristine();
       this.inputControl.markAsUntouched();
       this.inputControl.updateValueAndValidity();

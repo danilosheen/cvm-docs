@@ -18,6 +18,7 @@ var InputTimeComponent = /** @class */ (function () {
     function InputTimeComponent() {
         var _this = this;
         this.label = '';
+        this.defaultValue = '';
         this.inputTime = new core_1.EventEmitter();
         this.errorMessage = core_1.signal('');
         var initialValue = new Date();
@@ -26,6 +27,16 @@ var InputTimeComponent = /** @class */ (function () {
         this.input.valueChanges.subscribe(function () { return _this.updateErrorMessage(); });
         this.input.valueChanges.subscribe(function () { return _this.sendDataSaidaInputHandler(); });
     }
+    InputTimeComponent.prototype.ngOnInit = function () {
+        if (this.defaultValue) {
+            var initialValue = new Date();
+            var horas = parseFloat(this.defaultValue.slice(0, 2));
+            var minutos = parseFloat(this.defaultValue.slice(3, 5));
+            initialValue.setHours(horas, minutos, 0, 0);
+            this.input.setValue(initialValue);
+            this.inputTime.emit({ value: this.defaultValue, valid: this.input.valid });
+        }
+    };
     InputTimeComponent.prototype.updateErrorMessage = function () {
         if (this.input.hasError('required')) {
             this.errorMessage.set('Este campo não pode ser vazio.');
@@ -51,6 +62,9 @@ var InputTimeComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], InputTimeComponent.prototype, "label");
+    __decorate([
+        core_1.Input()
+    ], InputTimeComponent.prototype, "defaultValue");
     __decorate([
         core_1.Output()
     ], InputTimeComponent.prototype, "inputTime");

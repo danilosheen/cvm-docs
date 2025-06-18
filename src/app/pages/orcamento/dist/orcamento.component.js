@@ -23,11 +23,27 @@ var input_autocomplete_component_1 = require("../../shared/components/input-auto
 var cliente_service_1 = require("../../core/services/clienteService/cliente.service");
 var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
+var router_1 = require("@angular/router");
+var orcamento_behavior_subject_service_1 = require("../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service");
 var OrcamentoComponent = /** @class */ (function () {
     function OrcamentoComponent(pdfOrcamento) {
         this.pdfOrcamento = pdfOrcamento;
         this.loading = false;
         this.errorMessage = core_1.signal('');
+        this.valid = [];
+        this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
+        this.clienteService = core_1.inject(cliente_service_1.ClienteService);
+        this.clientes = [];
+        this.nomeClientes = [];
+        this.isLoadingClientes = true;
+        this.isLoadingOrcamentoBehaviorSubject = true;
+        // behavior subject orcamento
+        this.router = core_1.inject(router_1.Router);
+        this.orcamentoBehaviorSubject = core_1.inject(orcamento_behavior_subject_service_1.OrcamentoBehaviorSubjectService);
+        //inicializando o array de campos válidos
+        for (var i = 0; i <= 11; i++) {
+            this.valid.push(false);
+        }
         this.orcamentoData = {
             nomeCliente: '',
             telefoneContato: '',
@@ -45,16 +61,6 @@ var OrcamentoComponent = /** @class */ (function () {
             cortesiaKm: null,
             valorAcrescimoKm: null
         };
-        this.valid = [];
-        this.cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
-        this.clienteService = core_1.inject(cliente_service_1.ClienteService);
-        this.clientes = [];
-        this.nomeClientes = [];
-        this.isLoadingClientes = true;
-        //inicializando o array de campos válidos
-        for (var i = 0; i <= 11; i++) {
-            this.valid.push(false);
-        }
     }
     OrcamentoComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -65,6 +71,16 @@ var OrcamentoComponent = /** @class */ (function () {
                 _this.nomeClientes.push({ nome: cliente.nome, id: cliente.id });
             }
             _this.isLoadingClientes = false;
+        });
+        // nav vindo do history
+        this.orcamentoBehaviorSubject.orcamentoSelecionado$.subscribe(function (data) {
+            if (data) {
+                _this.orcamentoData = data;
+                _this.isLoadingOrcamentoBehaviorSubject = false;
+            }
+            else {
+                _this.isLoadingOrcamentoBehaviorSubject = false;
+            }
         });
     };
     OrcamentoComponent.prototype.onSubmit = function () {
@@ -122,13 +138,14 @@ var OrcamentoComponent = /** @class */ (function () {
     // Handler para os campos
     OrcamentoComponent.prototype.updateNomeClienteHandler = function (value) {
         var _this = this;
-        var idSelected = value.id;
+        var idSelected = value.value.id;
         if (idSelected) {
             this.clientes.forEach(function (cliente) {
                 if (cliente.id == idSelected) {
                     _this.orcamentoData.nomeCliente = cliente.nome;
                     _this.updateTelefoneContatoHandler({ value: cliente.contato, valid: true });
                     _this.valid[0] = true;
+                    return;
                 }
             });
         }
@@ -143,11 +160,11 @@ var OrcamentoComponent = /** @class */ (function () {
     };
     OrcamentoComponent.prototype.updateLocalSaidaHandler = function (value) {
         this.orcamentoData.localSaida = value.value;
-        this.valid[3] = (value.valid);
+        this.valid[2] = (value.valid);
     };
     OrcamentoComponent.prototype.updateDestinoViagemHandler = function (value) {
         this.orcamentoData.destinoViagem = value.value;
-        this.valid[2] = (value.valid);
+        this.valid[3] = (value.valid);
     };
     OrcamentoComponent.prototype.updateDataSaidaHandler = function (value) {
         this.orcamentoData.dataSaida = value.value;

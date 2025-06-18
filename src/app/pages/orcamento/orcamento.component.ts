@@ -20,6 +20,8 @@ import { LoadingBlueComponent } from "../../shared/components/loading-blue/loadi
 import { ICliente } from '../../interfaces/i-cliente';
 import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
+import { Router } from '@angular/router';
+import { OrcamentoBehaviorSubjectService } from '../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service';
 
 
 @Component({
@@ -47,35 +49,42 @@ export class OrcamentoComponent implements OnInit{
 
   loading: boolean = false;
   errorMessage = signal('');
-  orcamentoData: IOrcamento = {
-    nomeCliente: '',
-    telefoneContato: '',
-    localSaida: '',
-    destinoViagem: '',
-    dataSaida: '',
-    horaSaida: '',
-    dataRetorno: '',
-    horaRetorno: '',
-    valorComDespesa: null,
-    valorSemDespesa: null,
-    valorComNota: null,
-    taxaPix: null,
-    modeloVan: '',
-    cortesiaKm: null,
-    valorAcrescimoKm: null,
-  };
+  orcamentoData: IOrcamento;
   valid: boolean[] = [];
   cidades = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
   clienteService = inject(ClienteService);
   clientes:ICliente[] = [];
   nomeClientes: IPessoaAutocomplete[] = [];
   isLoadingClientes = true;
+  isLoadingOrcamentoBehaviorSubject = true;
+
+  // behavior subject orcamento
+  router = inject(Router);
+  orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService);
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
     //inicializando o array de campos válidos
     for (let i = 0; i <= 11; i++) {
       this.valid.push(false)
     }
+
+    this.orcamentoData = {
+      nomeCliente: '',
+      telefoneContato: '',
+      localSaida: '',
+      destinoViagem: '',
+      dataSaida: '',
+      horaSaida: '',
+      dataRetorno: '',
+      horaRetorno: '',
+      valorComDespesa: null,
+      valorSemDespesa: null,
+      valorComNota: null,
+      taxaPix: null,
+      modeloVan: '',
+      cortesiaKm: null,
+      valorAcrescimoKm: null,
+    };
   }
 
   ngOnInit(): void {
@@ -85,6 +94,16 @@ export class OrcamentoComponent implements OnInit{
         this.nomeClientes.push({nome: cliente.nome, id: cliente.id!});
       }
       this.isLoadingClientes = false;
+    });
+
+    // nav vindo do history
+    this.orcamentoBehaviorSubject.orcamentoSelecionado$.subscribe(data => {
+      if (data) {
+        this.orcamentoData = data;
+        this.isLoadingOrcamentoBehaviorSubject = false;
+      } else {
+        this.isLoadingOrcamentoBehaviorSubject = false;
+      }
     });
   }
 
@@ -145,13 +164,14 @@ export class OrcamentoComponent implements OnInit{
 
   // Handler para os campos
   updateNomeClienteHandler(value: any) {
-    const idSelected = value.id;
+    const idSelected = value.value.id;
     if(idSelected){
       this.clientes.forEach(cliente =>{
         if(cliente.id == idSelected){
           this.orcamentoData.nomeCliente = cliente.nome;
           this.updateTelefoneContatoHandler({value: cliente.contato, valid: true});
           this.valid[0] = true;
+          return
         }
       })
     } else {
@@ -167,12 +187,12 @@ export class OrcamentoComponent implements OnInit{
 
   updateLocalSaidaHandler(value: IInput<string>) {
     this.orcamentoData.localSaida = value.value;
-    this.valid[3] = (value.valid);
+    this.valid[2] = (value.valid);
   }
 
   updateDestinoViagemHandler(value: IInput<string>) {
     this.orcamentoData.destinoViagem = value.value;
-    this.valid[2] = (value.valid);
+    this.valid[3] = (value.valid);
   }
 
   updateDataSaidaHandler(value: IInput<string>) {

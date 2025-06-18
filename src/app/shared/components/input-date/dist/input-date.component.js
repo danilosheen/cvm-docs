@@ -32,6 +32,7 @@ var InputDateComponent = /** @class */ (function () {
         }
         if (this.defaultValue) {
             this.input.setValue(this.defaultValue);
+            this.sendDataSaidaInputHandler();
         }
     };
     InputDateComponent.prototype.updateErrorMessage = function () {

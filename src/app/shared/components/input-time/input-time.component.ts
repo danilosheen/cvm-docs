@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, WritableSignal, signal } from '@angular/core';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,9 +16,10 @@ import { NgIf } from '@angular/common';
   templateUrl: './input-time.component.html',
   styleUrl: './input-time.component.css'
 })
-export class InputTimeComponent{
+export class InputTimeComponent implements OnInit{
 
   @Input() label = '';
+  @Input() defaultValue = '';
   @Output() inputTime = new EventEmitter();
 
   readonly input: FormControl<Date | null>;
@@ -30,6 +31,17 @@ export class InputTimeComponent{
     this.input = new FormControl(initialValue);
     this.input.valueChanges.subscribe(() => this.updateErrorMessage());
     this.input.valueChanges.subscribe(() => this.sendDataSaidaInputHandler());
+  }
+
+  ngOnInit() {
+    if(this.defaultValue){
+      const initialValue = new Date();
+      const horas = parseFloat(this.defaultValue.slice(0, 2));
+      const minutos = parseFloat(this.defaultValue.slice(3, 5));
+      initialValue.setHours(horas, minutos, 0, 0)
+      this.input.setValue(initialValue);
+      this.inputTime.emit({value: this.defaultValue, valid: this.input.valid});
+    }
   }
 
   updateErrorMessage() {

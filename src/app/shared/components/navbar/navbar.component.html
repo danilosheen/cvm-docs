@@ -3,6 +3,22 @@
     <a [routerLink]="['/home']" routerLinkActive="router-link-active"  >
       <img class="logo-image" src="/assets/logo.png" alt="">
     </a>
-    <img class="logout" src="/assets/icons-svg/logout-icon.svg" (click)="openDialog('0ms', '0ms')">
+    <!-- menu -->
+    <div>
+      <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- Botões menu -->
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="abrirTelaOrcamentoHistory()">
+          <mat-icon>history_2</mat-icon>
+          <span>Histórico de orçamentos</span>
+        </button>
+        <button mat-menu-item (click)="openDialog('0ms', '0ms')">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </mat-menu>
+    </div>
   </div>
 </div>
