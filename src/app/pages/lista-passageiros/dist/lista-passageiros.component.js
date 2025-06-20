@@ -254,9 +254,9 @@ var ListaPassageirosComponent = /** @class */ (function () {
     };
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
         var _this = this;
-        var idSelected = value.id;
+        var idSelected = value.value.id;
         if (idSelected) {
-            this.passageiro.nome = value.nome;
+            this.passageiro.nome = value.value.nome;
             this.passageiros.forEach(function (passageiro) {
                 if (idSelected == passageiro.id) {
                     _this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected, valid: true });
