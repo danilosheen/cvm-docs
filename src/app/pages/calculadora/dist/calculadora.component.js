@@ -10,13 +10,19 @@ exports.CalculadoraComponent = void 0;
 var core_1 = require("@angular/core");
 var navbar_component_1 = require("../../shared/components/navbar/navbar.component");
 var footer_component_1 = require("../../shared/components/footer/footer.component");
+var input_number_component_1 = require("../../shared/components/input-number/input-number.component");
 var CalculadoraComponent = /** @class */ (function () {
     function CalculadoraComponent() {
     }
+    // custosViagem: ICustoViagem;
+    CalculadoraComponent.prototype.updatePrecoCombustivelHandler = function (value) {
+    };
+    CalculadoraComponent.prototype.updateDistanciaEmKmHandler = function (value) {
+    };
     CalculadoraComponent = __decorate([
         core_1.Component({
             selector: 'app-calculadora',
-            imports: [navbar_component_1.NavbarComponent, footer_component_1.FooterComponent],
+            imports: [navbar_component_1.NavbarComponent, footer_component_1.FooterComponent, input_number_component_1.InputNumberComponent],
             templateUrl: './calculadora.component.html',
             styleUrl: './calculadora.component.css'
         })
