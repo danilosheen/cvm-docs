@@ -216,9 +216,9 @@ var FichaExcursaoComponent = /** @class */ (function () {
     };
     FichaExcursaoComponent.prototype.updateNomeClienteHandler = function (value) {
         var _this = this;
-        var idSelected = value.id;
+        var idSelected = value.value.id;
         if (idSelected) {
-            this.fichaExcursaoData.cliente.nome = value.nome;
+            this.fichaExcursaoData.cliente.nome = value.value.nome;
             this.clientes.forEach(function (element) {
                 if (idSelected == element.id) {
                     _this.fichaExcursaoData.cliente.id = element.id;

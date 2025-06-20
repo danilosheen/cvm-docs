@@ -300,9 +300,9 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   updateNomeHandler(value: any){
-    const idSelected = value.id;
+    const idSelected = value.value.id;
     if(idSelected){
-      this.passageiro.nome = value.nome;
+      this.passageiro.nome = value.value.nome;
       this.passageiros.forEach(passageiro => {
         if(idSelected == passageiro.id){
           this.updateDocumentSelectedHandler({ value: passageiro.typeDocumentSelected, valid: true});

@@ -256,9 +256,9 @@ export class FichaExcursaoComponent implements OnInit {
     }
 
     updateNomeClienteHandler(value: any) {
-      const idSelected = value.id;
+      const idSelected = value.value.id;
       if(idSelected){
-        this.fichaExcursaoData.cliente.nome = value.nome;
+        this.fichaExcursaoData.cliente.nome = value.value.nome;
         this.clientes.forEach(element => {
           if(idSelected == element.id){
             this.fichaExcursaoData.cliente.id = element.id;
