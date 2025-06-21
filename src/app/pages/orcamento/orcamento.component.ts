@@ -143,7 +143,7 @@ export class OrcamentoComponent implements OnInit{
           if (this.retryCount < this.maxRetries) {
             this.retryCount++;
             console.warn(`Tentativa ${this.retryCount} falhou. Retentando em ${this.retryDelay}ms...`);
-            setTimeout(() => this.onSubmit(), this.retryDelay);
+            setTimeout(() => this.tryGenerateOrcamentoPdf(pdfName), this.retryDelay);
           } else {
             console.error('Erro ao gerar o PDF após múltiplas tentativas:', error);
             this.loading = false;

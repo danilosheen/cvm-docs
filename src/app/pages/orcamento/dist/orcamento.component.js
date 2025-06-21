@@ -115,7 +115,7 @@ var OrcamentoComponent = /** @class */ (function () {
             if (_this.retryCount < _this.maxRetries) {
                 _this.retryCount++;
                 console.warn("Tentativa " + _this.retryCount + " falhou. Retentando em " + _this.retryDelay + "ms...");
-                setTimeout(function () { return _this.onSubmit(); }, _this.retryDelay);
+                setTimeout(function () { return _this.tryGenerateOrcamentoPdf(pdfName); }, _this.retryDelay);
             }
             else {
                 console.error('Erro ao gerar o PDF após múltiplas tentativas:', error);
