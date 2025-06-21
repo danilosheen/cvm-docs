@@ -25,6 +25,9 @@ var OrcamentoHistoryService = /** @class */ (function () {
     OrcamentoHistoryService.prototype.getOrcamentoHistory = function () {
         return this.http.get(this.apiUrl, { headers: this.getHeaders() });
     };
+    OrcamentoHistoryService.prototype.createOrcamentoHistory = function (data) {
+        return this.http.post(this.apiUrl, data, { headers: this.getHeaders() });
+    };
     OrcamentoHistoryService.prototype.removeOrcamentoHistory = function (id) {
         return this.http["delete"](this.apiUrl + "/" + id, { headers: this.getHeaders() });
     };

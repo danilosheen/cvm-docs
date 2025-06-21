@@ -22,6 +22,7 @@ import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 import { Router } from '@angular/router';
 import { OrcamentoBehaviorSubjectService } from '../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service';
+import { OrcamentoHistoryService } from '../../core/services/orcamentoHistoryService/orcamento-history.service';
 
 
 @Component({
@@ -61,6 +62,10 @@ export class OrcamentoComponent implements OnInit{
   // behavior subject orcamento
   router = inject(Router);
   orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService);
+  orcamentoHistoryService = inject(OrcamentoHistoryService);
+  maxRetries = 3;
+  retryDelay = 2000; // 2 segundos
+  retryCount = 0;
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
     //inicializando o array de campos válidos
@@ -87,6 +92,7 @@ export class OrcamentoComponent implements OnInit{
     };
   }
 
+
   ngOnInit(): void {
     this.clienteService.getAll().subscribe(clientes =>{
       this.clientes = clientes;
@@ -112,8 +118,12 @@ export class OrcamentoComponent implements OnInit{
     const date = new Date();
     const nomeClienteFormated = this.formatNomeCliente();
     const pdfName = `Orç. CVM - ${nomeClienteFormated} ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`
+    this.tryGenerateOrcamentoPdf(pdfName);
+    this.createOrcamentoHistory();
+  }
 
-    this.pdfOrcamento.generatePDF({pdfData: this.orcamentoData, pdfName: pdfName})
+  tryGenerateOrcamentoPdf(pdfName: string) {
+    this.pdfOrcamento.generatePDF({ pdfData: this.orcamentoData, pdfName: pdfName })
       .subscribe(
         (pdfBlob) => {
           const pdfUrl = URL.createObjectURL(pdfBlob);
@@ -128,17 +138,30 @@ export class OrcamentoComponent implements OnInit{
             behavior: "smooth",
           });
         },
+
         (error) => {
-          try{
-            setTimeout(()=>{
-              this.onSubmit();
-            }, 1000);
-          } catch {
-            console.error('Erro ao gerar o PDF:', error);
+          if (this.retryCount < this.maxRetries) {
+            this.retryCount++;
+            console.warn(`Tentativa ${this.retryCount} falhou. Retentando em ${this.retryDelay}ms...`);
+            setTimeout(() => this.onSubmit(), this.retryDelay);
+          } else {
+            console.error('Erro ao gerar o PDF após múltiplas tentativas:', error);
             this.loading = false;
+            this.retryCount = 0;
           }
         }
       );
+  }
+
+  createOrcamentoHistory(){
+    this.orcamentoHistoryService.createOrcamentoHistory(this.orcamentoData).subscribe({
+      next:(result)=>{
+        console.log(result);
+      },
+      error:(error)=>{
+        console.log(error);
+      }
+    });
   }
 
   formatNomeCliente(){

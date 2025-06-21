@@ -25,6 +25,10 @@ export class OrcamentoHistoryService {
     return this.http.get(this.apiUrl, { headers: this.getHeaders() });
   }
 
+  createOrcamentoHistory(data: any) : Observable<any>{
+    return this.http.post(this.apiUrl, data, { headers: this.getHeaders() });
+  }
+
   removeOrcamentoHistory(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }

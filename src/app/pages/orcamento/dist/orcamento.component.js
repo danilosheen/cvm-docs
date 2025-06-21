@@ -25,6 +25,7 @@ var loading_blue_component_1 = require("../../shared/components/loading-blue/loa
 var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
 var router_1 = require("@angular/router");
 var orcamento_behavior_subject_service_1 = require("../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service");
+var orcamento_history_service_1 = require("../../core/services/orcamentoHistoryService/orcamento-history.service");
 var OrcamentoComponent = /** @class */ (function () {
     function OrcamentoComponent(pdfOrcamento) {
         this.pdfOrcamento = pdfOrcamento;
@@ -40,6 +41,10 @@ var OrcamentoComponent = /** @class */ (function () {
         // behavior subject orcamento
         this.router = core_1.inject(router_1.Router);
         this.orcamentoBehaviorSubject = core_1.inject(orcamento_behavior_subject_service_1.OrcamentoBehaviorSubjectService);
+        this.orcamentoHistoryService = core_1.inject(orcamento_history_service_1.OrcamentoHistoryService);
+        this.maxRetries = 3;
+        this.retryDelay = 2000; // 2 segundos
+        this.retryCount = 0;
         //inicializando o array de campos válidos
         for (var i = 0; i <= 11; i++) {
             this.valid.push(false);
@@ -84,11 +89,15 @@ var OrcamentoComponent = /** @class */ (function () {
         });
     };
     OrcamentoComponent.prototype.onSubmit = function () {
-        var _this = this;
         this.loading = true;
         var date = new Date();
         var nomeClienteFormated = this.formatNomeCliente();
         var pdfName = "Or\u00E7. CVM - " + nomeClienteFormated + " " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.tryGenerateOrcamentoPdf(pdfName);
+        this.createOrcamentoHistory();
+    };
+    OrcamentoComponent.prototype.tryGenerateOrcamentoPdf = function (pdfName) {
+        var _this = this;
         this.pdfOrcamento.generatePDF({ pdfData: this.orcamentoData, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
             var pdfUrl = URL.createObjectURL(pdfBlob);
@@ -103,14 +112,25 @@ var OrcamentoComponent = /** @class */ (function () {
                 behavior: "smooth"
             });
         }, function (error) {
-            try {
-                setTimeout(function () {
-                    _this.onSubmit();
-                }, 1000);
+            if (_this.retryCount < _this.maxRetries) {
+                _this.retryCount++;
+                console.warn("Tentativa " + _this.retryCount + " falhou. Retentando em " + _this.retryDelay + "ms...");
+                setTimeout(function () { return _this.onSubmit(); }, _this.retryDelay);
             }
-            catch (_a) {
-                console.error('Erro ao gerar o PDF:', error);
+            else {
+                console.error('Erro ao gerar o PDF após múltiplas tentativas:', error);
                 _this.loading = false;
+                _this.retryCount = 0;
+            }
+        });
+    };
+    OrcamentoComponent.prototype.createOrcamentoHistory = function () {
+        this.orcamentoHistoryService.createOrcamentoHistory(this.orcamentoData).subscribe({
+            next: function (result) {
+                console.log(result);
+            },
+            error: function (error) {
+                console.log(error);
             }
         });
     };
