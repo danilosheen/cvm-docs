@@ -49,6 +49,10 @@ export class NavbarComponent {
     this.router.navigate(['/orcamento-history']);
   }
 
+  abrirTelaListaPassageirosHistory(){
+    this.router.navigate(['/lista-passageiros-history']);
+  }
+
   logout(){
     this.authService.removeToken();
     this.router.navigate(["/"]);

@@ -25,9 +25,12 @@ var input_radio_component_1 = require("../../shared/components/input-radio/input
 var passageiro_service_service_1 = require("../../core/services/passageiroService/passageiro-service.service");
 var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
 var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
+var behavior_subject_service_1 = require("../../core/services/behaviorSubjectService/behavior-subject.service");
+var lista_passageiros_history_service_1 = require("../../core/services/listaPassageirosHistoryService/lista-passageiros-history.service");
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 var ListaPassageirosComponent = /** @class */ (function () {
     function ListaPassageirosComponent(pdfListaPassageiros) {
+        var _this = this;
         this.pdfListaPassageiros = pdfListaPassageiros;
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.dialogPassageiro = core_1.inject(dialog_1.MatDialog);
@@ -37,10 +40,26 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.passageiros = [];
         this.arrayNomeClientes = [];
         this.arrayNomePassageiros = [];
-        // arrayNomePassageiros: IClienteAutocomplete[] = [];
+        this.passageiro = {
+            nome: '',
+            documento: '',
+            typeDocumentSelected: 'RG'
+        };
+        this.listaPassageirosBehaviorSubject = core_1.inject(behavior_subject_service_1.BehaviorSubjectService);
+        this.listaPassageirosHistoryService = core_1.inject(lista_passageiros_history_service_1.ListaPassageirosHistoryService);
+        this.valid = [];
+        this.loading = false;
+        this.isLoadingPassageiros = true;
+        this.motoristas = ["Crairton", "Claudiney"];
+        this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
+        this.typesDocument = ['RG', 'CPF', 'Registro'];
+        this.isLoadingListaPassageirosBehaviorSubject = true;
+        for (var i = 0; i <= 10; i++) {
+            this.valid.push(false);
+        }
         this.listaPassageiros = {
-            numeroCarro: '25152001',
-            placa: 'OSQ1619',
+            numeroCarro: '',
+            placa: '',
             motorista: '',
             origem: '',
             destino: '',
@@ -51,30 +70,32 @@ var ListaPassageirosComponent = /** @class */ (function () {
             extensaoRoteiroKm: '',
             passageiros: []
         };
-        this.passageiro = {
-            nome: '',
-            documento: '',
-            typeDocumentSelected: 'RG'
-        };
-        this.valid = [];
-        this.loading = false;
-        this.isLoadingPassageiros = true;
-        this.motoristas = ["Crairton", "Claudiney"];
-        this.cidades = ["Juazeiro do Norte", "Crato", "Barbalha"];
-        this.typesDocument = ['RG', 'CPF', 'Registro'];
-        for (var i = 0; i <= 10; i++) {
-            this.valid.push(false);
-        }
+        this.updateNumeroCarroHandler({ value: 25152001, valid: true });
+        this.updatePlacaHandler({ value: 'OSQ1619', valid: true });
+        // nav vindo do history
+        this.listaPassageirosBehaviorSubject.listaPassageirosSelecionado$.subscribe(function (data) {
+            if (data) {
+                _this.listaPassageiros = data;
+                _this.isLoadingListaPassageirosBehaviorSubject = false;
+            }
+            else {
+                _this.isLoadingListaPassageirosBehaviorSubject = false;
+            }
+        });
     }
     ListaPassageirosComponent.prototype.ngOnInit = function () {
         // this.povoaArrayClientes();
         this.povoaArrayPassageiros();
     };
     ListaPassageirosComponent.prototype.onSubmit = function () {
-        var _this = this;
         this.loading = true;
         var date = new Date();
         var pdfName = "Lista de passageiros CVM - " + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".pdf";
+        this.tryGenerateListaPassageirosPdf(pdfName);
+        this.createListaPassageirosHistory();
+    };
+    ListaPassageirosComponent.prototype.tryGenerateListaPassageirosPdf = function (pdfName) {
+        var _this = this;
         this.pdfListaPassageiros.generatePDF({ pdfData: this.listaPassageiros, pdfName: pdfName })
             .subscribe(function (pdfBlob) {
             var pdfUrl = URL.createObjectURL(pdfBlob);
@@ -97,6 +118,16 @@ var ListaPassageirosComponent = /** @class */ (function () {
             catch (_a) {
                 console.error('Erro ao gerar o PDF:', error);
                 _this.loading = false;
+            }
+        });
+    };
+    ListaPassageirosComponent.prototype.createListaPassageirosHistory = function () {
+        this.listaPassageirosHistoryService.createListaPassageirosHistory(this.listaPassageiros).subscribe({
+            next: function (result) {
+                console.log(result);
+            },
+            error: function (error) {
+                console.log(error);
             }
         });
     };
@@ -250,7 +281,7 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.valid[8] = value.valid;
     };
     ListaPassageirosComponent.prototype.updateExtensaoKmHandler = function (value) {
-        this.listaPassageiros.extensaoRoteiroKm = value.value;
+        this.listaPassageiros.extensaoRoteiroKm = value.value.toString();
     };
     ListaPassageirosComponent.prototype.updateNomeHandler = function (value) {
         var _this = this;

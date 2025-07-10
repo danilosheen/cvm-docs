@@ -24,6 +24,8 @@ import { InputRadioComponent } from "../../shared/components/input-radio/input-r
 import { PassageiroService } from '../../core/services/passageiroService/passageiro-service.service';
 import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
+import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
+import { ListaPassageirosHistoryService } from '../../core/services/listaPassageirosHistoryService/lista-passageiros-history.service';
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
@@ -61,20 +63,7 @@ export class ListaPassageirosComponent implements OnInit {
   arrayNomePassageiros: IPessoaAutocomplete[] = [];
   // arrayNomePassageiros: IClienteAutocomplete[] = [];
 
-  listaPassageiros: IListaPassageiros = {
-    numeroCarro: '25152001',
-    placa: 'OSQ1619',
-    motorista: '',
-    origem: '',
-    destino: '',
-    dataSaida: '',
-    horaSaida: '',
-    dataRetorno: '',
-    horaRetorno: '',
-    extensaoRoteiroKm: '',
-    passageiros: [
-    ]
-  };
+  listaPassageiros: IListaPassageiros;
 
   passageiro: IPassageiro = {
     nome: '',
@@ -82,18 +71,49 @@ export class ListaPassageirosComponent implements OnInit {
     typeDocumentSelected: 'RG'
   };
 
+  listaPassageirosBehaviorSubject = inject(BehaviorSubjectService);
+  listaPassageirosHistoryService = inject(ListaPassageirosHistoryService);
   valid: boolean[] = [];
   loading = false;
   isLoadingPassageiros = true;
   motoristas: string[] = ["Crairton", "Claudiney"];
   cidades: string[] = ["Juazeiro do Norte", "Crato", "Barbalha"];
   typesDocument: string[] = ['RG', 'CPF', 'Registro'];
+  isLoadingListaPassageirosBehaviorSubject = true;
 
   constructor(
     private pdfListaPassageiros: ListaPassageirosService){
     for (let i = 0; i <= 10; i++) {
       this.valid.push(false)
     }
+
+    this.listaPassageiros = {
+      numeroCarro: '',
+      placa: '',
+      motorista: '',
+      origem: '',
+      destino: '',
+      dataSaida: '',
+      horaSaida: '',
+      dataRetorno: '',
+      horaRetorno: '',
+      extensaoRoteiroKm: '',
+      passageiros: [
+      ]
+    }
+
+    this.updateNumeroCarroHandler({ value: 25152001, valid: true });
+    this.updatePlacaHandler({ value: 'OSQ1619', valid: true });
+
+    // nav vindo do history
+    this.listaPassageirosBehaviorSubject.listaPassageirosSelecionado$.subscribe(data => {
+      if (data) {
+        this.listaPassageiros = data;
+        this.isLoadingListaPassageirosBehaviorSubject = false;
+      } else {
+        this.isLoadingListaPassageirosBehaviorSubject = false;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -105,7 +125,11 @@ export class ListaPassageirosComponent implements OnInit {
     this.loading = true;
     const date = new Date();
     const pdfName = `Lista de passageiros CVM - ${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}.pdf`
+    this.tryGenerateListaPassageirosPdf(pdfName);
+    this.createListaPassageirosHistory();
+  }
 
+  tryGenerateListaPassageirosPdf(pdfName: string){
     this.pdfListaPassageiros.generatePDF({pdfData: this.listaPassageiros, pdfName: pdfName})
       .subscribe(
         (pdfBlob) => {
@@ -132,6 +156,17 @@ export class ListaPassageirosComponent implements OnInit {
           }
         }
       );
+  }
+
+  createListaPassageirosHistory(){
+    this.listaPassageirosHistoryService.createListaPassageirosHistory(this.listaPassageiros).subscribe({
+      next:(result)=>{
+        console.log(result);
+      },
+      error:(error)=>{
+        console.log(error);
+      }
+    });
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, i: number): void {
@@ -295,8 +330,8 @@ export class ListaPassageirosComponent implements OnInit {
     this.valid[8] = value.valid;
   }
 
-  updateExtensaoKmHandler(value: IInput<string>){
-    this.listaPassageiros.extensaoRoteiroKm = value.value
+  updateExtensaoKmHandler(value: IInput<number>){
+    this.listaPassageiros.extensaoRoteiroKm = value.value.toString();
   }
 
   updateNomeHandler(value: any){

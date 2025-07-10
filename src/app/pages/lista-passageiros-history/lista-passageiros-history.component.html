@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="content">
+    @if (isLoading) {
+    <app-loading-blue></app-loading-blue>
+    } @else {
+      <h2 class="title">Histórico de listas de passageiros</h2>
+      @if (widthScreen > 1050) {
+      <table>
+        <thead>
+          <tr>
+            <th>Data de geração</th>
+            <th>Motorista</th>
+            <th>Placa</th>
+            <th>Origem</th>
+            <th>Destino</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (listaPassageiros of listasPassageiros; track $index) {
+          <tr>
+            <td>{{listaPassageiros.createdAt | dataFormatada }}</td>
+            <td>{{listaPassageiros.motorista}}</td>
+            <td>{{listaPassageiros.placa}}</td>
+            <td>{{listaPassageiros.origem}}</td>
+            <td>{{listaPassageiros.destino}}</td>
+            <td>
+              <img (click)="editarListaPassageirosHistory(listaPassageiros)" src="../../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverListaPassageirosHistory(listaPassageiros.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <div class="container-cards">
+        @for (listaPassageiros of listasPassageiros; track $index) {
+        <div class="card">
+          <div class="card-topo">
+            <div>
+              {{listaPassageiros.createdAt | dataFormatada}}
+            </div>
+            <div class="container-card-actions">
+              <img (click)="editarListaPassageirosHistory(listaPassageiros)" src="../../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverListaPassageirosHistory(listaPassageiros.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+            </div>
+          </div>
+          <div class="card-description">Motorista: {{listaPassageiros.motorista}}</div>
+          <div class="card-rodape">
+            <div class="container-card-rodape">
+              <span>Placa:</span>
+              <span>{{listaPassageiros.placa }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Origem:</span>
+              <span>{{listaPassageiros.origem }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Destino:</span>
+              <span>{{listaPassageiros.destino }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    }
+    }
+  </div>
+</div>
+<app-footer></app-footer>

@@ -15,6 +15,7 @@ import { AniversariantesComponent } from './pages/utilitarios/aniversariantes/an
 import { ControleContasComponent } from './pages/controle-contas/controle-contas.component';
 import { NotaAgradecimentoComponent } from './pages/utilitarios/nota-agradecimento/nota-agradecimento.component';
 import { OrcamentoHistoryComponent } from './pages/orcamento-history/orcamento-history.component';
+import { ListaPassageirosHistoryComponent } from './pages/lista-passageiros-history/lista-passageiros-history.component';
 
 
 export const routes: Routes = [
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'recibo', component: ReciboComponent },
   { path: 'controle-contas', component: ControleContasComponent, canActivate: [AuthGuardService] },
   { path: 'lista-passageiros', component: ListaPassageirosComponent },
+  { path: 'lista-passageiros-history', component: ListaPassageirosHistoryComponent },
   { path: 'clientes', component: ClientesComponent, canActivate: [AuthGuardService] },
   { path: 'passageiros', component: PassageirosComponent, canActivate: [AuthGuardService] },
   { path: 'calculadora', component: CalculadoraComponent, canActivate: [AuthGuardService] },

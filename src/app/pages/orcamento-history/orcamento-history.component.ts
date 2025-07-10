@@ -9,7 +9,7 @@ import { LoadingBlueComponent } from "../../shared/components/loading-blue/loadi
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { Router } from '@angular/router';
-import { OrcamentoBehaviorSubjectService } from '../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service';
+import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
 
 @Component({
   selector: 'app-orcamento-history',
@@ -28,7 +28,7 @@ export class OrcamentoHistoryComponent {
   orcamentoHistoryService = inject(OrcamentoHistoryService);
   dialog = inject(MatDialog)
   router = inject(Router)
-  orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService)
+  orcamentoBehaviorSubject = inject(BehaviorSubjectService)
   orcamentos: IOrcamentoHistory[] = [];
   isLoading = false;
 

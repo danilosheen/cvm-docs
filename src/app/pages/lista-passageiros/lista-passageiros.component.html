@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container">
-  @if(isLoadingPassageiros){
+  @if(isLoadingPassageiros && isLoadingListaPassageirosBehaviorSubject){
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2 class="title-lista-passageiros">
@@ -28,6 +28,7 @@
       <app-input-autocomplete
         [label]="'Motorista'"
         [options]="motoristas"
+        [defaultValue]="listaPassageiros.motorista"
         [errorMessage]="'Selecione o motorista da viagem'"
         (inputValue)="updateMotoristaHandler($event)"
       ></app-input-autocomplete>
@@ -36,6 +37,7 @@
       <app-input-autocomplete
         [label]="'Local de saída'"
         [options]="cidades"
+        [defaultValue]="listaPassageiros.origem"
         [errorMessage]="'Selecione o local de saída'"
         (inputValue)="updateLocalSaidaHandler($event)"
       ></app-input-autocomplete>
@@ -44,30 +46,35 @@
       <app-input-text
         [label]="'Destino da viagem'"
         [placeholder]="'ex: Canoa Quebrada'"
+        [defaultValue]="listaPassageiros.destino"
         (inputValue)="updateDestinoHandler($event)"
       ></app-input-text>
 
       <!-- Data de saída -->
       <app-input-date
         [label]="'Data de saída'"
+        [defaultValue]="listaPassageiros.dataSaida"
         (inputDate)="updateDataSaidaHandler($event)"
       ></app-input-date>
 
       <!-- Hora de saída -->
       <app-input-time
         [label]="'Hora de saída'"
+        [defaultValue]="listaPassageiros.horaSaida"
         (inputTime)="updateHoraSaidaHandler($event)"
       ></app-input-time>
 
       <!-- Data de retorno -->
       <app-input-date
         [label]="'Data de retorno'"
+        [defaultValue]="listaPassageiros.dataRetorno"
         (inputDate)="updateDataRetornoHandler($event)"
       ></app-input-date>
 
       <!-- Hora de retorno -->
       <app-input-time
         [label]="'Hora de retorno'"
+        [defaultValue]="listaPassageiros.horaRetorno"
         (inputTime)="updateHoraRetornoHandler($event)"
       ></app-input-time>
 
@@ -76,7 +83,8 @@
         [label]="'Extensão do roteiro em (KM)'"
         [type]="'text'"
         [optional]="true"
-        (inputValueString)="updateExtensaoKmHandler($event)"
+        [defaultValue]="listaPassageiros.extensaoRoteiroKm"
+        (inputValueNumber)="updateExtensaoKmHandler($event)"
       ></app-input-number>
 
       <h3 class="title-passageiros">Inserir passageiros</h3>

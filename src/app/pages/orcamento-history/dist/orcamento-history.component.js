@@ -17,14 +17,14 @@ var loading_blue_component_1 = require("../../shared/components/loading-blue/loa
 var dialog_1 = require("@angular/material/dialog");
 var dialog_generic_component_1 = require("../../shared/components/dialog-generic/dialog-generic.component");
 var router_1 = require("@angular/router");
-var orcamento_behavior_subject_service_1 = require("../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service");
+var behavior_subject_service_1 = require("../../core/services/behaviorSubjectService/behavior-subject.service");
 var OrcamentoHistoryComponent = /** @class */ (function () {
     function OrcamentoHistoryComponent() {
         var _this = this;
         this.orcamentoHistoryService = core_1.inject(orcamento_history_service_1.OrcamentoHistoryService);
         this.dialog = core_1.inject(dialog_1.MatDialog);
         this.router = core_1.inject(router_1.Router);
-        this.orcamentoBehaviorSubject = core_1.inject(orcamento_behavior_subject_service_1.OrcamentoBehaviorSubjectService);
+        this.orcamentoBehaviorSubject = core_1.inject(behavior_subject_service_1.BehaviorSubjectService);
         this.orcamentos = [];
         this.isLoading = false;
         this.widthScreen = window.innerWidth;

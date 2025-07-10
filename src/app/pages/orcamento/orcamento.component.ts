@@ -21,7 +21,7 @@ import { ICliente } from '../../interfaces/i-cliente';
 import { IPessoaAutocomplete } from '../../interfaces/i-clienteAutocomplete';
 import { InputAutocompleteDataPessoaComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component";
 import { Router } from '@angular/router';
-import { OrcamentoBehaviorSubjectService } from '../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service';
+import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
 import { OrcamentoHistoryService } from '../../core/services/orcamentoHistoryService/orcamento-history.service';
 
 
@@ -61,7 +61,7 @@ export class OrcamentoComponent implements OnInit{
 
   // behavior subject orcamento
   router = inject(Router);
-  orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService);
+  orcamentoBehaviorSubject = inject(BehaviorSubjectService);
   orcamentoHistoryService = inject(OrcamentoHistoryService);
   maxRetries = 3;
   retryDelay = 2000; // 2 segundos

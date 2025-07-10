@@ -24,7 +24,7 @@ var cliente_service_1 = require("../../core/services/clienteService/cliente.serv
 var loading_blue_component_1 = require("../../shared/components/loading-blue/loading-blue.component");
 var input_autocomplete_data_pessoa_component_1 = require("../../shared/components/input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
 var router_1 = require("@angular/router");
-var orcamento_behavior_subject_service_1 = require("../../core/services/orcamentoBehaviorSubjectService/orcamento-behavior-subject.service");
+var behavior_subject_service_1 = require("../../core/services/behaviorSubjectService/behavior-subject.service");
 var orcamento_history_service_1 = require("../../core/services/orcamentoHistoryService/orcamento-history.service");
 var OrcamentoComponent = /** @class */ (function () {
     function OrcamentoComponent(pdfOrcamento) {
@@ -40,7 +40,7 @@ var OrcamentoComponent = /** @class */ (function () {
         this.isLoadingOrcamentoBehaviorSubject = true;
         // behavior subject orcamento
         this.router = core_1.inject(router_1.Router);
-        this.orcamentoBehaviorSubject = core_1.inject(orcamento_behavior_subject_service_1.OrcamentoBehaviorSubjectService);
+        this.orcamentoBehaviorSubject = core_1.inject(behavior_subject_service_1.BehaviorSubjectService);
         this.orcamentoHistoryService = core_1.inject(orcamento_history_service_1.OrcamentoHistoryService);
         this.maxRetries = 3;
         this.retryDelay = 2000; // 2 segundos
