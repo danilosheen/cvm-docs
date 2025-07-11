@@ -104,12 +104,17 @@ var ControleContasComponent = /** @class */ (function () {
         var mes = this.mesAnoSelected.mes.toString().padStart(2, "0");
         var ano = this.mesAnoSelected.ano.toString();
         var pdfName = "Relat\u00F3rio mensal CVM - " + mes + "/" + ano + ".pdf";
+        var fluxosCnpj = this.fluxos.filter(function (fluxo) { return fluxo.tipoDocumento == 'CNPJ'; });
+        var entradas = fluxosCnpj.filter(function (fluxo) { return fluxo.tipo == 'ENTRADA'; });
+        var saidas = fluxosCnpj.filter(function (fluxo) { return fluxo.tipo == 'SAIDA'; });
+        var somaEntradas = entradas.reduce(function (total, entrada) { return total + entrada.valor; }, 0);
+        var somaSaidas = saidas.reduce(function (total, saida) { return total + saida.valor; }, 0);
         var relatorioData = {
-            fluxos: this.fluxos,
+            fluxos: fluxosCnpj,
             saldoAnterior: this.saldoAnterior,
-            entradas: this.somaEntradas,
-            saidas: this.somaSaidas,
-            saldoRestante: this.saldoRestante,
+            entradas: somaEntradas,
+            saidas: somaSaidas,
+            saldoRestante: somaEntradas - somaSaidas,
             mesAno: mes + "/" + ano,
             pdfName: pdfName
         };

@@ -121,12 +121,21 @@ export class ControleContasComponent {
     const mes = this.mesAnoSelected.mes.toString().padStart(2,"0");
     const ano = this.mesAnoSelected.ano.toString();
     const pdfName = `Relatório mensal CVM - ${mes}/${ano}.pdf`
+    const fluxosCnpj = this.fluxos.filter(fluxo => fluxo.tipoDocumento == 'CNPJ');
+
+    const entradas = fluxosCnpj.filter(fluxo => fluxo.tipo == 'ENTRADA');
+    const saidas = fluxosCnpj.filter(fluxo => fluxo.tipo == 'SAIDA');
+
+    let somaEntradas = entradas.reduce((total, entrada) => total + entrada.valor, 0);
+    let somaSaidas = saidas.reduce((total, saida) => total + saida.valor, 0);
+
+
     const relatorioData: IRelatorioMensal = {
-      fluxos: this.fluxos,
+      fluxos: fluxosCnpj,
       saldoAnterior: this.saldoAnterior,
-      entradas: this.somaEntradas,
-      saidas: this.somaSaidas,
-      saldoRestante: this.saldoRestante,
+      entradas: somaEntradas,
+      saidas: somaSaidas,
+      saldoRestante: somaEntradas - somaSaidas,
       mesAno: `${mes}/${ano}`,
       pdfName: pdfName
     }

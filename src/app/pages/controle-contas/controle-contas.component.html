@@ -77,6 +77,7 @@
                 <tr>
                   <th>Data</th>
                   <th>Movimentação</th>
+                  <th>TipoTransação</th>
                   <th>Descrição</th>
                   <th>Valor</th>
                   <th>Forma de pagamento</th>
@@ -92,6 +93,7 @@
                   >
                     <td>{{fluxo.data | dataFormatada}}</td>
                     <td>{{fluxo.tipo}}</td>
+                    <td>{{fluxo.tipoDocumento}}</td>
                     <td>{{fluxo.descricao}}</td>
                     <td>R$ {{fluxo.valor | brCurrency}}
                     <td class="center">{{fluxo.formaPagamento}}</td>
@@ -125,6 +127,7 @@
                 <div class="card-description">{{fluxo.descricao}}</div>
                 <div class="card-rodape">
                   <div class="card-forma-pagamento">{{fluxo.formaPagamento}}</div>
+                  <div>{{fluxo.tipoDocumento}}</div>
                   <div
                     [ngClass]="{
                     'vermelho': fluxo.tipo == 'SAIDA',

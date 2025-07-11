@@ -20,6 +20,14 @@
       (selectedInputValue)="updateTipoMovimentacaoHandler($event)"
     ></app-input-select>
 
+    <app-input-radio
+      [label]="'Transação no CPF ou CNPJ?'"
+      [listItems]="listDocuments"
+      [defaultValue]="fluxoData.tipoDocumento"
+      [expanded]="true"
+      (selectedValue)="updateDocumentTransactionHandler($event)"
+    ></app-input-radio>
+
     <!-- Valor -->
     <app-input-number
       [label]="'Informe o valor'"

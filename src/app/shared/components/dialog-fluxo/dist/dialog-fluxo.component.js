@@ -17,6 +17,7 @@ var input_text_component_1 = require("../input-text/input-text.component");
 var input_number_component_1 = require("../input-number/input-number.component");
 var input_date_component_1 = require("../input-date/input-date.component");
 var input_select_component_1 = require("../input-select/input-select.component");
+var input_radio_component_1 = require("../input-radio/input-radio.component");
 var DialogFluxoComponent = /** @class */ (function () {
     function DialogFluxoComponent() {
         this.dialogRef = core_1.inject(dialog_1.MatDialogRef());
@@ -27,13 +28,15 @@ var DialogFluxoComponent = /** @class */ (function () {
         this.fluxoDataClean = {
             data: '',
             tipo: '',
+            tipoDocumento: '',
             descricao: '',
             valor: null,
             formaPagamento: ''
         };
+        this.listDocuments = ['CPF', 'CNPJ'];
         this.fluxoData = this.dataFluxo.fluxo || this.fluxoDataClean;
         this.inputsDialog = core_1.inject(dialog_1.MAT_DIALOG_DATA);
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 6; i++) {
             this.valid.push(false);
         }
         if (this.dataFluxo.editFluxo) {
@@ -83,17 +86,22 @@ var DialogFluxoComponent = /** @class */ (function () {
         this.fluxoData.tipo = value.value;
         this.valid[1] = value.valid;
     };
+    DialogFluxoComponent.prototype.updateDocumentTransactionHandler = function (value) {
+        console.log(value);
+        this.fluxoData.tipoDocumento = value.value;
+        this.valid[2] = value.valid;
+    };
     DialogFluxoComponent.prototype.updateDescricaoHandler = function (value) {
         this.fluxoData.descricao = value.value;
-        this.valid[2] = value.valid;
+        this.valid[3] = value.valid;
     };
     DialogFluxoComponent.prototype.updateValorHandler = function (value) {
         this.fluxoData.valor = value.value;
-        this.valid[3] = value.valid;
+        this.valid[4] = value.valid;
     };
     DialogFluxoComponent.prototype.updateFormaPagamentoHandler = function (value) {
         this.fluxoData.formaPagamento = value.value;
-        this.valid[4] = value.valid;
+        this.valid[5] = value.valid;
     };
     DialogFluxoComponent.prototype.onNoClick = function () {
         this.dialogRef.close();
@@ -114,7 +122,8 @@ var DialogFluxoComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_number_component_1.InputNumberComponent,
                 input_select_component_1.InputSelectComponent,
-                input_date_component_1.InputDateComponent
+                input_date_component_1.InputDateComponent,
+                input_radio_component_1.InputRadioComponent
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,
             templateUrl: './dialog-fluxo.component.html',

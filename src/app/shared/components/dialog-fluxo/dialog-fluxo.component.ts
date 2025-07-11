@@ -16,6 +16,7 @@ import { InputDateComponent } from "../input-date/input-date.component";
 import { IFluxoCaixa } from '../../../interfaces/i-fluxo-caixa';
 import { InputSelectComponent } from "../input-select/input-select.component";
 import { BrCurrencyPipe } from "../../../pipes/br-currency.pipe";
+import { InputRadioComponent } from "../input-radio/input-radio.component";
 
 @Component({
   selector: 'app-dialog-fluxo',
@@ -29,7 +30,8 @@ import { BrCurrencyPipe } from "../../../pipes/br-currency.pipe";
     InputTextComponent,
     InputNumberComponent,
     InputSelectComponent,
-    InputDateComponent
+    InputDateComponent,
+    InputRadioComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dialog-fluxo.component.html',
@@ -45,10 +47,12 @@ export class DialogFluxoComponent {
   fluxoDataClean: IFluxoCaixa = {
     data: '',
     tipo: '',
+    tipoDocumento: '',
     descricao:'',
     valor: null,
     formaPagamento: '',
   }
+  listDocuments: string[] = ['CPF', 'CNPJ'];
 
   fluxoData: any = this.dataFluxo.fluxo || this.fluxoDataClean;
 
@@ -59,7 +63,7 @@ export class DialogFluxoComponent {
   }
 
   constructor(){
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       this.valid.push(false);
     }
 
@@ -108,19 +112,25 @@ export class DialogFluxoComponent {
     this.valid[1] = value.valid;
   }
 
+  updateDocumentTransactionHandler(value: IInput<string>){
+    console.log(value)
+    this.fluxoData.tipoDocumento = value.value;
+    this.valid[2] = value.valid;
+  }
+
   updateDescricaoHandler(value: IInput<string>){
     this.fluxoData.descricao = value.value;
-    this.valid[2] = value.valid;
+    this.valid[3] = value.valid;
   }
 
   updateValorHandler(value: IInput<number>){
     this.fluxoData.valor = value.value;
-    this.valid[3] = value.valid;
+    this.valid[4] = value.valid;
   }
 
   updateFormaPagamentoHandler(value: IInput<string>){
     this.fluxoData.formaPagamento = value.value;
-    this.valid[4] = value.valid;
+    this.valid[5] = value.valid;
   }
 
   onNoClick(): void {
