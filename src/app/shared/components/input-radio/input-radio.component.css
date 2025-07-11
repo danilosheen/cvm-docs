@@ -22,3 +22,15 @@ h2{
   flex-direction: row;
   justify-content: space-around;
 }
+
+::ng-deep .mat-expansion-panel{
+  background-color: rgb(224 226 236) !important;
+  min-height: 56px;
+  border-radius: 0px !important;
+}
+
+@media (hover: none) {
+  .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover{
+    background-color: rgb(224 226 236) !important;
+  }
+}
