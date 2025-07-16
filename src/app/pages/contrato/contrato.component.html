@@ -29,6 +29,12 @@
           [placeholder]="'ex: 999.999.999-00'"
           (inputValueString)="updateDocumentoHandler($event)"
         ></app-input-number>
+      } @else if (contratoData.tipoContrato == 'RG'){
+        <app-input-text
+          [label]="'Informe o RG'"
+          [defaultValue]="contratoData.documento"
+          (inputValue)="updateDocumentoHandler($event)"
+        ></app-input-text>
       } @else {
         <!-- cnpj -->
         <app-input-number
