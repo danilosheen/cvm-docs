@@ -43,37 +43,38 @@
         (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     } @else {
-      <app-input-number
+      <app-input-text
         [label]="'RG do cliente'"
-        [type]="'text'"
         [defaultValue]="clienteData.documento"
-        (inputValueString)="updateDocumentoClienteHandler($event)"
-      ></app-input-number>
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-text>
     }
     <app-input-text
+      [label]="'Estado'"
+      [placeholder]="'ex: Ceará'"
+      [defaultValue]="clienteData.estado || ''"
+      (inputValue)="updateEstadoHandler($event)"
+    ></app-input-text>
+    <app-input-text
       [label]="'Cidade'"
-      [optional]="true"
       [placeholder]="'ex: Juazeiro do Norte'"
       [defaultValue]="clienteData.cidade || ''"
       (inputValue)="updateCidadeHandler($event)"
     ></app-input-text>
     <app-input-text
       [label]="'Bairro'"
-      [optional]="true"
       [placeholder]="'ex: Lagoa Seca'"
       [defaultValue]="clienteData.bairro || ''"
       (inputValue)="updateBairroHandler($event)"
     ></app-input-text>
     <app-input-text
       [label]="'Rua'"
-      [optional]="true"
       [placeholder]="'ex: São Pedro'"
       [defaultValue]="clienteData.rua || ''"
       (inputValue)="updateRuaHandler($event)"
     ></app-input-text>
     <app-input-number
       [label]="'Número'"
-      [optional]="true"
       [type]="'text'"
       [placeholder]="'ex: 37'"
       [defaultValue]="clienteData.numero || ''"

@@ -82,6 +82,8 @@ export class InputNumberComponent implements OnInit {
       this.input.setValidators([Validators.required, this.moneyValidator]);
     } else if (this.type === 'cpf' && !this.optional) {
       this.input.setValidators([Validators.required, this.cpfValidator]);
+    } else if (this.type === 'cnpj' && !this.optional){
+      this.input.setValidators([Validators.required, this.cnpjValidator]);
     } else if (this.type === 'date' && !this.optional) {
       this.input.setValidators([Validators.required, this.dateValidator]);
     }
@@ -160,6 +162,34 @@ export class InputNumberComponent implements OnInit {
     return formattedValue;
   }
 
+  onCnpjFormat(value: string): string {
+    let numeros = value.replace(/\D/g, '');
+    if (numeros.length > 14) {
+      numeros = numeros.substring(0, 14);
+    }
+
+    let formattedValue = numeros;
+
+    if (numeros.length > 2) {
+      formattedValue = `${numeros.substring(0, 2)}.${numeros.substring(2)}`;
+    }
+
+    if (numeros.length > 5) {
+      formattedValue = `${numeros.substring(0, 2)}.${numeros.substring(2, 5)}.${numeros.substring(5)}`;
+    }
+
+    if (numeros.length > 8) {
+      formattedValue = `${numeros.substring(0, 2)}.${numeros.substring(2, 5)}.${numeros.substring(5, 8)}/${numeros.substring(8)}`;
+    }
+
+    if (numeros.length > 12) {
+      formattedValue = `${numeros.substring(0, 2)}.${numeros.substring(2, 5)}.${numeros.substring(5, 8)}/${numeros.substring(8, 12)}-${numeros.substring(12)}`;
+    }
+
+    return formattedValue;
+  }
+
+
   onDateFormat(value: string): string {
 
     let numeros = value.replace(/\D/g, '');
@@ -231,6 +261,11 @@ export class InputNumberComponent implements OnInit {
       this.input.setValue(formattedValue, { emitEvent: false });
       this.sendInputHandler<string>(formattedValue);
 
+    } else if (this.type === 'cnpj' && rawValue) {
+      const formattedValue = this.onCnpjFormat(rawValue);
+      this.input.setValue(formattedValue, { emitEvent: false });
+      this.sendInputHandler<string>(formattedValue);
+
     } else if (this.type === 'date' && rawValue) {
       const formattedValue = this.onDateFormat(rawValue);
       this.input.setValue(formattedValue, { emitEvent: false });
@@ -282,6 +317,14 @@ export class InputNumberComponent implements OnInit {
     const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
     if (rawValue.length !== 11) {
       return { invalidCpf: true };
+    }
+    return null;
+  }
+
+  cnpjValidator(control: AbstractControl): ValidationErrors | null {
+    const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+    if (rawValue.length !== 14) {
+      return { invalidCnpj: true };
     }
     return null;
   }

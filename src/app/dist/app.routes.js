@@ -18,11 +18,14 @@ var controle_contas_component_1 = require("./pages/controle-contas/controle-cont
 var nota_agradecimento_component_1 = require("./pages/utilitarios/nota-agradecimento/nota-agradecimento.component");
 var orcamento_history_component_1 = require("./pages/orcamento-history/orcamento-history.component");
 var lista_passageiros_history_component_1 = require("./pages/lista-passageiros-history/lista-passageiros-history.component");
+var contrato_history_component_1 = require("./pages/contrato-history/contrato-history.component");
 exports.routes = [
     { path: '', component: login_component_1.LoginComponent },
     { path: 'home', component: home_component_1.HomeComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'contrato', component: contrato_component_1.ContratoComponent },
     { path: 'ficha-excursao', component: ficha_excursao_component_1.FichaExcursaoComponent },
+    { path: 'contrato', component: contrato_component_1.ContratoComponent },
+    { path: 'contrato-history', component: contrato_history_component_1.ContratoHistoryComponent },
     { path: 'orcamento', component: orcamento_component_1.OrcamentoComponent },
     { path: 'orcamento-history', component: orcamento_history_component_1.OrcamentoHistoryComponent },
     { path: 'recibo', component: recibo_component_1.ReciboComponent },

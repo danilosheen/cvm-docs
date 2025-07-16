@@ -1,7 +1,156 @@
 <app-navbar></app-navbar>
 <div class="container">
+  @if(isLoadingClientes && isLoadingContratoBehaviorSubject){
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2>Preencha os campos e gere um novo contrato</h2>
   <div class="content">
-    <img src="/assets/developing.jpg" alt="">
+    <app-input-radio
+      [label]="'Selecione o tipo de contrato'"
+      [expanded]="true"
+      [defaultValue]="contratoData.tipoContrato"
+      [listItems]="documentosList"
+      (selectedValue)="updateTipoContratoHandler($event)"
+    ></app-input-radio>
+    <app-input-autocomplete-data-pessoa
+        [options]="nomeClientes"
+        [attr.autocomplete]="'off'"
+        [label]="(contratoData.tipoContrato =='CPF' ? 'Nome completo do cliente' : 'Nome da empresa')"
+        [defaultValue]="contratoData.nomeCliente"
+        [errorMessage]="'Este campo é obrigatório'"
+        (inputValue)="updateNomeClienteHandler($event)"
+    ></app-input-autocomplete-data-pessoa>
+    @if (contratoData.tipoContrato == 'CPF') {
+        <!-- cpf -->
+        <app-input-number
+          [label]="'Informe o CPF'"
+          [type]="'cpf'"
+          [defaultValue]="contratoData.documento"
+          [placeholder]="'ex: 999.999.999-00'"
+          (inputValueString)="updateDocumentoHandler($event)"
+        ></app-input-number>
+      } @else {
+        <!-- cnpj -->
+        <app-input-number
+          [label]="'Informe o CNPJ'"
+          [type]="'cnpj'"
+          [defaultValue]="contratoData.documento"
+          [placeholder]="'ex: 00.000.000/0001-00'"
+          (inputValueString)="updateDocumentoHandler($event)"
+        ></app-input-number>
+      }
+      <app-input-text
+        [label]="'Rua'"
+        [defaultValue]="contratoData.endereco.rua"
+        (inputValue)="updateRuaHandler($event)"
+      ></app-input-text>
+      <app-input-text
+        [label]="'Número'"
+        [defaultValue]="contratoData.endereco.numero"
+        (inputValue)="updateNumeroHandler($event)"
+      ></app-input-text>
+      <app-input-text
+        [label]="'Bairro'"
+        [defaultValue]="contratoData.endereco.bairro"
+        (inputValue)="updateBairroHandler($event)"
+      ></app-input-text>
+      <app-input-text
+        [label]="'Cidade'"
+        [defaultValue]="contratoData.endereco.cidade"
+        (inputValue)="updateCidadeHandler($event)"
+      ></app-input-text>
+      <app-input-text
+        [label]="'Estado'"
+        [defaultValue]="contratoData.endereco.estado"
+        (inputValue)="updateEstadoHandler($event)"
+      ></app-input-text>
+      <app-input-text
+        [label]="'Placa do veículo'"
+        [defaultValue]="contratoData.placaVeiculo"
+        (inputValue)="updatePlacaVeiculoHandler($event)"
+      ></app-input-text>
+      <app-input-text
+        [label]="'Descrição do veículo'"
+        [defaultValue]="contratoData.descricaoVeiculo"
+        (inputValue)="updateDescricaoVeiculoHandler($event)"
+      ></app-input-text>
+      <app-input-date
+        [label]="'Informe a data inicial da locação'"
+        [defaultValue]="contratoData.dataInicial"
+        (inputDate)="updateDataInicialHandler($event)"
+      ></app-input-date>
+      <app-input-time
+        [label]="'Informe a hora inicial da locação'"
+        [defaultValue]="contratoData.horaInicial"
+        (inputTime)="updateHoraInicialHandler($event)"
+      ></app-input-time>
+      <app-input-date
+        [label]="'Informe a data final da locação'"
+        [defaultValue]="contratoData.dataFinal"
+        (inputDate)="updateDataFinalHandler($event)"
+      ></app-input-date>
+      <app-input-time
+        [label]="'Informe a hora inicial da locação'"
+        [defaultValue]="contratoData.horaFinal"
+        (inputTime)="updateHoraFinalHandler($event)"
+      ></app-input-time>
+      <app-input-autocomplete
+        [label]="'Informe o local de saída'"
+        [options]="locaisSaida"
+        [defaultValue]="contratoData.origem"
+        (inputValue)="updateOrigemHandler($event)"
+      ></app-input-autocomplete>
+      <app-input-text
+        [label]="'Informe o destino'"
+        [defaultValue]="contratoData.destino"
+        (inputValue)="updateDestinoHandler($event)"
+      ></app-input-text>
+      <app-input-radio
+        [label]="'Selecione a modalidade do contrato'"
+        [expanded]="true"
+        [listItems]="modalidadesContrato"
+        [defaultValue]="contratoData.detalhesLocacao.tipoContratoLocacao"
+        (selectedValue)="updateTipoContratoLocacaoHandler($event)"
+      ></app-input-radio>
+      <app-input-number
+        [label]="(contratoData.detalhesLocacao.tipoContratoLocacao == 'NORMAL' ? 'Informe o valor total' : 'Informe o valor por km')"
+        [defaultValue]="contratoData.detalhesLocacao.valorTotal"
+        [type]="'number'"
+        (inputValueNumber)="updateValorTotalHandler($event)"
+      ></app-input-number>
+      <app-input-number
+        [label]="'Informe a quantidade total de km'"
+        [type]="'text'"
+        [defaultValue]="contratoData.detalhesLocacao.kmTotal"
+        (inputValueNumber)="updateKmTotalHandler($event)"
+      ></app-input-number>
+      <app-input-number
+        [label]="'Informe o valor por km excedido'"
+        [optional]="true"
+        [type]="'number'"
+        [defaultValue]="contratoData.detalhesLocacao.valorKmExcedido"
+        (inputValueNumber)="updateValorKmExcedidoHandler($event)"
+      ></app-input-number>
+      <app-input-number
+        [label]="'Informe os km de cortesia'"
+        [optional]="true"
+        [type]="'text'"
+        [defaultValue]="contratoData.detalhesLocacao.kmCortesia"
+        (inputValueNumber)="updateKmCortesiaHandler($event)"
+      ></app-input-number>
+
+      <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <ng-container *ngIf="loading; else btnText">
+        <div class="button-loading">
+          <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          <p>Gerando PDF</p>
+        </div>
+      </ng-container>
+      <ng-template #btnText>
+        Gerar PDF
+      </ng-template>
+    </button>
   </div>
+  }
 </div>
 <app-footer></app-footer>

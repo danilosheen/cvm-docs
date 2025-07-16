@@ -118,27 +118,33 @@ export class DialogClienteComponent {
   }
 
   updateDocumentoClienteHandler(value: IInput<string>){
+    console.log(value)
     this.clienteData.documento = value.value;
+  }
+
+  updateEstadoHandler(value: IInput<string>){
+    this.clienteData.estado = value.value;
+    this.valid[3] = value.valid;
   }
 
   updateCidadeHandler(value: IInput<string>){
     this.clienteData.cidade = value.value;
-    this.valid[3] = value.valid;
+    this.valid[4] = value.valid;
   }
 
   updateBairroHandler(value: IInput<string>){
     this.clienteData.bairro = value.value;
-    this.valid[4] = value.valid;
+    this.valid[5] = value.valid;
   }
 
   updateRuaHandler(value: IInput<string>){
     this.clienteData.rua = value.value;
-    this.valid[5] = value.valid;
+    this.valid[6] = value.valid;
   }
 
   updateNumeroHandler(value: IInput<string>){
     this.clienteData.numero = value.value;
-    this.valid[6] = value.valid;
+    this.valid[7] = value.valid;
   }
 
   onNoClick(): void {

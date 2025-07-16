@@ -6,6 +6,7 @@ export interface ICliente {
   email?: string,
   typeDocumentSelected: string,
   documento: string,
+  estado?: string,
   cidade?: string,
   bairro?: string,
   rua?: string,

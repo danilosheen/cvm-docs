@@ -88,23 +88,28 @@ var DialogClienteComponent = /** @class */ (function () {
         this.clienteData.typeDocumentSelected = value.value;
     };
     DialogClienteComponent.prototype.updateDocumentoClienteHandler = function (value) {
+        console.log(value);
         this.clienteData.documento = value.value;
+    };
+    DialogClienteComponent.prototype.updateEstadoHandler = function (value) {
+        this.clienteData.estado = value.value;
+        this.valid[3] = value.valid;
     };
     DialogClienteComponent.prototype.updateCidadeHandler = function (value) {
         this.clienteData.cidade = value.value;
-        this.valid[3] = value.valid;
+        this.valid[4] = value.valid;
     };
     DialogClienteComponent.prototype.updateBairroHandler = function (value) {
         this.clienteData.bairro = value.value;
-        this.valid[4] = value.valid;
+        this.valid[5] = value.valid;
     };
     DialogClienteComponent.prototype.updateRuaHandler = function (value) {
         this.clienteData.rua = value.value;
-        this.valid[5] = value.valid;
+        this.valid[6] = value.valid;
     };
     DialogClienteComponent.prototype.updateNumeroHandler = function (value) {
         this.clienteData.numero = value.value;
-        this.valid[6] = value.valid;
+        this.valid[7] = value.valid;
     };
     DialogClienteComponent.prototype.onNoClick = function () {
         this.dialogRef.close();

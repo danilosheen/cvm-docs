@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IOrcamentoHistory } from '../../../interfaces/i-orcamentoHistory';
 import { IListaPassageirosHistory } from '../../../interfaces/i-listaPassageirosHistory';
+import { IContratoHistory } from '../../../interfaces/i-contrato-history';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,13 @@ import { IListaPassageirosHistory } from '../../../interfaces/i-listaPassageiros
 export class BehaviorSubjectService {
 
   private orcamentoBehaviorSubject = new BehaviorSubject<any>(null);
+  private contratoBehaviorSubject = new BehaviorSubject<any>(null);
   private listaPassageirosBehaviorSubject = new BehaviorSubject<any>(null);
   private reciboBehaviorSubject = new BehaviorSubject<any>(null);
   private fichaExcursaoBehaviorSubject = new BehaviorSubject<any>(null);
 
   public orcamentoSelecionado$ = this.orcamentoBehaviorSubject.asObservable();
+  public contratoSelecionado$ = this.contratoBehaviorSubject.asObservable();
   public listaPassageirosSelecionado$ = this.listaPassageirosBehaviorSubject.asObservable();
   public reciboSelecionado$ = this.reciboBehaviorSubject.asObservable();
   public fichaExcursaoSelecionado$ = this.fichaExcursaoBehaviorSubject.asObservable();
@@ -24,6 +27,14 @@ export class BehaviorSubjectService {
 
   clearOrcamento() {
     this.orcamentoBehaviorSubject.next(null);
+  }
+
+  setContrato(contrato: IContratoHistory) {
+    this.contratoBehaviorSubject.next(contrato);
+  }
+
+  clearContrato() {
+    this.contratoBehaviorSubject.next(null);
   }
 
   setListaPassageiros(listaPassageiros: IListaPassageirosHistory) {

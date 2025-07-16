@@ -43,6 +43,9 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.abrirTelaListaPassageirosHistory = function () {
         this.router.navigate(['/lista-passageiros-history']);
     };
+    NavbarComponent.prototype.abrirTelaContratosHistory = function () {
+        this.router.navigate(['/contrato-history']);
+    };
     NavbarComponent.prototype.logout = function () {
         this.authService.removeToken();
         this.router.navigate(["/"]);

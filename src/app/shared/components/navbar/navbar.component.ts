@@ -53,6 +53,10 @@ export class NavbarComponent {
     this.router.navigate(['/lista-passageiros-history']);
   }
 
+  abrirTelaContratosHistory(){
+    this.router.navigate(['/contrato-history']);
+  }
+
   logout(){
     this.authService.removeToken();
     this.router.navigate(["/"]);

@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="content">
+    @if (isLoading) {
+    <app-loading-blue></app-loading-blue>
+    } @else {
+      <h2 class="title">Histórico de contratos</h2>
+      @if (widthScreen > 1050) {
+      <table>
+        <thead>
+          <tr>
+            <th>Data de geração</th>
+            <th>Nome do cliente</th>
+            <th>Origem</th>
+            <th>Destino</th>
+            <th>Valor total</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (contrato of contratos; track $index) {
+          <tr>
+            <td>{{contrato.createdAt | dataFormatada }}</td>
+            <td>{{contrato.nomeCliente}}</td>
+            <td>{{contrato.origem}}</td>
+            <td>{{contrato.destino}}</td>
+            <td>R$ {{contrato.detalhesLocacao.valorTotal || 0 | brCurrency}}</td>
+            <td>
+              <img (click)="editarOrcamentoHistory(contrato)" src="../../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverOrcamentoHistory(contrato.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <div class="container-cards">
+        @for (contrato of contratos; track $index) {
+        <div class="card">
+          <div class="card-topo">
+            <div>
+              {{contrato.createdAt | dataFormatada}}
+            </div>
+            <div class="container-card-actions">
+              <img (click)="editarOrcamentoHistory(contrato)" src="../../../../assets/icons-svg/pen.svg">
+              <img (click)="openRemoverOrcamentoHistory(contrato.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+            </div>
+          </div>
+          <div class="card-description">Cliente: {{contrato.nomeCliente}}</div>
+          <div class="card-rodape">
+            <div class="container-card-rodape">
+              <span>Origem:</span>
+              <span>{{contrato.origem }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Destino:</span>
+              <span>{{contrato.destino }}</span>
+            </div>
+            <div class="container-card-rodape">
+              <span>Valor total:</span>
+              <span>{{contrato.detalhesLocacao.valorTotal || 0 | brCurrency }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    }
+    }
+  </div>
+</div>
+<app-footer></app-footer>

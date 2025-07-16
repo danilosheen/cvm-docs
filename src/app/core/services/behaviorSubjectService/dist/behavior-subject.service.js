@@ -12,10 +12,12 @@ var rxjs_1 = require("rxjs");
 var BehaviorSubjectService = /** @class */ (function () {
     function BehaviorSubjectService() {
         this.orcamentoBehaviorSubject = new rxjs_1.BehaviorSubject(null);
+        this.contratoBehaviorSubject = new rxjs_1.BehaviorSubject(null);
         this.listaPassageirosBehaviorSubject = new rxjs_1.BehaviorSubject(null);
         this.reciboBehaviorSubject = new rxjs_1.BehaviorSubject(null);
         this.fichaExcursaoBehaviorSubject = new rxjs_1.BehaviorSubject(null);
         this.orcamentoSelecionado$ = this.orcamentoBehaviorSubject.asObservable();
+        this.contratoSelecionado$ = this.contratoBehaviorSubject.asObservable();
         this.listaPassageirosSelecionado$ = this.listaPassageirosBehaviorSubject.asObservable();
         this.reciboSelecionado$ = this.reciboBehaviorSubject.asObservable();
         this.fichaExcursaoSelecionado$ = this.fichaExcursaoBehaviorSubject.asObservable();
@@ -25,6 +27,12 @@ var BehaviorSubjectService = /** @class */ (function () {
     };
     BehaviorSubjectService.prototype.clearOrcamento = function () {
         this.orcamentoBehaviorSubject.next(null);
+    };
+    BehaviorSubjectService.prototype.setContrato = function (contrato) {
+        this.contratoBehaviorSubject.next(contrato);
+    };
+    BehaviorSubjectService.prototype.clearContrato = function () {
+        this.contratoBehaviorSubject.next(null);
     };
     BehaviorSubjectService.prototype.setListaPassageiros = function (listaPassageiros) {
         this.listaPassageirosBehaviorSubject.next(listaPassageiros);

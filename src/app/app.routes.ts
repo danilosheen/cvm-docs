@@ -16,6 +16,7 @@ import { ControleContasComponent } from './pages/controle-contas/controle-contas
 import { NotaAgradecimentoComponent } from './pages/utilitarios/nota-agradecimento/nota-agradecimento.component';
 import { OrcamentoHistoryComponent } from './pages/orcamento-history/orcamento-history.component';
 import { ListaPassageirosHistoryComponent } from './pages/lista-passageiros-history/lista-passageiros-history.component';
+import { ContratoHistoryComponent } from './pages/contrato-history/contrato-history.component';
 
 
 export const routes: Routes = [
@@ -23,6 +24,8 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'contrato', component: ContratoComponent },
   { path: 'ficha-excursao', component: FichaExcursaoComponent },
+  { path: 'contrato', component: ContratoComponent },
+  { path: 'contrato-history', component: ContratoHistoryComponent },
   { path: 'orcamento', component: OrcamentoComponent },
   { path: 'orcamento-history', component: OrcamentoHistoryComponent },
   { path: 'recibo', component: ReciboComponent },

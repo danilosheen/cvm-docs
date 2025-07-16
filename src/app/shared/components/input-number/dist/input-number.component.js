@@ -81,6 +81,9 @@ var InputNumberComponent = /** @class */ (function () {
         else if (this.type === 'cpf' && !this.optional) {
             this.input.setValidators([forms_1.Validators.required, this.cpfValidator]);
         }
+        else if (this.type === 'cnpj' && !this.optional) {
+            this.input.setValidators([forms_1.Validators.required, this.cnpjValidator]);
+        }
         else if (this.type === 'date' && !this.optional) {
             this.input.setValidators([forms_1.Validators.required, this.dateValidator]);
         }
@@ -149,6 +152,26 @@ var InputNumberComponent = /** @class */ (function () {
         }
         return formattedValue;
     };
+    InputNumberComponent.prototype.onCnpjFormat = function (value) {
+        var numeros = value.replace(/\D/g, '');
+        if (numeros.length > 14) {
+            numeros = numeros.substring(0, 14);
+        }
+        var formattedValue = numeros;
+        if (numeros.length > 2) {
+            formattedValue = numeros.substring(0, 2) + "." + numeros.substring(2);
+        }
+        if (numeros.length > 5) {
+            formattedValue = numeros.substring(0, 2) + "." + numeros.substring(2, 5) + "." + numeros.substring(5);
+        }
+        if (numeros.length > 8) {
+            formattedValue = numeros.substring(0, 2) + "." + numeros.substring(2, 5) + "." + numeros.substring(5, 8) + "/" + numeros.substring(8);
+        }
+        if (numeros.length > 12) {
+            formattedValue = numeros.substring(0, 2) + "." + numeros.substring(2, 5) + "." + numeros.substring(5, 8) + "/" + numeros.substring(8, 12) + "-" + numeros.substring(12);
+        }
+        return formattedValue;
+    };
     InputNumberComponent.prototype.onDateFormat = function (value) {
         var numeros = value.replace(/\D/g, '');
         if (numeros.length > 8) {
@@ -205,6 +228,11 @@ var InputNumberComponent = /** @class */ (function () {
             this.input.setValue(formattedValue, { emitEvent: false });
             this.sendInputHandler(formattedValue);
         }
+        else if (this.type === 'cnpj' && rawValue) {
+            var formattedValue = this.onCnpjFormat(rawValue);
+            this.input.setValue(formattedValue, { emitEvent: false });
+            this.sendInputHandler(formattedValue);
+        }
         else if (this.type === 'date' && rawValue) {
             var formattedValue = this.onDateFormat(rawValue);
             this.input.setValue(formattedValue, { emitEvent: false });
@@ -250,6 +278,13 @@ var InputNumberComponent = /** @class */ (function () {
         var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
         if (rawValue.length !== 11) {
             return { invalidCpf: true };
+        }
+        return null;
+    };
+    InputNumberComponent.prototype.cnpjValidator = function (control) {
+        var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
+        if (rawValue.length !== 14) {
+            return { invalidCnpj: true };
         }
         return null;
     };
