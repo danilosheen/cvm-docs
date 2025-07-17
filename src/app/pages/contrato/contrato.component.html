@@ -15,7 +15,7 @@
     <app-input-autocomplete-data-pessoa
         [options]="nomeClientes"
         [attr.autocomplete]="'off'"
-        [label]="(contratoData.tipoContrato =='CPF' ? 'Nome completo do cliente' : 'Nome da empresa')"
+        [label]="(contratoData.tipoContrato =='CPF' || contratoData.tipoContrato =='RG' ? 'Nome completo do cliente' : 'Nome da empresa')"
         [defaultValue]="contratoData.nomeCliente"
         [errorMessage]="'Este campo é obrigatório'"
         (inputValue)="updateNomeClienteHandler($event)"
