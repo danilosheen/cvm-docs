@@ -61,7 +61,6 @@ export class ControleContasComponent {
   saldoRestante = 0;
 
   constructor(){
-    this.carregarFluxos();
     this.carregarSaldoAnterior();
   }
 
@@ -71,7 +70,6 @@ export class ControleContasComponent {
 
   set mesAnoSelected(value: { mes: number, ano: number }) {
     this._mesAnoSelected = value;
-    this.carregarFluxos();
     this.carregarSaldoAnterior();
   }
 
@@ -108,10 +106,12 @@ export class ControleContasComponent {
     .subscribe({
       next:(response)=>{
         this.saldoAnterior = response.saldoAnterior;
+        this.carregarFluxos();
       },
       error:(error)=>{
         console.log(error)
         this.saldoAnterior = 0;
+        this.carregarFluxos();
       }
     })
   }

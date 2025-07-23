@@ -44,7 +44,6 @@ var ControleContasComponent = /** @class */ (function () {
         this.somaEntradas = 0;
         this.somaSaidas = 0;
         this.saldoRestante = 0;
-        this.carregarFluxos();
         this.carregarSaldoAnterior();
     }
     Object.defineProperty(ControleContasComponent.prototype, "mesAnoSelected", {
@@ -53,7 +52,6 @@ var ControleContasComponent = /** @class */ (function () {
         },
         set: function (value) {
             this._mesAnoSelected = value;
-            this.carregarFluxos();
             this.carregarSaldoAnterior();
         },
         enumerable: false,
@@ -91,10 +89,12 @@ var ControleContasComponent = /** @class */ (function () {
             .subscribe({
             next: function (response) {
                 _this.saldoAnterior = response.saldoAnterior;
+                _this.carregarFluxos();
             },
             error: function (error) {
                 console.log(error);
                 _this.saldoAnterior = 0;
+                _this.carregarFluxos();
             }
         });
     };
