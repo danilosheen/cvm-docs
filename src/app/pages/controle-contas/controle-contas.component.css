@@ -85,10 +85,14 @@ td img{
 
 .saida{
   background-color: rgb(255, 150, 150);
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .entrada{
   background-color: rgb(159, 236, 159);
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .center{

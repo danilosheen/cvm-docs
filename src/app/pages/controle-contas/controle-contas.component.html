@@ -97,9 +97,11 @@
                     <td style="white-space: pre-wrap;">{{fluxo.descricao}}</td>
                     <td>R$ {{fluxo.valor | brCurrency}}
                     <td class="center">{{fluxo.formaPagamento}}</td>
-                    <td class="container-action-buttons">
-                      <img (click)="openEditarMovimentacao(fluxo, $index)" src="../../../../assets/icons-svg/pen.svg">
-                      <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
+                    <td>
+                      <div class="container-action-buttons">
+                        <img (click)="openEditarMovimentacao(fluxo, $index)" src="../../../../assets/icons-svg/pen.svg">
+                        <img (click)="openRemoverMovimentacao(fluxo.id!)" src="../../../../assets/icons-svg/delete-icon.svg">
+                      </div>
                     </td>
                   </tr>
                 }
