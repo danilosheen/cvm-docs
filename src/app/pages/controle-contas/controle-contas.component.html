@@ -4,7 +4,7 @@
     @if(isLoading){
       <app-loading-blue></app-loading-blue>
     } @else {
-      <div class="container-buttons">
+      <div class="container-buttons-topo">
         <app-input-month-year
           [label]="'Mês e ano atual'"
           [defaultValue]="mesAnoAtual"
@@ -22,7 +22,7 @@
           </ng-template>
         </button>
       </div>
-      <div class="container-table-topo">
+      <div class="container-table">
         @if (widthScreen > 875) {
           <table>
             <thead>

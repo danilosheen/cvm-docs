@@ -33,11 +33,6 @@
   overflow-x: auto;
 } */
 
-.container-buttons{
-  display: flex;
-  gap: 20px;
-}
-
 .container-button-add{
   display: flex;
   justify-content: end;
