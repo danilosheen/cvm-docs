@@ -4,7 +4,7 @@
     @if(isLoading){
       <app-loading-blue></app-loading-blue>
     } @else {
-      <div class="container-buttons-topo">
+      <div class="container-buttons">
         <app-input-month-year
           [label]="'Mês e ano atual'"
           [defaultValue]="mesAnoAtual"
@@ -22,7 +22,7 @@
           </ng-template>
         </button>
       </div>
-      <div class="container-table">
+      <div class="container-table-topo">
         @if (widthScreen > 875) {
           <table>
             <thead>
@@ -94,7 +94,7 @@
                     <td>{{fluxo.data | dataFormatada}}</td>
                     <td>{{fluxo.tipo}}</td>
                     <td>{{fluxo.tipoDocumento}}</td>
-                    <td>{{fluxo.descricao}}</td>
+                    <td style="white-space: pre-wrap;">{{fluxo.descricao}}</td>
                     <td>R$ {{fluxo.valor | brCurrency}}
                     <td class="center">{{fluxo.formaPagamento}}</td>
                     <td class="container-action-buttons">
