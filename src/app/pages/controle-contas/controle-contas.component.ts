@@ -75,14 +75,12 @@ export class ControleContasComponent {
 
   resetarValores(){
     this.fluxos = [];
-    this.saldoAnterior = 0;
     this.somaEntradas = 0;
     this.somaSaidas = 0;
     this.saldoRestante = 0;
   }
 
   carregarFluxos(){
-    this.isLoading = true;
     this.resetarValores();
     const mes = this.mesAnoSelected.mes;
     const ano = this.mesAnoSelected.ano;
@@ -102,6 +100,7 @@ export class ControleContasComponent {
   }
 
   carregarSaldoAnterior(){
+    this.isLoading = true;
     this.saldoAnteriorService.buscarSaldoAnterior(this.mesAnoSelected.mes, this.mesAnoSelected.ano)
     .subscribe({
       next:(response)=>{

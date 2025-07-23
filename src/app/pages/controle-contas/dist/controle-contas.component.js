@@ -59,14 +59,12 @@ var ControleContasComponent = /** @class */ (function () {
     });
     ControleContasComponent.prototype.resetarValores = function () {
         this.fluxos = [];
-        this.saldoAnterior = 0;
         this.somaEntradas = 0;
         this.somaSaidas = 0;
         this.saldoRestante = 0;
     };
     ControleContasComponent.prototype.carregarFluxos = function () {
         var _this = this;
-        this.isLoading = true;
         this.resetarValores();
         var mes = this.mesAnoSelected.mes;
         var ano = this.mesAnoSelected.ano;
@@ -85,6 +83,7 @@ var ControleContasComponent = /** @class */ (function () {
     };
     ControleContasComponent.prototype.carregarSaldoAnterior = function () {
         var _this = this;
+        this.isLoading = true;
         this.saldoAnteriorService.buscarSaldoAnterior(this.mesAnoSelected.mes, this.mesAnoSelected.ano)
             .subscribe({
             next: function (response) {
