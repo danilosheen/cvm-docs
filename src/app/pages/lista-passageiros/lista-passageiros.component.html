@@ -121,19 +121,17 @@
           (inputValueString)="updateDocumentoHandler($event)"
         ></app-input-number>
       } @else if (passageiro.typeDocumentSelected == 'RG'){
-        <app-input-number
+        <app-input-text
           [label]="'RG do passageiro'"
-          [type]="'text'"
           [defaultValue]="passageiro.documento"
-          (inputValueString)="updateDocumentoHandler($event)"
-        ></app-input-number>
+          (inputValue)="updateDocumentoHandler($event)"
+        ></app-input-text>
       } @else {
-        <app-input-number
+        <app-input-text
           [label]="'Registro da criança'"
-          [type]="'text'"
           [defaultValue]="passageiro.documento"
-          (inputValueString)="updateDocumentoHandler($event)"
-        ></app-input-number>
+          (inputValue)="updateDocumentoHandler($event)"
+        ></app-input-text>
       }
 
       <div class="container-button-adicionar">

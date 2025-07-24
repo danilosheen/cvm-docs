@@ -355,6 +355,7 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   updateDocumentSelectedHandler(value: IInput<string>){
+    console.log(value)
     if (this.passageiro.typeDocumentSelected !== value.value) {
       this.passageiro.documento = '';
     }
@@ -362,6 +363,7 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   updateDocumentoHandler(value: IInput<string>){
+    console.log(value)
     this.passageiro.documento = value.value
     this.valid[10] = value.valid;
   }

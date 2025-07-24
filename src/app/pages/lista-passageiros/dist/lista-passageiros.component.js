@@ -305,12 +305,14 @@ var ListaPassageirosComponent = /** @class */ (function () {
         this.valid[9] = value.valid;
     };
     ListaPassageirosComponent.prototype.updateDocumentSelectedHandler = function (value) {
+        console.log(value);
         if (this.passageiro.typeDocumentSelected !== value.value) {
             this.passageiro.documento = '';
         }
         this.passageiro.typeDocumentSelected = value.value;
     };
     ListaPassageirosComponent.prototype.updateDocumentoHandler = function (value) {
+        console.log(value);
         this.passageiro.documento = value.value;
         this.valid[10] = value.valid;
     };
