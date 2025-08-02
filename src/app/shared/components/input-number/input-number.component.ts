@@ -136,6 +136,9 @@ export class InputNumberComponent implements OnInit {
     if (numeros.length > 7) {
       formattedValue = `(${numeros.substring(0, 2)}) ${numeros.substring(2, 3)}.${numeros.substring(3, 7)}-${numeros.substring(7)}`;
     }
+    if (numeros.length === 10) {
+      formattedValue = `(${numeros.substring(0, 2)}) ${numeros.substring(2, 6)}-${numeros.substring(6)}`;
+    }
     return formattedValue;
   }
 
@@ -307,7 +310,7 @@ export class InputNumberComponent implements OnInit {
 
   phoneNumberValidator(control: AbstractControl): ValidationErrors | null {
     const rawValue = control.value ? control.value.replace(/\D/g, '') : '';
-    if (rawValue.length !== 11) {
+    if (rawValue.length !== 10 && rawValue.length !== 11) {
       return { invalidPhone: true };
     }
     return null;

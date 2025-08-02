@@ -16,6 +16,7 @@ var icon_1 = require("@angular/material/icon");
 var input_1 = require("@angular/material/input");
 var menu_1 = require("@angular/material/menu");
 var tooltip_1 = require("@angular/material/tooltip");
+var input_text_component_1 = require("../input-text/input-text.component");
 var input_number_component_1 = require("../input-number/input-number.component");
 var input_radio_component_1 = require("../input-radio/input-radio.component");
 var input_autocomplete_data_pessoa_component_1 = require("../input-autocomplete-data-client/input-autocomplete-data-pessoa.component");
@@ -170,7 +171,8 @@ var DialogFromMenu = /** @class */ (function () {
                 input_number_component_1.InputNumberComponent,
                 input_radio_component_1.InputRadioComponent,
                 input_autocomplete_data_pessoa_component_1.InputAutocompleteDataPessoaComponent,
-                loading_blue_component_1.LoadingBlueComponent
+                loading_blue_component_1.LoadingBlueComponent,
+                input_text_component_1.InputTextComponent
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush
         })

@@ -24,19 +24,17 @@
         (inputValueString)="updateDocumentoClienteHandler($event)"
       ></app-input-number>
     } @else if (this.passageiroData.typeDocumentSelected == 'RG'){
-      <app-input-number
+      <app-input-text
         [label]="'RG do passageiro'"
-        [type]="'text'"
         [defaultValue]="passageiroData.documento"
-        (inputValueString)="updateDocumentoClienteHandler($event)"
-      ></app-input-number>
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-text>
     } @else if (this.passageiroData.typeDocumentSelected == 'Registro'){
-      <app-input-number
+      <app-input-text
         [label]="'Registro da criança'"
-        [type]="'text'"
         [defaultValue]="passageiroData.documento"
-        (inputValueString)="updateDocumentoClienteHandler($event)"
-      ></app-input-number>
+        (inputValue)="updateDocumentoClienteHandler($event)"
+      ></app-input-text>
     }
   </div>
   <mat-dialog-actions>

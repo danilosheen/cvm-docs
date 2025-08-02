@@ -77,14 +77,13 @@
       ></app-input-radio>
       @if (fichaExcursaoData.cliente.typeDocumentSelected == 'RG') {
         <!-- rg -->
-        <app-input-number
+        <app-input-text
           [label]="'Informe o RG'"
-          [type]="'text'"
           [defaultValue]="fichaExcursaoData.cliente.documento"
           [placeholder]="'ex: 000000000-0'"
           [optional]="true"
-          (inputValueString)="updateDocumentHandler($event)"
-        ></app-input-number>
+          (inputValue)="updateDocumentHandler($event)"
+        ></app-input-text>
       } @else {
         <!-- cpf -->
         <app-input-number
@@ -118,13 +117,12 @@
         (inputValue)="updateRuaHandler($event)"
       ></app-input-text>
       <!-- numero -->
-      <app-input-number
-        [type]="'text'"
+      <app-input-text
         [label]="'Número da casa'"
         [defaultValue]="fichaExcursaoData.cliente.endereco.numero"
         [placeholder]="'ex: 30'"
-        (inputValueString)="updateNumeroCasaHandler($event)"
-      ></app-input-number>
+        (inputValue)="updateNumeroCasaHandler($event)"
+      ></app-input-text>
       <!-- serviços -->
       <app-input-checkbox
         [label]="'Selecione os serviços'"

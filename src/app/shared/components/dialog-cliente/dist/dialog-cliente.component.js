@@ -16,11 +16,12 @@ var input_1 = require("@angular/material/input");
 var input_text_component_1 = require("../input-text/input-text.component");
 var input_number_component_1 = require("../input-number/input-number.component");
 var input_radio_component_1 = require("../input-radio/input-radio.component");
+var common_1 = require("@angular/common");
 var DialogClienteComponent = /** @class */ (function () {
     function DialogClienteComponent() {
         this.dialogRef = core_1.inject(dialog_1.MatDialogRef());
         this.valid = [];
-        this.typesDocument = ['RG', 'CPF'];
+        this.typesDocument = ['RG', 'CPF', 'CNPJ'];
         // typeDocumentSelected = 'CPF';
         this.clienteDataClean = {
             nome: '',
@@ -72,11 +73,10 @@ var DialogClienteComponent = /** @class */ (function () {
     };
     DialogClienteComponent.prototype.updateDataNascimentoHandler = function (value) {
         this.clienteData.dataNascimento = value.value;
-        this.valid[1] = value.valid;
     };
     DialogClienteComponent.prototype.updateContatoHandler = function (value) {
         this.clienteData.contato = value.value;
-        this.valid[2] = value.valid;
+        this.valid[1] = value.valid;
     };
     DialogClienteComponent.prototype.updateEmailHandler = function (value) {
         this.clienteData.email = value.value;
@@ -88,28 +88,27 @@ var DialogClienteComponent = /** @class */ (function () {
         this.clienteData.typeDocumentSelected = value.value;
     };
     DialogClienteComponent.prototype.updateDocumentoClienteHandler = function (value) {
-        console.log(value);
         this.clienteData.documento = value.value;
     };
     DialogClienteComponent.prototype.updateEstadoHandler = function (value) {
         this.clienteData.estado = value.value;
-        this.valid[3] = value.valid;
+        this.valid[2] = value.valid;
     };
     DialogClienteComponent.prototype.updateCidadeHandler = function (value) {
         this.clienteData.cidade = value.value;
-        this.valid[4] = value.valid;
+        this.valid[3] = value.valid;
     };
     DialogClienteComponent.prototype.updateBairroHandler = function (value) {
         this.clienteData.bairro = value.value;
-        this.valid[5] = value.valid;
+        this.valid[4] = value.valid;
     };
     DialogClienteComponent.prototype.updateRuaHandler = function (value) {
         this.clienteData.rua = value.value;
-        this.valid[6] = value.valid;
+        this.valid[5] = value.valid;
     };
     DialogClienteComponent.prototype.updateNumeroHandler = function (value) {
         this.clienteData.numero = value.value;
-        this.valid[7] = value.valid;
+        this.valid[6] = value.valid;
     };
     DialogClienteComponent.prototype.onNoClick = function () {
         this.dialogRef.close();
@@ -130,6 +129,8 @@ var DialogClienteComponent = /** @class */ (function () {
                 input_text_component_1.InputTextComponent,
                 input_number_component_1.InputNumberComponent,
                 input_radio_component_1.InputRadioComponent,
+                common_1.NgIf
+                // InputDateComponent
             ],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,
             templateUrl: './dialog-cliente.component.html',

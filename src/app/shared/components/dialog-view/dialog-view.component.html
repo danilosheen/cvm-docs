@@ -25,7 +25,7 @@
           <td class="left">Nome:</td>
           <td class="right">{{data.nome}}</td>
         </tr>
-        <tr>
+        <tr *ngIf="data.typeDocumentSelected !== 'CNPJ'">
           <td class="left">Data de Nascimento:</td>
           <td class="right">{{data.dataNascimento}}</td>
         </tr>

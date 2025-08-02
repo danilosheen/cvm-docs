@@ -36,7 +36,13 @@ export class InputAutocompleteDataPessoaComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['defaultValue']) {
-      this.setInitialValue(this.defaultValue);
+      if(this.defaultValue == ''){
+        this.inputControl.setValue('');
+        this.filteredOptions = [];
+        this.inputControl.markAsPristine();
+        this.inputControl.markAsUntouched();
+        this.inputControl.updateValueAndValidity();
+      }
     }
   }
 

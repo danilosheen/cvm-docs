@@ -15,6 +15,7 @@ import { IInput } from '../../../interfaces/i-handlerInput';
 import { InputRadioComponent } from "../input-radio/input-radio.component";
 import { ICliente } from '../../../interfaces/i-cliente';
 import { InputDateComponent } from "../input-date/input-date.component";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-cliente',
@@ -28,6 +29,7 @@ import { InputDateComponent } from "../input-date/input-date.component";
     InputTextComponent,
     InputNumberComponent,
     InputRadioComponent,
+    NgIf
     // InputDateComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,7 +40,7 @@ export class DialogClienteComponent {
 
   readonly dialogRef = inject(MatDialogRef<DialogClienteComponent>);
   valid: boolean[] = [];
-  typesDocument: string[] = ['RG', 'CPF'];
+  typesDocument: string[] = ['RG', 'CPF', 'CNPJ'];
   // typeDocumentSelected = 'CPF';
 
   clienteDataClean: ICliente = {
@@ -98,12 +100,11 @@ export class DialogClienteComponent {
 
   updateDataNascimentoHandler(value: IInput<string>){
     this.clienteData.dataNascimento = value.value;
-    this.valid[1] = value.valid;
   }
 
   updateContatoHandler(value: IInput<string>){
     this.clienteData.contato = value.value;
-    this.valid[2] = value.valid;
+    this.valid[1] = value.valid;
   }
 
   updateEmailHandler(value: IInput<string>){
@@ -118,33 +119,32 @@ export class DialogClienteComponent {
   }
 
   updateDocumentoClienteHandler(value: IInput<string>){
-    console.log(value)
     this.clienteData.documento = value.value;
   }
 
   updateEstadoHandler(value: IInput<string>){
     this.clienteData.estado = value.value;
-    this.valid[3] = value.valid;
+    this.valid[2] = value.valid;
   }
 
   updateCidadeHandler(value: IInput<string>){
     this.clienteData.cidade = value.value;
-    this.valid[4] = value.valid;
+    this.valid[3] = value.valid;
   }
 
   updateBairroHandler(value: IInput<string>){
     this.clienteData.bairro = value.value;
-    this.valid[5] = value.valid;
+    this.valid[4] = value.valid;
   }
 
   updateRuaHandler(value: IInput<string>){
     this.clienteData.rua = value.value;
-    this.valid[6] = value.valid;
+    this.valid[5] = value.valid;
   }
 
   updateNumeroHandler(value: IInput<string>){
     this.clienteData.numero = value.value;
-    this.valid[7] = value.valid;
+    this.valid[6] = value.valid;
   }
 
   onNoClick(): void {

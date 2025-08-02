@@ -24,21 +24,19 @@
         (inputValueString)="updateDocumentoDependenteHandler($event)"
       ></app-input-number>
     } @else if(typeDocumentSelected == 'RG'){
-      <app-input-number
+      <app-input-text
         [label]="'Informe o RG do dependente'"
-        [type]="'text'"
         [defaultValue]="documento"
         [optional]="true"
-        (inputValueString)="updateDocumentoDependenteHandler($event)"
-      ></app-input-number>
+        (inputValue)="updateDocumentoDependenteHandler($event)"
+      ></app-input-text>
   } @else {
-    <app-input-number
+    <app-input-text
       [label]="'Informe o Registro do dependente'"
-      [type]="'text'"
       [defaultValue]="documento"
       [optional]="true"
-      (inputValueString)="updateDocumentoDependenteHandler($event)"
-    ></app-input-number>
+      (inputValue)="updateDocumentoDependenteHandler($event)"
+    ></app-input-text>
   }
   <app-input-number
     [label]="'Informe a poltrona'"

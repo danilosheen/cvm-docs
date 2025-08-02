@@ -77,7 +77,8 @@ export class DialogComponent {
     InputNumberComponent,
     InputRadioComponent,
     InputAutocompleteDataPessoaComponent,
-    LoadingBlueComponent
+    LoadingBlueComponent,
+    InputTextComponent
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

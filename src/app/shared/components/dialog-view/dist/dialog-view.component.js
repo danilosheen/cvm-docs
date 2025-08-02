@@ -67,7 +67,8 @@ var DialogViewComponent = /** @class */ (function () {
                 button_1.MatButtonModule,
                 dialog_2.MatDialogActions,
                 dialog_2.MatDialogClose,
-                tooltip_1.MatTooltipModule
+                tooltip_1.MatTooltipModule,
+                common_1.NgIf
             ],
             providers: [common_1.DatePipe],
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,

@@ -8,7 +8,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { IDependente } from '../../../interfaces/i-dependente';
 import { DependenteService } from '../../../core/services/dependenteService/dependente-service.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -20,7 +20,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatButtonModule,
     MatDialogActions,
     MatDialogClose,
-    MatTooltipModule
+    MatTooltipModule,
+    NgIf
   ],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,

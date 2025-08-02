@@ -133,6 +133,9 @@ var InputNumberComponent = /** @class */ (function () {
         if (numeros.length > 7) {
             formattedValue = "(" + numeros.substring(0, 2) + ") " + numeros.substring(2, 3) + "." + numeros.substring(3, 7) + "-" + numeros.substring(7);
         }
+        if (numeros.length === 10) {
+            formattedValue = "(" + numeros.substring(0, 2) + ") " + numeros.substring(2, 6) + "-" + numeros.substring(6);
+        }
         return formattedValue;
     };
     InputNumberComponent.prototype.onCpfFormat = function (value) {
@@ -269,7 +272,7 @@ var InputNumberComponent = /** @class */ (function () {
     };
     InputNumberComponent.prototype.phoneNumberValidator = function (control) {
         var rawValue = control.value ? control.value.replace(/\D/g, '') : '';
-        if (rawValue.length !== 11) {
+        if (rawValue.length !== 10 && rawValue.length !== 11) {
             return { invalidPhone: true };
         }
         return null;
