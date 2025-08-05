@@ -61,7 +61,7 @@ var OrcamentoComponent = /** @class */ (function () {
             valorComDespesa: null,
             valorSemDespesa: null,
             valorComNota: null,
-            taxaPix: null,
+            taxaPix: 6,
             sinal: 30,
             modeloVan: '',
             cortesiaKm: null,
