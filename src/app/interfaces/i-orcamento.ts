@@ -11,6 +11,7 @@ export interface IOrcamento {
   valorSemDespesa: number | null;
   valorComNota: number | null;
   taxaPix: number | null;
+  sinal: number;
   modeloVan?: string;
   cortesiaKm?: number | null;
   valorAcrescimoKm?: number | null;

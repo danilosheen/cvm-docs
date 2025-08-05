@@ -46,7 +46,7 @@ var OrcamentoComponent = /** @class */ (function () {
         this.retryDelay = 2000; // 2 segundos
         this.retryCount = 0;
         //inicializando o array de campos válidos
-        for (var i = 0; i <= 11; i++) {
+        for (var i = 0; i <= 12; i++) {
             this.valid.push(false);
         }
         this.orcamentoData = {
@@ -62,6 +62,7 @@ var OrcamentoComponent = /** @class */ (function () {
             valorSemDespesa: null,
             valorComNota: null,
             taxaPix: null,
+            sinal: 30,
             modeloVan: '',
             cortesiaKm: null,
             valorAcrescimoKm: null
@@ -217,6 +218,10 @@ var OrcamentoComponent = /** @class */ (function () {
     OrcamentoComponent.prototype.updateTaxaPixHandler = function (value) {
         this.orcamentoData.taxaPix = value.value;
         this.valid[11] = (value.valid);
+    };
+    OrcamentoComponent.prototype.updateSinalHandler = function (value) {
+        this.orcamentoData.sinal = value.value;
+        this.valid[12] = (value.valid);
     };
     OrcamentoComponent.prototype.updateModeloVanHandler = function (value) {
         this.orcamentoData.modeloVan = value.value;

@@ -69,7 +69,7 @@ export class OrcamentoComponent implements OnInit{
 
   constructor(private pdfOrcamento: OrcamentoPDFService) {
     //inicializando o array de campos válidos
-    for (let i = 0; i <= 11; i++) {
+    for (let i = 0; i <= 12; i++) {
       this.valid.push(false)
     }
 
@@ -86,6 +86,7 @@ export class OrcamentoComponent implements OnInit{
       valorSemDespesa: null,
       valorComNota: null,
       taxaPix: null,
+      sinal: 30,
       modeloVan: '',
       cortesiaKm: null,
       valorAcrescimoKm: null,
@@ -256,6 +257,11 @@ export class OrcamentoComponent implements OnInit{
   updateTaxaPixHandler(value: IInput<number>){
     this.orcamentoData.taxaPix = value.value;
     this.valid[11] = (value.valid);
+  }
+
+  updateSinalHandler(value: IInput<number>){
+    this.orcamentoData.sinal = value.value;
+    this.valid[12] = (value.valid);
   }
 
   updateModeloVanHandler(value: IInput<string>) {

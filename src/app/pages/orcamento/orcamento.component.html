@@ -106,6 +106,14 @@
         (inputValueNumber)="updateTaxaPixHandler($event)"
       ></app-input-number>
 
+      <!-- Sinal -->
+      <app-input-number
+        [type]="'text'"
+        [label]="'Porcentagem do sinal'"
+        [defaultValue]="orcamentoData.sinal"
+        (inputValueNumber)="updateSinalHandler($event)"
+      ></app-input-number>
+
       <!-- modelo van -->
       <app-input-text
         [label]="'Detalhes do veículo'"
