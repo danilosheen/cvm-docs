@@ -67,8 +67,6 @@ var CalculadoraComponent = /** @class */ (function () {
                 this.somatorioDiariasMotorista;
         this.valorMargemDeLucro = this.custoTotalViagem * (this.margemDeLucro / 100);
         this.custoTotalViagem += this.valorMargemDeLucro;
-        console.log(this.valorDiariaMotorista);
-        console.log(this.custoTotalViagem);
         this.loading = false;
     };
     CalculadoraComponent.prototype.camposPreenchidos = function () {
@@ -83,7 +81,6 @@ var CalculadoraComponent = /** @class */ (function () {
     };
     CalculadoraComponent.prototype.adicionarValorLista = function (lista, valor, index) {
         lista[index] = valor;
-        console.log(lista);
     };
     CalculadoraComponent.prototype.removerValorLista = function (lista, index) {
         lista.splice(index, 1);
@@ -126,6 +123,7 @@ var CalculadoraComponent = /** @class */ (function () {
         this.motoristaOptionSelected = value.value;
     };
     CalculadoraComponent.prototype.updateValorDiariaMotoristaHandler = function (value) {
+        this.valorDiariaMotorista = 0;
         this.valorDiariaMotorista = value.value;
     };
     CalculadoraComponent.prototype.updateMargemDeLucroHandler = function (value) {

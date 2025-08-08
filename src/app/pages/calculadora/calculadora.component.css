@@ -38,6 +38,7 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #cfcfcf;
+  font-size: 14px;
 }
 
 .text-green{
@@ -47,7 +48,7 @@
 .container-precos{
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
   max-width: 600px;
   gap: 20px;
   margin-bottom: 40px;

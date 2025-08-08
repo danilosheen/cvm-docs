@@ -91,8 +91,6 @@ export class CalculadoraComponent {
     this.valorMargemDeLucro = this.custoTotalViagem * (this.margemDeLucro/100);
     this.custoTotalViagem += this.valorMargemDeLucro;
 
-    console.log(this.valorDiariaMotorista);
-    console.log(this.custoTotalViagem);
     this.loading = false;
   }
 
@@ -111,7 +109,6 @@ export class CalculadoraComponent {
 
   adicionarValorLista(lista: number[], valor : number, index: number){
     lista[index] = valor;
-    console.log(lista)
   }
 
   removerValorLista(lista: number[], index: number){
@@ -166,6 +163,7 @@ export class CalculadoraComponent {
   }
 
   updateValorDiariaMotoristaHandler(value: IInput<number>){
+    this.valorDiariaMotorista = 0;
     this.valorDiariaMotorista = value.value;
   }
 
