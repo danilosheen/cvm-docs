@@ -20,7 +20,8 @@ h2{
 .radio-flex{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 20px;
 }
 
 ::ng-deep .mat-expansion-panel{

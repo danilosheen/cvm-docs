@@ -7,11 +7,181 @@
       [type]="'number'"
       (inputValueNumber)="updatePrecoCombustivelHandler($event)"
     ></app-input-number>
+
     <app-input-number
       [label]="'Informe a distância da viagem em km'"
       [type]="'text'"
       (inputValueNumber)="updateDistanciaEmKmHandler($event)"
     ></app-input-number>
+
+    <app-input-number
+      [label]="'Informe a autonomia do veículo em km/l'"
+      [type]="'text'"
+      (inputValueNumber)="updateAutonomiaDoVeiculoHandler($event)"
+    ></app-input-number>
+
+    <app-input-number
+      [label]="'Informe a taxa de desgaste do veículo em %'"
+      [defaultValue]="desgasteDoVeiculo"
+      [type]="'text'"
+      (inputValueNumber)="updateDesgasteDoVeiculoHandler($event)"
+    ></app-input-number>
+
+    <app-input-number
+      [label]="'Quantos dias de viagem?'"
+      [type]="'text'"
+      [defaultValue]="1"
+      (inputValueNumber)="updateDiasDeViagemHandler($event)"
+    ></app-input-number>
+
+    <app-input-radio
+      [dropdown]="false"
+      [label]="'Haverá custos com hospedagem?'"
+      [defaultValue]="hospedagemOptionSelected"
+      [listItems]="optionsRadio"
+      (selectedValue)="updateRadioHospedagemSelectedHandler($event)"
+    ></app-input-radio>
+
+    @if (hospedagemOptionSelected == 'Sim') {
+      @for (dia of [].constructor(diasDeViagem); track $index) {
+        <app-input-number
+          [label]="'Valor gasto no ' + ($index + 1) + 'º dia:'"
+          [type]="'number'"
+          (inputValueNumber)="adicionarValorLista(valoresHospedagem, $event.value, $index)"
+        ></app-input-number>
+      }
+    }
+    <app-input-radio
+      [dropdown]="false"
+      [label]="'Haverá custos com refeições?'"
+      [defaultValue]="refeicaoOptionSelected"
+      [listItems]="optionsRadio"
+      (selectedValue)="updateRadioRefeicaoSelectedHandler($event)"
+    ></app-input-radio>
+
+    @if (refeicaoOptionSelected == 'Sim') {
+      @for (dia of [].constructor(diasDeViagem); track $index) {
+        <app-input-number
+          [label]="'Valor gasto no ' + ($index + 1) + 'º dia:'"
+          [type]="'number'"
+          (inputValueNumber)="adicionarValorLista(valoresRefeicao, $event.value, $index)"
+        ></app-input-number>
+      }
+    }
+
+    <app-input-radio
+      [dropdown]="false"
+      [label]="'Haverá custos com pedagio?'"
+      [defaultValue]="pedagioOptionSelected"
+      [listItems]="optionsRadio"
+      (selectedValue)="updateRadioPedagioSelectedHandler($event)"
+    ></app-input-radio>
+
+    @if (pedagioOptionSelected == 'Sim') {
+      <app-input-number
+        [label]="'Quantos pedagios na viagem?'"
+        [type]="'text'"
+        (inputValueNumber)="updateQuantidadePedagiosHandler($event)"
+      ></app-input-number>
+
+      @for (dia of [].constructor(quantidadePedagios); track $index) {
+        <app-input-number
+          [label]="'Valor gasto no ' + ($index + 1) + 'º pedagio.'"
+          [type]="'number'"
+          (inputValueNumber)="adicionarValorLista(valoresPedagio, $event.value, $index)"
+        ></app-input-number>
+      }
+    }
+
+    <app-input-radio
+      [dropdown]="false"
+      [label]="'Haverá despesas com motorista?'"
+      [defaultValue]="motoristaOptionSelected"
+      [listItems]="optionsRadio"
+      (selectedValue)="updateRadioMotoristaSelectedHandler($event)"
+    ></app-input-radio>
+
+    @if (motoristaOptionSelected == 'Sim') {
+      <app-input-number
+        [label]="'Qual o valor da diária do motorista?'"
+        [type]="'number'"
+        (inputValueNumber)="updateValorDiariaMotoristaHandler($event)"
+      ></app-input-number>
+    }
+
+    <app-input-number
+      [label]="'Informe a margem de lucro em %'"
+      [type]="'text'"
+      [defaultValue]="margemDeLucro"
+      (inputValueNumber)="updateMargemDeLucroHandler($event)"
+    ></app-input-number>
+
+  </div>
+  <button [disabled]="!camposPreenchidos()" class="button-gerar" mat-flat-button (click)="calcularViagem()">
+    <ng-container *ngIf="loading; else btnText">
+      <div class="button-loading">
+        <img class="loading" src="./assets/loading.gif" alt="Carregando">
+        <p>Calculando</p>
+      </div>
+    </ng-container>
+    <ng-template #btnText>
+      Calcular
+    </ng-template>
+  </button>
+
+  <div *ngIf="custoTotalViagem" class="container-precos">
+    <div class="d-flex">
+      <div>Preço do combustível:</div>
+      <div>R$ {{this.precoCombustivel | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Distância da viagem:</div>
+      <div>{{this.distanciaKM}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Autonomia do veículo:</div>
+      <div>{{this.autonomiaVeiculo + ' km/l'}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Custo total com combustível:</div>
+      <div class="text-green">+ R$ {{this.custoTotalCombustivel | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Taxa de desgaste:</div>
+      <div>{{this.desgasteDoVeiculo + '%'}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Valor da taxa de desgaste:</div>
+      <div class="text-green">+ R$ {{this.valorDesgasteDoVeiculo |brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Dias de viagem:</div>
+      <div>{{this.diasDeViagem + ' dia(s)'}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Custos com hospedagem:</div>
+      <div class="text-green">+ R$ {{this.somatorioHospedagens | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Custos com refeições:</div>
+      <div class="text-green">+ R$ {{this.somatorioRefeicoes | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Custos com pedágio:</div>
+      <div class="text-green">+ R$ {{this.somatorioPedagios | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Custos com motorista:</div>
+      <div class="text-green">+ R$ {{this.somatorioDiariasMotorista | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Margem de lucro:</div>
+      <div class="text-green">+ R$ {{this.valorMargemDeLucro | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Custo total da viagem:</div>
+      <div style="font-weight: bold;">= R$ {{this.custoTotalViagem | brCurrency}}</div>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>
