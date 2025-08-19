@@ -7,6 +7,8 @@ import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { InputRadioComponent } from "../../shared/components/input-radio/input-radio.component";
 import { BrCurrencyPipe } from "../../pipes/br-currency.pipe";
+import { MatIconModule } from "@angular/material/icon";
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-calculadora',
@@ -17,7 +19,11 @@ import { BrCurrencyPipe } from "../../pipes/br-currency.pipe";
     NgIf,
     MatButtonModule,
     InputRadioComponent,
-    BrCurrencyPipe
+    BrCurrencyPipe,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule
 ],
   templateUrl: './calculadora.component.html',
   styleUrl: './calculadora.component.css'
@@ -35,14 +41,18 @@ export class CalculadoraComponent {
   valoresRefeicao: number[] = [];
   valoresPedagio: number[] = [];
   valorDiariaMotorista: number = 0;
+  valorPorKm: number = 0;
   somatorioHospedagens: number = 0;
   somatorioRefeicoes: number = 0;
   somatorioPedagios: number = 0;
   somatorioDiariasMotorista: number = 0;
   diasDeViagem: number = 0;
+  contadorHospedagens: number = 0;
+  contadorRefeicoes: number = 0;
   quantidadePedagios: number = 0;
-  margemDeLucro: number = 50;
+  margemDeLucro: number = 75;
   valorMargemDeLucro: number = 0;
+  custoTotalDespesa: number = 0;
   custoTotalViagem: number = 0;
   optionsRadio: string[] = ['Sim', 'Não'];
 
@@ -80,7 +90,7 @@ export class CalculadoraComponent {
     this.somatorioPedagios = this.valoresPedagio.reduce((total, pedagio) => total + pedagio, 0);
     this.somatorioDiariasMotorista = this.valorDiariaMotorista * this.diasDeViagem;
 
-    this.custoTotalViagem =
+    this.custoTotalDespesa =
       this.custoTotalCombustivel +
       this.valorDesgasteDoVeiculo +
       this.somatorioHospedagens +
@@ -88,8 +98,9 @@ export class CalculadoraComponent {
       this.somatorioPedagios +
       this.somatorioDiariasMotorista;
 
-    this.valorMargemDeLucro = this.custoTotalViagem * (this.margemDeLucro/100);
-    this.custoTotalViagem += this.valorMargemDeLucro;
+    this.valorMargemDeLucro = this.custoTotalDespesa * (this.margemDeLucro/100);
+    this.custoTotalViagem = this.custoTotalDespesa + this.valorMargemDeLucro;
+    this.valorPorKm = this.custoTotalViagem / this.distanciaKM;
 
     this.loading = false;
   }
@@ -113,6 +124,26 @@ export class CalculadoraComponent {
 
   removerValorLista(lista: number[], index: number){
     lista.splice(index, 1);
+  }
+
+  addDiaHospedagem(){
+    this.contadorHospedagens++
+  }
+
+  removerDiaHospedagem(){
+    if(this.contadorHospedagens > 1){
+      this.contadorHospedagens--
+    }
+  }
+
+  addDiaRefeicao(){
+    this.contadorRefeicoes++
+  }
+
+  removerDiarefeicao(){
+    if(this.contadorRefeicoes > 1){
+      this.contadorRefeicoes--
+    }
   }
 
   updatePrecoCombustivelHandler(value: IInput<number>){
@@ -141,11 +172,13 @@ export class CalculadoraComponent {
 
   updateRadioHospedagemSelectedHandler(value: IInput<string>){
     this.valoresHospedagem = [];
+    value.value == 'Sim' ? this.contadorHospedagens = 1 : 0;
     this.hospedagemOptionSelected = value.value;
   }
 
   updateRadioRefeicaoSelectedHandler(value: IInput<string>){
     this.valoresRefeicao = [];
+    value.value == 'Sim' ? this.contadorRefeicoes = 1 : 0;
     this.refeicaoOptionSelected = value.value;
   }
 

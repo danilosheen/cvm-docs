@@ -53,3 +53,10 @@
   gap: 20px;
   margin-bottom: 40px;
 }
+
+.container-buttons-hospedagem,
+.container-buttons-refeicao{
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}

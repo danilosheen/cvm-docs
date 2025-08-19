@@ -43,14 +43,23 @@
     ></app-input-radio>
 
     @if (hospedagemOptionSelected == 'Sim') {
-      @for (dia of [].constructor(diasDeViagem); track $index) {
+      @for (dia of [].constructor(contadorHospedagens); track $index) {
         <app-input-number
           [label]="'Valor gasto no ' + ($index + 1) + 'º dia:'"
           [type]="'number'"
           (inputValueNumber)="adicionarValorLista(valoresHospedagem, $event.value, $index)"
         ></app-input-number>
       }
+      <div class="container-buttons-hospedagem">
+        <button (click)="addDiaHospedagem()" matMiniFab class="button-add">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="removerDiaHospedagem()" matMiniFab class="button-add">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
     }
+
     <app-input-radio
       [dropdown]="false"
       [label]="'Haverá custos com refeições?'"
@@ -60,13 +69,21 @@
     ></app-input-radio>
 
     @if (refeicaoOptionSelected == 'Sim') {
-      @for (dia of [].constructor(diasDeViagem); track $index) {
+      @for (dia of [].constructor(contadorRefeicoes); track $index) {
         <app-input-number
           [label]="'Valor gasto no ' + ($index + 1) + 'º dia:'"
           [type]="'number'"
           (inputValueNumber)="adicionarValorLista(valoresRefeicao, $event.value, $index)"
         ></app-input-number>
       }
+      <div class="container-buttons-refeicao">
+        <button (click)="addDiaRefeicao()" matButton="tonal" >
+          <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="removerDiarefeicao()" matButton="tonal" >
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
     }
 
     <app-input-radio
@@ -139,6 +156,10 @@
       <div>{{this.distanciaKM}}</div>
     </div>
     <div class="d-flex">
+      <div>Valor por km:</div>
+      <div>R$ {{this.valorPorKm | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
       <div>Autonomia do veículo:</div>
       <div>{{this.autonomiaVeiculo + ' km/l'}}</div>
     </div>
@@ -173,6 +194,10 @@
     <div class="d-flex">
       <div>Custos com motorista:</div>
       <div class="text-green">+ R$ {{this.somatorioDiariasMotorista | brCurrency}}</div>
+    </div>
+    <div class="d-flex">
+      <div>Total de despesa da viagem:</div>
+      <div>= R$ {{this.custoTotalDespesa | brCurrency}}</div>
     </div>
     <div class="d-flex">
       <div>Margem de lucro:</div>

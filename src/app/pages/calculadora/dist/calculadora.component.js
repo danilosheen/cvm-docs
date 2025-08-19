@@ -15,6 +15,8 @@ var common_1 = require("@angular/common");
 var button_1 = require("@angular/material/button");
 var input_radio_component_1 = require("../../shared/components/input-radio/input-radio.component");
 var br_currency_pipe_1 = require("../../pipes/br-currency.pipe");
+var icon_1 = require("@angular/material/icon");
+var divider_1 = require("@angular/material/divider");
 var CalculadoraComponent = /** @class */ (function () {
     function CalculadoraComponent() {
         this.precoCombustivel = 0;
@@ -28,14 +30,18 @@ var CalculadoraComponent = /** @class */ (function () {
         this.valoresRefeicao = [];
         this.valoresPedagio = [];
         this.valorDiariaMotorista = 0;
+        this.valorPorKm = 0;
         this.somatorioHospedagens = 0;
         this.somatorioRefeicoes = 0;
         this.somatorioPedagios = 0;
         this.somatorioDiariasMotorista = 0;
         this.diasDeViagem = 0;
+        this.contadorHospedagens = 0;
+        this.contadorRefeicoes = 0;
         this.quantidadePedagios = 0;
-        this.margemDeLucro = 50;
+        this.margemDeLucro = 75;
         this.valorMargemDeLucro = 0;
+        this.custoTotalDespesa = 0;
         this.custoTotalViagem = 0;
         this.optionsRadio = ['Sim', 'Não'];
         this.hospedagemOptionSelected = 'Não';
@@ -58,15 +64,16 @@ var CalculadoraComponent = /** @class */ (function () {
         this.somatorioRefeicoes = this.valoresRefeicao.reduce(function (total, refeicao) { return total + refeicao; }, 0);
         this.somatorioPedagios = this.valoresPedagio.reduce(function (total, pedagio) { return total + pedagio; }, 0);
         this.somatorioDiariasMotorista = this.valorDiariaMotorista * this.diasDeViagem;
-        this.custoTotalViagem =
+        this.custoTotalDespesa =
             this.custoTotalCombustivel +
                 this.valorDesgasteDoVeiculo +
                 this.somatorioHospedagens +
                 this.somatorioRefeicoes +
                 this.somatorioPedagios +
                 this.somatorioDiariasMotorista;
-        this.valorMargemDeLucro = this.custoTotalViagem * (this.margemDeLucro / 100);
-        this.custoTotalViagem += this.valorMargemDeLucro;
+        this.valorMargemDeLucro = this.custoTotalDespesa * (this.margemDeLucro / 100);
+        this.custoTotalViagem = this.custoTotalDespesa + this.valorMargemDeLucro;
+        this.valorPorKm = this.custoTotalViagem / this.distanciaKM;
         this.loading = false;
     };
     CalculadoraComponent.prototype.camposPreenchidos = function () {
@@ -84,6 +91,22 @@ var CalculadoraComponent = /** @class */ (function () {
     };
     CalculadoraComponent.prototype.removerValorLista = function (lista, index) {
         lista.splice(index, 1);
+    };
+    CalculadoraComponent.prototype.addDiaHospedagem = function () {
+        this.contadorHospedagens++;
+    };
+    CalculadoraComponent.prototype.removerDiaHospedagem = function () {
+        if (this.contadorHospedagens > 1) {
+            this.contadorHospedagens--;
+        }
+    };
+    CalculadoraComponent.prototype.addDiaRefeicao = function () {
+        this.contadorRefeicoes++;
+    };
+    CalculadoraComponent.prototype.removerDiarefeicao = function () {
+        if (this.contadorRefeicoes > 1) {
+            this.contadorRefeicoes--;
+        }
     };
     CalculadoraComponent.prototype.updatePrecoCombustivelHandler = function (value) {
         this.precoCombustivel = value.value;
@@ -106,10 +129,12 @@ var CalculadoraComponent = /** @class */ (function () {
     };
     CalculadoraComponent.prototype.updateRadioHospedagemSelectedHandler = function (value) {
         this.valoresHospedagem = [];
+        value.value == 'Sim' ? this.contadorHospedagens = 1 : 0;
         this.hospedagemOptionSelected = value.value;
     };
     CalculadoraComponent.prototype.updateRadioRefeicaoSelectedHandler = function (value) {
         this.valoresRefeicao = [];
+        value.value == 'Sim' ? this.contadorRefeicoes = 1 : 0;
         this.refeicaoOptionSelected = value.value;
     };
     CalculadoraComponent.prototype.updateRadioPedagioSelectedHandler = function (value) {
@@ -139,7 +164,11 @@ var CalculadoraComponent = /** @class */ (function () {
                 common_1.NgIf,
                 button_1.MatButtonModule,
                 input_radio_component_1.InputRadioComponent,
-                br_currency_pipe_1.BrCurrencyPipe
+                br_currency_pipe_1.BrCurrencyPipe,
+                icon_1.MatIconModule,
+                button_1.MatButtonModule,
+                divider_1.MatDividerModule,
+                icon_1.MatIconModule
             ],
             templateUrl: './calculadora.component.html',
             styleUrl: './calculadora.component.css'
