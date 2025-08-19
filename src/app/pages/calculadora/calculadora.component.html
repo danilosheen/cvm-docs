@@ -5,24 +5,27 @@
     <app-input-number
       [label]="'Informe o preço do combustível'"
       [type]="'number'"
+      [defaultValue]="settingsViagem.precoCombustivel || null"
       (inputValueNumber)="updatePrecoCombustivelHandler($event)"
     ></app-input-number>
 
     <app-input-number
       [label]="'Informe a distância da viagem em km'"
       [type]="'text'"
+      [defaultValue]="settingsViagem.distanciaKM || null"
       (inputValueNumber)="updateDistanciaEmKmHandler($event)"
     ></app-input-number>
 
     <app-input-number
       [label]="'Informe a autonomia do veículo em km/l'"
       [type]="'text'"
+      [defaultValue]="settingsViagem.autonomiaVeiculo || null"
       (inputValueNumber)="updateAutonomiaDoVeiculoHandler($event)"
     ></app-input-number>
 
     <app-input-number
       [label]="'Informe a taxa de desgaste do veículo em %'"
-      [defaultValue]="desgasteDoVeiculo"
+      [defaultValue]="settingsViagem.desgasteDoVeiculo || null"
       [type]="'text'"
       (inputValueNumber)="updateDesgasteDoVeiculoHandler($event)"
     ></app-input-number>
@@ -30,24 +33,25 @@
     <app-input-number
       [label]="'Quantos dias de viagem?'"
       [type]="'text'"
-      [defaultValue]="1"
+      [defaultValue]="settingsViagem.diasDeViagem || null"
       (inputValueNumber)="updateDiasDeViagemHandler($event)"
     ></app-input-number>
 
     <app-input-radio
       [dropdown]="false"
       [label]="'Haverá custos com hospedagem?'"
-      [defaultValue]="hospedagemOptionSelected"
-      [listItems]="optionsRadio"
+      [defaultValue]="settingsViagem.hospedagemOptionSelected"
+      [listItems]="settingsViagem.optionsRadio"
       (selectedValue)="updateRadioHospedagemSelectedHandler($event)"
     ></app-input-radio>
 
-    @if (hospedagemOptionSelected == 'Sim') {
-      @for (dia of [].constructor(contadorHospedagens); track $index) {
+    @if (settingsViagem.hospedagemOptionSelected == 'Sim') {
+      @for (dia of [].constructor(settingsViagem.contadorHospedagens); track $index) {
         <app-input-number
           [label]="'Valor gasto no ' + ($index + 1) + 'º dia:'"
           [type]="'number'"
-          (inputValueNumber)="adicionarValorLista(valoresHospedagem, $event.value, $index)"
+          [defaultValue]="settingsViagem.valoresHospedagem[$index]"
+          (inputValueNumber)="adicionarValorLista(settingsViagem.valoresHospedagem, $event.value, $index)"
         ></app-input-number>
       }
       <div class="container-buttons-hospedagem">
@@ -63,17 +67,18 @@
     <app-input-radio
       [dropdown]="false"
       [label]="'Haverá custos com refeições?'"
-      [defaultValue]="refeicaoOptionSelected"
-      [listItems]="optionsRadio"
+      [defaultValue]="settingsViagem.refeicaoOptionSelected"
+      [listItems]="settingsViagem.optionsRadio"
       (selectedValue)="updateRadioRefeicaoSelectedHandler($event)"
     ></app-input-radio>
 
-    @if (refeicaoOptionSelected == 'Sim') {
-      @for (dia of [].constructor(contadorRefeicoes); track $index) {
+    @if (settingsViagem.refeicaoOptionSelected == 'Sim') {
+      @for (dia of [].constructor(settingsViagem.contadorRefeicoes); track $index) {
         <app-input-number
           [label]="'Valor gasto no ' + ($index + 1) + 'º dia:'"
           [type]="'number'"
-          (inputValueNumber)="adicionarValorLista(valoresRefeicao, $event.value, $index)"
+          [defaultValue]="settingsViagem.valoresRefeicao[$index]"
+          (inputValueNumber)="adicionarValorLista(settingsViagem.valoresRefeicao, $event.value, $index)"
         ></app-input-number>
       }
       <div class="container-buttons-refeicao">
@@ -89,23 +94,25 @@
     <app-input-radio
       [dropdown]="false"
       [label]="'Haverá custos com pedagio?'"
-      [defaultValue]="pedagioOptionSelected"
-      [listItems]="optionsRadio"
+      [defaultValue]="settingsViagem.pedagioOptionSelected"
+      [listItems]="settingsViagem.optionsRadio"
       (selectedValue)="updateRadioPedagioSelectedHandler($event)"
     ></app-input-radio>
 
-    @if (pedagioOptionSelected == 'Sim') {
+    @if (settingsViagem.pedagioOptionSelected == 'Sim') {
       <app-input-number
         [label]="'Quantos pedagios na viagem?'"
         [type]="'text'"
+        [defaultValue]="settingsViagem.quantidadePedagios"
         (inputValueNumber)="updateQuantidadePedagiosHandler($event)"
       ></app-input-number>
 
-      @for (dia of [].constructor(quantidadePedagios); track $index) {
+      @for (dia of [].constructor(settingsViagem.quantidadePedagios); track $index) {
         <app-input-number
           [label]="'Valor gasto no ' + ($index + 1) + 'º pedagio.'"
           [type]="'number'"
-          (inputValueNumber)="adicionarValorLista(valoresPedagio, $event.value, $index)"
+          [defaultValue]="settingsViagem.valoresPedagio[$index]"
+          (inputValueNumber)="adicionarValorLista(settingsViagem.valoresPedagio, $event.value, $index)"
         ></app-input-number>
       }
     }
@@ -113,15 +120,16 @@
     <app-input-radio
       [dropdown]="false"
       [label]="'Haverá despesas com motorista?'"
-      [defaultValue]="motoristaOptionSelected"
-      [listItems]="optionsRadio"
+      [defaultValue]="settingsViagem.motoristaOptionSelected"
+      [listItems]="settingsViagem.optionsRadio"
       (selectedValue)="updateRadioMotoristaSelectedHandler($event)"
     ></app-input-radio>
 
-    @if (motoristaOptionSelected == 'Sim') {
+    @if (settingsViagem.motoristaOptionSelected == 'Sim') {
       <app-input-number
         [label]="'Qual o valor da diária do motorista?'"
         [type]="'number'"
+        [defaultValue]="settingsViagem.valorDiariaMotorista || null"
         (inputValueNumber)="updateValorDiariaMotoristaHandler($event)"
       ></app-input-number>
     }
@@ -129,7 +137,7 @@
     <app-input-number
       [label]="'Informe a margem de lucro em %'"
       [type]="'text'"
-      [defaultValue]="margemDeLucro"
+      [defaultValue]="settingsViagem.margemDeLucro"
       (inputValueNumber)="updateMargemDeLucroHandler($event)"
     ></app-input-number>
 
@@ -146,67 +154,75 @@
     </ng-template>
   </button>
 
-  <div *ngIf="custoTotalViagem" class="container-precos">
-    <div class="d-flex">
-      <div>Preço do combustível:</div>
-      <div>R$ {{this.precoCombustivel | brCurrency}}</div>
+  <div *ngIf="settingsViagem.custoTotalViagem" class="container-precos">
+    <div class="content-precos" #captureDiv>
+      <div class="d-flex">
+        <div>Preço do combustível:</div>
+        <div>R$ {{this.settingsViagem.precoCombustivel | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Distância da viagem:</div>
+        <div>{{this.settingsViagem.distanciaKM}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Valor por km:</div>
+        <div>R$ {{this.settingsViagem.valorPorKm | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Autonomia do veículo:</div>
+        <div>{{this.settingsViagem.autonomiaVeiculo + ' km/l'}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Custo total com combustível:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.custoTotalCombustivel | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Taxa de desgaste:</div>
+        <div>{{this.settingsViagem.desgasteDoVeiculo + '%'}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Valor da taxa de desgaste:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.valorDesgasteDoVeiculo | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Dias de viagem:</div>
+        <div>{{this.settingsViagem.diasDeViagem + ' dia(s)'}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Custos com hospedagem:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.somatorioHospedagens | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Custos com refeições:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.somatorioRefeicoes | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Custos com pedágio:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.somatorioPedagios | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Custos com motorista:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.somatorioDiariasMotorista | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Total de despesa da viagem:</div>
+        <div>= R$ {{this.settingsViagem.custoTotalDespesa | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Margem de lucro:</div>
+        <div class="text-green">+ R$ {{this.settingsViagem.valorMargemDeLucro | brCurrency}}</div>
+      </div>
+      <div class="d-flex">
+        <div>Custo total da viagem:</div>
+        <div style="font-weight: bold;">= R$ {{this.settingsViagem.custoTotalViagem | brCurrency}}</div>
+      </div>
     </div>
-    <div class="d-flex">
-      <div>Distância da viagem:</div>
-      <div>{{this.distanciaKM}}</div>
+    <div class="container-button-share">
+      <button (click)="captureAndShare()" matMiniFab class="button-add">
+        <mat-icon>share</mat-icon>
+      </button>
     </div>
-    <div class="d-flex">
-      <div>Valor por km:</div>
-      <div>R$ {{this.valorPorKm | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Autonomia do veículo:</div>
-      <div>{{this.autonomiaVeiculo + ' km/l'}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Custo total com combustível:</div>
-      <div class="text-green">+ R$ {{this.custoTotalCombustivel | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Taxa de desgaste:</div>
-      <div>{{this.desgasteDoVeiculo + '%'}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Valor da taxa de desgaste:</div>
-      <div class="text-green">+ R$ {{this.valorDesgasteDoVeiculo |brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Dias de viagem:</div>
-      <div>{{this.diasDeViagem + ' dia(s)'}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Custos com hospedagem:</div>
-      <div class="text-green">+ R$ {{this.somatorioHospedagens | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Custos com refeições:</div>
-      <div class="text-green">+ R$ {{this.somatorioRefeicoes | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Custos com pedágio:</div>
-      <div class="text-green">+ R$ {{this.somatorioPedagios | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Custos com motorista:</div>
-      <div class="text-green">+ R$ {{this.somatorioDiariasMotorista | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Total de despesa da viagem:</div>
-      <div>= R$ {{this.custoTotalDespesa | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Margem de lucro:</div>
-      <div class="text-green">+ R$ {{this.valorMargemDeLucro | brCurrency}}</div>
-    </div>
-    <div class="d-flex">
-      <div>Custo total da viagem:</div>
-      <div style="font-weight: bold;">= R$ {{this.custoTotalViagem | brCurrency}}</div>
-    </div>
+
   </div>
 </div>
 <app-footer></app-footer>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { InputNumberComponent } from "../../shared/components/input-number/input-number.component";
@@ -9,6 +9,9 @@ import { InputRadioComponent } from "../../shared/components/input-radio/input-r
 import { BrCurrencyPipe } from "../../pipes/br-currency.pipe";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from '@angular/material/divider';
+import html2canvas from 'html2canvas';
+import { ViagemSettingsService } from '../../core/services/viagemSettingsService/viagem-settings.service';
+import { ViagemSettings } from '../../interfaces/i-viagemSettings';
 
 @Component({
   selector: 'app-calculadora',
@@ -21,7 +24,6 @@ import { MatDividerModule } from '@angular/material/divider';
     InputRadioComponent,
     BrCurrencyPipe,
     MatIconModule,
-    MatButtonModule,
     MatDividerModule,
     MatIconModule
 ],
@@ -30,36 +32,10 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class CalculadoraComponent {
 
-  precoCombustivel: number = 0;
-  distanciaKM: number = 0;
-  autonomiaVeiculo: number = 0;
-  combustivelNecessario: number = 0;
-  custoTotalCombustivel: number = 0;
-  desgasteDoVeiculo: number = 30;
-  valorDesgasteDoVeiculo: number = 0;
-  valoresHospedagem: number[] = [];
-  valoresRefeicao: number[] = [];
-  valoresPedagio: number[] = [];
-  valorDiariaMotorista: number = 0;
-  valorPorKm: number = 0;
-  somatorioHospedagens: number = 0;
-  somatorioRefeicoes: number = 0;
-  somatorioPedagios: number = 0;
-  somatorioDiariasMotorista: number = 0;
-  diasDeViagem: number = 0;
-  contadorHospedagens: number = 0;
-  contadorRefeicoes: number = 0;
-  quantidadePedagios: number = 0;
-  margemDeLucro: number = 75;
-  valorMargemDeLucro: number = 0;
-  custoTotalDespesa: number = 0;
-  custoTotalViagem: number = 0;
-  optionsRadio: string[] = ['Sim', 'Não'];
+  @ViewChild('captureDiv') captureDiv!: ElementRef;
 
-  hospedagemOptionSelected: string = 'Não';
-  refeicaoOptionSelected: string = 'Não';
-  pedagioOptionSelected: string = 'Não';
-  motoristaOptionSelected: string = 'Não';
+  settingsService = inject(ViagemSettingsService);
+  settingsViagem: ViagemSettings;
 
   valid: boolean[] = [];
   loading = false;
@@ -69,39 +45,44 @@ export class CalculadoraComponent {
     for(let i = 0; i < 4; i++){
       this.valid[i] = false;
     }
+    this.settingsViagem = this.settingsService.load();
   }
 
   calcularViagem(){
     this.loading = true;
-    this.combustivelNecessario = this.calcularCombustivelNecessario(
-      this.distanciaKM || 0,
-      this.autonomiaVeiculo || 0
+    this.settingsViagem.combustivelNecessario = this.calcularCombustivelNecessario(
+      this.settingsViagem.distanciaKM || 0,
+      this.settingsViagem.autonomiaVeiculo || 0
     );
-    this.custoTotalCombustivel = this.calcularCustoTotalCombustivel(
-      this.combustivelNecessario || 0,
-      this.precoCombustivel || 0
+    this.settingsViagem.custoTotalCombustivel = this.calcularCustoTotalCombustivel(
+      this.settingsViagem.combustivelNecessario || 0,
+      this.settingsViagem.precoCombustivel || 0
     )
 
-    this.valorDesgasteDoVeiculo = this.custoTotalCombustivel * (this.desgasteDoVeiculo/100);
+    this.settingsViagem.valorDesgasteDoVeiculo =
+      this.settingsViagem.custoTotalCombustivel *
+      (this.settingsViagem.desgasteDoVeiculo/100);
 
     //percorre o array e retorna o somatório acumulado dos valores
-    this.somatorioHospedagens = this.valoresHospedagem.reduce((total, hospedagem) => total + hospedagem, 0);
-    this.somatorioRefeicoes = this.valoresRefeicao.reduce((total, refeicao) => total + refeicao, 0);
-    this.somatorioPedagios = this.valoresPedagio.reduce((total, pedagio) => total + pedagio, 0);
-    this.somatorioDiariasMotorista = this.valorDiariaMotorista * this.diasDeViagem;
+    this.settingsViagem.somatorioHospedagens = this.settingsViagem.valoresHospedagem.reduce((total, hospedagem) => total + hospedagem, 0);
+    this.settingsViagem.somatorioRefeicoes = this.settingsViagem.valoresRefeicao.reduce((total, refeicao) => total + refeicao, 0);
+    this.settingsViagem.somatorioPedagios = this.settingsViagem.valoresPedagio.reduce((total, pedagio) => total + pedagio, 0);
+    this.settingsViagem.somatorioDiariasMotorista = this.settingsViagem.valorDiariaMotorista * this.settingsViagem.diasDeViagem;
 
-    this.custoTotalDespesa =
-      this.custoTotalCombustivel +
-      this.valorDesgasteDoVeiculo +
-      this.somatorioHospedagens +
-      this.somatorioRefeicoes +
-      this.somatorioPedagios +
-      this.somatorioDiariasMotorista;
+    this.settingsViagem.custoTotalDespesa =
+      this.settingsViagem.custoTotalCombustivel +
+      this.settingsViagem.valorDesgasteDoVeiculo +
+      this.settingsViagem.somatorioHospedagens +
+      this.settingsViagem.somatorioRefeicoes +
+      this.settingsViagem.somatorioPedagios +
+      this.settingsViagem.somatorioDiariasMotorista;
 
-    this.valorMargemDeLucro = this.custoTotalDespesa * (this.margemDeLucro/100);
-    this.custoTotalViagem = this.custoTotalDespesa + this.valorMargemDeLucro;
-    this.valorPorKm = this.custoTotalViagem / this.distanciaKM;
+    this.settingsViagem.valorMargemDeLucro = this.settingsViagem.custoTotalDespesa * (this.settingsViagem.margemDeLucro/100);
+    this.settingsViagem.custoTotalViagem = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
+    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagem / this.settingsViagem.distanciaKM;
 
+    // salva no localStorage
+    this.settingsService.save(this.settingsViagem);
     this.loading = false;
   }
 
@@ -127,80 +108,123 @@ export class CalculadoraComponent {
   }
 
   addDiaHospedagem(){
-    this.contadorHospedagens++
+    this.settingsViagem.contadorHospedagens++
   }
 
   removerDiaHospedagem(){
-    if(this.contadorHospedagens > 1){
-      this.contadorHospedagens--
+    if(this.settingsViagem.contadorHospedagens > 1){
+      this.settingsViagem.contadorHospedagens--
     }
   }
 
   addDiaRefeicao(){
-    this.contadorRefeicoes++
+    this.settingsViagem.contadorRefeicoes++
   }
 
   removerDiarefeicao(){
-    if(this.contadorRefeicoes > 1){
-      this.contadorRefeicoes--
+    if(this.settingsViagem.contadorRefeicoes > 1){
+      this.settingsViagem.contadorRefeicoes--
     }
   }
 
+  captureAndShare() {
+    html2canvas(this.captureDiv.nativeElement).then(canvas => {
+      const desiredWidth = 400;
+      const scale = desiredWidth / canvas.width;
+      const scaledCanvas = document.createElement('canvas');
+      scaledCanvas.width = desiredWidth;
+      scaledCanvas.height = canvas.height * scale;
+
+      const ctx = scaledCanvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+        scaledCanvas.toBlob(blob => {
+          if (blob) {
+            const file = new File([blob], 'imagem.png', { type: 'image/png' });
+            this.shareImage(file);
+          }
+        });
+      }
+    });
+
+
+  }
+
+  async shareImage(file: File) {
+    // Verifica se o Web Share API está disponível
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'Calculadora',
+          text: 'Cálculo de viagem CVM',
+        });
+        console.log('Compartilhamento realizado!');
+      } catch (err) {
+        console.error('Erro ao compartilhar:', err);
+      }
+    } else {
+      console.warn('Web Share API não suportada neste navegador');
+    }
+  }
+
+  // handlers
   updatePrecoCombustivelHandler(value: IInput<number>){
-    this.precoCombustivel = value.value;
+    this.settingsViagem.precoCombustivel = value.value;
     this.valid[0] = value.valid;
   }
 
   updateDistanciaEmKmHandler(value: IInput<number>){
-    this.distanciaKM = value.value;
+    this.settingsViagem.distanciaKM = value.value;
     this.valid[1] = value.valid;
   }
 
   updateAutonomiaDoVeiculoHandler(value: IInput<number>){
-    this.autonomiaVeiculo = value.value;
+    this.settingsViagem.autonomiaVeiculo = value.value;
     this.valid[2] = value.valid;
   }
 
   updateDesgasteDoVeiculoHandler(value: IInput<number>){
-    this.desgasteDoVeiculo = value.value;
+    this.settingsViagem.desgasteDoVeiculo = value.value;
     this.valid[3] = value.valid;
   }
 
   updateDiasDeViagemHandler(value: IInput<number>){
-    this.diasDeViagem = value.value;
+    this.settingsViagem.diasDeViagem = value.value;
   }
 
   updateRadioHospedagemSelectedHandler(value: IInput<string>){
-    this.valoresHospedagem = [];
-    value.value == 'Sim' ? this.contadorHospedagens = 1 : 0;
-    this.hospedagemOptionSelected = value.value;
+    this.settingsViagem.valoresHospedagem = [];
+    value.value == 'Sim' ? this.settingsViagem.contadorHospedagens = 1 : 0;
+    this.settingsViagem.hospedagemOptionSelected = value.value;
   }
 
   updateRadioRefeicaoSelectedHandler(value: IInput<string>){
-    this.valoresRefeicao = [];
-    value.value == 'Sim' ? this.contadorRefeicoes = 1 : 0;
-    this.refeicaoOptionSelected = value.value;
+    this.settingsViagem.valoresRefeicao = [];
+    value.value == 'Sim' ? this.settingsViagem.contadorRefeicoes = 1 : 0;
+    this.settingsViagem.refeicaoOptionSelected = value.value;
   }
 
   updateRadioPedagioSelectedHandler(value: IInput<string>){
-    this.valoresPedagio = [];
-    this.pedagioOptionSelected = value.value;
+    this.settingsViagem.valoresPedagio = [];
+    this.settingsViagem.quantidadePedagios = 0;
+    this.settingsViagem.pedagioOptionSelected = value.value;
   }
 
   updateQuantidadePedagiosHandler(value: IInput<number>){
-    this.quantidadePedagios = value.value;
+    this.settingsViagem.quantidadePedagios = value.value;
   }
 
   updateRadioMotoristaSelectedHandler(value: IInput<string>){
-    this.motoristaOptionSelected = value.value;
+    this.settingsViagem.motoristaOptionSelected = value.value;
   }
 
   updateValorDiariaMotoristaHandler(value: IInput<number>){
-    this.valorDiariaMotorista = 0;
-    this.valorDiariaMotorista = value.value;
+    this.settingsViagem.valorDiariaMotorista = 0;
+    this.settingsViagem.valorDiariaMotorista = value.value;
   }
 
   updateMargemDeLucroHandler(value: IInput<number>){
-    this.margemDeLucro = value.value
+    this.settingsViagem.margemDeLucro = value.value
   }
 }

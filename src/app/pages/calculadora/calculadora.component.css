@@ -54,9 +54,26 @@
   margin-bottom: 40px;
 }
 
+.content-precos{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  padding: 10px;
+}
+
 .container-buttons-hospedagem,
-.container-buttons-refeicao{
+.container-buttons-refeicao,
+.container-button-share{
   display: flex;
   justify-content: flex-end;
   gap: 20px;
+}
+
+.container-button-share{
+  padding-right: 10px;
+}
+
+.container-button-share button{
+  width: 40px;
 }

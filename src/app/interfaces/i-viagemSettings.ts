@@ -1,0 +1,31 @@
+export interface ViagemSettings {
+  precoCombustivel: number;
+  distanciaKM: number;
+  autonomiaVeiculo: number;
+  combustivelNecessario: number;
+  custoTotalCombustivel: number;
+  desgasteDoVeiculo: number;
+  valorDesgasteDoVeiculo: number;
+  valoresHospedagem: number[];
+  valoresRefeicao: number[];
+  valoresPedagio: number[];
+  valorDiariaMotorista: number;
+  valorPorKm: number;
+  somatorioHospedagens: number;
+  somatorioRefeicoes: number;
+  somatorioPedagios: number;
+  somatorioDiariasMotorista: number;
+  diasDeViagem: number;
+  contadorHospedagens: number;
+  contadorRefeicoes: number;
+  quantidadePedagios: number;
+  margemDeLucro: number;
+  valorMargemDeLucro: number;
+  custoTotalDespesa: number;
+  custoTotalViagem: number;
+  optionsRadio: string[];
+  hospedagemOptionSelected: string;
+  refeicaoOptionSelected: string;
+  pedagioOptionSelected: string;
+  motoristaOptionSelected: string;
+}
