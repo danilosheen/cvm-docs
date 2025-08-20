@@ -55,10 +55,10 @@
         ></app-input-number>
       }
       <div class="container-buttons-hospedagem">
-        <button (click)="addDiaHospedagem()" matMiniFab class="button-add">
+        <button (click)="addDiaHospedagem()" mat-flat-button class="button-add">
           <mat-icon>add</mat-icon>
         </button>
-        <button (click)="removerDiaHospedagem()" matMiniFab class="button-add">
+        <button (click)="removerDiaHospedagem()" mat-flat-button class="button-add">
           <mat-icon>remove</mat-icon>
         </button>
       </div>
@@ -82,10 +82,10 @@
         ></app-input-number>
       }
       <div class="container-buttons-refeicao">
-        <button (click)="addDiaRefeicao()" matButton="tonal" >
+        <button (click)="addDiaRefeicao()" mat-flat-button class="button-add">
           <mat-icon>add</mat-icon>
         </button>
-        <button (click)="removerDiarefeicao()" matButton="tonal" >
+        <button (click)="removerDiarefeicao()" mat-flat-button class="button-delete">
           <mat-icon>remove</mat-icon>
         </button>
       </div>
@@ -218,8 +218,15 @@
       </div>
     </div>
     <div class="container-button-share">
-      <button (click)="captureAndShare()" matMiniFab class="button-add">
-        <mat-icon>share</mat-icon>
+      <button (click)="captureAndShare()" mat-flat-button class="button-add loading-share">
+        <ng-container *ngIf="loadingShare; else btnText">
+          <div class="button-loading">
+            <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          </div>
+        </ng-container>
+        <ng-template #btnText>
+          <mat-icon>share</mat-icon>
+        </ng-template>
       </button>
     </div>
 

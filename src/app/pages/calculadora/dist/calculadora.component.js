@@ -58,6 +58,7 @@ var viagem_settings_service_1 = require("../../core/services/viagemSettingsServi
 var CalculadoraComponent = /** @class */ (function () {
     function CalculadoraComponent() {
         this.settingsService = core_1.inject(viagem_settings_service_1.ViagemSettingsService);
+        this.loadingShare = false;
         this.valid = [];
         this.loading = false;
         for (var i = 0; i < 4; i++) {
@@ -90,6 +91,7 @@ var CalculadoraComponent = /** @class */ (function () {
         // salva no localStorage
         this.settingsService.save(this.settingsViagem);
         this.loading = false;
+        console.log(this.settingsViagem.valoresHospedagem);
     };
     CalculadoraComponent.prototype.camposPreenchidos = function () {
         // console.log(this.valid)
@@ -113,6 +115,7 @@ var CalculadoraComponent = /** @class */ (function () {
     CalculadoraComponent.prototype.removerDiaHospedagem = function () {
         if (this.settingsViagem.contadorHospedagens > 1) {
             this.settingsViagem.contadorHospedagens--;
+            this.settingsViagem.valoresHospedagem.pop();
         }
     };
     CalculadoraComponent.prototype.addDiaRefeicao = function () {
@@ -121,12 +124,14 @@ var CalculadoraComponent = /** @class */ (function () {
     CalculadoraComponent.prototype.removerDiarefeicao = function () {
         if (this.settingsViagem.contadorRefeicoes > 1) {
             this.settingsViagem.contadorRefeicoes--;
+            this.settingsViagem.valoresRefeicao.pop();
         }
     };
     CalculadoraComponent.prototype.captureAndShare = function () {
         var _this = this;
+        this.loadingShare = true;
         html2canvas_1["default"](this.captureDiv.nativeElement).then(function (canvas) {
-            var desiredWidth = 400;
+            var desiredWidth = 2000;
             var scale = desiredWidth / canvas.width;
             var scaledCanvas = document.createElement('canvas');
             scaledCanvas.width = desiredWidth;
@@ -141,6 +146,7 @@ var CalculadoraComponent = /** @class */ (function () {
                     }
                 });
             }
+            _this.loadingShare = false;
         });
     };
     CalculadoraComponent.prototype.shareImage = function (file) {

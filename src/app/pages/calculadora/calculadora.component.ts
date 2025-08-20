@@ -36,6 +36,7 @@ export class CalculadoraComponent {
 
   settingsService = inject(ViagemSettingsService);
   settingsViagem: ViagemSettings;
+  loadingShare = false;
 
   valid: boolean[] = [];
   loading = false;
@@ -84,6 +85,7 @@ export class CalculadoraComponent {
     // salva no localStorage
     this.settingsService.save(this.settingsViagem);
     this.loading = false;
+    console.log(this.settingsViagem.valoresHospedagem)
   }
 
   camposPreenchidos(): boolean {
@@ -114,6 +116,7 @@ export class CalculadoraComponent {
   removerDiaHospedagem(){
     if(this.settingsViagem.contadorHospedagens > 1){
       this.settingsViagem.contadorHospedagens--
+      this.settingsViagem.valoresHospedagem.pop();
     }
   }
 
@@ -124,12 +127,16 @@ export class CalculadoraComponent {
   removerDiarefeicao(){
     if(this.settingsViagem.contadorRefeicoes > 1){
       this.settingsViagem.contadorRefeicoes--
+      this.settingsViagem.valoresRefeicao.pop();
     }
   }
 
   captureAndShare() {
+
+    this.loadingShare = true;
+
     html2canvas(this.captureDiv.nativeElement).then(canvas => {
-      const desiredWidth = 400;
+      const desiredWidth = 2000;
       const scale = desiredWidth / canvas.width;
       const scaledCanvas = document.createElement('canvas');
       scaledCanvas.width = desiredWidth;
@@ -145,8 +152,8 @@ export class CalculadoraComponent {
           }
         });
       }
+      this.loadingShare = false;
     });
-
 
   }
 

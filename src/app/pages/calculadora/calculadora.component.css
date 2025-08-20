@@ -74,6 +74,14 @@
   padding-right: 10px;
 }
 
-.container-button-share button{
-  width: 40px;
+.mat-mdc-unelevated-button>.mat-icon{
+  margin: 0px;
+}
+
+.mat-mdc-unelevated-button .mat-mdc-button-touch-target {
+  height: 0px;
+}
+
+.loading-share{
+  width: 48px;
 }
