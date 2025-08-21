@@ -35,3 +35,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table{
   white-space: nowrap;
 }
+mat-label{
+  font-size: 20px !important;
+}
