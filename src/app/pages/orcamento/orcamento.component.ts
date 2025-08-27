@@ -23,6 +23,8 @@ import { InputAutocompleteDataPessoaComponent } from "../../shared/components/in
 import { Router } from '@angular/router';
 import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
 import { OrcamentoHistoryService } from '../../core/services/orcamentoHistoryService/orcamento-history.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 
 
 @Component({
@@ -58,6 +60,7 @@ export class OrcamentoComponent implements OnInit{
   nomeClientes: IPessoaAutocomplete[] = [];
   isLoadingClientes = true;
   isLoadingOrcamentoBehaviorSubject = true;
+  dialog = inject(MatDialog);
 
   // behavior subject orcamento
   router = inject(Router);
@@ -112,6 +115,9 @@ export class OrcamentoComponent implements OnInit{
         this.isLoadingOrcamentoBehaviorSubject = false;
       }
     });
+
+    this.checkClipboardAndAsk();
+
   }
 
   onSubmit() {
@@ -161,6 +167,45 @@ export class OrcamentoComponent implements OnInit{
       },
       error:(error)=>{
         console.log(error);
+      }
+    });
+  }
+
+  // Checa o clipboard e, se houver 3 valores separados por TAB, pergunta ao usuário para preencher.
+  async checkClipboardAndAsk(): Promise<void> {
+    if (!navigator.clipboard || !navigator.clipboard.readText) {
+      return;
+    }
+
+    try {
+      const text = await navigator.clipboard.readText();
+
+      // Divide por TAB e mantém valores vazios (se houver).
+      const parts = text.split('\t').map(s => s.replace(/\r?\n/g, '').trim());
+
+      if (parts.length === 3) {
+        const [a, b, c] = parts;
+        this.openModalPreencherTotaisDoClipboard(a, b, c);
+      }
+    } catch (err) {
+        console.error('Erro ao ler o clipboard:', err);
+        return
+    }
+  }
+
+  openModalPreencherTotaisDoClipboard(valorSemDespesa: string, valorComDespesa: string, valorComNota: string) {
+    const dialogRef = this.dialog.open(DialogGenericComponent, {
+      data: {
+        dialogTitle: 'Colar totais da calculadora',
+        dialogContent: 'Você copiou totais na tela de calculadora, deseja preencher os campos nessa tela?',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.orcamentoData.valorSemDespesa = parseFloat(valorSemDespesa);
+        this.orcamentoData.valorComDespesa = parseFloat(valorComDespesa);
+        this.orcamentoData.valorComNota = parseFloat(valorComNota);
       }
     });
   }
@@ -239,12 +284,12 @@ export class OrcamentoComponent implements OnInit{
     this.valid[7] = (value.valid);
   }
 
-  updateValorComDespezaHandler(value: IInput<number>) {
+  updateValorComDespesaHandler(value: IInput<number>) {
     this.orcamentoData.valorComDespesa = value.value;
     this.valid[8] = (value.valid);
   }
 
-  updateValorSemDespezaHandler(value: IInput<number>) {
+  updateValorSemDespesaHandler(value: IInput<number>) {
     this.orcamentoData.valorSemDespesa = value.value;
     this.valid[9] = (value.valid);
   }

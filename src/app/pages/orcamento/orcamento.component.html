@@ -71,22 +71,22 @@
         (inputTime)="updateHoraRetornoHandler($event)"
       ></app-input-time>
 
-      <!-- valor com despeza do motorista inclusa -->
+      <!-- valor sem despesa de hospedagem e alimentação -->
       <app-input-number
         [type]="'number'"
         [label]="'Valor cliente pagando despesa'"
-        [defaultValue]="orcamentoData.valorComDespesa"
+        [defaultValue]="orcamentoData.valorSemDespesa"
         [placeholder]="'ex: 2.500,00'"
-        (inputValueNumber)="updateValorComDespezaHandler($event)"
+        (inputValueNumber)="updateValorComDespesaHandler($event)"
       ></app-input-number>
 
-      <!-- valor sem despeza do motorista inclusa -->
+      <!-- valor com despesa de hospedagem e alimentação -->
       <app-input-number
         [type]="'number'"
         [label]="'Valor CVM pagando despesa'"
-        [defaultValue]="orcamentoData.valorSemDespesa"
+        [defaultValue]="orcamentoData.valorComDespesa"
         [placeholder]="'ex: 3.000,00'"
-        (inputValueNumber)="updateValorSemDespezaHandler($event)"
+        (inputValueNumber)="updateValorSemDespesaHandler($event)"
       ></app-input-number>
 
       <!-- valor com emissão de nota fiscal -->

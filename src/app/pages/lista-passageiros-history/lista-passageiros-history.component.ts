@@ -22,8 +22,8 @@ export class ListaPassageirosHistoryComponent {
 
   listaPassageirosHistoryService = inject(ListaPassageirosHistoryService);
   listaPassageirosBehaviorSubject = inject(BehaviorSubjectService);
-  dialog = inject(MatDialog)
-  router = inject(Router)
+  dialog = inject(MatDialog);
+  router = inject(Router);
   // orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService)
   listasPassageiros: IListaPassageirosHistory[] = [];
   isLoading = false;

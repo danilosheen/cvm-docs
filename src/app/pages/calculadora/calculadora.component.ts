@@ -40,6 +40,7 @@ export class CalculadoraComponent {
 
   valid: boolean[] = [];
   loading = false;
+  buttonCopy = false;
 
   constructor(){
 
@@ -78,9 +79,20 @@ export class CalculadoraComponent {
       this.settingsViagem.somatorioPedagios +
       this.settingsViagem.somatorioDiariasMotorista;
 
+    // Somatório com despesa
     this.settingsViagem.valorMargemDeLucro = this.settingsViagem.custoTotalDespesa * (this.settingsViagem.margemDeLucro/100);
-    this.settingsViagem.custoTotalViagem = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
-    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagem / this.settingsViagem.distanciaKM;
+    this.settingsViagem.custoTotalViagemComDespesa = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
+    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemComDespesa / this.settingsViagem.distanciaKM;
+
+    // Custo total sem despesa
+    this.settingsViagem.custoTotalViagemSemDespesa =
+      this.settingsViagem.custoTotalViagemComDespesa -
+      this.settingsViagem.somatorioHospedagens -
+      this.settingsViagem.somatorioRefeicoes;
+
+    // Custo total com nota
+    this.settingsViagem.custoTotalViagemComNota =
+      this.settingsViagem.custoTotalViagemComDespesa * 1.10;
 
     // salva no localStorage
     this.settingsService.save(this.settingsViagem);
@@ -132,7 +144,6 @@ export class CalculadoraComponent {
   }
 
   captureAndShare() {
-
     this.loadingShare = true;
 
     html2canvas(this.captureDiv.nativeElement).then(canvas => {
@@ -147,18 +158,16 @@ export class CalculadoraComponent {
         ctx.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
         scaledCanvas.toBlob(blob => {
           if (blob) {
-            const file = new File([blob], 'imagem.png', { type: 'image/png' });
+            const file = new File([blob], 'cálculo_viagem.png', { type: 'image/png' });
             this.shareImage(file);
           }
         });
       }
       this.loadingShare = false;
     });
-
   }
 
   async shareImage(file: File) {
-    // Verifica se o Web Share API está disponível
     if (navigator.share) {
       try {
         await navigator.share({
@@ -171,9 +180,30 @@ export class CalculadoraComponent {
         console.error('Erro ao compartilhar:', err);
       }
     } else {
-      console.warn('Web Share API não suportada neste navegador');
+      // Fallback: download do arquivo
+      const url = URL.createObjectURL(file);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = file.name || "cálculo_viagem.png";
+      a.click();
+      URL.revokeObjectURL(url);
     }
   }
+
+  copiarTotaisToClipboard(){
+    const totais = `${this.settingsViagem.custoTotalViagemSemDespesa}\t${this.settingsViagem.custoTotalViagemComDespesa}\t${this.settingsViagem.custoTotalViagemComNota}`
+
+      navigator.clipboard.writeText(totais).then(()=>{
+        this.buttonCopy = true;
+        console.log("Copiado para a área de transferência!");
+      }).catch(err => {
+        this.buttonCopy = false;
+        console.error("Erro ao copiar:", err);
+      });
+
+  }
+
+
 
   // handlers
   updatePrecoCombustivelHandler(value: IInput<number>){

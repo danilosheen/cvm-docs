@@ -22,7 +22,9 @@ export interface ViagemSettings {
   margemDeLucro: number;
   valorMargemDeLucro: number;
   custoTotalDespesa: number;
-  custoTotalViagem: number;
+  custoTotalViagemSemDespesa: number;
+  custoTotalViagemComDespesa: number;
+  custoTotalViagemComNota: number;
   optionsRadio: string[];
   hospedagemOptionSelected: string;
   refeicaoOptionSelected: string;

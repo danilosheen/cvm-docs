@@ -61,6 +61,7 @@ var CalculadoraComponent = /** @class */ (function () {
         this.loadingShare = false;
         this.valid = [];
         this.loading = false;
+        this.buttonCopy = false;
         for (var i = 0; i < 4; i++) {
             this.valid[i] = false;
         }
@@ -85,9 +86,18 @@ var CalculadoraComponent = /** @class */ (function () {
                 this.settingsViagem.somatorioRefeicoes +
                 this.settingsViagem.somatorioPedagios +
                 this.settingsViagem.somatorioDiariasMotorista;
+        // Somatório com despesa
         this.settingsViagem.valorMargemDeLucro = this.settingsViagem.custoTotalDespesa * (this.settingsViagem.margemDeLucro / 100);
-        this.settingsViagem.custoTotalViagem = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
-        this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagem / this.settingsViagem.distanciaKM;
+        this.settingsViagem.custoTotalViagemComDespesa = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
+        this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemComDespesa / this.settingsViagem.distanciaKM;
+        // Custo total sem despesa
+        this.settingsViagem.custoTotalViagemSemDespesa =
+            this.settingsViagem.custoTotalViagemComDespesa -
+                this.settingsViagem.somatorioHospedagens -
+                this.settingsViagem.somatorioRefeicoes;
+        // Custo total com nota
+        this.settingsViagem.custoTotalViagemComNota =
+            this.settingsViagem.custoTotalViagemComDespesa * 1.10;
         // salva no localStorage
         this.settingsService.save(this.settingsViagem);
         this.loading = false;
@@ -141,7 +151,7 @@ var CalculadoraComponent = /** @class */ (function () {
                 ctx.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
                 scaledCanvas.toBlob(function (blob) {
                     if (blob) {
-                        var file = new File([blob], 'imagem.png', { type: 'image/png' });
+                        var file = new File([blob], 'cálculo_viagem.png', { type: 'image/png' });
                         _this.shareImage(file);
                     }
                 });
@@ -151,7 +161,7 @@ var CalculadoraComponent = /** @class */ (function () {
     };
     CalculadoraComponent.prototype.shareImage = function (file) {
         return __awaiter(this, void 0, void 0, function () {
-            var err_1;
+            var err_1, url, a;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -174,11 +184,27 @@ var CalculadoraComponent = /** @class */ (function () {
                         return [3 /*break*/, 4];
                     case 4: return [3 /*break*/, 6];
                     case 5:
-                        console.warn('Web Share API não suportada neste navegador');
+                        url = URL.createObjectURL(file);
+                        a = document.createElement("a");
+                        a.href = url;
+                        a.download = file.name || "cálculo_viagem.png";
+                        a.click();
+                        URL.revokeObjectURL(url);
                         _a.label = 6;
                     case 6: return [2 /*return*/];
                 }
             });
+        });
+    };
+    CalculadoraComponent.prototype.copiarTotaisToClipboard = function () {
+        var _this = this;
+        var totais = this.settingsViagem.custoTotalViagemSemDespesa + "\t" + this.settingsViagem.custoTotalViagemComDespesa + "\t" + this.settingsViagem.custoTotalViagemComNota;
+        navigator.clipboard.writeText(totais).then(function () {
+            _this.buttonCopy = true;
+            console.log("Copiado para a área de transferência!");
+        })["catch"](function (err) {
+            _this.buttonCopy = false;
+            console.error("Erro ao copiar:", err);
         });
     };
     // handlers
