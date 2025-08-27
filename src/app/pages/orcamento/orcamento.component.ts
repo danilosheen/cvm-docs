@@ -206,6 +206,8 @@ export class OrcamentoComponent implements OnInit{
         this.orcamentoData.valorSemDespesa = parseFloat(valorSemDespesa);
         this.orcamentoData.valorComDespesa = parseFloat(valorComDespesa);
         this.orcamentoData.valorComNota = parseFloat(valorComNota);
+      } else {
+        navigator.clipboard.writeText('');
       }
     });
   }

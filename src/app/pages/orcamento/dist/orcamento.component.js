@@ -220,6 +220,9 @@ var OrcamentoComponent = /** @class */ (function () {
                 _this.orcamentoData.valorComDespesa = parseFloat(valorComDespesa);
                 _this.orcamentoData.valorComNota = parseFloat(valorComNota);
             }
+            else {
+                navigator.clipboard.writeText('');
+            }
         });
     };
     OrcamentoComponent.prototype.formatNomeCliente = function () {
