@@ -14,7 +14,13 @@ export class ButtonChangeLabelFontSizeComponent {
   buttonOpen = false;
   animationsEnabled = false;
 
-  constructor(private fontSize: LabelFontSizeService) {}
+  constructor(private fontSize: LabelFontSizeService) {
+    const matLabelSize = localStorage.getItem('matLabelSize');
+
+    if(matLabelSize){
+      this.fontSize.setLabelFontSize(matLabelSize);
+    }
+  }
 
   aumentar() {
     this.tamanho += 2;
