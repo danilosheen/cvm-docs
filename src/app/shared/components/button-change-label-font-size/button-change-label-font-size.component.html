@@ -1,0 +1,20 @@
+<div class="container-buttons">
+  <div class="container-buttons-actions"
+    [ngClass]="{ open: buttonOpen }"
+  >
+    <button class="button-topo" (click)="aumentar()">+</button>
+    <button class="button-mid" (click)="diminuir()">-</button>
+    <button class="button-bottom" (click)="resetar()">O</button>
+  </div>
+  <div class="container-button-openClose">
+    <button (click)="openCloseButton()"
+      [ngClass]="{'open' : buttonOpen, 'close' : !buttonOpen}"
+    >
+      <mat-icon
+        [ngClass]="{'open' : buttonOpen, 'close' : !buttonOpen}"
+      >
+        chevron_left
+      </mat-icon>
+    </button>
+  </div>
+</div>

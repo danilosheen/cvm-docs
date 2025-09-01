@@ -11,9 +11,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --text-blue: #005cbb;
   --text-black: #33333b;
   --text-grey: #707078;
+  --text-white: #ffffff;
   /* colors snackbar */
   --mat-sys-inverse-surface: #005cbb;
   --mat-sys-inverse-primary: #ffffff
+  --mat-label-font-size: 1rem;
+
 }
 
 .container{
@@ -35,6 +38,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table{
   white-space: nowrap;
 }
+
 mat-label{
-  font-size: 20px !important;
+  font-size: var(--mat-label-font-size) !important;
 }

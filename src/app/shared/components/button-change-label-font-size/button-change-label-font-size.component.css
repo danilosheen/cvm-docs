@@ -1,0 +1,75 @@
+.container-buttons{
+  position: fixed;
+  top: calc(100vh / 2);
+  right: 0px;
+  z-index: 1000;
+}
+
+.container-buttons-actions{
+  position: fixed;
+  top: calc(100vh / 2);
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  right: -100px;
+  opacity: 0;
+
+  transition: width 0.3s, right 0.3s, opacity 0.3s;
+}
+
+.container-buttons-actions.open {
+  width: 50px;
+  right: 26px;
+  opacity: 1;
+}
+
+.container-buttons button{
+  height: 30px;
+  background-color: var(--text-blue);
+  color: var(--text-white);
+  border: 1px solid var(--text-white);
+  cursor: pointer;
+
+}
+
+.button-topo{
+  border-radius: 10px 0 0 0;
+  border-bottom: none;
+}
+
+.button-bottom{
+  border-radius: 0 0 0 10px;
+  border-top: none;
+}
+
+.container-button-openClose{
+  position: relative;
+  display: flex;
+  height: 90px;
+}
+
+.container-button-openClose button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.container-button-openClose button.open{
+  border-radius: 0 0 0 0;
+  transition: linear 0.3s;
+}
+
+.container-button-openClose button.close{
+  border-radius: 10px 0 0 10px;
+  transition: linear 0.3s;
+}
+
+.container-button-openClose button mat-icon.open{
+  transition: linear 0.2s;
+}
+
+.container-button-openClose button mat-icon.close{
+  transform: rotate(180deg);
+  transition: linear 0.2s;
+}
