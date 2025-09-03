@@ -77,7 +77,7 @@
         [label]="'Valor cliente pagando despesa'"
         [defaultValue]="orcamentoData.valorSemDespesa"
         [placeholder]="'ex: 2.500,00'"
-        (inputValueNumber)="updateValorComDespesaHandler($event)"
+        (inputValueNumber)="updateValorSemDespesaHandler($event)"
       ></app-input-number>
 
       <!-- valor com despesa de hospedagem e alimentação -->
@@ -86,7 +86,7 @@
         [label]="'Valor CVM pagando despesa'"
         [defaultValue]="orcamentoData.valorComDespesa"
         [placeholder]="'ex: 3.000,00'"
-        (inputValueNumber)="updateValorSemDespesaHandler($event)"
+        (inputValueNumber)="updateValorComDespesaHandler($event)"
       ></app-input-number>
 
       <!-- valor com emissão de nota fiscal -->

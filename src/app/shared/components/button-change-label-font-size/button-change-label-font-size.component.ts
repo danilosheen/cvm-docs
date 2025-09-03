@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { LabelFontSizeService } from '../../../core/services/labelFontSizeService/label-font-size.service';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
@@ -13,12 +13,13 @@ export class ButtonChangeLabelFontSizeComponent {
   private tamanho = 16; // px
   buttonOpen = false;
   animationsEnabled = false;
+  fontSize = inject(LabelFontSizeService);
 
-  constructor(private fontSize: LabelFontSizeService) {
+  constructor() {
     const matLabelSize = localStorage.getItem('matLabelSize');
 
     if(matLabelSize){
-      this.fontSize.setLabelFontSize(matLabelSize);
+      this.tamanho = parseInt(matLabelSize.replace('px', ''));
     }
   }
 

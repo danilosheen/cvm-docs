@@ -203,9 +203,10 @@ export class OrcamentoComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.orcamentoData.valorSemDespesa = parseFloat(valorSemDespesa);
-        this.orcamentoData.valorComDespesa = parseFloat(valorComDespesa);
-        this.orcamentoData.valorComNota = parseFloat(valorComNota);
+        this.updateValorSemDespesaHandler({value: parseFloat(valorSemDespesa), valid: true});
+        this.updateValorComDespesaHandler({value: parseFloat(valorComDespesa), valid: true});
+        this.updateValorComNotaHandler({value: parseFloat(valorComNota), valid: true});
+        navigator.clipboard.writeText('');
       } else {
         navigator.clipboard.writeText('');
       }
@@ -286,13 +287,13 @@ export class OrcamentoComponent implements OnInit{
     this.valid[7] = (value.valid);
   }
 
-  updateValorComDespesaHandler(value: IInput<number>) {
-    this.orcamentoData.valorComDespesa = value.value;
+  updateValorSemDespesaHandler(value: IInput<number>) {
+    this.orcamentoData.valorSemDespesa = value.value;
     this.valid[8] = (value.valid);
   }
 
-  updateValorSemDespesaHandler(value: IInput<number>) {
-    this.orcamentoData.valorSemDespesa = value.value;
+  updateValorComDespesaHandler(value: IInput<number>) {
+    this.orcamentoData.valorComDespesa = value.value;
     this.valid[9] = (value.valid);
   }
 

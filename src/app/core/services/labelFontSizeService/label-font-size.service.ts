@@ -7,13 +7,7 @@ export class LabelFontSizeService {
 
   private root = document.documentElement;
 
-  constructor() {
-    const matLabelSize = localStorage.getItem('matLabelSize');
-
-    if(matLabelSize){
-      this.setLabelFontSize(matLabelSize);
-    }
-  }
+  constructor() {}
 
   setLabelFontSize(size: string) {
     this.root.style.setProperty('--mat-label-font-size', size);
