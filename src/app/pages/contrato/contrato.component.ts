@@ -65,7 +65,7 @@ export class ContratoComponent implements OnInit{
 
   constructor(){
 
-    for (let i = 0; i <= 18; i++) {
+    for (let i = 0; i <= 19; i++) {
       this.valid.push({index: i, value: false});
     }
 
@@ -95,7 +95,8 @@ export class ContratoComponent implements OnInit{
         kmTotal: null,
         valorKmExcedido: null,
         kmCortesia: null
-      }
+      },
+      porcentagemSinal: 30
     }
 
     // preenche valores padrão
@@ -308,9 +309,14 @@ export class ContratoComponent implements OnInit{
     this.valid[17].value = value.valid;
   }
 
+  updateValorPorcentagemSinalHandler(value: IInput<number>){
+    this.contratoData.porcentagemSinal = value.value;
+    this.valid[18].value = value.valid;
+  }
+
   updateKmTotalHandler(value: IInput<number>){
     this.contratoData.detalhesLocacao.kmTotal = value.value;
-    this.valid[18].value = value.valid;
+    this.valid[19].value = value.valid;
   }
 
   updateValorKmExcedidoHandler(value: IInput<number>){

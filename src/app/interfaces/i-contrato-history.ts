@@ -24,7 +24,8 @@ export interface IContratoHistory {
     kmTotal: number | null,
     valorKmExcedido: number | null,
     kmCortesia: number | null
-  }
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  },
+  porcentagemSinal: number,
+  createdAt: string | Date,
+  updatedAt: string | Date
 }

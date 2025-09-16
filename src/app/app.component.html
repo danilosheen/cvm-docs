@@ -1,2 +1,4 @@
-<app-button-change-label-font-size></app-button-change-label-font-size>
+<app-button-change-label-font-size
+  *ngIf="!['/'].includes(router.url)"
+></app-button-change-label-font-size>
 <router-outlet />

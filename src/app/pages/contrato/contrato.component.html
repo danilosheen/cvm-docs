@@ -125,6 +125,12 @@
         (inputValueNumber)="updateValorTotalHandler($event)"
       ></app-input-number>
       <app-input-number
+        [label]="'Informe a porcentagem do sinal'"
+        [defaultValue]="contratoData.porcentagemSinal"
+        [type]="'text'"
+        (inputValueNumber)="updateValorPorcentagemSinalHandler($event)"
+      ></app-input-number>
+      <app-input-number
         [label]="'Informe a quantidade total de km'"
         [type]="'text'"
         [defaultValue]="contratoData.detalhesLocacao.kmTotal"
