@@ -19,6 +19,17 @@ export class InputNumberComponent implements OnInit {
   @Input() type: string = '';
   @Input() defaultValue: string | number | null = null;
   @Input() optional: boolean = false;
+  @Input() set disabled(value: boolean) {
+    this._disabled = value;
+    if (this.input) {
+      value ? this.input.disable({ emitEvent: false }) : this.input.enable({ emitEvent: false });
+    }
+  }
+  get disabled() {
+    return this._disabled;
+  }
+
+  private _disabled = false;
   @Output() inputValueString = new EventEmitter<IInput<string>>();
   @Output() inputValueNumber = new EventEmitter<IInput<number>>();
 

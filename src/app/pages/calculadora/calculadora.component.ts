@@ -34,11 +34,17 @@ export class CalculadoraComponent {
 
   @ViewChild('captureDiv') captureDiv!: ElementRef;
 
+  // services
   settingsService = inject(ViagemSettingsService);
+
+  // generic variables
   settingsViagem: ViagemSettings;
   loadingShare = false;
 
+  // control variables
   valid: boolean[] = [];
+
+  // state variables
   loading = false;
   buttonCopy = false;
 
@@ -50,27 +56,45 @@ export class CalculadoraComponent {
     this.settingsViagem = this.settingsService.load();
   }
 
-  calcularViagem(){
+  selectCalcularViagem(){
     this.loading = true;
+    if(this.settingsViagem.valorViagemPreCalc == 'Sim'){
+      this.calcularViagemPreCalc();
+    } else {
+      this.calcularViagem();
+    }
+
+  }
+
+  setCombustivelNecessario(){
     this.settingsViagem.combustivelNecessario = this.calcularCombustivelNecessario(
       this.settingsViagem.distanciaKM || 0,
       this.settingsViagem.autonomiaVeiculo || 0
     );
+  }
+
+  setCustoTotalCombustivel(){
     this.settingsViagem.custoTotalCombustivel = this.calcularCustoTotalCombustivel(
       this.settingsViagem.combustivelNecessario || 0,
       this.settingsViagem.precoCombustivel || 0
-    )
+    );
+  }
 
+  setDesgasteVeiculo(){
     this.settingsViagem.valorDesgasteDoVeiculo =
       this.settingsViagem.custoTotalCombustivel *
       (this.settingsViagem.desgasteDoVeiculo/100);
+  }
 
+  setCustosDiarias(){
     //percorre o array e retorna o somatório acumulado dos valores
     this.settingsViagem.somatorioHospedagens = this.settingsViagem.valoresHospedagem.reduce((total, hospedagem) => total + hospedagem, 0);
     this.settingsViagem.somatorioRefeicoes = this.settingsViagem.valoresRefeicao.reduce((total, refeicao) => total + refeicao, 0);
     this.settingsViagem.somatorioPedagios = this.settingsViagem.valoresPedagio.reduce((total, pedagio) => total + pedagio, 0);
     this.settingsViagem.somatorioDiariasMotorista = this.settingsViagem.valorDiariaMotorista * this.settingsViagem.diasDeViagem;
+  }
 
+  setCustoTotalDespesa(){
     this.settingsViagem.custoTotalDespesa =
       this.settingsViagem.custoTotalCombustivel +
       this.settingsViagem.valorDesgasteDoVeiculo +
@@ -78,26 +102,76 @@ export class CalculadoraComponent {
       this.settingsViagem.somatorioRefeicoes +
       this.settingsViagem.somatorioPedagios +
       this.settingsViagem.somatorioDiariasMotorista;
+  }
 
+  setCustoTotalComDespesa(){
     // Somatório com despesa
     this.settingsViagem.valorMargemDeLucro = this.settingsViagem.custoTotalDespesa * (this.settingsViagem.margemDeLucro/100);
     this.settingsViagem.custoTotalViagemComDespesa = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
     this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemComDespesa / this.settingsViagem.distanciaKM;
+  }
 
+  setCustoTotalComDespesaPreCalc(){
+    this.settingsViagem.valorMargemDeLucro = this.settingsViagem.valorFechadoComCliente - this.settingsViagem.custoTotalDespesa;
+    this.settingsViagem.margemDeLucro = parseFloat(((this.settingsViagem.valorMargemDeLucro * 100) / this.settingsViagem.custoTotalDespesa).toFixed(2));
+    this.settingsViagem.custoTotalViagemComDespesa = this.settingsViagem.valorFechadoComCliente;
+    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemComDespesa / this.settingsViagem.distanciaKM;
+  }
+
+  setCustoTotalSemDespesa(){
     // Custo total sem despesa
     this.settingsViagem.custoTotalViagemSemDespesa =
       this.settingsViagem.custoTotalViagemComDespesa -
       this.settingsViagem.somatorioHospedagens -
       this.settingsViagem.somatorioRefeicoes;
+  }
 
+  setCustoTotalComNota(){
     // Custo total com nota
     this.settingsViagem.custoTotalViagemComNota =
       this.settingsViagem.custoTotalViagemComDespesa * 1.10;
+  }
 
+  salvarCustosLocalStorage(){
     // salva no localStorage
     this.settingsService.save(this.settingsViagem);
     this.loading = false;
-    console.log(this.settingsViagem.valoresHospedagem)
+  }
+
+
+  calcularViagem(){
+
+    this.setCombustivelNecessario();
+    this.setCustoTotalCombustivel();
+    this.setDesgasteVeiculo();
+    this.setCustosDiarias();
+    this.setCustoTotalDespesa();
+
+    // valores dos orçamentos
+    this.setCustoTotalComDespesa();
+    this.setCustoTotalSemDespesa();
+    this.setCustoTotalComNota();
+
+    // salvar
+    this.salvarCustosLocalStorage();
+
+  }
+
+  calcularViagemPreCalc(){
+
+    this.setCombustivelNecessario();
+    this.setCustoTotalCombustivel();
+    this.setDesgasteVeiculo();
+    this.setCustosDiarias();
+    this.setCustoTotalDespesa();
+
+    // valores dos orçamentos
+    this.setCustoTotalComDespesaPreCalc();
+    this.setCustoTotalSemDespesa();
+    this.setCustoTotalComNota();
+
+    // salvar
+    this.salvarCustosLocalStorage();
   }
 
   camposPreenchidos(): boolean {
@@ -143,10 +217,12 @@ export class CalculadoraComponent {
     }
   }
 
-  captureAndShare() {
+  async captureAndShare() {
     this.loadingShare = true;
+    await new Promise(r => setTimeout(r));
 
-    html2canvas(this.captureDiv.nativeElement).then(canvas => {
+    try {
+      const canvas = await html2canvas(this.captureDiv.nativeElement);
       const desiredWidth = 2000;
       const scale = desiredWidth / canvas.width;
       const scaledCanvas = document.createElement('canvas');
@@ -154,17 +230,18 @@ export class CalculadoraComponent {
       scaledCanvas.height = canvas.height * scale;
 
       const ctx = scaledCanvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-        scaledCanvas.toBlob(blob => {
-          if (blob) {
-            const file = new File([blob], 'cálculo_viagem.png', { type: 'image/png' });
-            this.shareImage(file);
-          }
-        });
+      ctx?.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+
+      const blob = await new Promise<Blob | null>(resolve => scaledCanvas.toBlob(resolve));
+      if (blob) {
+        const file = new File([blob], 'cálculo_viagem.png', { type: 'image/png' });
+        await this.shareImage(file);
       }
+    } catch (err) {
+      console.error('Erro ao capturar imagem:', err);
+    } finally {
       this.loadingShare = false;
-    });
+    }
   }
 
   async shareImage(file: File) {
@@ -203,9 +280,19 @@ export class CalculadoraComponent {
 
   }
 
-
-
   // handlers
+
+  updateSelectedViagemPreCalc(value: IInput<string>){
+    this.settingsViagem.valorViagemPreCalc = value.value;
+    if(this.settingsViagem.valorViagemPreCalc == 'Não'){
+      this.settingsViagem.valorFechadoComCliente = 0;
+    }
+  }
+
+  updateValorFechadoComClienteHandler(value: IInput<number>){
+    this.settingsViagem.valorFechadoComCliente = value.value;
+  }
+
   updatePrecoCombustivelHandler(value: IInput<number>){
     this.settingsViagem.precoCombustivel = value.value;
     this.valid[0] = value.valid;

@@ -2,6 +2,25 @@
 <div class="container">
   <div class="content">
     <h2>Calculadora de custos de viagem</h2>
+
+    <app-input-radio
+      [label]="'O orçamento será pré-calculado?'"
+      [dropdown]="false"
+      [expanded]="true"
+      [defaultValue]="settingsViagem.valorViagemPreCalc || 'Não'"
+      [listItems]="settingsViagem.optionsRadio"
+      (selectedValue)="updateSelectedViagemPreCalc($event)"
+    ></app-input-radio>
+
+    @if (settingsViagem.valorViagemPreCalc == 'Sim') {
+      <app-input-number
+        [label]="'Informe o valor fechado com o cliente'"
+        [type]="'number'"
+        [defaultValue]="settingsViagem.valorFechadoComCliente || null"
+        (inputValueNumber)="updateValorFechadoComClienteHandler($event)"
+      ></app-input-number>
+    }
+
     <app-input-number
       [label]="'Informe o preço do combustível'"
       [type]="'number'"
@@ -138,11 +157,12 @@
       [label]="'Informe a margem de lucro em %'"
       [type]="'text'"
       [defaultValue]="settingsViagem.margemDeLucro"
+      [disabled]="settingsViagem.valorViagemPreCalc == 'Sim' ? true : false"
       (inputValueNumber)="updateMargemDeLucroHandler($event)"
     ></app-input-number>
 
   </div>
-  <button [disabled]="!camposPreenchidos()" class="button-gerar" mat-flat-button (click)="calcularViagem()">
+  <button [disabled]="!camposPreenchidos()" class="button-gerar" mat-flat-button (click)="selectCalcularViagem()">
     <ng-container *ngIf="loading; else btnText">
       <div class="button-loading">
         <img class="loading" src="./assets/loading.gif" alt="Carregando">

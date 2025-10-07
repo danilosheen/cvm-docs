@@ -9,6 +9,7 @@ export class ViagemSettingsService {
   private storageKey = 'viagemSettings';
 
   private defaultSettings: ViagemSettings = {
+    valorFechadoComCliente: 0,
     precoCombustivel: 0,
     distanciaKM: 0,
     autonomiaVeiculo: 0,
@@ -40,6 +41,7 @@ export class ViagemSettingsService {
     refeicaoOptionSelected: 'Não',
     pedagioOptionSelected: 'Não',
     motoristaOptionSelected: 'Não',
+    valorViagemPreCalc: 'Não'
   };
 
   // Salvar no localStorage
