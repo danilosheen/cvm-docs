@@ -66,6 +66,46 @@ export class CalculadoraComponent {
 
   }
 
+  calcularViagem(){
+
+    this.setCombustivelNecessario();
+    this.setCustoTotalCombustivel();
+    this.setDesgasteVeiculo();
+    this.setCustosDiarias();
+    this.setCustoTotalDespesa();
+
+    // valores dos orçamentos
+    this.setCustoTotalComDespesa();
+    this.setCustoTotalSemDespesa();
+    this.setCustoTotalComNota();
+
+    // salvar
+    this.salvarCustosLocalStorage();
+
+  }
+
+  calcularViagemPreCalc(){
+
+    this.setCombustivelNecessario();
+    this.setCustoTotalCombustivel();
+    this.setDesgasteVeiculo();
+    this.setCustosDiarias();
+    this.setCustoTotalDespesa();
+
+    // valores dos orçamentos
+    this.setCustoTotalSemDespesaPreCalc();
+    this.setCustoTotalComDespesaPreCalc();
+    this.setCustoTotalComNota();
+
+    // salvar
+    this.salvarCustosLocalStorage();
+  }
+
+  camposPreenchidos(): boolean {
+    // console.log(this.valid)
+    return this.valid.every(element => element === true);
+  }
+
   setCombustivelNecessario(){
     this.settingsViagem.combustivelNecessario = this.calcularCombustivelNecessario(
       this.settingsViagem.distanciaKM || 0,
@@ -108,14 +148,15 @@ export class CalculadoraComponent {
     // Somatório com despesa
     this.settingsViagem.valorMargemDeLucro = this.settingsViagem.custoTotalDespesa * (this.settingsViagem.margemDeLucro/100);
     this.settingsViagem.custoTotalViagemComDespesa = this.settingsViagem.custoTotalDespesa + this.settingsViagem.valorMargemDeLucro;
-    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemComDespesa / this.settingsViagem.distanciaKM;
+    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemSemDespesa / this.settingsViagem.distanciaKM;
   }
 
   setCustoTotalComDespesaPreCalc(){
-    this.settingsViagem.valorMargemDeLucro = this.settingsViagem.valorFechadoComCliente - this.settingsViagem.custoTotalDespesa;
-    this.settingsViagem.margemDeLucro = parseFloat(((this.settingsViagem.valorMargemDeLucro * 100) / this.settingsViagem.custoTotalDespesa).toFixed(2));
-    this.settingsViagem.custoTotalViagemComDespesa = this.settingsViagem.valorFechadoComCliente;
-    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemComDespesa / this.settingsViagem.distanciaKM;
+    this.settingsViagem.custoTotalViagemComDespesa =
+      this.settingsViagem.custoTotalViagemSemDespesa +
+      this.settingsViagem.somatorioHospedagens +
+      this.settingsViagem.somatorioRefeicoes +
+      this.settingsViagem.somatorioPedagios
   }
 
   setCustoTotalSemDespesa(){
@@ -124,6 +165,18 @@ export class CalculadoraComponent {
       this.settingsViagem.custoTotalViagemComDespesa -
       this.settingsViagem.somatorioHospedagens -
       this.settingsViagem.somatorioRefeicoes;
+  }
+
+  setCustoTotalSemDespesaPreCalc(){
+    this.settingsViagem.valorMargemDeLucro =
+      this.settingsViagem.valorFechadoComCliente -
+      this.settingsViagem.custoTotalCombustivel -
+      this.settingsViagem.valorDesgasteDoVeiculo -
+      this.settingsViagem.somatorioDiariasMotorista;
+
+    this.settingsViagem.margemDeLucro = parseFloat(((this.settingsViagem.valorMargemDeLucro * 100) / this.settingsViagem.custoTotalDespesa).toFixed(2));
+    this.settingsViagem.custoTotalViagemSemDespesa = this.settingsViagem.valorFechadoComCliente;
+    this.settingsViagem.valorPorKm = this.settingsViagem.custoTotalViagemSemDespesa / this.settingsViagem.distanciaKM;
   }
 
   setCustoTotalComNota(){
@@ -136,47 +189,6 @@ export class CalculadoraComponent {
     // salva no localStorage
     this.settingsService.save(this.settingsViagem);
     this.loading = false;
-  }
-
-
-  calcularViagem(){
-
-    this.setCombustivelNecessario();
-    this.setCustoTotalCombustivel();
-    this.setDesgasteVeiculo();
-    this.setCustosDiarias();
-    this.setCustoTotalDespesa();
-
-    // valores dos orçamentos
-    this.setCustoTotalComDespesa();
-    this.setCustoTotalSemDespesa();
-    this.setCustoTotalComNota();
-
-    // salvar
-    this.salvarCustosLocalStorage();
-
-  }
-
-  calcularViagemPreCalc(){
-
-    this.setCombustivelNecessario();
-    this.setCustoTotalCombustivel();
-    this.setDesgasteVeiculo();
-    this.setCustosDiarias();
-    this.setCustoTotalDespesa();
-
-    // valores dos orçamentos
-    this.setCustoTotalComDespesaPreCalc();
-    this.setCustoTotalSemDespesa();
-    this.setCustoTotalComNota();
-
-    // salvar
-    this.salvarCustosLocalStorage();
-  }
-
-  camposPreenchidos(): boolean {
-    // console.log(this.valid)
-    return this.valid.every(element => element === true);
   }
 
   calcularCombustivelNecessario(distanciaKM: number, autonomiaVeiculo: number): number{
