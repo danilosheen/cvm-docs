@@ -1,20 +1,31 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { AuthService } from '../authService/auth-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(private router: Router) {}
+  private auth = inject(AuthService);
+  private router = inject(Router)
 
-  canActivate(): boolean {
-    const token = localStorage.getItem('authToken');
-    if (token) return true;
+  constructor() {}
 
-    alert("Sua sessão expirou, faça login novamente!")
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const modulo = route.data['modulo']; // vem do app-routing.module.ts
 
-    this.router.navigate(['/']);
-    return false;
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    if (!this.auth.temPermissao(modulo)) {
+      alert('Você não tem permissão para acessar esta página.');
+      this.router.navigate(['/']);
+      return false;
+    }
+
+    return true;
   }
 }
