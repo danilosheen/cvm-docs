@@ -64,6 +64,7 @@ export class ListaPassageirosComponent implements OnInit {
   // arrayNomePassageiros: IClienteAutocomplete[] = [];
 
   listaPassageiros: IListaPassageiros;
+  widthScreen = window.innerWidth;
 
   passageiro: IPassageiro = {
     nome: '',
@@ -217,6 +218,7 @@ export class ListaPassageirosComponent implements OnInit {
         this.passageiros.push(this.passageiro);
         this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
       });
+
     } else {
       if(this.listaPassageiros.passageiros.filter(p => p.documento == this.passageiro.documento).length > 0){
         alert("Já existe um passageiro com este documento.")
@@ -355,7 +357,6 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   updateDocumentSelectedHandler(value: IInput<string>){
-    console.log(value)
     if (this.passageiro.typeDocumentSelected !== value.value) {
       this.passageiro.documento = '';
     }
@@ -363,7 +364,6 @@ export class ListaPassageirosComponent implements OnInit {
   }
 
   updateDocumentoHandler(value: IInput<string>){
-    console.log(value)
     this.passageiro.documento = value.value
     this.valid[10] = value.valid;
   }

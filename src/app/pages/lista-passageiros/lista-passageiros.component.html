@@ -4,9 +4,15 @@
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2 class="title-lista-passageiros">
-      Preencha os campos para gerar uma nova lista de passageiros
+      Criar lista de passageiros
     </h2>
     <div class="content">
+
+      <div class="separator">
+        <h3>Informações do veículo</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- Número do carro -->
       <app-input-number
         [label]="'Número do carro'"
@@ -24,6 +30,11 @@
         (inputValue)="updatePlacaHandler($event)"
       ></app-input-text>
 
+      <div class="separator">
+        <h3>Motorista</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- Motorista -->
       <app-input-autocomplete
         [label]="'Motorista'"
@@ -32,6 +43,11 @@
         [errorMessage]="'Selecione o motorista da viagem'"
         (inputValue)="updateMotoristaHandler($event)"
       ></app-input-autocomplete>
+
+      <div class="separator">
+        <h3>Informações da viagem</h3>
+        <div class="line-underscore"></div>
+      </div>
 
       <!-- Oridem -->
       <app-input-autocomplete
@@ -87,7 +103,10 @@
         (inputValueNumber)="updateExtensaoKmHandler($event)"
       ></app-input-number>
 
-      <h3 class="title-passageiros">Inserir passageiros</h3>
+      <div class="separator">
+        <h3>Adicionar passageiros</h3>
+        <div class="line-underscore"></div>
+      </div>
 
       <!-- Nome do passageiro -->
       <app-input-autocomplete-data-pessoa
@@ -97,13 +116,6 @@
         [errorMessage]="'Este campo é obrigatório'"
         (inputValue)="updateNomeHandler($event)"
       ></app-input-autocomplete-data-pessoa>
-
-      <!-- <app-input-autocomplete
-        [label]="'Nome do passageiro'"
-        [defaultValue]="passageiro.nome"
-        [errorMessage]="'Este campo é obrigatório'"
-        (inputValue)="updateNomeHandler($event)"
-      ></app-input-autocomplete> -->
 
       <!-- Tipo de documento -->
       <app-input-radio
@@ -143,30 +155,50 @@
       <div class="container-table">
         @if (listaPassageiros.passageiros.length) {
           <h2 class="title-table">Lista de Passageiros</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Nº</th>
-                <th>Passageiro</th>
-                <th>Documento de porte</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
-                <td class="center">{{ i+1 }}</td>
-                <td>{{ passageiro.nome }}</td>
-                <td>{{ passageiro.documento }}</td>
-                <td class="action-column">
-                  <div class="container-actions-table">
-                    <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
-                    <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
-                    <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          @if(widthScreen > 768){
+            <table>
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>Passageiro</th>
+                  <th>Documento de porte</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
+                  <td class="center">{{ i+1 }}</td>
+                  <td>{{ passageiro.nome }}</td>
+                  <td>{{ passageiro.documento }}</td>
+                  <td class="action-column">
+                    <div class="container-actions-table">
+                      <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
+                      <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
+                      <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          } @else {
+            <div class="card" *ngFor="let passageiro of listaPassageiros.passageiros; index as i">
+              <div class="line-topo">
+                <div>CPF: {{ passageiro.documento }}</div>
+                <div><strong>#{{ i+1 }}</strong></div>
+              </div>
+              <div class="line-mid">
+                <span>{{ passageiro.nome }}</span>
+              </div>
+              <div class="line-bottom">
+                <div class="container-actions-table">
+                  <img class="icon-button" (click)="editPassageiro(i)" src="../../../assets/icons-svg/pen.svg">
+                  <img class="icon-button" (click)="openDialog('0ms', '0ms', i)" src="/assets/icons-svg/delete-icon.svg">
+                  <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
+                </div>
+              </div>
+            </div>
+          }
         }
       </div>
       <div class="container-button-gerar">

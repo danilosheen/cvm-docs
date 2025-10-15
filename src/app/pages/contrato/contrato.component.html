@@ -3,7 +3,7 @@
   @if(isLoadingClientes && isLoadingContratoBehaviorSubject){
     <app-loading-blue></app-loading-blue>
   } @else {
-    <h2>Preencha os campos e gere um novo contrato</h2>
+    <h2>Gerar contrato</h2>
   <div class="content">
     <app-input-radio
       [label]="'Selecione o tipo de contrato'"
@@ -12,6 +12,12 @@
       [listItems]="documentosList"
       (selectedValue)="updateTipoContratoHandler($event)"
     ></app-input-radio>
+
+    <div class="separator">
+      <h3>Dados do cliente</h3>
+      <div class="line-underscore"></div>
+    </div>
+
     <app-input-autocomplete-data-pessoa
         [options]="nomeClientes"
         [attr.autocomplete]="'off'"
@@ -70,6 +76,12 @@
         [defaultValue]="contratoData.endereco.estado"
         (inputValue)="updateEstadoHandler($event)"
       ></app-input-text>
+
+      <div class="separator">
+        <h3>Dados do veículo</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <app-input-text
         [label]="'Placa do veículo'"
         [defaultValue]="contratoData.placaVeiculo"
@@ -80,6 +92,12 @@
         [defaultValue]="contratoData.descricaoVeiculo"
         (inputValue)="updateDescricaoVeiculoHandler($event)"
       ></app-input-text>
+
+      <div class="separator">
+        <h3>Informações da locação</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <app-input-date
         [label]="'Informe a data inicial da locação'"
         [defaultValue]="contratoData.dataInicial"
@@ -118,6 +136,12 @@
         [defaultValue]="contratoData.detalhesLocacao.tipoContratoLocacao"
         (selectedValue)="updateTipoContratoLocacaoHandler($event)"
       ></app-input-radio>
+
+      <div class="separator">
+        <h3>Valores e porcentagens</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <app-input-number
         [label]="(contratoData.detalhesLocacao.tipoContratoLocacao == 'NORMAL' ? 'Informe o valor total' : 'Informe o valor por km')"
         [defaultValue]="contratoData.detalhesLocacao.valorTotal"
@@ -130,6 +154,12 @@
         [type]="'text'"
         (inputValueNumber)="updateValorPorcentagemSinalHandler($event)"
       ></app-input-number>
+
+      <div class="separator">
+        <h3>Informações adicionais</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <app-input-number
         [label]="'Informe a quantidade total de km'"
         [type]="'text'"

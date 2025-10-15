@@ -4,9 +4,15 @@
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2 class="title-orcamento">
-      Preencha os dados para gerar o orçamento
+      Criar orçamento
     </h2>
     <form (ngSubmit)="onSubmit()">
+
+      <div class="separator">
+        <h3>Dados do cliente</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- cliente -->
       <app-input-autocomplete-data-pessoa
         [options]="nomeClientes"
@@ -25,6 +31,11 @@
         [type]="'tel'"
         (inputValueString)="updateTelefoneContatoHandler($event)"
       ></app-input-number>
+
+      <div class="separator">
+        <h3>Informações da viagem</h3>
+        <div class="line-underscore"></div>
+      </div>
 
       <!-- Local de saída -->
       <app-input-autocomplete
@@ -71,6 +82,11 @@
         (inputTime)="updateHoraRetornoHandler($event)"
       ></app-input-time>
 
+      <div class="separator">
+        <h3>Valores do orçamento</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- valor sem despesa de hospedagem e alimentação -->
       <app-input-number
         [type]="'number'"
@@ -98,6 +114,11 @@
         (inputValueNumber)="updateValorComNotaHandler($event)"
       ></app-input-number>
 
+      <div class="separator">
+        <h3>Taxas e porcentagens</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- Taxa do PIX -->
       <app-input-number
         [type]="'text'"
@@ -113,6 +134,11 @@
         [defaultValue]="orcamentoData.sinal"
         (inputValueNumber)="updateSinalHandler($event)"
       ></app-input-number>
+
+      <div class="separator">
+        <h3>Informações adicionais</h3>
+        <div class="line-underscore"></div>
+      </div>
 
       <!-- modelo van -->
       <app-input-text

@@ -4,9 +4,15 @@
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2 class="title-ficha-excursao">
-      Preencha os campos para gerar uma nova ficha de excursão
+      Criar ficha de excursão
     </h2>
     <form (ngSubmit)="onSubmit()">
+
+    <div class="separator">
+      <h3>Detalhes da viagem</h3>
+      <div class="line-underscore"></div>
+    </div>
+
       <!-- Excursão para -->
       <app-input-text
         [label]="'Excursão para'"
@@ -42,6 +48,12 @@
         [label]="'Hora de retorno'"
         (inputTime)="updateHoraRetornoHandler($event)"
       ></app-input-time>
+
+      <div class="separator">
+        <h3>Dados do cliente</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- nomeCliente -->
       <app-input-autocomplete-data-pessoa
         [options]="nomesClientes"
@@ -95,6 +107,12 @@
           (inputValueString)="updateDocumentHandler($event)"
         ></app-input-number>
       }
+
+      <div class="separator">
+        <h3>Endereço do cliente</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- cidade -->
       <app-input-text
         [label]="'Cidade'"
@@ -123,21 +141,29 @@
         [placeholder]="'ex: 30'"
         (inputValue)="updateNumeroCasaHandler($event)"
       ></app-input-text>
+
+      <div class="separator">
+        <h3>Serviços oferecidos</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <!-- serviços -->
       <app-input-checkbox
         [label]="'Selecione os serviços'"
         (checkedValues)="updateServicosSelecionadosHandler($event)"
       ></app-input-checkbox>
       <!-- tipoDeHospedagem -->
-       <app-input-radio
+      <app-input-radio
         [label]="'Tipo de hospedagem'"
         [listItems]="hospedagens"
         (selectedValue)="updateTipoHospedagemHandler($event)"
-       ></app-input-radio>
-      <!-- <app-input-checkbox
-        [label]="'Tipo de hospedagem'"
-      ></app-input-checkbox> -->
-      <!-- valorIntegralExcursão -->
+      ></app-input-radio>
+
+      <div class="separator">
+        <h3>Detalhes do pagamento</h3>
+        <div class="line-underscore"></div>
+      </div>
+
       <app-input-number
         [type]="'number'"
         [label]="'Valor total da excursão'"

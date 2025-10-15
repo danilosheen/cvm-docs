@@ -8,6 +8,7 @@
   text-align: center;
   padding: 30px 0;
   font-size: 20px;
+  font-family: "Montserrat", sans-serif;
 }
 
 .content{
@@ -20,6 +21,21 @@
 }
 
 mat-form-field{
+  width: 100%;
+}
+
+.separator{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+}
+
+.line-underscore{
+  background-color: #a1a1a1;
+  height: 1px;
   width: 100%;
 }
 
@@ -104,4 +120,37 @@ td{
   align-items: center;
   justify-content: center;
   gap: 5px;
+}
+
+/* Card */
+
+.card{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 350px;
+  width: 98%;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 10px;
+}
+
+.line-topo{
+  display: flex;
+  justify-content: space-between;
+}
+
+.line-mid{
+  text-align: center;
+}
+
+.line-bottom{
+  text-align: end;
+}
+
+@media (max-width: 768px) {
+  .container-actions-table{
+    justify-content: flex-end;
+  }
 }

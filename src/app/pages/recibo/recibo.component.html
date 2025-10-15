@@ -4,9 +4,14 @@
     <app-loading-blue></app-loading-blue>
   } @else {
     <h2 class="title-recibo">
-    Preencha os campos para gerar o recibo
+    Gerar recibo
   </h2>
   <form (ngSubmit)="onSubmit()">
+
+    <div class="separator">
+      <h3>Detalhes orçamento</h3>
+      <div class="line-underscore"></div>
+    </div>
 
     <!-- cliente -->
     <app-input-autocomplete
@@ -22,6 +27,11 @@
       [placeholder]="'ex: fretamento de van de Juazeiro à Fortaleza'"
       (inputValue)="updatePacoteViagemHandler($event)"
     ></app-input-text>
+
+    <div class="separator">
+      <h3>Valores</h3>
+      <div class="line-underscore"></div>
+    </div>
 
     <!-- valor -->
     <app-input-number

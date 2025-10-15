@@ -35,3 +35,9 @@ h2{
     background-color: rgb(224 226 236) !important;
   }
 }
+
+@media (min-width: 769px){
+  h2{
+    font-size: 18px;
+  }
+}
