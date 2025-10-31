@@ -10,6 +10,7 @@ import { FooterComponent } from "../../shared/components/footer/footer.component
 import { ButtonCardComponent } from "../../shared/components/button-card/button-card.component";
 import { NgIf } from '@angular/common';
 import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
+import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 
 @Component({
   selector: 'app-home',
@@ -22,14 +23,16 @@ import { BehaviorSubjectService } from '../../core/services/behaviorSubjectServi
     MatButtonModule,
     FooterComponent,
     ButtonCardComponent,
-    NgIf
-  ],
+    NgIf,
+    LoadingBlueComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   permissoes: string[] = [];
   permissoesBehaviorSubject = inject(BehaviorSubjectService);
+  isLoadingPermissoes = false;
 
   constructor(
     private authService: AuthService,
@@ -43,17 +46,20 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    this.isLoadingPermissoes = true;
     this.permissaoService.getPermissoes().subscribe({
-            next:(permissoes) => {
-              this.permissoes = permissoes
-                .filter(p=> p.permitido)
-                .map(p => p.modulo);
-                this.permissoesBehaviorSubject.setPermissoes(this.permissoes);
-            },
-            error:(error) => {
-              console.log(error);
-            }
-          });
+      next:(permissoes) => {
+        this.permissoes = permissoes
+          .filter(p=> p.permitido)
+          .map(p => p.modulo);
+          this.isLoadingPermissoes = false;
+          this.permissoesBehaviorSubject.setPermissoes(this.permissoes);
+      },
+      error:(error) => {
+        this.isLoadingPermissoes = false;
+        console.log(error);
+      }
+    });
   }
 
   temPermissao(modulo: string): boolean {
