@@ -15,6 +15,11 @@
   font-size: 20px;
 }
 
+.container-table{
+  width: 100%;
+  overflow-x: auto;
+}
+
 table{
   min-width: 685px;
   width: 100%;
@@ -97,4 +102,8 @@ tbody tr:nth-child(even) {
 .container-card-rodape{
   display: flex;
   gap: 10px;
+}
+
+.nome-cliente{
+  white-space: normal;
 }
