@@ -6,6 +6,9 @@ import { DialogGenericComponent } from '../dialog-generic/dialog-generic.compone
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { BehaviorSubjectService } from '../../../core/services/behaviorSubjectService/behavior-subject.service';
+import { NgIf } from '@angular/common';
+import { PermissaoService } from '../../../core/services/permissaoService/permissao.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,19 +16,44 @@ import { MatIconModule } from '@angular/material/icon';
     RouterLink,
     MatButtonModule,
     MatMenuModule,
-    MatIconModule
-  ],
+    MatIconModule,
+    NgIf
+],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
 
   readonly dialog: MatDialog = inject(MatDialog);
+  authService = inject(AuthService);
+  router = inject(Router);
+  behaviorSubjectPermissoes = inject(BehaviorSubjectService);
+  permissaoService = inject(PermissaoService);
+  permissoes: string[] = [];
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ){}
+  constructor(){
+    this.behaviorSubjectPermissoes.permissoes$.subscribe({
+      next:(permissoes) =>{
+        this.permissoes = permissoes;
+        if(this.permissoes.length == 0){
+          this.permissaoService.getPermissoes().subscribe({
+            next:(permissoes) => {
+              this.permissoes = permissoes
+                .filter(p=> p.permitido)
+                .map(p => p.modulo);
+                this.behaviorSubjectPermissoes.setPermissoes(this.permissoes);
+            },
+            error:(error) => {
+              console.log(error);
+            }
+          });
+        }
+      },
+      error:(error) => {
+        console.log(error);
+      }
+    });
+  }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(DialogGenericComponent, {
@@ -57,8 +85,16 @@ export class NavbarComponent {
     this.router.navigate(['/contrato-history']);
   }
 
+  abrirTelaGerenciarUsuarios(){
+    this.router.navigate(['/gerenciar-usuarios']);
+  }
+
   logout(){
     this.authService.removeToken();
     this.router.navigate(["/"]);
+  }
+
+  temPermissao(modulo: string): boolean {
+    return this.permissoes.includes(modulo);
   }
 }

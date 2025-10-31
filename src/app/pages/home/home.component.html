@@ -2,60 +2,70 @@
 <div class="container-screen">
   <div class="container-buttons">
     <app-button-card
+      *ngIf="temPermissao('calculadora')"
       [routerLink]="['/calculadora']"
       [icon]="'../../../assets/logo-calculadora.png'"
       [title]="'Calculadora de custos'"
       [description]="'Aqui você pode calcular custos de viajens e excursões'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('orcamento')"
       [routerLink]="['/orcamento']"
       [icon]="'../../../assets/logo-orcamento.png'"
       [title]="'Criar orçamento'"
       [description]="'Preencha os campos e gere um orçamento em PDF no modelo da CVM Turismo'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('clientes')"
       [routerLink]="['/clientes']"
       [icon]="'../../../assets/logo-cliente.png'"
       [title]="'Gerenciar clientes'"
       [description]="'Aqui você pode visualizar, adicionar, editar e remover clientes'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('controle-contas')"
       [routerLink]="['/controle-contas']"
       [icon]="'../../../assets/entrada-saida.png'"
       [title]="'Entradas e Saídas CVM'"
       [description]="'Faça o controle de entradas e saídas mensal'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('lista-passageiros')"
       [routerLink]="['/lista-passageiros']"
       [icon]="'../../../assets/logo-lista-passageiros.png'"
       [title]="'Criar lista de passageiros'"
       [description]="'Preencha os campos e gere uma lista de passageiros em PDF no modelo da CVM Turismo'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('contrato')"
       [routerLink]="['/contrato']"
       [icon]="'../../../assets/contrato.png'"
       [title]="'Criar contrato'"
       [description]="'Preencha os campos e gere um contrato em PDF no modelo da CVM Turismo'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('recibo')"
       [routerLink]="['/recibo']"
       [icon]="'../../../assets/logo-recibo.png'"
       [title]="'Criar recibo'"
       [description]="'Preencha os campos e gere um recibo em PDF no modelo da CVM Turismo'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('ficha-excursao')"
       [routerLink]="['/ficha-excursao']"
       [icon]="'../../../assets/logo-ficha-excursao.png'"
       [title]="'Criar ficha de excursão'"
       [description]="'Preencha os campos e gere uma ficha de excursão em PDF no modelo da CVM Turismo'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('passageiros')"
       [routerLink]="['/passageiros']"
       [icon]="'../../../assets/logo-passageiro.png'"
       [title]="'Gerenciar passageiros'"
       [description]="'Aqui você pode visualizar, adicionar, editar e remover passageiros'"
     ></app-button-card>
     <app-button-card
+      *ngIf="temPermissao('utilitarios')"
       [routerLink]="['/utilitarios']"
       [icon]="'../../../assets/logo-utilitarios.png'"
       [title]="'Utilitários'"

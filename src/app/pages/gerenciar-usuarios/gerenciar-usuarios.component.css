@@ -1,0 +1,57 @@
+.container{
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 600px;
+  gap: 20px;
+}
+
+h2{
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+}
+
+.button-add-user{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container-cards{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card{
+  border: solid 1px black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.topo-card{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.line{
+  width: calc(100% + 20px);
+  margin: 0 -10px;
+  background-color: black;
+  height: 1px;
+  margin-bottom: 10px;
+}
+
+.container-permissions{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.line-permission{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

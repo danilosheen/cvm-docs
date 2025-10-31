@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuardService } from '../app/core/services/authGuard/auth-guard.service';
 import { LoginComponent } from './pages/login/login.component';
+import { GerenciarUsuariosComponent } from './pages/gerenciar-usuarios/gerenciar-usuarios.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FichaExcursaoComponent } from './pages/ficha-excursao/ficha-excursao.component';
 import { ContratoComponent } from './pages/contrato/contrato.component';
@@ -21,7 +22,8 @@ import { ContratoHistoryComponent } from './pages/contrato-history/contrato-hist
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService], data: { modulo: 'home' } },
+  { path: 'home', component: HomeComponent },
+  { path: 'gerenciar-usuarios', component: GerenciarUsuariosComponent, canActivate: [AuthGuardService], data: { modulo: 'gerenciar-usuarios' } },
   { path: 'ficha-excursao', component: FichaExcursaoComponent, canActivate: [AuthGuardService], data: { modulo: 'ficha-excursao' } },
   { path: 'contrato', component: ContratoComponent, canActivate: [AuthGuardService], data: { modulo: 'contrato' } },
   { path: 'contrato-history', component: ContratoHistoryComponent, canActivate: [AuthGuardService], data: { modulo: 'contrato-history' } },
@@ -35,6 +37,6 @@ export const routes: Routes = [
   { path: 'passageiros', component: PassageirosComponent, canActivate: [AuthGuardService], data: { modulo: 'passageiros' } },
   { path: 'calculadora', component: CalculadoraComponent, canActivate: [AuthGuardService], data: { modulo: 'calculadora' } },
   { path: 'utilitarios', component: UtilitariosComponent, canActivate: [AuthGuardService], data: { modulo: 'utilitarios' } },
-  { path: 'utilitarios/aniversariantes', component: AniversariantesComponent, canActivate: [AuthGuardService], data: { modulo: 'aniversariantes' } },
-  { path: 'utilitarios/nota-agradecimento', component: NotaAgradecimentoComponent, canActivate: [AuthGuardService], data: { modulo: 'nota-agradecimento' } },
+  { path: 'utilitarios/aniversariantes', component: AniversariantesComponent },
+  { path: 'utilitarios/nota-agradecimento', component: NotaAgradecimentoComponent },
 ];

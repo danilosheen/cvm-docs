@@ -1,0 +1,34 @@
+<div class="container-dialog-cliente">
+  <mat-dialog-content>
+    Atualize os campos para {{title}} o usuario
+  </mat-dialog-content>
+  <div class="container-inputs">
+    <app-input-text
+      [label]="'Nome do usuário'"
+      [placeholder]="'ex: Crairton'"
+      [defaultValue]="usuarioData.nome"
+      (inputValue)="updateNomeUsuarioHandler($event)"
+    ></app-input-text>
+    <app-input-text
+      [label]="'Email/Usuário'"
+      [placeholder]="'ex: crairton@user'"
+      [defaultValue]="usuarioData.email"
+      (inputValue)="updateEmailHandler($event)"
+    ></app-input-text>
+    <app-input-text
+      [label]="'Senha'"
+      [placeholder]="'ex: crairton123'"
+      [defaultValue]="usuarioData.senha"
+      (inputValue)="updateSenhaHandler($event)"
+    ></app-input-text>
+
+  </div>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button
+    [disabled]="!isValid()"
+    (click)="onClickHandler()"
+    (window:keydown.enter)="onClickHandler()"
+    >{{confirmButton}}</button>
+  </mat-dialog-actions>
+</div>

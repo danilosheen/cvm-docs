@@ -1,0 +1,42 @@
+<app-navbar></app-navbar>
+<div class="container">
+  @if(isLoadingPermissoes){
+    <app-loading-blue></app-loading-blue>
+  } @else {
+    <h2>Gerenciar usuários</h2>
+    <div class="button-add-user">
+      <button (click)="criarUsuario()" mat-flat-button color="primary">Adicionar usuário</button>
+    </div>
+
+    <div class="container-cards">
+      @for (usuario of usuarios; track usuario.id) {
+      <div class="card">
+        <div class="topo-card">
+          <div>{{usuario.nome}}</div>
+          <div>{{usuario.email}}</div>
+          <div class="container-actions-table">
+            <img class="icon-button" (click)="editarUsuario(usuario)" src="../../../assets/icons-svg/pen.svg">
+            <img class="icon-button" (click)="removerUsuario('0ms', '0ms', usuario.id)" src="/assets/icons-svg/delete-icon.svg">
+            <!-- <span (click)="openDialog('0ms', '0ms', i)" class="material-icons icon-red">delete</span> -->
+          </div>
+        </div>
+
+        <div class="line"></div>
+        <div class="container-permissions">
+          @for (permissao of usuario.permissoes; track permissao.id) {
+          <div class="content-permissions">
+            <div class="line-permission">
+              <span>{{ permissao.modulo }} </span>
+              <mat-slide-toggle (ngModelChange)="atualizarPermissao(permissao.id, $event)" [(ngModel)]="permissao.permitido"></mat-slide-toggle>
+            </div>
+          </div>
+          }
+        </div>
+
+      </div>
+      }
+    </div>
+  }
+
+</div>
+<app-footer></app-footer>
