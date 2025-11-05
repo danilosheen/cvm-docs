@@ -27,33 +27,10 @@ export class NavbarComponent {
   readonly dialog: MatDialog = inject(MatDialog);
   authService = inject(AuthService);
   router = inject(Router);
-  behaviorSubjectPermissoes = inject(BehaviorSubjectService);
   permissaoService = inject(PermissaoService);
   permissoes: string[] = [];
 
-  constructor(){
-    this.behaviorSubjectPermissoes.permissoes$.subscribe({
-      next:(permissoes) =>{
-        this.permissoes = permissoes;
-        if(this.permissoes.length == 0){
-          this.permissaoService.getPermissoes().subscribe({
-            next:(permissoes) => {
-              this.permissoes = permissoes
-                .filter(p=> p.permitido)
-                .map(p => p.modulo);
-                this.behaviorSubjectPermissoes.setPermissoes(this.permissoes);
-            },
-            error:(error) => {
-              console.log(error);
-            }
-          });
-        }
-      },
-      error:(error) => {
-        console.log(error);
-      }
-    });
-  }
+  constructor(){}
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(DialogGenericComponent, {
@@ -91,10 +68,11 @@ export class NavbarComponent {
 
   logout(){
     this.authService.removeToken();
+    localStorage.removeItem('permissoes');
     this.router.navigate(["/"]);
   }
 
   temPermissao(modulo: string): boolean {
-    return this.permissoes.includes(modulo);
+    return this.authService.temPermissao(modulo);
   }
 }

@@ -14,14 +14,12 @@ export class BehaviorSubjectService {
   private listaPassageirosBehaviorSubject = new BehaviorSubject<any>(null);
   private reciboBehaviorSubject = new BehaviorSubject<any>(null);
   private fichaExcursaoBehaviorSubject = new BehaviorSubject<any>(null);
-  private permissoesBehaviorSubject = new BehaviorSubject<string[]>([]);
 
   public orcamentoSelecionado$ = this.orcamentoBehaviorSubject.asObservable();
   public contratoSelecionado$ = this.contratoBehaviorSubject.asObservable();
   public listaPassageirosSelecionado$ = this.listaPassageirosBehaviorSubject.asObservable();
   public reciboSelecionado$ = this.reciboBehaviorSubject.asObservable();
   public fichaExcursaoSelecionado$ = this.fichaExcursaoBehaviorSubject.asObservable();
-  public permissoes$ = this.permissoesBehaviorSubject.asObservable();
 
   setOrcamento(orcamento: IOrcamentoHistory) {
     this.orcamentoBehaviorSubject.next(orcamento);
@@ -63,11 +61,4 @@ export class BehaviorSubjectService {
     this.fichaExcursaoBehaviorSubject.next(null);
   }
 
-  setPermissoes(item: any) {
-    this.permissoesBehaviorSubject.next(item);
-  }
-
-  clearPermissoes() {
-    this.permissoesBehaviorSubject.next([]);
-  }
 }

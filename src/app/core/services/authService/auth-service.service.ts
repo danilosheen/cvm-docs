@@ -1,7 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubjectService } from '../behaviorSubjectService/behavior-subject.service';
-import { firstValueFrom } from 'rxjs';
 
 interface DecodedToken {
   userId: number;
@@ -16,16 +14,15 @@ interface DecodedToken {
 export class AuthService {
   private TOKEN_KEY = 'authToken';
   private decodedToken: DecodedToken | null = null;
-
-  permissoesBehaviorSubject = inject(BehaviorSubjectService);
   permissoes: string[] = [];
 
   constructor(){
-    this.permissoesBehaviorSubject.permissoes$.subscribe({
-      next:(result) =>{
-        this.permissoes = result;
-      }
-    });
+    try {
+      const stored = localStorage.getItem('permissoes');
+      this.permissoes = stored ? JSON.parse(stored) : [];
+    } catch {
+      this.permissoes = [];
+    }
   }
 
   setToken(token: string) {
@@ -65,12 +62,10 @@ export class AuthService {
     return this.getDecodedToken()?.role || null;
   }
 
-  async temPermissao(modulo: string): Promise<boolean> {
+  temPermissao(modulo: string): boolean {
     const decoded = this.getDecodedToken();
     if (decoded?.role === 'admin') return true;
 
-    const permissoes = await firstValueFrom(this.permissoesBehaviorSubject.permissoes$);
-
-    return permissoes.includes(modulo);
+    return this.permissoes.includes(modulo);
   }
 }

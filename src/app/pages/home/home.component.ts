@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
           .filter(p=> p.permitido)
           .map(p => p.modulo);
           this.isLoadingPermissoes = false;
-          this.permissoesBehaviorSubject.setPermissoes(this.permissoes);
+          localStorage.setItem('permissoes', JSON.stringify(this.permissoes));
       },
       error:(error) => {
         this.isLoadingPermissoes = false;
