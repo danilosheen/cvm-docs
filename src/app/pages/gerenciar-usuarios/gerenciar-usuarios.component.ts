@@ -135,4 +135,26 @@ export class GerenciarUsuariosComponent {
     });
   }
 
+  formatarNomePermissao(nomePermissao: string): string {
+    const nomesPermissoesFormatados: Record<string, string> = {
+      calculadora: 'Calculadora',
+      clientes: 'Gerenciar clientes',
+      contrato: 'Criar contratos',
+      'contrato-history': 'Histórico de contratos',
+      'controle-contas': 'Entradas e saídas',
+      'ficha-excursao': 'Ficha de excursão',
+      'lista-passageiros': 'Lista de passageiros',
+      'lista-passageiros-history': 'Histórico da lista de passageiros',
+      orcamento: 'Orçamento',
+      'orcamento-history': 'Histórico de orçamentos',
+      passageiros: 'Gerenciar passageiros',
+      recibo: 'Criar recibos',
+      utilitarios: 'Utilitários',
+    };
+
+    // Busca a chave correspondente
+    return nomesPermissoesFormatados[nomePermissao] || nomePermissao;
+  }
+
+
 }

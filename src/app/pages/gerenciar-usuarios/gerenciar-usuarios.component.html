@@ -26,7 +26,7 @@
           @for (permissao of usuario.permissoes; track permissao.id) {
           <div class="content-permissions">
             <div class="line-permission">
-              <span>{{ permissao.modulo }} </span>
+              <span>{{ formatarNomePermissao(permissao.modulo) }} </span>
               <mat-slide-toggle (ngModelChange)="atualizarPermissao(permissao.id, $event)" [(ngModel)]="permissao.permitido"></mat-slide-toggle>
             </div>
           </div>
