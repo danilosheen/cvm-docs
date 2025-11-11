@@ -19,6 +19,7 @@ import { DialogClienteComponent } from '../../shared/components/dialog-cliente/d
 import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-view.component';
 import { Router } from '@angular/router';
 import { DataFormatadaPipe } from "../../pipes/data-formatada.pipe";
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-clientes',
@@ -34,7 +35,8 @@ import { DataFormatadaPipe } from "../../pipes/data-formatada.pipe";
     MatButtonModule,
     LoadingBlueComponent,
     NgIf,
-    DataFormatadaPipe
+    DataFormatadaPipe,
+    MatCardModule
 ],
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
@@ -46,6 +48,7 @@ export class ClientesComponent implements AfterViewInit {
   clientes: ICliente[] = [];
   readonly dialog = inject(MatDialog);
   readonly dialogCliente = inject(MatDialog);
+  widthScreen = window.innerWidth;
   hasClient = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
