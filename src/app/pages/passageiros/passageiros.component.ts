@@ -1,24 +1,27 @@
-import { Component, inject, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { FormsModule } from '@angular/forms';
 import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort, MatSortModule} from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { MatInputModule} from '@angular/material/input';
-import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from '../../core/services/authService/auth-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { MatButtonModule } from '@angular/material/button';
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 import { NgIf } from '@angular/common';
-import { DialogClienteComponent } from '../../shared/components/dialog-cliente/dialog-cliente.component';
 import { DialogViewComponent } from '../../shared/components/dialog-view/dialog-view.component';
 import { IPassageiro } from '../../interfaces/i-passageiro';
 import { PassageiroService } from '../../core/services/passageiroService/passageiro-service.service';
 import { DialogPassageiroComponent } from '../../shared/components/dialog-passageiro/dialog-passageiro.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-passageiros',
@@ -33,37 +36,69 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatPaginatorModule,
     MatButtonModule,
     LoadingBlueComponent,
-    NgIf
+    NgIf,
+    MatCardModule
   ],
   templateUrl: './passageiros.component.html',
   styleUrl: './passageiros.component.css'
 })
-export class PassageirosComponent {
+export class PassageirosComponent implements AfterViewInit {
   displayedColumns: string[] = ['nome', 'tipoDocumento', 'documento', 'acao'];
-  dataSource: MatTableDataSource<IPassageiro>;
+  dataSource = new MatTableDataSource<IPassageiro>();
+  paginatedData: IPassageiro[] = [];
   passageiros: IPassageiro[] = [];
   readonly dialog = inject(MatDialog);
   readonly dialogPassageiro = inject(MatDialog);
   readonly snackBar = inject(MatSnackBar);
   hasPassageiro = true;
+  widthScreen = window.innerWidth;
+
+  private filter$ = new BehaviorSubject<string>('');
+  private initialized = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-
   constructor(
     private authService: AuthService,
     private passageiroService: PassageiroService,
-    private paginatorIntl: MatPaginatorIntl
+    private paginatorIntl: MatPaginatorIntl,
+    private breakpointObserver: BreakpointObserver
   ) {
-    this.dataSource = new MatTableDataSource<IPassageiro>();
     this.customizarPaginador();
   }
 
   ngAfterViewInit() {
     if (this.authService.getToken()) {
       this.carregarPassageiros();
+
+      // Detecta modo mobile/desktop
+      this.breakpointObserver.observe([Breakpoints.Handset])
+        .subscribe(result => this.widthScreen = result.matches ? 600 : 1024);
     }
+  }
+
+  private initPaginationSync() {
+    if (this.initialized || !this.paginator) return;
+    this.initialized = true;
+
+    combineLatest([
+      this.filter$.pipe(startWith('')),
+      this.paginator.page.pipe(startWith({ pageIndex: 0, pageSize: this.paginator.pageSize || 10 })),
+    ])
+      .pipe(
+        map(([filter, page]) => {
+          this.dataSource.filter = filter.trim().toLowerCase();
+          const filtered = this.dataSource.filteredData;
+          const start = (page as any).pageIndex * (page as any).pageSize;
+          const end = start + (page as any).pageSize;
+          return filtered.slice(start, end);
+        })
+      )
+      .subscribe(paged => this.paginatedData = paged);
+
+    // força emissão inicial
+    this.filter$.next(this.filter$.value);
   }
 
   carregarPassageiros() {
@@ -74,89 +109,74 @@ export class PassageirosComponent {
       setTimeout(() => {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        if(this.passageiros.length == 0){
-          this.hasPassageiro = false;
-        }
+        this.hasPassageiro = this.passageiros.length > 0;
+        this.initPaginationSync();
+
+        // atualização inicial dos cards
+        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+        const endIndex = startIndex + this.paginator.pageSize;
+        this.paginatedData = this.dataSource.filteredData.slice(startIndex, endIndex);
       });
     });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.filter$.next(filterValue);
+    if (this.paginator) this.paginator.firstPage();
   }
 
-  openVisualizarPassageiro(enterAnimationDuration: string, exitAnimationDuration: string, passageiro: IPassageiro){
-    const dialogRef = this.dialogPassageiro.open(DialogViewComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: {
-        pessoa: passageiro,
-        type: 'passageiro'
-      }
+  openVisualizarPassageiro(enter: string, exit: string, passageiro: IPassageiro) {
+    this.dialogPassageiro.open(DialogViewComponent, {
+      enterAnimationDuration: enter,
+      exitAnimationDuration: exit,
+      data: { pessoa: passageiro, type: 'passageiro' }
     });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        // this.editarCliente(cliente.id!, cliente)
-      }
-    });
-
   }
 
-  openAdicionarPassageiro(enterAnimationDuration: string, exitAnimationDuration: string): void{
+  openAdicionarPassageiro(enter: string, exit: string): void {
     const dialogRef = this.dialogPassageiro.open(DialogPassageiroComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: {
-        title: 'adicionar',
-        confirmButton: 'Salvar'
-      }
+      enterAnimationDuration: enter,
+      exitAnimationDuration: exit,
+      data: { title: 'adicionar', confirmButton: 'Salvar' }
     });
 
     dialogRef.afterClosed().subscribe((passageiro: IPassageiro) => {
       if (passageiro) {
         this.passageiroService.create(passageiro).subscribe((response) => {
-          const listaTemp = [...this.dataSource.data, response];
-          listaTemp.sort((a, b) => a.nome.localeCompare(b.nome));
-          this.passageiros = listaTemp;
-          this.dataSource.data = this.passageiros;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.hasPassageiro = this.dataSource.data.length > 0;
+          const novaLista = [...this.dataSource.data, response].sort((a, b) =>
+            a.nome.localeCompare(b.nome)
+          );
+          this.passageiros = novaLista;
+          this.dataSource.data = novaLista;
+          this.hasPassageiro = true;
+          this.filter$.next(this.filter$.value);
+          this.snackBar.open('Passageiro adicionado com sucesso!', 'Ok', {
+            duration: 3000,
+            verticalPosition: 'top',
+          });
         });
       }
     });
   }
 
-  openEditarPassageiro(enterAnimationDuration: string, exitAnimationDuration: string, passageiro: IPassageiro): void{
+  openEditarPassageiro(enter: string, exit: string, passageiro: IPassageiro): void {
     const dialogRef = this.dialogPassageiro.open(DialogPassageiroComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: {
-        passageiro: passageiro,
-        title: 'editar',
-        confirmButton: 'Atualizar'
-      }
+      enterAnimationDuration: enter,
+      exitAnimationDuration: exit,
+      data: { passageiro, title: 'editar', confirmButton: 'Atualizar' }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.editarPassageiro(passageiro.id!, passageiro);
-      } else {
-        this.carregarPassageiros();
-      }
+      if (result) this.editarPassageiro(passageiro.id!, passageiro);
+      else this.carregarPassageiros();
     });
   }
 
-  openRemoverPassageiro(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
+  openRemoverPassageiro(enter: string, exit: string, id: string): void {
     const dialogRef = this.dialog.open(DialogGenericComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
+      enterAnimationDuration: enter,
+      exitAnimationDuration: exit,
       data: {
         dialogTitle: 'Remover passageiro',
         dialogContent: 'Você tem certeza que deseja remover o passageiro?',
@@ -164,45 +184,43 @@ export class PassageirosComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.removerPassageiro(id);
-      }
+      if (result) this.removerPassageiro(id);
     });
   }
 
-  editarPassageiro(id: string, passageiro: IPassageiro){
-    this.passageiroService.update(id, passageiro).subscribe(()=>{
-    })
+  editarPassageiro(id: string, passageiro: IPassageiro) {
+    this.passageiroService.update(id, passageiro).subscribe(() => {
+      this.snackBar.open('Passageiro atualizado com sucesso', 'Ok', {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
+    });
   }
 
   removerPassageiro(id: string) {
     this.passageiroService.delete(id).subscribe({
       next: (response) => {
-        const listaTemp = this.dataSource.data.filter(cliente => cliente.id !== id);
-        this.passageiros = listaTemp;
-        this.dataSource.data = this.passageiros;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.hasPassageiro = this.passageiros.length > 0;
+        const novaLista = this.dataSource.data.filter(p => p.id !== id);
+        this.passageiros = novaLista;
+        this.dataSource.data = novaLista;
+        this.hasPassageiro = novaLista.length > 0;
+        this.filter$.next(this.filter$.value);
         this.snackBar.open(response.message, 'Ok', {
-          duration: 6000,
+          duration: 3000,
           verticalPosition: 'top',
-          horizontalPosition: 'center',
         });
       },
       error: (error) => {
         const errorMsg = error?.error?.error || 'Erro ao remover passageiro';
         this.snackBar.open(errorMsg, 'Ok', {
-          duration: 10000,
+          duration: 6000,
           verticalPosition: 'top',
-          horizontalPosition: 'center',
         });
       }
     });
   }
 
-
-  // Personalização do paginator do Angular Material
+  // Personalização do paginator
   customizarPaginador() {
     this.paginatorIntl.itemsPerPageLabel = 'Itens por página';
     this.paginatorIntl.nextPageLabel = 'Próxima página';
@@ -210,9 +228,7 @@ export class PassageirosComponent {
     this.paginatorIntl.firstPageLabel = 'Primeira página';
     this.paginatorIntl.lastPageLabel = 'Última página';
     this.paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-      if (length === 0 || pageSize === 0) {
-        return `0 de ${length}`;
-      }
+      if (length === 0 || pageSize === 0) return `0 de ${length}`;
       const startIndex = page * pageSize;
       const endIndex = Math.min(startIndex + pageSize, length);
       return `${startIndex + 1} – ${endIndex} de ${length}`;

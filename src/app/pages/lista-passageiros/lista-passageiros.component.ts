@@ -26,6 +26,7 @@ import { InputAutocompleteDataPessoaComponent } from "../../shared/components/in
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
 import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
 import { ListaPassageirosHistoryService } from '../../core/services/listaPassageirosHistoryService/lista-passageiros-history.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 // import { InputAutocompleteDataCLientComponent } from "../../shared/components/input-autocomplete-data-client/input-autocomplete-data-client.component";
 
 @Component({
@@ -74,6 +75,7 @@ export class ListaPassageirosComponent implements OnInit {
 
   listaPassageirosBehaviorSubject = inject(BehaviorSubjectService);
   listaPassageirosHistoryService = inject(ListaPassageirosHistoryService);
+  readonly snackBar = inject(MatSnackBar);
   valid: boolean[] = [];
   loading = false;
   isLoadingPassageiros = true;
@@ -214,17 +216,36 @@ export class ListaPassageirosComponent implements OnInit {
       }
       this.passageiroService.create(this.passageiro).subscribe(passageiro =>{
         this.arrayNomePassageiros.push({nome: passageiro.nome, id: passageiro.id!});
-        this.listaPassageiros.passageiros.push(this.passageiro);
+
+        // this.listaPassageiros.passageiros.push(this.passageiro);
+        const listaTemp = [...this.listaPassageiros.passageiros, this.passageiro];
+        listaTemp.sort((a, b) => a.nome.localeCompare(b.nome));
+        this.listaPassageiros.passageiros = listaTemp;
+
         this.passageiros.push(this.passageiro);
         this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
+        this.snackBar.open('Passageiro adicionado com sucesso!', 'Ok', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       });
 
     } else {
       if(this.listaPassageiros.passageiros.filter(p => p.documento == this.passageiro.documento).length > 0){
         alert("Já existe um passageiro com este documento.")
       } else {
-        this.listaPassageiros.passageiros.push(this.passageiro);
+
+        // this.listaPassageiros.passageiros.push(this.passageiro);
+        const listaTemp = [...this.listaPassageiros.passageiros, this.passageiro];
+        listaTemp.sort((a, b) => a.nome.localeCompare(b.nome));
+        this.listaPassageiros.passageiros = listaTemp;
         this.passageiros.push(this.passageiro);
+        this.snackBar.open('Passageiro adicionado com sucesso!', 'Ok', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       }
       this.passageiro = {nome: '', documento: '', typeDocumentSelected: 'RG'};
     }
@@ -244,6 +265,11 @@ export class ListaPassageirosComponent implements OnInit {
       if (passageiro) {
         let passageiroData = {nome: passageiro.nome, documento: passageiro.documento, typeDocumentSelected: passageiro.typeDocumentSelected}
         this.listaPassageiros.passageiros[index] = passageiroData;
+        this.snackBar.open('Passageiro atualizado com sucesso!', 'Ok', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       }
     });
   }

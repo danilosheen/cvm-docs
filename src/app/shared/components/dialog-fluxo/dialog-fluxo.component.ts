@@ -70,6 +70,7 @@ export class DialogFluxoComponent {
     if(this.dataFluxo.editFluxo){
       this.updateDataMovimentacaoHandler({value: this.fluxoData.data, valid: true})
       this.updateTipoMovimentacaoHandler({value: this.fluxoData.tipo, valid: true})
+      this.updateDocumentTransactionHandler({value: this.fluxoData.tipoDocumento, valid: true})
       this.updateDescricaoHandler({value: this.fluxoData.descricao, valid: true})
       this.updateValorHandler({value: this.fluxoData.valor, valid: true})
       this.updateFormaPagamentoHandler({value: this.fluxoData.formaPagamento, valid: true})
@@ -113,7 +114,6 @@ export class DialogFluxoComponent {
   }
 
   updateDocumentTransactionHandler(value: IInput<string>){
-    console.log(value)
     this.fluxoData.tipoDocumento = value.value;
     this.valid[2] = value.valid;
   }

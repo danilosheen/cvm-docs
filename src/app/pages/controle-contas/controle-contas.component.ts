@@ -17,6 +17,7 @@ import { IRelatorioMensal } from '../../interfaces/i-relatorioMensal';
 import { GerarRelatorioService } from '../../core/services/gerarRelatorioService/gerar-relatorio.service';
 import { catchError, of } from 'rxjs';
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-controle-contas',
@@ -40,6 +41,7 @@ export class ControleContasComponent {
   relatorioService = inject(GerarRelatorioService);
   saldoAnteriorService = inject(SaldoAnteriorService);
   dialog = inject(MatDialog);
+  readonly snackBar = inject(MatSnackBar);
 
   widthScreen = window.innerWidth;
   fluxos: any[] = [];
@@ -170,10 +172,12 @@ export class ControleContasComponent {
 
     dialogRef.afterClosed().subscribe((fluxo: IFluxoCaixa) => {
       if (fluxo) {
-      console.log(fluxo)
         this.fluxoService.create(fluxo).subscribe(response =>{
-          // this.fluxos = [response, ...this.fluxos]
-          console.log(response)
+          this.snackBar.open(`${fluxo.tipo} adicionada com sucesso!`, 'Ok', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
           this.carregarFluxos();
         })
       }
@@ -194,6 +198,11 @@ export class ControleContasComponent {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.fluxoService.update(fluxo.id!, fluxo).subscribe(()=>{
+          this.snackBar.open(`${fluxo.tipo} atualizada com sucesso!`, 'Ok', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
           this.atualizarSaldo();
         });
       }
@@ -212,6 +221,11 @@ export class ControleContasComponent {
       if (result) {
         this.fluxoService.delete(id).subscribe(response =>{
           this.fluxos = this.fluxos.filter(i => i.id != id);
+          this.snackBar.open('Movimentação removida com sucesso!', 'Ok', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
           this.atualizarSaldo();
         })
       }

@@ -80,7 +80,7 @@
 
     } @else {
       <div class="container-cliente">
-        @for (row of dataSource.data; track $index) {
+        @for (row of paginatedData; track $index) {
           <mat-card class="card-cliente">
             <mat-card-title>{{ row.nome }}</mat-card-title>
             <mat-card-content>
@@ -103,6 +103,7 @@
         </mat-card>
         }
       </div>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]" aria-label="Select page of users"></mat-paginator>
     }
   }
 </div>
