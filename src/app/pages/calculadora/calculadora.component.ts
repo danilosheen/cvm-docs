@@ -191,6 +191,15 @@ export class CalculadoraComponent {
     this.loading = false;
   }
 
+  numberToBr(value: number): string {
+  if (value === null || value === undefined) return '';
+
+    return value.toLocaleString('pt-BR', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    });
+  }
+
   calcularCombustivelNecessario(distanciaKM: number, autonomiaVeiculo: number): number{
     return (distanciaKM / autonomiaVeiculo);
   }

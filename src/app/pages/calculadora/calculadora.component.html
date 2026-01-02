@@ -37,8 +37,8 @@
 
     <app-input-number
       [label]="'Informe a autonomia do veículo em km/l'"
-      [type]="'text'"
-      [defaultValue]="settingsViagem.autonomiaVeiculo || null"
+      [type]="'decimal'"
+      [defaultValue]="numberToBr(this.settingsViagem.autonomiaVeiculo) || null"
       (inputValueNumber)="updateAutonomiaDoVeiculoHandler($event)"
     ></app-input-number>
 

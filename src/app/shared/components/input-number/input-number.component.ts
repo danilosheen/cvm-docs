@@ -288,7 +288,12 @@ export class InputNumberComponent implements OnInit {
     } else if (this.type === 'text' && rawValue) {
       this.sendInputHandler<number>(parseInt(rawValue));
 
-    } else if (this.optional && !rawValue) {
+    } else if (this.type === 'decimal' && rawValue) {
+      const rawValueFormat = rawValue.replace(',', '.');
+      this.sendInputHandler<number>(parseFloat(rawValueFormat));
+    }
+
+    else if (this.optional && !rawValue) {
       this.sendInputHandler<number | string>('');
     }
   }
