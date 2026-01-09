@@ -86,7 +86,7 @@ export class GerenciarUsuariosComponent {
 
     dialogRef.afterClosed().subscribe((usuario: IUsuario) => {
       if (usuario) {
-        this.usuariosService.criarUsuario(usuario).subscribe({
+        this.usuariosService.alterarSenha(usuario.email, usuario.senha).subscribe({
           next:(response) => {
             console.log(response)
           },
