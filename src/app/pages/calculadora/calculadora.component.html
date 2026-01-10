@@ -38,7 +38,7 @@
     <app-input-number
       [label]="'Informe a autonomia do veículo em km/l'"
       [type]="'decimal'"
-      [defaultValue]="numberToBr(this.settingsViagem.autonomiaVeiculo) || null"
+      [defaultValue]="settingsViagem.autonomiaVeiculo || null"
       (inputValueNumber)="updateAutonomiaDoVeiculoHandler($event)"
     ></app-input-number>
 
@@ -190,7 +190,7 @@
       </div>
       <div class="d-flex">
         <div>Autonomia do veículo:</div>
-        <div>{{this.settingsViagem.autonomiaVeiculo + ' km/l'}}</div>
+        <div>{{this.settingsViagem.autonomiaVeiculo.toString().replace('.', ',') + ' km/l'}}</div>
       </div>
       <div class="d-flex">
         <div>Custo total com combustível:</div>

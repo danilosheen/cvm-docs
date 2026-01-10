@@ -102,7 +102,6 @@ export class CalculadoraComponent {
   }
 
   camposPreenchidos(): boolean {
-    // console.log(this.valid)
     return this.valid.every(element => element === true);
   }
 
@@ -189,15 +188,6 @@ export class CalculadoraComponent {
     // salva no localStorage
     this.settingsService.save(this.settingsViagem);
     this.loading = false;
-  }
-
-  numberToBr(value: number): string {
-  if (value === null || value === undefined) return '';
-
-    return value.toLocaleString('pt-BR', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    });
   }
 
   calcularCombustivelNecessario(distanciaKM: number, autonomiaVeiculo: number): number{

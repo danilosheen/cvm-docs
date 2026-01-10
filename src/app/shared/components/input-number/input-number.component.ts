@@ -60,6 +60,13 @@ export class InputNumberComponent implements OnInit {
         });
         this.input.setValue(formatted);
         this.sendInputHandler<string | number>(this.defaultValue);
+      } else if(this.type == 'decimal'){
+        const formatted = this.defaultValue.toLocaleString('pt-BR', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        });
+        this.input.setValue(formatted);
+        this.sendInputHandler<string | number>(this.defaultValue);
       } else {
         this.input.setValue(this.defaultValue);
         this.sendInputHandler<string | number>(this.defaultValue);
@@ -74,6 +81,12 @@ export class InputNumberComponent implements OnInit {
         // Formata para BRL sem símbolo
         const formatted = this.defaultValue.toLocaleString('pt-BR', {
           minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        this.input.setValue(formatted);
+      } else if (this.type == 'decimal' && this.defaultValue){
+        const formatted = this.defaultValue.toLocaleString('pt-BR', {
+          minimumFractionDigits: 0,
           maximumFractionDigits: 2
         });
         this.input.setValue(formatted);
@@ -289,8 +302,10 @@ export class InputNumberComponent implements OnInit {
       this.sendInputHandler<number>(parseInt(rawValue));
 
     } else if (this.type === 'decimal' && rawValue) {
-      const rawValueFormat = rawValue.replace(',', '.');
-      this.sendInputHandler<number>(parseFloat(rawValueFormat));
+      let formatted = rawValue.replace('.', ',');
+      this.input.setValue(formatted, { emitEvent: false });
+      let numericValue = parseFloat(formatted.replace(',', '.'));
+      this.sendInputHandler<number>(numericValue);
     }
 
     else if (this.optional && !rawValue) {
@@ -301,6 +316,7 @@ export class InputNumberComponent implements OnInit {
 
   sendInputHandler<T extends string | number>(valueInputed: T): void {
     const payload = { value: valueInputed, valid: this.input.valid };
+    // console.log(payload)
 
     if (typeof valueInputed === 'number') {
       this.inputValueNumber.emit(payload as IInput<number>);
