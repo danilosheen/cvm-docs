@@ -36,8 +36,8 @@ export class UsuariosService {
       return this.http.delete(`${this.apiUrl}/usuario/${id}`, { headers: this.getHeaders() });
     }
 
-    alterarSenha(email: string, novaSenha: string): Observable<any>{
-      const data = {email: email, novaSenha: novaSenha}
+    alterarSenha(id: string, novaSenha: string): Observable<any>{
+      const data = {id: id, novaSenha: novaSenha}
       return this.http.put(`${this.apiUrl}/alterar-senha`, data, { headers: this.getHeaders()});
     }
 }

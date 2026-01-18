@@ -68,6 +68,7 @@ export class GerenciarUsuariosComponent {
             this.usuarios = [...this.usuarios, response];
           },
           error:(error) => {
+            alert(error.error.msg)
             console.log(error);
           }
         })
@@ -86,7 +87,7 @@ export class GerenciarUsuariosComponent {
 
     dialogRef.afterClosed().subscribe((usuario: IUsuario) => {
       if (usuario) {
-        this.usuariosService.alterarSenha(usuario.email, usuario.senha).subscribe({
+        this.usuariosService.alterarSenha(usuario.id!, usuario.senha).subscribe({
           next:(response) => {
             console.log(response)
           },
