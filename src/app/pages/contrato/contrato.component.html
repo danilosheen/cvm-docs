@@ -3,8 +3,8 @@
   @if(isLoadingClientes && isLoadingContratoBehaviorSubject){
     <app-loading-blue></app-loading-blue>
   } @else {
+    <div class="content">
     <h2>Gerar contrato</h2>
-  <div class="content">
     <app-input-radio
       [label]="'Selecione o tipo de contrato'"
       [expanded]="true"

@@ -3,64 +3,63 @@
   @if(isLoading){
     <app-loading-blue></app-loading-blue>
   } @else {
-    <h2 class="title-recibo">
-    Gerar recibo
-  </h2>
-  <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()">
 
-    <div class="separator">
-      <h3>Detalhes orçamento</h3>
-      <div class="line-underscore"></div>
-    </div>
-
-    <!-- cliente -->
-    <app-input-autocomplete
-      [options]="nomeCLientes"
-      [label]="'Nome completo do cliente'"
-      [placeholder]="'ex: Crairton de Matos Leite'"
-      (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-autocomplete>
-
-    <!-- pacote de viagem -->
-    <app-input-text
-      [label]="'Orçamento referente à'"
-      [placeholder]="'ex: fretamento de van de Juazeiro à Fortaleza'"
-      (inputValue)="updatePacoteViagemHandler($event)"
-    ></app-input-text>
-
-    <div class="separator">
-      <h3>Valores</h3>
-      <div class="line-underscore"></div>
-    </div>
-
-    <!-- valor -->
-    <app-input-number
-      [type]="'number'"
-      [label]="'Valor do orçamento'"
-      [placeholder]="'ex: 2.500,00'"
-      (inputValueNumber)="updateValorHandler($event)"
-    ></app-input-number>
-
-    <!-- Forma de pagamento -->
-    <app-input-select
-      [label]="'Selecione a forma de Pagamento.'"
-      [errorMessage]="'Esse campo precisa ser selecionado.'"
-      [listItens]="formasPagamento"
-      (selectedInputValue)="updateFormaPagamentoHandler($event)"
-    ></app-input-select>
-
-  </form>
-  <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-    <ng-container *ngIf="loading; else btnText">
-      <div class="button-loading">
-        <img class="loading" src="./assets/loading.gif" alt="Carregando">
-        <p>Gerando PDF</p>
+      <h2 class="title-recibo">
+        Gerar recibo
+      </h2>
+      <div class="separator">
+        <h3>Detalhes orçamento</h3>
+        <div class="line-underscore"></div>
       </div>
-    </ng-container>
-    <ng-template #btnText>
-      Gerar PDF
-    </ng-template>
-  </button>
+
+      <!-- cliente -->
+      <app-input-autocomplete
+        [options]="nomeCLientes"
+        [label]="'Nome completo do cliente'"
+        [placeholder]="'ex: Crairton de Matos Leite'"
+        (inputValue)="updateNomeClienteHandler($event)"
+      ></app-input-autocomplete>
+
+      <!-- pacote de viagem -->
+      <app-input-text
+        [label]="'Orçamento referente à'"
+        [placeholder]="'ex: fretamento de van de Juazeiro à Fortaleza'"
+        (inputValue)="updatePacoteViagemHandler($event)"
+      ></app-input-text>
+
+      <div class="separator">
+        <h3>Valores</h3>
+        <div class="line-underscore"></div>
+      </div>
+
+      <!-- valor -->
+      <app-input-number
+        [type]="'number'"
+        [label]="'Valor do orçamento'"
+        [placeholder]="'ex: 2.500,00'"
+        (inputValueNumber)="updateValorHandler($event)"
+      ></app-input-number>
+
+      <!-- Forma de pagamento -->
+      <app-input-select
+        [label]="'Selecione a forma de Pagamento.'"
+        [errorMessage]="'Esse campo precisa ser selecionado.'"
+        [listItens]="formasPagamento"
+        (selectedInputValue)="updateFormaPagamentoHandler($event)"
+      ></app-input-select>
+    </form>
+    <button [disabled]="!camposValidos()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+      <ng-container *ngIf="loading; else btnText">
+        <div class="button-loading">
+          <img class="loading" src="./assets/loading.gif" alt="Carregando">
+          <p>Gerando PDF</p>
+        </div>
+      </ng-container>
+      <ng-template #btnText>
+        Gerar PDF
+      </ng-template>
+    </button>
   }
 
 </div>

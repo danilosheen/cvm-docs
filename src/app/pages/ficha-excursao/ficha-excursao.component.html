@@ -3,15 +3,15 @@
   @if(isLoadingCliente){
     <app-loading-blue></app-loading-blue>
   } @else {
-    <h2 class="title-ficha-excursao">
-      Criar ficha de excursão
-    </h2>
     <form (ngSubmit)="onSubmit()">
+      <h2 class="title-ficha-excursao">
+        Criar ficha de excursão
+      </h2>
 
-    <div class="separator">
-      <h3>Detalhes da viagem</h3>
-      <div class="line-underscore"></div>
-    </div>
+      <div class="separator">
+        <h3>Detalhes da viagem</h3>
+        <div class="line-underscore"></div>
+      </div>
 
       <!-- Excursão para -->
       <app-input-text

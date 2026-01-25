@@ -66,16 +66,16 @@ export class LoginComponent {
     });
   }
 
-  togglePassword(event: Event){
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    this.typePassword == 'password' ? this.typePassword = 'text' : this.typePassword = 'password';
+  togglePassword(){
+    this.typePassword =
+    this.typePassword === 'password' ? 'text' : 'password';
   }
 
-  @HostListener('document:keydown.enter', ['$event'])
-  onEnterPress(event: KeyboardEvent) {
+  @HostListener('document:keydown.enter')
+  onEnterPress() {
     this.login();
   }
+
 
   showErro(){
     if(this.errorMessage){

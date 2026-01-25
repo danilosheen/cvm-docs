@@ -16,10 +16,10 @@
         <div class="container-password">
           <input matInput [(ngModel)]="senha" name="senha" type="{{typePassword}}" required autocomplete="off">
           @if (senha && typePassword == 'password') {
-            <img class="icon-eye" (click)="togglePassword($event)" src="/assets/icons-svg/hidden-icon.svg">
+            <img class="icon-eye" (click)="togglePassword()" src="/assets/icons-svg/hidden-icon.svg">
             <!-- <span (click)="togglePassword($event)" class="material-symbols-outlined icon-eye">visibility_off</span> -->
           } @else if (senha && typePassword == 'text') {
-            <img class="icon-eye" (click)="togglePassword($event)" src="/assets/icons-svg/visible-icon.svg">
+            <img class="icon-eye" (click)="togglePassword()" src="/assets/icons-svg/visible-icon.svg">
             <!-- <span (click)="togglePassword($event)" class="material-symbols-outlined icon-eye">visibility</span> -->
           }
         </div>

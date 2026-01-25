@@ -3,10 +3,10 @@
   @if(isLoadingClientes && isLoadingOrcamentoBehaviorSubject){
     <app-loading-blue></app-loading-blue>
   } @else {
-    <h2 class="title-orcamento">
-      Criar orçamento
-    </h2>
     <form (ngSubmit)="onSubmit()">
+      <h2 class="title-orcamento">
+        Criar orçamento
+      </h2>
 
       <div class="separator">
         <h3>Dados do cliente</h3>

@@ -3,35 +3,39 @@
   @if (isLoadingClientes) {
     <app-loading-blue></app-loading-blue>
   } @else {
-    <h2>Gere uma nota de agradecimento</h2>
-    <app-input-autocomplete-data-pessoa
-      [options]="nomeClientes"
-      [label]="'Nome completo do cliente'"
-      (inputValue)="updateNomeClienteHandler($event)"
-    ></app-input-autocomplete-data-pessoa>
-    <div class="container-buttons">
-      <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="onSubmit()">
-        <ng-container *ngIf="loading; else btnText">
-          <div class="button-loading">
-            <img class="loading" src="./assets/loading.gif" alt="Carregando">
-            <p>Gerando PDF</p>
-          </div>
-        </ng-container>
-        <ng-template #btnText>
-          Gerar PDF
-        </ng-template>
-      </button>
-      <button [disabled]="!hasEmail()" class="button-gerar" mat-flat-button (click)="enviarPorEmail()">
-        <ng-container *ngIf="loadingEmail; else btnTextEmail">
-          <div class="button-loading">
-            <img class="loading" src="./assets/loading.gif" alt="Carregando">
-            <p>Enviando</p>
-          </div>
-        </ng-container>
-        <ng-template #btnTextEmail>
-          Enviar por email
-        </ng-template>
-      </button>
+    <div class="content">
+      <div>
+        <h2>Gere uma nota de agradecimento</h2>
+      </div>
+      <app-input-autocomplete-data-pessoa
+        [options]="nomeClientes"
+        [label]="'Nome completo do cliente'"
+        (inputValue)="updateNomeClienteHandler($event)"
+      ></app-input-autocomplete-data-pessoa>
+      <div class="container-buttons">
+        <button [disabled]="!isValid()" class="button-gerar" mat-flat-button (click)="onSubmit()">
+          <ng-container *ngIf="loading; else btnText">
+            <div class="button-loading">
+              <img class="loading" src="./assets/loading.gif" alt="Carregando">
+              <p>Gerando PDF</p>
+            </div>
+          </ng-container>
+          <ng-template #btnText>
+            Gerar PDF
+          </ng-template>
+        </button>
+        <button [disabled]="!hasEmail()" class="button-gerar" mat-flat-button (click)="enviarPorEmail()">
+          <ng-container *ngIf="loadingEmail; else btnTextEmail">
+            <div class="button-loading">
+              <img class="loading" src="./assets/loading.gif" alt="Carregando">
+              <p>Enviando</p>
+            </div>
+          </ng-container>
+          <ng-template #btnTextEmail>
+            Enviar por email
+          </ng-template>
+        </button>
+      </div>
     </div>
   }
 </div>
