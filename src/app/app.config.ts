@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -19,7 +19,11 @@ export function playerFactory() {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideAnimationsAsync(),
+    provideRouter(routes, withInMemoryScrolling({
+      scrollPositionRestoration: 'top',
+      anchorScrolling: 'enabled',
+    })),
+    provideAnimationsAsync(),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideAnimations(),
