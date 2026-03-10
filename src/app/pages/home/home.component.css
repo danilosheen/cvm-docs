@@ -7,6 +7,7 @@ button{
   width: 80%;
   margin: 0 auto;
   min-height: calc(100vh - 165px);
+  margin-top: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
