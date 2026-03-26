@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../../shared/components/dialog-generic/dialog-generic.component';
 import { EmailService } from '../../../core/services/emailService/email-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: 'app-aniversariantes',
@@ -21,8 +22,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     LoadingBlueComponent,
     InputSelectComponent,
     NgClass,
-    MatTooltipModule
-  ],
+    MatTooltipModule,
+    MatCardModule
+],
   templateUrl: './aniversariantes.component.html',
   styleUrl: './aniversariantes.component.css'
 })
@@ -31,6 +33,8 @@ export class AniversariantesComponent{
   dialog = inject(MatDialog);
   emailService = inject(EmailService);
   snackBar = inject(MatSnackBar);
+
+  widthScreen = window.innerWidth;
 
   date = new Date();
   mesAtual: number = this.date.getMonth();

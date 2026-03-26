@@ -18,7 +18,8 @@
         ></app-input-select>
       </div>
       @if (!isLoading && aniversariantesDoMes.length > 0) {
-        <div class="container-table">
+        @if (widthScreen > 768) {
+          <div class="container-table">
           <table>
             <thead>
               <tr>
@@ -53,6 +54,38 @@
             </tbody>
           </table>
         </div>
+        } @else {
+          <div class="container-cards-mobile">
+            @for (aniversariante of aniversariantesDoMes; track $index) {
+            <mat-card class="card-cliente">
+              <mat-card-title>#{{ $index + 1 }}</mat-card-title>
+              <mat-card-content>
+                <p><strong>Data de nascimento:</strong> {{ aniversariante.dataNascimento }}</p>
+                <p><strong>Nome:</strong> {{ aniversariante.nome }}</p>
+                <p><strong>Contato:</strong> {{ aniversariante.contato }}</p>
+
+              </mat-card-content>
+              <mat-card-actions>
+                <div class="container-button-forward">
+                      <button
+                        [disabled]="!aniversariante.email"
+                        [ngClass]="{'disabled': !aniversariante.email, 'enable': aniversariante.email}"
+                        class="button-forward"
+                        (click)="openEnviarEmailAniversario(aniversariante.nome, aniversariante.email!)"
+                        [matTooltip]="aniversariante.email ? 'Enviar email para aniversariante' : null"
+                        [matTooltipPosition]="'below'"
+                      >
+                        <img class="button-forward" src="../../../../assets/icons-svg/sendMail.svg">
+                      </button>
+                    </div>
+              </mat-card-actions>
+          </mat-card>
+
+          }
+          </div>
+
+        }
+
       } @else {
         <p class="msg-no-data-table">Não há aniversariantes esse mês</p>
       }
