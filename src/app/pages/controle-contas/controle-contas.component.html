@@ -5,11 +5,20 @@
       <app-loading-blue></app-loading-blue>
     } @else {
       <div class="container-buttons-topo">
-        <app-input-month-year
-          [label]="'Mês e ano atual'"
-          [defaultValue]="mesAnoAtual"
-          (dateSelected)="updateMonthYearSelectedHandler($event)"
-        ></app-input-month-year>
+        <div class="container-left-buttons">
+          <app-input-month-year
+            [label]="'Mês e ano atual'"
+            [defaultValue]="mesAnoAtual"
+            (dateSelected)="updateMonthYearSelectedHandler($event)"
+          ></app-input-month-year>
+          <div class="img-reload">
+            <img src="../../../assets/icons-svg/refresh.svg"
+            alt=""
+            matTooltip="Atualizar saldo anterior"
+            (click)="atualizarSaldoAnterior()"
+            >
+          </div>
+        </div>
         <button mat-flat-button [disabled]="fluxos.length == 0" (click)="gerarRelatorioMensal()">
           <ng-container *ngIf="loadingPdf else btnText">
             <div class="button-loading">
