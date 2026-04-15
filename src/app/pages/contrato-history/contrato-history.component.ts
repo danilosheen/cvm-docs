@@ -41,12 +41,12 @@ export class ContratoHistoryComponent {
     })
   }
 
-  editarOrcamentoHistory(contrato: IContratoHistory){
+  editarContratoHistory(contrato: IContratoHistory){
     this.contratoBehaviorSubject.setContrato(contrato);
     this.router.navigate(['/contrato']);
   }
 
-  openRemoverOrcamentoHistory(id: string){
+  openRemoverContratoHistory(id: string){
     const dialogRef = this.dialog.open(DialogGenericComponent, {
       data: {
         dialogTitle: 'Remover contrato do histórico',

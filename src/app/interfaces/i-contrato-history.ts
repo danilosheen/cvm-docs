@@ -26,6 +26,7 @@ export interface IContratoHistory {
     kmCortesia: number | null
   },
   porcentagemSinal: number,
+  responsavelDespesaMotorista: string,
   createdAt: string | Date,
   updatedAt: string | Date
 }

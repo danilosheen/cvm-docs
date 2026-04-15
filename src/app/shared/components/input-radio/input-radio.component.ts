@@ -24,6 +24,13 @@ export class InputRadioComponent {
   @Input() dropdown: boolean = true;
   @Output() selectedValue = new EventEmitter();
 
+  constructor() {
+    if(this.defaultValue){
+      console.log(this.defaultValue)
+      this.selectedValue.emit({value: this.defaultValue, valid: true})
+    }
+  }
+
   onSelectionChange(item: string){
     if(item){
       this.selectedValue.emit({value: item, valid: true})

@@ -160,6 +160,14 @@
         <div class="line-underscore"></div>
       </div>
 
+       <app-input-radio
+        [label]="'Selecione o responsável pela despesa com motorista'"
+        [expanded]="true"
+        [defaultValue]="contratoData.responsavelDespesaMotorista"
+        [listItems]="despesaMotoristaList"
+        (selectedValue)="updateResponsavelDespesaMotoristaHandler($event)"
+      ></app-input-radio>
+
       <app-input-number
         [label]="'Informe a quantidade total de km'"
         [type]="'text'"

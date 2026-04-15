@@ -57,6 +57,11 @@ tbody tr:nth-child(even) {
   background-color: #d3d3d3;
 }
 
+.button-action{
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
 /* cards */
 .container-cards{
   width: 90%;

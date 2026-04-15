@@ -24,5 +24,6 @@ export interface IContrato {
     valorKmExcedido: number | null,
     kmCortesia: number | null
   },
-  porcentagemSinal: number
+  porcentagemSinal: number,
+  responsavelDespesaMotorista: string
 }

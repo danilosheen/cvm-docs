@@ -27,8 +27,8 @@
                 <td>{{contrato.destino}}</td>
                 <td>R$ {{contrato.detalhesLocacao.valorTotal || 0 | brCurrency}}</td>
                 <td>
-                  <img (click)="editarOrcamentoHistory(contrato)" src="../../../../assets/icons-svg/pen.svg">
-                  <img (click)="openRemoverOrcamentoHistory(contrato.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+                  <img class="button-action" (click)="editarContratoHistory(contrato)" src="../../../../assets/icons-svg/pen.svg">
+                  <img class="button-action" (click)="openRemoverContratoHistory(contrato.id)" src="../../../../assets/icons-svg/delete-icon.svg">
                 </td>
               </tr>
               }
@@ -44,8 +44,8 @@
               {{contrato.createdAt | dataFormatada}}
             </div>
             <div class="container-card-actions">
-              <img (click)="editarOrcamentoHistory(contrato)" src="../../../../assets/icons-svg/pen.svg">
-              <img (click)="openRemoverOrcamentoHistory(contrato.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+              <img class="button-action" (click)="editarContratoHistory(contrato)" src="../../../../assets/icons-svg/pen.svg">
+              <img class="button-action" (click)="openRemoverContratoHistory(contrato.id)" src="../../../../assets/icons-svg/delete-icon.svg">
             </div>
           </div>
           <div class="card-description">Cliente: {{contrato.nomeCliente}}</div>
