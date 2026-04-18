@@ -82,6 +82,14 @@
         <div class="line-underscore"></div>
       </div>
 
+      <app-input-radio
+        [label]="'Selecione a situação do veículo'"
+        [expanded]="true"
+        [defaultValue]="contratoData.situacaoVeiculo"
+        [listItems]="situacaoVeiculoList"
+        (selectedValue)="updateSituacaoVeiculoHandler($event)"
+      ></app-input-radio>
+
       <app-input-text
         [label]="'Placa do veículo'"
         [defaultValue]="contratoData.placaVeiculo"
@@ -160,7 +168,7 @@
         <div class="line-underscore"></div>
       </div>
 
-       <app-input-radio
+      <app-input-radio
         [label]="'Selecione o responsável pela despesa com motorista'"
         [expanded]="true"
         [defaultValue]="contratoData.responsavelDespesaMotorista"
