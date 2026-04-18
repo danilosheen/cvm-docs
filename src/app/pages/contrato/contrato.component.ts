@@ -48,6 +48,7 @@ export class ContratoComponent implements OnInit{
   nomeClientes: IPessoaAutocomplete[] = [];
   contratoData: IContrato;
   documentosList: string[] = ['CPF', 'RG', 'CNPJ'];
+  situacaoVeiculoList: string[] = ['PRÓPRIO', 'ALUGADO'];
   despesaMotoristaList: string[] = ['CLIENTE', 'EMPRESA'];
   modalidadesContrato: string[] = ['NORMAL', 'POR KM'];
   locaisSaida: string[] = ['Juazeiro do Norte', 'Crato', 'Barbalha'];
@@ -66,7 +67,7 @@ export class ContratoComponent implements OnInit{
 
   constructor(){
 
-    for (let i = 0; i <= 20; i++) {
+    for (let i = 0; i <= 21; i++) {
       this.valid.push({index: i, value: false});
     }
 
@@ -82,6 +83,7 @@ export class ContratoComponent implements OnInit{
         cidade: '',
         estado: ''
       },
+      situacaoVeiculo: 'PRÓPRIO',
       placaVeiculo: '',
       descricaoVeiculo: '',
       dataInicial: '',
@@ -260,80 +262,85 @@ export class ContratoComponent implements OnInit{
     this.valid[7].value = value.valid;
   }
 
+  updateSituacaoVeiculoHandler(value: IInput<string>){
+    this.contratoData.situacaoVeiculo = value.value;
+    this.valid[8].value = value.valid;
+  }
+
   updatePlacaVeiculoHandler(value: IInput<string>){
     this.contratoData.placaVeiculo = value.value;
-    this.valid[8].value = value.valid;
+    this.valid[9].value = value.valid;
   }
 
   updateDescricaoVeiculoHandler(value: IInput<string>){
     this.contratoData.descricaoVeiculo = value.value;
-    this.valid[9].value = value.valid;
+    this.valid[10].value = value.valid;
   }
 
   updateDataInicialHandler(value: IInput<string>){
     this.contratoData.dataInicial = value.value;
-    this.valid[10].value = value.valid;
+    this.valid[11].value = value.valid;
   }
 
   updateHoraInicialHandler(value: IInput<string>){
     this.contratoData.horaInicial = value.value;
-    this.valid[11].value = value.valid;
+    this.valid[12].value = value.valid;
   }
 
   updateDataFinalHandler(value: IInput<string>){
     this.contratoData.dataFinal = value.value;
-    this.valid[12].value = value.valid;
+    this.valid[13].value = value.valid;
   }
 
   updateHoraFinalHandler(value: IInput<string>){
     this.contratoData.horaFinal = value.value;
-    this.valid[13].value = value.valid;
+    this.valid[14].value = value.valid;
   }
 
   updateOrigemHandler(value: IInput<string>){
     this.contratoData.origem = value.value;
-    this.valid[14].value = value.valid;
+    this.valid[15].value = value.valid;
   }
 
   updateDestinoHandler(value: IInput<string>){
     this.contratoData.destino = value.value;
-    this.valid[15].value = value.valid;
+    this.valid[16].value = value.valid;
   }
 
   updateTipoContratoLocacaoHandler(value: IInput<string>){
     this.contratoData.detalhesLocacao.tipoContratoLocacao = value.value;
-    this.valid[16].value = value.valid;
+    this.valid[17].value = value.valid;
   }
 
   updateValorTotalHandler(value: IInput<number>){
     this.contratoData.detalhesLocacao.valorTotal = value.value;
-    this.valid[17].value = value.valid;
+    this.valid[18].value = value.valid;
   }
 
   updateValorPorcentagemSinalHandler(value: IInput<number>){
     this.contratoData.porcentagemSinal = value.value;
-    this.valid[18].value = value.valid;
+    this.valid[19].value = value.valid;
   }
 
   updateResponsavelDespesaMotoristaHandler(value: IInput<string>){
     console.log(value)
     this.contratoData.responsavelDespesaMotorista = value.value;
-    this.valid[19].value = value.valid;
+    this.valid[20].value = value.valid;
   }
 
   updateKmTotalHandler(value: IInput<number>){
     this.contratoData.detalhesLocacao.kmTotal = value.value;
-    this.valid[20].value = value.valid;
+    this.valid[21].value = value.valid;
   }
 
   updateValorKmExcedidoHandler(value: IInput<number>){
     this.contratoData.detalhesLocacao.valorKmExcedido = value.value;
-    this.valid[21].value = value.valid;
+    this.valid[22].value = value.valid;
   }
 
   updateKmCortesiaHandler(value: IInput<number>){
     this.contratoData.detalhesLocacao.kmCortesia = value.value;
-    this.valid[22].value = value.valid;
+    this.valid[23].value = value.valid;
   }
 
 }
