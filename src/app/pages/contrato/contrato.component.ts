@@ -83,7 +83,7 @@ export class ContratoComponent implements OnInit{
         cidade: '',
         estado: ''
       },
-      situacaoVeiculo: 'PRÓPRIO',
+      situacaoVeiculo: '',
       placaVeiculo: '',
       descricaoVeiculo: '',
       dataInicial: '',
@@ -100,7 +100,7 @@ export class ContratoComponent implements OnInit{
         kmCortesia: null
       },
       porcentagemSinal: 30,
-      responsavelDespesaMotorista: 'CLIENTE'
+      responsavelDespesaMotorista: ''
     }
 
     // preenche valores padrão
@@ -108,6 +108,8 @@ export class ContratoComponent implements OnInit{
     this.updatePlacaVeiculoHandler({value: 'OSQ1G19', valid: true});
     this.updateDescricaoVeiculoHandler({value: 'Van MiniBus Mercedes Sprinter 515', valid: true});
     this.updateTipoContratoLocacaoHandler({value: 'NORMAL', valid: true});
+    this.updateSituacaoVeiculoHandler({value: 'PRÓPRIO', valid: true});
+    this.updateResponsavelDespesaMotoristaHandler({value: 'CLIENTE', valid: true});
   }
 
   ngOnInit(): void {
