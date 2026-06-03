@@ -10,6 +10,7 @@ export interface IContratoHistory {
     cidade: string,
     estado: string
   },
+  situacaoVeiculo: string,
   placaVeiculo: string,
   descricaoVeiculo: string,
   dataInicial: string,

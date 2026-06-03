@@ -325,7 +325,6 @@ export class ContratoComponent implements OnInit{
   }
 
   updateResponsavelDespesaMotoristaHandler(value: IInput<string>){
-    console.log(value)
     this.contratoData.responsavelDespesaMotorista = value.value;
     this.valid[20].value = value.valid;
   }
