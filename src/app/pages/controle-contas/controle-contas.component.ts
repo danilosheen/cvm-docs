@@ -147,7 +147,7 @@ export class ControleContasComponent {
     const mes = this.mesAnoSelected.mes.toString().padStart(2,"0");
     const ano = this.mesAnoSelected.ano.toString();
     const pdfName = `Relatório mensal CVM - ${mes}/${ano}.pdf`
-    const fluxosCnpj = this.fluxos.filter(fluxo => fluxo.tipoDocumento == 'CNPJ');
+    const fluxosCnpj = this.fluxos.filter(fluxo => (fluxo.tipoDocumento == 'CNPJ' && fluxo.formaPagamento != 'DINHEIRO') );
 
     const entradas = fluxosCnpj.filter(fluxo => fluxo.tipo == 'ENTRADA');
     const saidas = fluxosCnpj.filter(fluxo => fluxo.tipo == 'SAIDA');
