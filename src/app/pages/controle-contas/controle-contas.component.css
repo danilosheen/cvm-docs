@@ -22,6 +22,17 @@
   margin-top: 90px;
 }
 
+.container-left-buttons{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.img-reload{
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
 .container-table{
   width: 100%;
   overflow-x: auto;
