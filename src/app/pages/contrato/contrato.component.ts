@@ -173,7 +173,11 @@ export class ContratoComponent implements OnInit{
   }
 
   createContratoHistory(){
-    this.contratoHistoryService.createContratoHistory(this.contratoData).subscribe({
+    const payload = {
+      ...this.contratoData,
+      situacaoVeiculo: this.contratoData.situacaoVeiculo || 'PRÓPRIO'
+    };
+    this.contratoHistoryService.createContratoHistory(payload).subscribe({
       next:(result)=>{
         console.log(result);
       },
