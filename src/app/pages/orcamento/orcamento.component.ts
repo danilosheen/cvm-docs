@@ -88,7 +88,7 @@ export class OrcamentoComponent implements OnInit{
       valorComDespesa: null,
       valorSemDespesa: null,
       valorComNota: null,
-      taxaPix: 6,
+      taxaPix: 8,
       sinal: 30,
       modeloVan: '',
       cortesiaKm: null,
