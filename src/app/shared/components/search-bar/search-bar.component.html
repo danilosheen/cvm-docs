@@ -1,0 +1,6 @@
+<mat-form-field class="input-text">
+  <mat-label>{{ placeholder }}</mat-label>
+  <div class="input-container">
+    <input matInput [placeholder]="placeholder" [(ngModel)]="inputValue"  (ngModelChange)="onInputChange()"/>
+  </div>
+</mat-form-field>

@@ -32,7 +32,7 @@ import { MatTooltip } from "@angular/material/tooltip";
     InputMonthYearComponent,
     NgIf,
     LoadingBlueComponent,
-    MatTooltip
+    // MatTooltip
 ],
   templateUrl: './controle-contas.component.html',
   styleUrl: './controle-contas.component.css'

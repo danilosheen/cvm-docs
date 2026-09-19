@@ -10,10 +10,12 @@ import { DataFormatadaPipe } from "../../pipes/data-formatada.pipe";
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { LoadingBlueComponent } from "../../shared/components/loading-blue/loading-blue.component";
+import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
+import { filtrarLista } from '../../utils/filter';
 
 @Component({
   selector: 'app-contrato-history',
-  imports: [BrCurrencyPipe, DataFormatadaPipe, FooterComponent, NavbarComponent, LoadingBlueComponent],
+  imports: [BrCurrencyPipe, DataFormatadaPipe, FooterComponent, NavbarComponent, LoadingBlueComponent, SearchBarComponent],
   templateUrl: './contrato-history.component.html',
   styleUrl: './contrato-history.component.css'
 })
@@ -23,6 +25,7 @@ export class ContratoHistoryComponent {
   router = inject(Router);
   contratoBehaviorSubject = inject(BehaviorSubjectService);
   contratos: IContratoHistory[] = [];
+  contratosFiltrados: IContratoHistory[] = [];
   isLoading = false;
 
   widthScreen = window.innerWidth;
@@ -32,6 +35,7 @@ export class ContratoHistoryComponent {
     this.contratoHistoryService.getContratoHistory().subscribe({
       next:(result) => {
         this.contratos = result.contratos;
+        this.contratosFiltrados = result.contratos;
         this.isLoading = false;
       },
       error: (error) => {
@@ -66,6 +70,14 @@ export class ContratoHistoryComponent {
           }
         });
       }
-    });
+    })
+  }
+
+  onSearch(searchTerm: string) {
+    if (!searchTerm) {
+      this.contratosFiltrados = this.contratos;
+      return
+    }
+    this.contratosFiltrados = filtrarLista(this.contratos, searchTerm);
   }
 }
