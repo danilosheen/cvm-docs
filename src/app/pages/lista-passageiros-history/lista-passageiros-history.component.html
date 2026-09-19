@@ -48,7 +48,7 @@
             <app-search-bar [placeholder]="'Pesquisar por destino'" (search)="onSearch( $event)"></app-search-bar>
           </div>
           @if (listaPassageirosFiltrada.length > 0) {
-            @for (listaPassageiros of listasPassageiros; track $index) {
+            @for (listaPassageiros of listaPassageirosFiltrada; track $index) {
               <div class="card">
                 <div class="card-topo">
                   <div>
