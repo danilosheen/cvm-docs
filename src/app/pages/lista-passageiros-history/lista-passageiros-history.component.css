@@ -15,11 +15,16 @@
   font-size: 20px;
 }
 
+.container-search-bar{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 table{
   min-width: 685px;
   width: 100%;
   border-collapse: collapse;
-  max-width: 900px;
   margin-bottom: 40px;
 }
 

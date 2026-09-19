@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { Router } from '@angular/router';
 import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
+import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
+import { filtrarLista } from '../../utils/filter';
 
 @Component({
   selector: 'app-orcamento-history',
@@ -18,8 +20,9 @@ import { BehaviorSubjectService } from '../../core/services/behaviorSubjectServi
     FooterComponent,
     DataFormatadaPipe,
     BrCurrencyPipe,
-    LoadingBlueComponent
-  ],
+    LoadingBlueComponent,
+    SearchBarComponent
+],
   templateUrl: './orcamento-history.component.html',
   styleUrl: './orcamento-history.component.css'
 })
@@ -30,6 +33,7 @@ export class OrcamentoHistoryComponent {
   router = inject(Router)
   orcamentoBehaviorSubject = inject(BehaviorSubjectService)
   orcamentos: IOrcamentoHistory[] = [];
+  orcamentosFiltrados: IOrcamentoHistory[] = [];
   isLoading = false;
 
   widthScreen = window.innerWidth;
@@ -39,6 +43,7 @@ export class OrcamentoHistoryComponent {
     this.orcamentoHistoryService.getOrcamentoHistory().subscribe({
       next:(result) => {
         this.orcamentos = result.orcamentos;
+        this.orcamentosFiltrados = this.orcamentos
         this.isLoading = false;
       },
       error: (error) => {
@@ -74,5 +79,13 @@ export class OrcamentoHistoryComponent {
         });
       }
     });
+  }
+
+  onSearch(searchTerm: string) {
+    if (!searchTerm) {
+      this.orcamentosFiltrados = this.orcamentos;
+      return
+    }
+    this.orcamentosFiltrados = filtrarLista(this.orcamentos, searchTerm);
   }
 }

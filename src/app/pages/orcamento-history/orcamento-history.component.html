@@ -6,36 +6,49 @@
     } @else {
       <h2 class="title">Histórico de orçamentos</h2>
       @if (widthScreen > 1050) {
-      <table>
-        <thead>
-          <tr>
-            <th>Data de geração</th>
-            <th>Nome do cliente</th>
-            <th>Valor com despesa</th>
-            <th>Valor sem despesa</th>
-            <th>Valor com nota</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (orcamento of orcamentos; track $index) {
-          <tr>
-            <td>{{orcamento.createdAt | dataFormatada }}</td>
-            <td>{{orcamento.nomeCliente}}</td>
-            <td>R$ {{orcamento.valorComDespesa | brCurrency}}</td>
-            <td>R$ {{orcamento.valorSemDespesa | brCurrency}}</td>
-            <td>R$ {{orcamento.valorComNota | brCurrency}}</td>
-            <td>
-              <img (click)="editarOrcamentoHistory(orcamento)" src="../../../../assets/icons-svg/pen.svg">
-              <img (click)="openRemoverOrcamentoHistory(orcamento.id)" src="../../../../assets/icons-svg/delete-icon.svg">
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
+        <div class="container-search-bar">
+          <app-search-bar placeholder="Pesquisar por cliente..." (search)="onSearch( $event)"></app-search-bar>
+        </div>
+        @if (this.orcamentosFiltrados.length > 0) {
+          <table>
+          <thead>
+            <tr>
+              <th>Data de geração</th>
+              <th>Nome do cliente</th>
+              <th>Valor com despesa</th>
+              <th>Valor sem despesa</th>
+              <th>Valor com nota</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (orcamento of orcamentosFiltrados; track $index) {
+            <tr>
+              <td>{{orcamento.createdAt | dataFormatada }}</td>
+              <td>{{orcamento.nomeCliente}}</td>
+              <td>R$ {{orcamento.valorComDespesa | brCurrency}}</td>
+              <td>R$ {{orcamento.valorSemDespesa | brCurrency}}</td>
+              <td>R$ {{orcamento.valorComNota | brCurrency}}</td>
+              <td>
+                <img (click)="editarOrcamentoHistory(orcamento)" src="../../../../assets/icons-svg/pen.svg">
+                <img (click)="openRemoverOrcamentoHistory(orcamento.id)" src="../../../../assets/icons-svg/delete-icon.svg">
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        } @else {
+          <div class="container-no-data">
+            <p>Nenhum cliente encontrado</p>
+          </div>
+        }
     } @else {
       <div class="container-cards">
-        @for (orcamento of orcamentos; track $index) {
+        <div class="container-search-bar">
+          <app-search-bar placeholder="Pesquisar por cliente..." (search)="onSearch( $event)"></app-search-bar>
+        </div>
+        @if (orcamentosFiltrados.length > 0) {
+          @for (orcamento of orcamentosFiltrados; track $index) {
         <div class="card">
           <div class="card-topo">
             <div>
@@ -69,6 +82,11 @@
               <span>{{orcamento.taxaPix }}%</span>
             </div>
           </div>
+        </div>
+        }
+      } @else {
+        <div class="container-no-data">
+          <p>Nenhum cliente encontrado</p>
         </div>
       }
     </div>

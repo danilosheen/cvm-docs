@@ -11,10 +11,12 @@ import { DataFormatadaPipe } from "../../pipes/data-formatada.pipe";
 import { IListaPassageirosHistory } from '../../interfaces/i-listaPassageirosHistory';
 import { DialogGenericComponent } from '../../shared/components/dialog-generic/dialog-generic.component';
 import { BehaviorSubjectService } from '../../core/services/behaviorSubjectService/behavior-subject.service';
+import { filtrarLista } from '../../utils/filter';
+import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-lista-passageiros-history',
-  imports: [LoadingBlueComponent, NavbarComponent, FooterComponent, DataFormatadaPipe],
+  imports: [LoadingBlueComponent, NavbarComponent, FooterComponent, DataFormatadaPipe, SearchBarComponent],
   templateUrl: './lista-passageiros-history.component.html',
   styleUrl: './lista-passageiros-history.component.css'
 })
@@ -26,6 +28,7 @@ export class ListaPassageirosHistoryComponent {
   router = inject(Router);
   // orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService)
   listasPassageiros: IListaPassageirosHistory[] = [];
+  listaPassageirosFiltrada: IListaPassageirosHistory[] = [];
   isLoading = false;
 
   widthScreen = window.innerWidth;
@@ -35,6 +38,7 @@ export class ListaPassageirosHistoryComponent {
     this.listaPassageirosHistoryService.getListaPassageirosHistory().subscribe({
       next:(result) => {
         this.listasPassageiros = result.listasPassageiros;
+        this.listaPassageirosFiltrada = this.listasPassageiros;
         this.isLoading = false;
       },
       error: (error) => {
@@ -51,24 +55,32 @@ export class ListaPassageirosHistoryComponent {
 
   openRemoverListaPassageirosHistory(id: string){
     const dialogRef = this.dialog.open(DialogGenericComponent, {
-          data: {
-            dialogTitle: 'Remover lista de passageiros do histórico',
-            dialogContent: 'Você tem certeza que deseja remover esta lista de passageiros?',
-          }
-        });
+      data: {
+        dialogTitle: 'Remover lista de passageiros do histórico',
+        dialogContent: 'Você tem certeza que deseja remover esta lista de passageiros?',
+      }
+    });
 
-        dialogRef.afterClosed().subscribe((result: boolean) => {
-          if (result) {
-            this.listaPassageirosHistoryService.removeListaPassageirosHistory(id).subscribe({
-              next: (result) => {
-                console.log(result);
-                this.listasPassageiros = this.listasPassageiros.filter(listaPassageiros => listaPassageiros.id !== id);
-              },
-              error: (error) => {
-                console.log(error);
-              }
-            });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.listaPassageirosHistoryService.removeListaPassageirosHistory(id).subscribe({
+          next: (result) => {
+            console.log(result);
+            this.listasPassageiros = this.listasPassageiros.filter(listaPassageiros => listaPassageiros.id !== id);
+          },
+          error: (error) => {
+            console.log(error);
           }
         });
+      }
+    });
+  }
+
+  onSearch(searchTerm: string) {
+    if (!searchTerm) {
+      this.listaPassageirosFiltrada = this.listasPassageiros;
+      return
+    }
+    this.listaPassageirosFiltrada = filtrarLista(this.listasPassageiros, searchTerm);
   }
 }

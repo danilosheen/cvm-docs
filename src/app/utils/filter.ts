@@ -1,23 +1,33 @@
-export function filtrarLista(list: any[], searchTerm: string): any[] {
-  // 1. Validação do array de entrada
+import { IContratoHistory } from "../interfaces/i-contrato-history";
+import { IListaPassageirosHistory } from "../interfaces/i-listaPassageirosHistory";
+import { IOrcamentoHistory } from "../interfaces/i-orcamentoHistory";
+
+export function filtrarLista(
+  list: IListaPassageirosHistory[] | IOrcamentoHistory[] | IContratoHistory[],
+  searchTerm: string
+): any[] {
+
   if (!Array.isArray(list)) return [];
 
-  // 2. Se o termo estiver vazio ou só tiver espaços, retorna a lista completa
   if (!searchTerm || !searchTerm.trim()) {
     return list;
   }
 
-  // Tratamento do termo pesquisado: remove espaços das pontas e passa para minúsculas
   const term = searchTerm.toLowerCase().trim();
 
   return list.filter(item => {
-    // Garante que o item existe
     if (!item) return false;
 
-    // Acessa o nomeCliente com fallback seguro para string vazia
-    const nome = String(item.nomeCliente ?? '').toLowerCase().trim();
+    const campoPesquisa = 'nomeCliente' in item
+      ? item.nomeCliente
+      : 'destino' in item
+        ? item.destino
+        : '';
 
-    // Retorna verdadeiro se o nome COMEÇAR com o termo digitado
-    return nome.startsWith(term);
+    const texto = String(campoPesquisa ?? '')
+      .toLowerCase()
+      .trim();
+
+    return texto.startsWith(term);
   });
 }
