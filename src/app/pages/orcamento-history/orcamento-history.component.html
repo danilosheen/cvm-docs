@@ -7,7 +7,7 @@
       <h2 class="title">Histórico de orçamentos</h2>
       @if (widthScreen > 1050) {
         <div class="container-search-bar">
-          <app-search-bar placeholder="Pesquisar por cliente..." (search)="onSearch( $event)"></app-search-bar>
+          <app-search-bar [placeholder]="'Pesquisar por cliente'" (search)="onSearch( $event)"></app-search-bar>
         </div>
         @if (this.orcamentosFiltrados.length > 0) {
           <table>
@@ -45,7 +45,7 @@
     } @else {
       <div class="container-cards">
         <div class="container-search-bar">
-          <app-search-bar placeholder="Pesquisar por cliente..." (search)="onSearch( $event)"></app-search-bar>
+          <app-search-bar [placeholder]="'Pesquisar por cliente'" (search)="onSearch( $event)"></app-search-bar>
         </div>
         @if (orcamentosFiltrados.length > 0) {
           @for (orcamento of orcamentosFiltrados; track $index) {

@@ -7,7 +7,7 @@
       <h2 class="title">Histórico da listas de passageiros</h2>
       @if (widthScreen > 1050) {
         <div class="container-search-bar">
-          <app-search-bar placeholder="Pesquisar por destino..." (search)="onSearch( $event)"></app-search-bar>
+          <app-search-bar [placeholder]="'Pesquisar por destino'" (search)="onSearch( $event)"></app-search-bar>
         </div>
         @if (listaPassageirosFiltrada.length > 0) {
           <table>
@@ -45,7 +45,7 @@
       } @else {
         <div class="container-cards">
           <div class="container-search-bar">
-            <app-search-bar placeholder="Pesquisar por cliente..." (search)="onSearch( $event)"></app-search-bar>
+            <app-search-bar [placeholder]="'Pesquisar por destino'" (search)="onSearch( $event)"></app-search-bar>
           </div>
           @if (listaPassageirosFiltrada.length > 0) {
             @for (listaPassageiros of listasPassageiros; track $index) {
