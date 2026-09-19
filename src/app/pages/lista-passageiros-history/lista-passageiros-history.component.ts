@@ -28,7 +28,7 @@ export class ListaPassageirosHistoryComponent {
   router = inject(Router);
   // orcamentoBehaviorSubject = inject(OrcamentoBehaviorSubjectService)
   listasPassageiros: IListaPassageirosHistory[] = [];
-  listaPassageirosFiltrada: IListaPassageirosHistory[] = [];
+  listasPassageirosFiltrada: IListaPassageirosHistory[] = [];
   isLoading = false;
 
   widthScreen = window.innerWidth;
@@ -38,7 +38,7 @@ export class ListaPassageirosHistoryComponent {
     this.listaPassageirosHistoryService.getListaPassageirosHistory().subscribe({
       next:(result) => {
         this.listasPassageiros = result.listasPassageiros;
-        this.listaPassageirosFiltrada = this.listasPassageiros;
+        this.listasPassageirosFiltrada = this.listasPassageiros;
         this.isLoading = false;
       },
       error: (error) => {
@@ -78,9 +78,9 @@ export class ListaPassageirosHistoryComponent {
 
   onSearch(searchTerm: string) {
     if (!searchTerm) {
-      this.listaPassageirosFiltrada = this.listasPassageiros;
+      this.listasPassageirosFiltrada = this.listasPassageiros;
       return
     }
-    this.listaPassageirosFiltrada = filtrarLista(this.listasPassageiros, searchTerm);
+    this.listasPassageirosFiltrada = filtrarLista(this.listasPassageiros, searchTerm);
   }
 }

@@ -9,7 +9,7 @@
         <div class="container-search-bar">
           <app-search-bar [placeholder]="'Pesquisar por destino'" (search)="onSearch( $event)"></app-search-bar>
         </div>
-        @if (listaPassageirosFiltrada.length > 0) {
+        @if (listasPassageirosFiltrada.length > 0) {
           <table>
             <thead>
               <tr>
@@ -22,7 +22,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (listaPassageiros of listaPassageirosFiltrada; track $index) {
+              @for (listaPassageiros of listasPassageirosFiltrada; track $index) {
                 <tr>
                   <td>{{listaPassageiros.createdAt | dataFormatada }}</td>
                   <td>{{listaPassageiros.motorista}}</td>
@@ -47,8 +47,8 @@
           <div class="container-search-bar">
             <app-search-bar [placeholder]="'Pesquisar por destino'" (search)="onSearch( $event)"></app-search-bar>
           </div>
-          @if (listaPassageirosFiltrada.length > 0) {
-            @for (listaPassageiros of listaPassageirosFiltrada; track $index) {
+          @if (listasPassageirosFiltrada.length > 0) {
+            @for (listaPassageiros of listasPassageirosFiltrada; track $index) {
               <div class="card">
                 <div class="card-topo">
                   <div>
