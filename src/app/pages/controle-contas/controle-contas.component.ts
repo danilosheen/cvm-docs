@@ -119,29 +119,6 @@ export class ControleContasComponent {
     })
   }
 
-  atualizarSaldoAnterior() {
-    const mes = (this.mesAnoSelected.mes - 1);
-    this.saldoAnteriorService.buscarSaldoAnterior(mes, this.mesAnoSelected.ano).subscribe({
-      next: (response) => {
-        this.saldoAnterior = response.saldoAnterior;
-        const mesAtual = this.mesAnoSelected.mes.toString().padStart(2, "0");
-        const anoAtual = this.mesAnoSelected.ano.toString();
-        this.saldoAnteriorService.adicionarSaldoAnterior({
-          mes: mesAtual, ano: anoAtual, saldoAnterior: this.saldoAnterior
-          }).subscribe({
-            next:(response)=>{
-              this.saldoAnterior = this.saldoAnterior;
-              this.saldoRestante = this.saldoAnterior + this.somaEntradas - this.somaSaidas;
-            },
-            error:(error)=>{
-              console.log(error)
-            }
-        });
-        console.log(response);
-      }
-    })
-  }
-
   gerarRelatorioMensal(){
     // monta objeto
     const mes = this.mesAnoSelected.mes.toString().padStart(2,"0");
@@ -319,9 +296,32 @@ export class ControleContasComponent {
       this.entradas.forEach(entrada=>{this.somaEntradas += entrada});
       this.saidas.forEach(saida=>{this.somaSaidas += saida});
       this.saldoRestante = this.saldoAnterior + this.somaEntradas - this.somaSaidas;
+
+      // atualizar saldo anterior do mes seguinte
+      this.atualizaSaldoAnteriorMesSeguinte(this.saldoRestante);
+      // let mesAtual = (this.mesAnoSelected.mes + 1).toString().padStart(2, "0");;
+      // let anoAtual = (this.mesAnoSelected.mes == 12 ? this.mesAnoSelected.ano + 1 : this.mesAnoSelected.ano).toString();
+      //
     } else {
       this.saldoRestante = this.saldoAnterior;
+      this.atualizaSaldoAnteriorMesSeguinte(this.saldoRestante);
     }
+  }
+
+  atualizaSaldoAnteriorMesSeguinte(saldoRestante: number){
+    let mesSelecionado = Number(this.mesAnoSelected.mes);
+    let anoSelecionado = Number(this.mesAnoSelected.ano);
+    let mesSeguinte = mesSelecionado == 12 ? 1 : mesSelecionado + 1;
+    let ano = mesSelecionado == 12 ? anoSelecionado + 1 : anoSelecionado;
+    console.log(mesSeguinte, ano, saldoRestante);
+
+    this.saldoAnteriorService.adicionarSaldoAnterior({
+        mes: mesSeguinte.toString().padStart(2, "0"), ano: ano.toString(), saldoAnterior: this.saldoRestante
+      }).subscribe({
+        next:()=>{
+        },
+        error:()=>{}
+      })
   }
 
   updateMonthYearSelectedHandler(value: any){
